@@ -1,12 +1,18 @@
 
 <html>                                                                  
  <head>      
-  <title>BJS Transparency(tm)</title>
+  <title>Data Transparency</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
   <link rel="stylesheet" href="lib/tabs.css">
-  <script type="text/javascript" src="lib/jquery.js"></script>
+  
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+
   <script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
   <script type="text/javascript" src="lib/cola.js"></script>
   <script type="text/javascript" src="lib/thenBy.js"></script>
@@ -34,6 +40,9 @@
 
   function init()
   {
+    
+    $('#palette').draggable();
+    
     d3.select("svg");
 
     svg = d3.select("svg");
@@ -43,10 +52,6 @@
       refresh();
     });
 
-    d3.select("#remove_middle_btn").on("click", function(d){
-      //nyi
-      refresh();
-    });
 
     d3.select("#ctrl_vis_list").on("change", function(d){
         var s = this.options[this.selectedIndex].value;
@@ -140,7 +145,7 @@
 
 
   }
-
+  
   function loadJsonFileSynch(fname)
   {
     var data={};
@@ -291,16 +296,21 @@
     </script>                                                               
  </head>                                                                 
  <body>
+   
+   <div id="palette">
+     test
+   </div>
 
   <div id="wrapper">
     <div id="sidebar">
-        <h1>Data Dictionary Viewer</h1>
+        <img src="lucidlogo.png" class="bigtitle"/>
+        <img src="bjslogo.png" class="smalltitle"/>
 
       <div id="tab-container">  
         <ul class="tab-menu">  
-            <li id="conf" class="active">Vis</li>  
-            <li id="info">Field</li> 
-            <li id="input">Input</li> 
+            <li id="conf" class="active">Display</li>  
+            <li id="info">Object Viewer</li> 
+            <li id="input">Data</li> 
         </ul>  
           <div class="clear"></div>  
           <div class="tab-top-border"></div>
@@ -374,13 +384,12 @@
               <input type="submit" id="input_json_btn" value="Reload"/>
               <h3>Stats:</h3>
               <div id="data_summary" class="info"></div>
-              <input type="submit" id="remove_middle_btn" value="Remove Middle"/>
           </div>
 
       </div>
       
     </div>
-    <div id="content" ><svg id="vis" viewbox="0 0 1000 1000" preserveAspectRatio="xMinyMin meet"></svg></div>
+    <div id="content" ><svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg></div>
     
     <div id="cleared"></div>
   </div>

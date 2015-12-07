@@ -1,188 +1,208 @@
-	
 	/*furniture*/
-
-
+	
 	#wrapper {
-	  margin-left: 320px;
+		margin-left: 320px;
 	}
-	#content {
-	  float: right;
-	  width: 100%;
-	  height: 100%;
-	  zzbackground-image: url("bk.jpg");
-	  background-size: 100% 100%;
-	  background-repeat: no-repeat;
-	}
+	
 	#sidebar {
-	  float: left;
-	  width: 320px;
-	  height: 100%;
-	  margin-left: -321px;
-	  zzbackground-image: url("sidebar.png");
-	  background-color: #999;
-	  background-repeat: no-repeat;
-	  background-size: 320px 100%;
-	  border-right: solid 1px;
+		float: left;
+		width: 320px;
+		height: 100%;
+		margin-left: -321px;
+		zzbackground-image: url("sidebar.png");
+		background-color: #eee;
+		background-repeat: no-repeat;
+		background-size: 320px 100%;
+		border-right: solid 1px;
 	}
+	
 	#cleared {
-	  clear: both;
+		clear: both;
 	}
-
-	#vis {
-	  margin-left: auto;
-	  margin-right: auto;
-	  display: block;
-	  text-align: center;
-	  width: 1200dp;
-	  height: 1200dp;
-	}
-
+	
 	#sidebar h1 {
 		font-size: 16;
 		font-weight: bold;
 		margin: 10px;
 	}
-
+	
 	#sidebar h2 {
 		font-size: 14;
 		font-weight: bold;
 	}
-
+	
 	#sidebar h3 {
 		font-size: 12;
 		font-weight: bold;
 	}
-
+	
 	#sidebar label {
 		font-size: 12;
 	}
-
+	
 	#sidebar textarea {
 		font-size: 12;
 		width: 100%;
-		height: 600px;
+		height: 100%;
 	}
-
+	
 	.info {
-		border-style:solid;
+		border-style: solid;
 		border-width: 1px;
 		background-color: #eee;
 		font-size: 12;
 	}
-
+	
 	body {
 		font-family: sans-serif;
 	}
+	
+	.bigtitle {
+		display: block;
+		margin: auto;
+		width: 80%;
+		padding-top: 20px;
+	}
+	
+	.smalltitle {
+		float: right;
+		padding: 20px;
+		width: 150px;
+	}
+	
+	#palette {
+		position:absolute;
+	}
+	
+	
+	/* svg panel */
+	
+	#content {
+		float: right;
+		width: 100%;
+		height: 100%;
+		overflow: scroll;
+	}
+	
+	#vis {
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		text-align: center;
+		width: 1600px;
+		height: 1600px;
+	}
+	
 
-
-
-/*bipartite view*/
-
+	
+	/*bipartite view*/
+	
 	.nodelabel {
-	  stroke: none;
-	  font-size: 8px;
-	  font-family: sans-serif;
+		stroke: none;
+		font-size: 8px;
+		font-family: sans-serif;
 	}
-
+	
 	.grouplabel {
-	  stroke: none;
-	  font-size: 10px;
-	  font-family: sans-serif;
+		stroke: none;
+		font-size: 10px;
+		font-family: sans-serif;
 	}
-
+	
 	.biglabel {
 		stroke: none;
-	  font-size: 18px;
-	  font-family: sans-serif;
+		font-size: 18px;
+		font-family: sans-serif;
 	}
-
-	.node   {
+	
+	.node {
 		stroke: #000;
-  		stroke-width: 0.75px;
+		stroke-width: 0.75px;
 	}
-
-	.nodeinvis   {
+	
+	.nodeinvis {
 		stroke: none;
 		opacity: 0;
 	}
-
-	.group   {
+	
+	.group {
 		stroke: #000;
-  		stroke-width: 1px;
+		stroke-width: 1px;
 	}
-
-	.axis   {
+	
+	.axis {
 		stroke: #000;
-  		stroke-width: 1.5px;
+		stroke-width: 1.5px;
 	}
-
+	
 	#content {
 		text-align: center;
 	}
-
-	.caption{
+	
+	.caption {
 		font-family: sans-serif;
 	}
-
+	
 	.link {
 		stroke-width: 3px;
 		opacity: 0.3;
 		fill: none;
 	}
-
+	
 	.glink {
 		stroke: green;
 		opacity: 0.3;
 		fill: none;
 	}
-
+	
 	.node.active {
 		opacity: 1;
 		font-weight: bold;
 		stroke-width: 3px;
 	}
-
+	
 	.group.active {
 		opacity: 1;
 		font-weight: bold;
 		stroke-width: 3px;
 	}
-
+	
 	.link.active {
 		opacity: .6;
 		font-weight: bold;
 		stroke-width: 4px;
 	}
-
+	
 	.glink.active {
 		opacity: .6;
 		font-weight: bold;
 	}
-
-	path.passive  {
+	
+	path.passive {
 		/*opacity: 0.05;*/
 	}
-
+	
 	.passive {
 		/*opacity: 0.3;*/
 	}
-
+	
 	.cartouche {
 		fill: #aa9;
 		opacity: 0.6;
 		stroke-width: 1px;
 		stroke: black;
 	}
-
-	.colagroup{
-		fill:#ba9;
-		fill-opacity:0.5;
-		stroke-width:2px;
+	
+	.colagroup {
+		fill: #ba9;
+		fill-opacity: 0.5;
+		stroke-width: 2px;
 	}
-
-	.ghost{
-		fill:#7d8;
-		stroke:#7d8;
-		fill-opacity:0.3;
-		stroke-width:2px;
+	
+	.ghost {
+		fill: #7d8;
+		stroke: #7d8;
+		fill-opacity: 0.3;
+		stroke-width: 2px;
 	}
+	
