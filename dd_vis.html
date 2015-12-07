@@ -1,7 +1,7 @@
 
 <html>                                                                  
  <head>      
-  <title>Data Dictionary Viewer</title>
+  <title>BJS Transparency(tm)</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
@@ -20,6 +20,8 @@
    <script type="text/javascript" src="bjs_cola.js"></script>
 
   <script> 
+  
+  /*global d3*/
 
   //global selections
   var svg = {};
@@ -208,7 +210,7 @@
 
     var fields=0, outs=0, ins=0, mids=0, orphs=0;
 
-    for(i in dat.nodes) {
+    for(var i in dat.nodes) {
       var f = dat.nodes[i];
       if(f.hasSources){
         f.hasTargets?mids++:outs++;
@@ -246,7 +248,7 @@
         var bFoundValue = false, bFoundFilter = false;
 
         
-        for(fullname in d.usources){
+        for(var fullname in d.usources){
           if(d.usources[fullname].filter==false){
             if(bFoundValue==false){
               src = "<b>Value sources:</b>" + "<br/>";
