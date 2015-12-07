@@ -1,0 +1,389 @@
+
+<html>                                                                  
+ <head>      
+  <title>Data Dictionary Viewer</title>
+
+
+  <link rel="stylesheet" href="dd_styles.css">
+  <link rel="stylesheet" href="lib/tabs.css">
+  <script type="text/javascript" src="lib/jquery.js"></script>
+  <script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
+  <script type="text/javascript" src="lib/cola.js"></script>
+  <script type="text/javascript" src="lib/thenBy.js"></script>
+  <script type="text/javascript" src="bjs_utils.js"></script>
+  <script type="text/javascript" src="bjs_schema.js"></script>
+  <script type="text/javascript" src="bjs_bipartite.js"></script>
+  <script type="text/javascript" src="bjs_lineage.js"></script>
+  <script type="text/javascript" src="bjs_tree.js"></script>
+  <script type="text/javascript" src="bjs_comatrix.js"></script>
+  <script type="text/javascript" src="bjs_hive.js"></script>
+   <script type="text/javascript" src="bjs_cola.js"></script>
+
+  <script> 
+
+  //global selections
+  var svg = {};
+  var info = {};
+  var bip = {}; //our reference to the current visualizer
+  var dat = {}; //the global data object.
+  var raw = {}; //the raw input data
+  var fieldFilterFunc = function(d){return applyQuery(d, "Card", "", "", "", true); };//function(field) { return true;};
+
+
+  function init()
+  {
+    d3.select("svg");
+
+    svg = d3.select("svg");
+
+    d3.select("#input_json_btn").on("click", function(d){
+      raw = JSON.parse($("#input_json").val());
+      refresh();
+    });
+
+    d3.select("#remove_middle_btn").on("click", function(d){
+      //nyi
+      refresh();
+    });
+
+    d3.select("#ctrl_vis_list").on("change", function(d){
+        var s = this.options[this.selectedIndex].value;
+        switch(s){
+          case "trees":
+          bip = bjstr(); break;
+          case "bipart":
+          bip = bjsbp(); break;
+          case "hive":
+          bip = bjshive(); break;
+          case "matrix":
+          bip = bjscm(); break;
+          case "flow":
+          bip = bjsln(); break;
+          case "cola":
+          bip = bjscl(); break;
+        }
+
+        bip.mouseOverItem = mouseOverHandler;
+        clear();
+        refresh();
+    });
+
+
+
+    d3.select("#ctrl_filter_btn").on("click", function(d){
+
+      var inc= $("#ctrl_inc").val().trim();
+      var exc= $("#ctrl_exc").val().trim();
+      var inc_rels= $("#ctrl_inc_left").val().trim();
+      var exc_rels= $("#ctrl_exc_left").val().trim();
+      var only_crit = $("#ctrl_only_crit")[0].checked;
+
+      fieldFilterFunc = function(d){return applyQuery(d, inc, exc, inc_rels, exc_rels, only_crit); };
+    
+      
+      bip.focusGroup = "";
+      refresh();
+    });
+
+    d3.select("#ctrl_filter_clear_btn").on("click", function(d){
+      fieldFilterFunc = function(d){return true;};
+      bip.focusGroup = "";
+      refresh();
+    });
+
+    d3.select("#ctrl_opt_1").on ("click", function(d){
+      bip.optimize = 1;
+      refresh();
+    });
+
+    d3.select("#ctrl_opt_0").on ("click", function(d){
+      bip.optimize = 0;
+      refresh();
+    });
+
+    d3.select("#ctrl_detail_summary").on ("click", function(d){
+      bip.renderSummary = true;
+      refresh();
+    });
+
+    d3.select("#ctrl_detail_nodes").on ("click", function(d){
+      bip.renderSummary = false;
+      refresh();
+    });
+
+    d3.select("#ctrl_color_pkg").on ("click", function(d){
+      bip.colorPlan = "pkg";
+      redraw();
+    });
+
+    d3.select("#ctrl_color_cat").on ("click", function(d){
+      bip.colorPlan = "cat";
+      redraw();
+    });
+
+    d3.select("#ctrl_hi_crit").on ("click", function(d){
+      bip.hilite = "critical";
+      redraw();
+    });
+
+    d3.select("#ctrl_hi_untraced").on ("click", function(d){
+      bip.hilite = "untraced";
+      redraw();
+    });
+
+    d3.select("#ctrl_hi_nothing").on ("click", function(d){
+      bip.hilite = null;
+      redraw();
+    });
+
+
+  }
+
+  function loadJsonFileSynch(fname)
+  {
+    var data={};
+          $.ajax({
+              url: fname,
+              async: false,
+              dataType: 'json',
+              success: function (response) {
+                  $.each(response, function(k,v) {
+                      data[k] = v;
+                  });
+              }
+          });
+      return data;
+  }
+
+  function refresh(){
+    dat = resolveRelatives(process(prepare(raw, null)));
+    dat = markRelevant(dat, fieldFilterFunc);
+    dat = copyRelevant(dat);
+    updateDataSummary(dat);
+    bip.prepareData(dat);
+    mouseOverHandler(null);
+    bip.render(svg, info, dat);
+  }
+
+  function redraw(){
+    mouseOverHandler(null);
+    bip.render(svg, info, dat);
+  }
+  
+  function clear(){
+    d3.selectAll("svg > *").remove();
+  }
+    
+
+  $(document).ready(function(){
+
+    //prepare tabs
+    var activeTabIndex = -1;
+    var tabNames = ["conf","info","input"];
+    $(".tab-menu > li").click(function(e){
+        for(var i=0;i<tabNames.length;i++) {
+            if(e.target.id == tabNames[i]) {
+                activeTabIndex = i;
+            } else {
+                $("#"+tabNames[i]).removeClass("active");
+                $("#"+tabNames[i]+"-tab").css("display", "none");
+            }
+        }
+        $("#"+tabNames[activeTabIndex]+"-tab").fadeIn();
+        $("#"+tabNames[activeTabIndex]).addClass("active");
+        return false;
+    });
+
+    raw = loadJsonFileSynch("dd_data.json");
+  
+    bip = bjscl();
+    bip.mouseOverItem = mouseOverHandler;
+    init();
+    refresh();
+  });  
+
+  function updateDataSummary(dat) {
+
+    var txt="";
+
+    var fields=0, outs=0, ins=0, mids=0, orphs=0;
+
+    for(i in dat.nodes) {
+      var f = dat.nodes[i];
+      if(f.hasSources){
+        f.hasTargets?mids++:outs++;
+      } else {
+        f.hasTargets?ins++:orphs++;
+      }
+      fields++;
+    }
+
+    txt += fields + " fields.<br/>";
+    txt += dat.links.length + " links.<br/><br/>";
+
+    txt += "Output fields: " + outs + "<br/>";
+    txt += "Input fields: " + ins + "<br/>";
+    txt += "Intermediate fields: " + mids + "<br/>";
+    txt += "Orphan fields: " + orphs + "<br/>";
+
+
+    d3.select("#data_summary").html(txt);
+  }
+
+  function mouseOverHandler(d){
+    var name="<br/>", desc="<br/>", formula="<br/>", facts="<br/>",src="<br/>";
+    if(d != null){
+      
+
+      if(d.itemtype == "node") {
+        name = "Field " + d.name;
+        desc = d.desc;
+        formula = d.formula;
+        facts = "Found in dataset: " + d.pkgname + "<br/>";
+        facts += "Criticality: " + d.critical + "<br/>";
+        facts += "Last edit: " + "n/a" + "<br/>";
+
+        var bFoundValue = false, bFoundFilter = false;
+
+        
+        for(fullname in d.usources){
+          if(d.usources[fullname].filter==false){
+            if(bFoundValue==false){
+              src = "<b>Value sources:</b>" + "<br/>";
+              bFoundValue = true;
+            }
+            src += fullname + "<br/>";
+          }
+        }
+        for(fullname in d.usources){
+          if(d.usources[fullname].filter==true){
+            if(bFoundFilter==false){
+              src += "<b>Filter sources:</b>" + "<br/>";
+              bFoundFilter = true;
+            }
+            src += fullname + "<br/>";
+          }
+        }
+      }
+
+      if(d.itemtype == "group") {
+        name = "Group " + d.fullname;
+        facts = "Type: " + d.type + "<br/>";
+        facts += "Owner: " + d.owner + "<br/>";
+        facts += "Contains " + d.children.length + " field" + (d.children.length==1?"":"s") + ".";
+        if(d.location.toString().length > 0) formula = "At: " + d.location;
+        if(d.desc.toString().length > 0) desc = d.desc;
+        if(d.calc && d.calc.toString().length > 0) src = "Calculated by: " + d.calc;
+        
+      }
+    }
+
+    d3.select("#object_name").html(name);
+    d3.select("#object_desc").html(desc);
+    d3.select("#object_formula").html(formula);
+    d3.select("#object_facts").html(facts);
+    d3.select("#object_src").html(src);
+  }
+
+
+    </script>                                                               
+ </head>                                                                 
+ <body>
+
+  <div id="wrapper">
+    <div id="sidebar">
+        <h1>Data Dictionary Viewer</h1>
+
+      <div id="tab-container">  
+        <ul class="tab-menu">  
+            <li id="conf" class="active">Vis</li>  
+            <li id="info">Field</li> 
+            <li id="input">Input</li> 
+        </ul>  
+          <div class="clear"></div>  
+          <div class="tab-top-border"></div>
+          <div id="conf-tab" class="tab-content active">
+                <table>
+                <tr><td><label for="ctrl_filter">Mode</label></td>
+                <td>
+                  <select id="ctrl_vis_list">
+                    <option value="cola">Cola</option>
+                      <option value="bipart">Bipart</option>
+                      <option value="flow">Flow</option>
+                      <option value="matrix">Matrix</option>
+                      <option value="hive">Hive</option>
+                      <option value="trees">Trees</option>
+                  </select>
+                </td></tr>
+                <tr><td colspan="2"><hr/></td></tr>
+                <tr><td><label for="ctrl_inc">Include</label></td>
+                <td><input type="text" name="ctrl_inc" id="ctrl_inc" value=""/></td></tr>
+                <tr><td><label for="ctrl_exc">Exclude</label></td>
+                <td><input type="text" name="ctrl_exc" id="ctrl_exc" value=""/></td></tr>
+                <tr><td><label for="ctrl_inc_left">With relatives</label></td>
+                <td><input type="text" name="ctrl_inc_left" id="ctrl_inc_left" value=""/></td></tr>
+                <tr><td><label for="ctrl_exc_left">Without relatives</label></td>
+                <td><input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value=""/></td></tr>
+                <tr><td><label for="ctrl_exc_left">Critical Only</label></td>
+                <td><input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true"/></td></tr>
+                <tr><td></td><td><input type="submit" name="ctrl_filter_btn" id="ctrl_filter_btn" value="Filter"/>
+                <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear"/></td></tr>
+                <tr><td colspan="2"><hr/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Optimize</label></td>
+                <td><input type="radio" name="ctrl_opt" id="ctrl_opt_1" value=""/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Don't Optimize</label></td>
+                <td><input type="radio" name="ctrl_opt" id="ctrl_opt_0" value="" checked="true"/></td></tr>
+                <tr><td colspan="2"><hr/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Dataset Level</label></td>
+                <td><input type="radio" name="ctrl_detail" id="ctrl_detail_summary" value=""/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Field Level</label></td>
+                <td><input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true"/></td></tr>
+                <tr><td colspan="2"><hr/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Color by Dataset Group</label></td>
+                <td><input type="radio" name="ctrl_color" id="ctrl_color_cat" value="" checked="true"/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Color by Dataset</label></td>
+                <td><input type="radio" name="ctrl_color" id="ctrl_color_pkg" value=""/></td></tr>
+                <tr><td colspan="2"><hr/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Hilight Critical fields</label></td>
+                <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_crit" value=""/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">Hilight Untraced fields</label></td>
+                <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_untraced" value=""/></td></tr>
+                <tr><td><label for="ctrl_grouping_dom">No hilight</label></td>
+                <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_nothing" value="" checked="true"/></td></tr>
+                </table>
+          </div>
+          <div id="info-tab" class="tab-content">
+              <h2>Data item details</h2>
+              <h3>Item name:</h3>
+              <div id="object_name" class="info"></div>
+              <h3>Summary:</h3>
+              <div id="object_facts" class="info"></div>
+              <h3>Derivation:</h3>
+              <div id="object_formula" class="info"></div>
+              <h3>Description:</h3>
+              <div id="object_desc" class="info"></div>
+              <h3>Sources:</h3>
+              <div id="object_src" class="info"></div>
+          </div>
+          <div id="input-tab" class="tab-content">
+              <h2>Input metadata</h2>
+              <h3>Raw JSON input:</h3>
+              <textarea id="input_json">Add custom JSON here...</textarea>
+              <input type="submit" id="input_json_btn" value="Reload"/>
+              <h3>Stats:</h3>
+              <div id="data_summary" class="info"></div>
+              <input type="submit" id="remove_middle_btn" value="Remove Middle"/>
+          </div>
+
+      </div>
+      
+    </div>
+    <div id="content" ><svg id="vis" viewbox="0 0 1000 1000" preserveAspectRatio="xMinyMin meet"></svg></div>
+    
+    <div id="cleared"></div>
+  </div>
+  
+    
+ </body>                                                                 
+ </html>
+ 
