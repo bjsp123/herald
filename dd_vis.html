@@ -52,6 +52,10 @@
       refresh();
     });
 
+    d3.select("#input_test_btn").on("click", function(d){
+      raw = JSON.parse(testJson);//nyi
+      refresh();
+    });
 
     d3.select("#ctrl_vis_list").on("change", function(d){
         var s = this.options[this.selectedIndex].value;
@@ -298,7 +302,9 @@
  <body>
    
    <div id="palette">
-     test
+     <img src="lucidlogo.png" class="bigtitle"/>
+     <img src="bjslogo.png" class="smalltitle"/>
+     <input type="submit" id="input_king_filter" class="kingbutton" value="Filter"/>
    </div>
 
   <div id="wrapper">
@@ -381,7 +387,11 @@
               <h2>Input metadata</h2>
               <h3>Raw JSON input:</h3>
               <textarea id="input_json" height="300"></textarea>
-              <input type="submit" id="input_json_btn" value="Reload"/>
+              <input type="submit" id="input_json_btn" value="Load Json"/>
+              <hr/>
+              <h3>Test dataset:</h3>
+              <input type="submit" id="input_test_btn" value="Load Test Data"/>
+              <hr/>
               <h3>Stats:</h3>
               <div id="data_summary" class="info"></div>
           </div>
