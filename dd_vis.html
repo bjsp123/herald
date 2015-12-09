@@ -385,6 +385,7 @@ function arrangePalettes(){
             <tr><td><label for="ctrl_exc_left">Without relatives</label></td>
               <td><input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value=""/></td></tr>
               <tr><td><label for="ctrl_exc_left">Critical Only</label></td>
+
                 <td><input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true"/></td></tr>
                 <tr><td></td><td><input type="submit" name="ctrl_filter_btn" id="ctrl_filter_btn" value="Filter"/>
                   <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear"/></td></tr>
@@ -421,11 +422,12 @@ function arrangePalettes(){
               <div class="palbody">
               <h3>Raw JSON input:</h3>
               <textarea id="input_json" height="300"></textarea>
-              <input type="submit" id="input_json_btn" value="Load"/>
-              <hr/>
-              <h3>Test data:</h3>
-              <input type="submit" id="input_test_btn" value="Load Test Data"/>
 
+              <input type="submit" id="input_json_btn" value="Load Json"/>
+              <hr/>
+              <h3>Test dataset:</h3>
+              <input type="submit" id="input_test_btn" value="Load Test Data"/>
+              <hr/>
               <h3>Stats:</h3>
               <div id="data_summary" class="info"></div>
             </div>
