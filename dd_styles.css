@@ -67,6 +67,10 @@
 	
 	#palette {
 		position:absolute;
+		border-style: solid;
+		border-width: 1px;
+		background-color: #eee;
+		font-size: 12;
 	}
 	
 	#input_json{
