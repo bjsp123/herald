@@ -1,11 +1,10 @@
 
 <html>                                                                  
- <head>      
-  <title>Data Transparency</title>
+<head>      
+  <title>Lucid Data</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
-  <link rel="stylesheet" href="lib/tabs.css">
   
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 
@@ -23,7 +22,7 @@
   <script type="text/javascript" src="bjs_tree.js"></script>
   <script type="text/javascript" src="bjs_comatrix.js"></script>
   <script type="text/javascript" src="bjs_hive.js"></script>
-   <script type="text/javascript" src="bjs_cola.js"></script>
+  <script type="text/javascript" src="bjs_cola.js"></script>
 
   <script> 
   
@@ -40,39 +39,76 @@
 
   function init()
   {
-    
-    $('#palette').draggable();
+
+    $('.palette').draggable().resize();
     
     d3.select("svg");
 
     svg = d3.select("svg");
+
+
+
+  d3.select("#king_filter").on("click", function(d){
+      if ( $('#filterpal').css('visibility') == 'hidden' )
+      $('#filterpal').css('visibility','visible');
+    else
+      $('#filterpal').css('visibility','hidden');
+    });
+ d3.select("#king_data").on("click", function(d){
+      if ( $('#datapal').css('visibility') == 'hidden' )
+      $('#datapal').css('visibility','visible');
+    else
+      $('#datapal').css('visibility','hidden');
+    }); 
+ d3.select("#king_obj").on("click", function(d){
+      if ( $('#objpal').css('visibility') == 'hidden' )
+      $('#objpal').css('visibility','visible');
+    else
+      $('#objpal').css('visibility','hidden');
+    }); 
+ d3.select("#king_vis").on("click", function(d){
+      if ( $('#vispal').css('visibility') == 'hidden' )
+      $('#vispal').css('visibility','visible');
+    else
+      $('#vispal').css('visibility','hidden');
+    });
+
+ d3.select("#kill_objpal").on("click", function(d){$("#objpal").css('visibility','hidden')});
+  d3.select("#kill_datapal").on("click", function(d){$("#datapal").css('visibility','hidden')});
+   d3.select("#kill_filterpal").on("click", function(d){$("#filterpal").css('visibility','hidden')});
+    d3.select("#kill_vispal").on("click", function(d){$("#vispal").css('visibility','hidden')});
 
     d3.select("#input_json_btn").on("click", function(d){
       raw = JSON.parse($("#input_json").val());
       refresh();
     });
 
+    d3.select("#king_arrange").on("click", function(d){
+      arrangePalettes();
+
+    });
+
 
     d3.select("#ctrl_vis_list").on("change", function(d){
-        var s = this.options[this.selectedIndex].value;
-        switch(s){
-          case "trees":
-          bip = bjstr(); break;
-          case "bipart":
-          bip = bjsbp(); break;
-          case "hive":
-          bip = bjshive(); break;
-          case "matrix":
-          bip = bjscm(); break;
-          case "flow":
-          bip = bjsln(); break;
-          case "cola":
-          bip = bjscl(); break;
-        }
+      var s = this.options[this.selectedIndex].value;
+      switch(s){
+        case "trees":
+        bip = bjstr(); break;
+        case "bipart":
+        bip = bjsbp(); break;
+        case "hive":
+        bip = bjshive(); break;
+        case "matrix":
+        bip = bjscm(); break;
+        case "flow":
+        bip = bjsln(); break;
+        case "cola":
+        bip = bjscl(); break;
+      }
 
-        bip.mouseOverItem = mouseOverHandler;
-        clear();
-        refresh();
+      bip.mouseOverItem = mouseOverHandler;
+      clear();
+      refresh();
     });
 
 
@@ -86,7 +122,7 @@
       var only_crit = $("#ctrl_only_crit")[0].checked;
 
       fieldFilterFunc = function(d){return applyQuery(d, inc, exc, inc_rels, exc_rels, only_crit); };
-    
+
       
       bip.focusGroup = "";
       refresh();
@@ -143,30 +179,49 @@
       redraw();
     });
 
+    arrangePalettes();
+
 
   }
+
+function arrangePalettes(){
+    $('#filterpal').css('visibility','visible');
+    $('#vispal').css('visibility','visible');
+    $('#objpal').css('visibility','visible');
+    $('#datapal').css('visibility','visible');
+
+        $("#toppal").position({my:"right-20 bottom-20", at: "right bottom", of: "body", within: "#content", collision: "fit"});
+      $("#filterpal").position({my:"left+20 top+20", at: "left top", of: "body", within: "#content", collision: "fit"});
+      $("#vispal").position({my:"left top+5", at: "left bottom", of: "#filterpal", collision: "fit"});
+      $("#objpal").position({my:"right-20 top+20", at: "right top", of: "body", within: "#content", collision: "fit"});
+      $("#datapal").position({my:"left top+5", at: "left bottom", of: "#vispal", collision: "fit"});
+}
   
   function loadJsonFileSynch(fname)
   {
     var data={};
-          $.ajax({
-              url: fname,
-              async: false,
-              dataType: 'json',
-              success: function (response) {
-                  $.each(response, function(k,v) {
-                      data[k] = v;
-                  });
-              }
-          });
-      return data;
+    $.ajax({
+      url: fname,
+      async: false,
+      dataType: 'json',
+      success: function (response) {
+        $.each(response, function(k,v) {
+          data[k] = v;
+        });
+      }
+    });
+    return data;
   }
 
   function refresh(){
-    dat = resolveRelatives(process(prepare(raw, null)));
-    dat = markRelevant(dat, fieldFilterFunc);
-    dat = copyRelevant(dat);
-    updateDataSummary(dat);
+    if(raw == null){
+      dat = null;
+    }else{
+      dat = resolveRelatives(process(prepare(raw, null)));
+      dat = markRelevant(dat, fieldFilterFunc);
+      dat = copyRelevant(dat);
+      updateDataSummary(dat);
+    }
     bip.prepareData(dat);
     mouseOverHandler(null);
     bip.render(svg, info, dat);
@@ -180,7 +235,7 @@
   function clear(){
     d3.selectAll("svg > *").remove();
   }
-    
+
 
   $(document).ready(function(){
 
@@ -188,22 +243,22 @@
     var activeTabIndex = -1;
     var tabNames = ["conf","info","input"];
     $(".tab-menu > li").click(function(e){
-        for(var i=0;i<tabNames.length;i++) {
-            if(e.target.id == tabNames[i]) {
-                activeTabIndex = i;
-            } else {
-                $("#"+tabNames[i]).removeClass("active");
-                $("#"+tabNames[i]+"-tab").css("display", "none");
-            }
+      for(var i=0;i<tabNames.length;i++) {
+        if(e.target.id == tabNames[i]) {
+          activeTabIndex = i;
+        } else {
+          $("#"+tabNames[i]).removeClass("active");
+          $("#"+tabNames[i]+"-tab").css("display", "none");
         }
-        $("#"+tabNames[activeTabIndex]+"-tab").fadeIn();
-        $("#"+tabNames[activeTabIndex]).addClass("active");
-        return false;
+      }
+      $("#"+tabNames[activeTabIndex]+"-tab").fadeIn();
+      $("#"+tabNames[activeTabIndex]).addClass("active");
+      return false;
     });
 
     raw = loadJsonFileSynch("dd_data.json");
-  
-    bip = bjscl();
+
+    bip = bjsbp();
     bip.mouseOverItem = mouseOverHandler;
     init();
     refresh();
@@ -240,7 +295,7 @@
   function mouseOverHandler(d){
     var name="<br/>", desc="<br/>", formula="<br/>", facts="<br/>",src="<br/>";
     if(d != null){
-      
+
 
       if(d.itemtype == "node") {
         name = "Field " + d.name;
@@ -293,108 +348,139 @@
   }
 
 
-    </script>                                                               
- </head>                                                                 
- <body>
-   
-   <div id="palette">
-     test
-   </div>
+  </script>                                                               
+</head>                                                                 
+<body>
 
-  <div id="wrapper">
-    <div id="sidebar">
-        <img src="lucidlogo.png" class="bigtitle"/>
-        <img src="bjslogo.png" class="smalltitle"/>
+ <div id="toppal" class="palette">
+  <div>
+   <img src="lucidlogo.png" class="bigtitle"/>
+   <img src="bjslogo.png" class="smalltitle"/>
+ </div>
+ <p/>
+ <div>
+  <input type="submit" id="king_filter" class="kingbutton" value="Filter"/>
+  <input type="submit" id="king_vis" class="kingbutton" value="Vis"/>
+  <input type="submit" id="king_obj" class="kingbutton" value="Details"/>
+  <input type="submit" id="king_data" class="kingbutton" value="Data"/>
+  <input type="submit" id="king_stats" class="kingbutton" value="Logs"/>
+  <input type="submit" id="king_help" class="kingbutton" value="Help"/>
+  <input type="submit" id="king_arrange" class="kingbutton" value="Arrange"/>
+</div>
+</div>
 
-      <div id="tab-container">  
-        <ul class="tab-menu">  
-            <li id="conf" class="active">Display</li>  
-            <li id="info">Object Viewer</li> 
-            <li id="input">Data</li> 
-        </ul>  
-          <div class="clear"></div>  
-          <div class="tab-top-border"></div>
-          <div id="conf-tab" class="tab-content active">
-                <table>
-                <tr><td><label for="ctrl_filter">Mode</label></td>
-                <td>
-                  <select id="ctrl_vis_list">
-                    <option value="cola">Cola</option>
-                      <option value="bipart">Bipart</option>
-                      <option value="flow">Flow</option>
-                      <option value="matrix">Matrix</option>
-                      <option value="hive">Hive</option>
-                      <option value="trees">Trees</option>
-                  </select>
-                </td></tr>
-                <tr><td colspan="2"><hr/></td></tr>
-                <tr><td><label for="ctrl_inc">Include</label></td>
-                <td><input type="text" name="ctrl_inc" id="ctrl_inc" value=""/></td></tr>
-                <tr><td><label for="ctrl_exc">Exclude</label></td>
-                <td><input type="text" name="ctrl_exc" id="ctrl_exc" value=""/></td></tr>
-                <tr><td><label for="ctrl_inc_left">With relatives</label></td>
-                <td><input type="text" name="ctrl_inc_left" id="ctrl_inc_left" value=""/></td></tr>
-                <tr><td><label for="ctrl_exc_left">Without relatives</label></td>
-                <td><input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value=""/></td></tr>
-                <tr><td><label for="ctrl_exc_left">Critical Only</label></td>
+<div id="filterpal" class="palette">
+  <div class="palheader">
+    Filter
+    <input type="submit" id="kill_filterpal" class="killbutton" value=""/>
+  </div>
+  <div class="palbody">
+    <table>
+      <tr><td><label for="ctrl_inc">Include</label></td>
+        <td><input type="text" name="ctrl_inc" id="ctrl_inc" value=""/></td></tr>
+        <tr><td><label for="ctrl_exc">Exclude</label></td>
+          <td><input type="text" name="ctrl_exc" id="ctrl_exc" value=""/></td></tr>
+          <tr><td><label for="ctrl_inc_left">With relatives</label></td>
+            <td><input type="text" name="ctrl_inc_left" id="ctrl_inc_left" value=""/></td></tr>
+            <tr><td><label for="ctrl_exc_left">Without relatives</label></td>
+              <td><input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value=""/></td></tr>
+              <tr><td><label for="ctrl_exc_left">Critical Only</label></td>
                 <td><input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true"/></td></tr>
                 <tr><td></td><td><input type="submit" name="ctrl_filter_btn" id="ctrl_filter_btn" value="Filter"/>
-                <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear"/></td></tr>
-                <tr><td colspan="2"><hr/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Optimize</label></td>
-                <td><input type="radio" name="ctrl_opt" id="ctrl_opt_1" value=""/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Don't Optimize</label></td>
-                <td><input type="radio" name="ctrl_opt" id="ctrl_opt_0" value="" checked="true"/></td></tr>
-                <tr><td colspan="2"><hr/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Dataset Level</label></td>
-                <td><input type="radio" name="ctrl_detail" id="ctrl_detail_summary" value=""/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Field Level</label></td>
-                <td><input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true"/></td></tr>
-                <tr><td colspan="2"><hr/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Color by Dataset Group</label></td>
-                <td><input type="radio" name="ctrl_color" id="ctrl_color_cat" value="" checked="true"/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Color by Dataset</label></td>
-                <td><input type="radio" name="ctrl_color" id="ctrl_color_pkg" value=""/></td></tr>
-                <tr><td colspan="2"><hr/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Hilight Critical fields</label></td>
-                <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_crit" value=""/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">Hilight Untraced fields</label></td>
-                <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_untraced" value=""/></td></tr>
-                <tr><td><label for="ctrl_grouping_dom">No hilight</label></td>
-                <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_nothing" value="" checked="true"/></td></tr>
+                  <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear"/></td></tr>
                 </table>
-          </div>
-          <div id="info-tab" class="tab-content">
-              <h2>Data item details</h2>
-              <h3>Item name:</h3>
-              <div id="object_name" class="info"></div>
-              <h3>Summary:</h3>
-              <div id="object_facts" class="info"></div>
-              <h3>Derivation:</h3>
-              <div id="object_formula" class="info"></div>
-              <h3>Description:</h3>
-              <div id="object_desc" class="info"></div>
-              <h3>Sources:</h3>
-              <div id="object_src" class="info"></div>
-          </div>
-          <div id="input-tab" class="tab-content">
-              <h2>Input metadata</h2>
+              </div>
+            </div>
+
+            <div id="objpal" class="palette">
+              <div class="palheader">
+                Object Details
+                <input type="submit" id="kill_objpal" class="killbutton" value=""/>
+              </div>
+              <div class="palbody">
+                <h2>Data item details</h2>
+                <h3>Item name:</h3>
+                <div id="object_name" class="info"></div>
+                <h3>Summary:</h3>
+                <div id="object_facts" class="info"></div>
+                <h3>Derivation:</h3>
+                <div id="object_formula" class="info"></div>
+                <h3>Description:</h3>
+                <div id="object_desc" class="info"></div>
+                <h3>Sources:</h3>
+                <div id="object_src" class="info"></div>
+              </div>
+
+            </div>
+
+            <div id="datapal" class="palette">
+              <div class="palheader">
+                Data Management
+                <input type="submit" id="kill_datapal" class="killbutton" value=""/>
+              </div>
+              <div class="palbody">
               <h3>Raw JSON input:</h3>
               <textarea id="input_json" height="300"></textarea>
-              <input type="submit" id="input_json_btn" value="Reload"/>
+              <input type="submit" id="input_json_btn" value="Load"/>
+              <hr/>
+              <h3>Test data:</h3>
+              <input type="submit" id="input_test_btn" value="Load Test Data"/>
+
               <h3>Stats:</h3>
               <div id="data_summary" class="info"></div>
-          </div>
+            </div>
+            </div>
 
-      </div>
-      
-    </div>
-    <div id="content" ><svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg></div>
-    
-    <div id="cleared"></div>
-  </div>
-  
-    
- </body>                                                                 
- </html>
- 
+            <div id="content" ><svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg></div>
+
+
+            <div id="vispal" class="palette">
+              <div class="palheader">
+                Visualization Settings
+                <input type="submit" id="kill_vispal" class="killbutton" value=""/>
+              </div>
+              <div class="palbody">
+                <table>
+                  <tr><td><label for="ctrl_filter">Mode</label></td>
+                    <td>
+                      <select id="ctrl_vis_list">
+                        <option value="bipart">Bipart</option>
+                        <option value="cola">Cola</option>
+                        <option value="flow">Flow</option>
+                        <option value="matrix">Matrix</option>
+                        <option value="hive">Hive</option>
+                        <option value="trees">Trees</option>
+                      </select>
+                    </td></tr>
+                    <tr><td colspan="2"><hr/></td></tr>
+                    <tr><td><label for="ctrl_grouping_dom">Optimize</label></td>
+                      <td><input type="radio" name="ctrl_opt" id="ctrl_opt_1" value=""/></td></tr>
+                      <tr><td><label for="ctrl_grouping_dom">Don't Optimize</label></td>
+                        <td><input type="radio" name="ctrl_opt" id="ctrl_opt_0" value="" checked="true"/></td></tr>
+                        <tr><td colspan="2"><hr/></td></tr>
+                        <tr><td><label for="ctrl_grouping_dom">Dataset Level</label></td>
+                          <td><input type="radio" name="ctrl_detail" id="ctrl_detail_summary" value=""/></td></tr>
+                          <tr><td><label for="ctrl_grouping_dom">Field Level</label></td>
+                            <td><input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true"/></td></tr>
+                            <tr><td colspan="2"><hr/></td></tr>
+                            <tr><td><label for="ctrl_grouping_dom">Color by Dataset Group</label></td>
+                              <td><input type="radio" name="ctrl_color" id="ctrl_color_cat" value="" checked="true"/></td></tr>
+                              <tr><td><label for="ctrl_grouping_dom">Color by Dataset</label></td>
+                                <td><input type="radio" name="ctrl_color" id="ctrl_color_pkg" value=""/></td></tr>
+                                <tr><td colspan="2"><hr/></td></tr>
+                                <tr><td><label for="ctrl_grouping_dom">Hilight Critical fields</label></td>
+                                  <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_crit" value=""/></td></tr>
+                                  <tr><td><label for="ctrl_grouping_dom">Hilight Untraced fields</label></td>
+                                    <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_untraced" value=""/></td></tr>
+                                    <tr><td><label for="ctrl_grouping_dom">No hilight</label></td>
+                                      <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_nothing" value="" checked="true"/></td></tr>
+                                    </table>
+                                  </div>
+                                </div>
+
+                                
+                              </div>
+
+
+                            </body>                                                                 
+                            </html>
