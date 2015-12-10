@@ -16,6 +16,12 @@
 		background-color: #eee;
 		font-size: 12;
 	}
+
+	.byline {
+		text-align: center;
+		font-style: italic;
+		margin: 5px;
+	}
 	
 	body {
 		font-family: sans-serif;
