@@ -64,14 +64,20 @@ bjscl.render = function(svg, info, dat)
 
 
 		var gt = svg.selectAll(".colagroup")
-		.data(dat.colagroups, function(d) { return d.id;});
+			.data(dat.colagroups, function(d) {
+				return d.id;
+			});
 
-		gt.enter().append("rect")
-		.attr("rx", GROUP_ROUNDY).attr("ry", GROUP_ROUNDY)
-		.attr("class", "colagroup")
-		.on("mouseover", groupMouseOver)
-		.on("mouseout", mouseOut)
-		.style("stroke", function (d, i) { return getGroupColor(d.pkg); });
+		var gtg = gt.enter().append("g");
+		
+		var gtr = gtg.append("rect")
+			.attr("rx", GROUP_ROUNDY).attr("ry", GROUP_ROUNDY)
+			.attr("class", "colagroup")
+			.on("mouseover", groupMouseOver)
+			.on("mouseout", mouseOut)
+			.style("stroke", function(d, i) {
+				return getGroupColor(d.pkg);
+			});
 
 		gt.exit().remove();
 
@@ -105,7 +111,7 @@ bjscl.render = function(svg, info, dat)
 
 				lt.attr("d", connector_cubic);
 
-				gt.attr("x", function (d) { return d.bounds.x+GROUP_PADDING/2; })
+				gtr.attr("x", function (d) { return d.bounds.x+GROUP_PADDING/2; })
 				.attr("y", function (d) { return d.bounds.y+GROUP_PADDING/2; })
 				.attr("width", function (d) { return d.bounds.width()-GROUP_PADDING; })
 				.attr("height", function (d) { return d.bounds.height()-GROUP_PADDING; });
