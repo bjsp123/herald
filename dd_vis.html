@@ -1,7 +1,7 @@
 
 <html>                                                                  
 <head>      
-  <title>Lucid Data</title>
+  <title>CR MIS Data Management Tool</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
@@ -23,6 +23,8 @@
   <script type="text/javascript" src="bjs_comatrix.js"></script>
   <script type="text/javascript" src="bjs_hive.js"></script>
   <script type="text/javascript" src="bjs_cola.js"></script>
+  
+    <script type="text/javascript" src="testdata.js"></script>
 
   <script> 
   
@@ -34,7 +36,7 @@
   var bip = {}; //our reference to the current visualizer
   var dat = {}; //the global data object.
   var raw = {}; //the raw input data
-  var fieldFilterFunc = function(d){return applyQuery(d, "Card", "", "", "", true); };//function(field) { return true;};
+  var fieldFilterFunc = function(field) { return true;};
 
 
   function init()
@@ -82,6 +84,12 @@
       raw = JSON.parse($("#input_json").val());
       refresh();
     });
+    
+    d3.select("#input_test_btn").on("click", function(d){
+      raw = testdata.raw;
+      refresh();
+    });
+    
 
     d3.select("#king_arrange").on("click", function(d){
       arrangePalettes();
@@ -180,6 +188,9 @@
     });
 
     arrangePalettes();
+    
+    raw = testdata.raw;
+    refresh();
 
 
   }
@@ -256,7 +267,7 @@ function arrangePalettes(){
       return false;
     });
 
-    raw = loadJsonFileSynch("dd_data.json");
+    raw = testdata.raw;
 
     bip = bjsbp();
     bip.mouseOverItem = mouseOverHandler;
@@ -354,8 +365,8 @@ function arrangePalettes(){
 
  <div id="toppal" class="palette">
   <div>
-   <img src="lucidlogo.png" class="bigtitle"/>
-   <div class="byline">Data lineage made lucid.</div>
+   <img src="santander_400.jpg" class="bigtitle"/>
+   <div class="byline">RDA Data Lineage.</div>
  </div>
  <div>
   <input type="submit" id="king_filter" class="kingbutton" value="Filter"/>
