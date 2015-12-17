@@ -6,15 +6,24 @@
 
   <link rel="stylesheet" href="dd_styles.css">
   
-  <script src="lib/touchpunch.js"></script>
+ 
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
+  <script src="lib/touchpunch.js"></script>
 
 
   <script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
+
+  <script type="text/javascript" src="bjs_data.js"></script>
+
   <script type="text/javascript" src="lib/cola.js"></script>
   <script type="text/javascript" src="lib/thenBy.js"></script>
+
+  <script type="text/javascript" src="bjs_types.js"></script>
+  <script type="text/javascript" src="bjs_data_json.js"></script>
+  <script type="text/javascript" src="bjs_misc.js"></script>
+
+
   <script type="text/javascript" src="bjs_utils.js"></script>
   <script type="text/javascript" src="bjs_schema.js"></script>
   <script type="text/javascript" src="bjs_bipartite.js"></script>
@@ -225,6 +234,7 @@ function arrangePalettes(){
   }
 
   function refresh(){
+    dotests();
     if(raw == null){
       dat = null;
     }else{
@@ -236,6 +246,14 @@ function arrangePalettes(){
     bip.prepareData(dat);
     mouseOverHandler(null);
     bip.render(svg, info, dat);
+  }
+
+  function dotests(){
+    bjs.logger = function(s){console.log("lucid: " + s);};
+
+    var w = bjs.fromJson(testdata, null, null);
+
+
   }
 
   function redraw(){
