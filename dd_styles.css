@@ -6,7 +6,7 @@
 	
 	#toppal {
 		width: 200px;
-		background: linear-gradient(red, white);
+		background: linear-gradient(#489, white);
 	}
 	
 	
@@ -28,10 +28,10 @@
 	}
 	
 	.bigtitle {
-		/*display: block;*/
+		display: block;
 		margin: auto;
-		width: 100%;
-		padding:0px;
+		width: 80%;
+		padding-top:10px;
 	}
 	
 	.smalltitle {
@@ -52,7 +52,7 @@
 
 	.palheader {
 		background-color: #eee;
-		background: linear-gradient(to right, red, white);
+		background: linear-gradient(to right, #489, white);
 		font-size: 16;
 		font-weight: bold;
 		text-align:left;
