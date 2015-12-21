@@ -1,12 +1,11 @@
 
 <html>                                                                  
 <head>      
-  <title>CR MIS Data Management Tool</title>
+  <title>BJS Lucid</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
   
- 
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="lib/touchpunch.js"></script>
@@ -21,6 +20,7 @@
 
   <script type="text/javascript" src="bjs_types.js"></script>
   <script type="text/javascript" src="bjs_data_json.js"></script>
+  <script type="text/javascript" src="bjs_mv.js"></script>
   <script type="text/javascript" src="bjs_misc.js"></script>
 
 
@@ -251,7 +251,7 @@ function arrangePalettes(){
   function dotests(){
     bjs.logger = function(s){console.log("lucid: " + s);};
 
-    var w = bjs.fromJson(testdata, null, null);
+    var w = bjs_data_json.fromJson(testdata.raw, null, null);
 
 
   }
@@ -383,8 +383,8 @@ function arrangePalettes(){
 
  <div id="toppal" class="palette">
   <div>
-   <img src="santander_400.jpg" class="bigtitle"/>
-   <div class="byline">RDA Data Lineage.</div>
+   <img src="lucidlogo.png" class="bigtitle"/>
+   <div class="byline">Transparency and insight.</div>
  </div>
  <div>
   <input type="submit" id="king_filter" class="kingbutton" value="Filter"/>
