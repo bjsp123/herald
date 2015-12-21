@@ -39,20 +39,32 @@ bjscl = function() {
 		//have to manually remove everything or again cola gets confused.  no entry / exit animations for us!
 		d3.selectAll("svg > *").remove();
 
+		var powerGraph = null;
+		
 		//omg omg
 		coke = cola.d3adaptor()
 		.linkDistance(100)
 		.avoidOverlaps(true)
 		.handleDisconnected(false)
 		.size([TOTAL_WIDTH, TOTAL_HEIGHT]);
-
-		coke
-		.avoidOverlaps(true)
-		.flowLayout('x', 300)
-		.nodes(dat.nodea)
-		.links(dat.colalinks)
-		.groups(dat.colagroups)
-		.start(50, 30, 20);
+		
+		if(bjscl.optimize > 0){
+			coke
+				.avoidOverlaps(true)
+				.flowLayout('x', 300)
+				.nodes(dat.nodea)
+				.links(dat.colalinks)
+				.powerGraphGroups(function(d){powerGraph=d;})
+				.start(50, 30, 20);
+		} else {
+			coke
+				.avoidOverlaps(true)
+				.flowLayout('x', 300)
+				.nodes(dat.nodea)
+				.links(dat.colalinks)
+				.groups(dat.colagroups)
+				.start(50, 30, 20);
+		}
 
 		dat.nodea.forEach(function(v) {
 			v.width = NODE_W; //CART_WIDTH+NODE_R/2;
@@ -62,10 +74,19 @@ bjscl = function() {
 		dat.colagroups.forEach(function(g) {
 			g.padding = GROUP_PADDING;
 		});
+		
+		if(powerGraph){
+			powerGraph.groups.forEach(function(g){
+				g.padding = GROUP_PADDING;
+			});
+			powerGraph.powerEdges.forEach(function(g){
+				g.id = g.source.fullname + ":" + g.target.fullname;
+			});
+		}
 
 
 		var gt = svg.selectAll(".colagroup")
-		.data(dat.colagroups, function(d) {
+		.data(powerGraph?powerGraph.groups:dat.colagroups, function(d) {
 			return d.id;
 		});
 
@@ -81,7 +102,7 @@ bjscl = function() {
 		});
 
 		var gtc = gtg.append("text")
-		.text(function(d){return d.pkg.fullname;})
+		.text(function(d){return powerGraph?"":d.pkg.fullname;})
 		.attr("text-anchor", "middle")
 		.attr("class", "grouplabel")
 		.style("fill", function(d) {return getGroupColor(d.pkg);});
@@ -91,16 +112,16 @@ bjscl = function() {
 
 
 		var lt = svg.selectAll(".link")
-		.data(dat.colalinks, function(d) {
+		.data(powerGraph?powerGraph.powerEdges:dat.colalinks, function(d) {
 			return d.id;
 		});
 
 		lt.enter().append("path")
 		.attr("class", "link")
 		.attr("stroke", function(d) {
+			if (powerGraph) return "green";
 			return d.link.type == "filter" ? "grey" : "blue";
-		})
-		.attr("d", connector_cubic);
+		});
 
 		lt.exit().remove();
 
@@ -123,8 +144,21 @@ bjscl = function() {
 		nt.exit().remove();
 
 		coke.on("tick", function() {
-
-			lt.attr("d", connector_cubic);
+			
+			if(bjscl.optimize > 0) {
+				
+					
+				lt.each(function (d) {
+					var srcInner = d.source.bounds.inflate(-GROUP_PADDING);
+					var tgtInner = d.target.bounds.inflate(-GROUP_PADDING);
+	                d.route = cola.vpsc.makeEdgeBetween(srcInner, tgtInner, 0);
+	            });
+	            
+	            lt.attr("d", connector_colaroute);
+	            
+			}else{
+				lt.attr("d", connector_cubic);
+			}
 
 			gtr.attr("x", function(d) {
 				return d.bounds.x + GROUP_PADDING / 2;
@@ -223,10 +257,27 @@ bjscl = function() {
 
 
 	function connector_cubic(d, i) {
-
+		
 		var offs = Math.abs(d.source.x - d.target.x) / 2;
-
+	
 		return "M " + (d.source.x) + " " + (d.source.y) + "C " + (d.source.x + offs) + " " + (d.source.y) + " " + (d.target.x - offs) + " " + d.target.y + " " + d.target.x + " " + d.target.y;
+	}
+	
+	function connector_colaroute(d, i){
+		
+		
+		
+		var x1 = d.route.sourceIntersection.x;
+		var y1 = d.route.sourceIntersection.y;
+		var x2 = d.route.arrowStart.x;
+		var y2 = d.route.arrowStart.y;
+		
+		var offs = Math.abs(x1 - x2) / 2;
+		
+		return "M " + x1 + " " + y1 + " L " + x2 + " " + y2;
+		
+		//return "M " + (x1) + " " + (y1) + "C " + (x1 + offs) + " " + (y1) + " " + (x2 - offs) + " " + y2 + " " +x2 + " " + y2;
+ 
 	}
 
 
@@ -263,6 +314,8 @@ bjscl = function() {
 	}
 
 	function getGroupColor(pkg) {
+		if(!pkg) return "#456";
+		
 		if (bjscl.colorPlan == "cat") {
 			var cat = pkg.fullname.substring(0, 7);
 			return color(cat);
