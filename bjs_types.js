@@ -15,6 +15,7 @@ var bjs;
 	bjs.group=group;
 	bjs.glink=glink;
 	bjs.world=world;
+	bjs.mv = mv;
 
 	function term(code, name, desc, flags){
 		if(code == null || code == "") throw "Tried to create term with no code";
@@ -44,6 +45,8 @@ var bjs;
 		this.sources = [];
 		this.targets = [];
 		this.children = [];
+		this.hasTargets = false;
+		this.hasSources = false;
 	}
 
 	function field(fullname, name, asset, term, desc, formula) {
@@ -93,6 +96,8 @@ var bjs;
 		if(field.itemtype != "field") throw "Tried to create node with something that is not a field";
 		this.itemtype="node";
 		this.field = field;
+		this.fullname = field.fullname;
+		this.group = null;
 
 		this.x = -1;
 		this.y = -1;
@@ -108,7 +113,9 @@ var bjs;
 		this.rel = rel;
 	}
 
-	function group(source, target, rel){
+	function group(asset){
+		this.asset = asset;
+		this.fullname = asset?asset.fullname:"anon";
 		this.itemtype = "group";
 		this.children=[];
 	}
@@ -128,6 +135,14 @@ var bjs;
 		this.fielda = [];
 		this.arels = {};
 		this.arela = [];
+	}
+	
+	function mv(w){
+		this.world = w;
+		this.nodea = [];
+		this.nodes = {};
+		this.links = [];
+		this.groups = {};
 	}
 
 

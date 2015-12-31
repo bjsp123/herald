@@ -24,14 +24,15 @@ var bjs_data_json;
 
 	function filter(world, filter){
 		var w = new bjs.world();
-
-		return w;
+		
+		
+		return world;
 	}
 
 	function squash(world, squash){
 		var w = new bjs.world();
 
-		return w;
+		return world;
 	}
 
 	function enrich(w){
@@ -114,7 +115,7 @@ function recursiveRelatives(w, root, f, depth, bFilterEncountered, bSource){
 				if(p.rdepth < depth) p.rdepth = depth;
 			}else{
 				root.ancestors[p.fullname] = {filter:isFilter, depth:depth, ult:false};
-				recursiveRelatives(dat, root, p, depth+1, isFilter, bSource);
+				recursiveRelatives(w, root, p, depth+1, isFilter, bSource);
 			}
 		} 
 
@@ -126,7 +127,7 @@ function recursiveRelatives(w, root, f, depth, bFilterEncountered, bSource){
 				if(p.ldepth < depth) p.ldepth = depth;
 			}else{
 				root.descendants[p.fullname] = {filter:isFilter, depth:depth, ult:false};
-				recursiveRelatives(dat, root, p, depth+1, isFilter, bSource);
+				recursiveRelatives(w, root, p, depth+1, isFilter, bSource);
 			}
 		}
 

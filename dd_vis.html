@@ -1,11 +1,11 @@
+<html>
 
-<html>                                                                  
-<head>      
+<head>
   <title>BJS Lucid</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
-  
+
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="lib/touchpunch.js"></script>
@@ -13,7 +13,6 @@
 
   <script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
 
-  <script type="text/javascript" src="bjs_data.js"></script>
 
   <script type="text/javascript" src="lib/cola.js"></script>
   <script type="text/javascript" src="lib/thenBy.js"></script>
@@ -22,495 +21,631 @@
   <script type="text/javascript" src="bjs_data_json.js"></script>
   <script type="text/javascript" src="bjs_mv.js"></script>
   <script type="text/javascript" src="bjs_misc.js"></script>
-
-
+  
+  <script type="text/javascript" src="bjs_viewutils.js"></script>
   <script type="text/javascript" src="bjs_utils.js"></script>
-  <script type="text/javascript" src="bjs_schema.js"></script>
+  
   <script type="text/javascript" src="bjs_bipartite.js"></script>
   <script type="text/javascript" src="bjs_lineage.js"></script>
   <script type="text/javascript" src="bjs_tree.js"></script>
   <script type="text/javascript" src="bjs_comatrix.js"></script>
   <script type="text/javascript" src="bjs_hive.js"></script>
   <script type="text/javascript" src="bjs_cola.js"></script>
-  
-    <script type="text/javascript" src="testdata.js"></script>
 
-  <script> 
-  
-  /*global d3*/
+  <script type="text/javascript" src="testdata.js"></script>
 
-  //global selections
-  var svg = {};
-  var info = {};
-  var bip = {}; //our reference to the current visualizer
-  var dat = {}; //the global data object.
-  var raw = {}; //the raw input data
-  var fieldFilterFunc = function(field) { return true;};
+  <script>
+    /*global d3*/
 
-
-  function init()
-  {
-
-    $('.palette').draggable().resize();
-    
-    d3.select("svg");
-
-    svg = d3.select("svg");
+    //global selections
+    var svg = {};
+    var rawJson = {}; // the last json string we processed
+    var bip = {}; //our reference to the current visualizer, which refers to its modelview(?)
+    var w = {}; //the global world (filtered)
+    var viewConf = {};
+    var fieldFilterFunc = function(field) {
+      return true;
+    };
 
 
+    function init() {
 
-  d3.select("#king_filter").on("click", function(d){
-      if ( $('#filterpal').css('visibility') == 'hidden' )
-      $('#filterpal').css('visibility','visible');
-    else
-      $('#filterpal').css('visibility','hidden');
-    });
- d3.select("#king_data").on("click", function(d){
-      if ( $('#datapal').css('visibility') == 'hidden' )
-      $('#datapal').css('visibility','visible');
-    else
-      $('#datapal').css('visibility','hidden');
-    }); 
- d3.select("#king_obj").on("click", function(d){
-      if ( $('#objpal').css('visibility') == 'hidden' )
-      $('#objpal').css('visibility','visible');
-    else
-      $('#objpal').css('visibility','hidden');
-    }); 
- d3.select("#king_vis").on("click", function(d){
-      if ( $('#vispal').css('visibility') == 'hidden' )
-      $('#vispal').css('visibility','visible');
-    else
-      $('#vispal').css('visibility','hidden');
-    });
+      $('.palette').draggable().resize();
 
- d3.select("#kill_objpal").on("click", function(d){$("#objpal").css('visibility','hidden')});
-  d3.select("#kill_datapal").on("click", function(d){$("#datapal").css('visibility','hidden')});
-   d3.select("#kill_filterpal").on("click", function(d){$("#filterpal").css('visibility','hidden')});
-    d3.select("#kill_vispal").on("click", function(d){$("#vispal").css('visibility','hidden')});
+      svg = d3.select("svg");
 
-    d3.select("#input_json_btn").on("click", function(d){
-      raw = JSON.parse($("#input_json").val());
-      refresh();
-    });
-    
-    d3.select("#input_test_btn").on("click", function(d){
-      raw = testdata.raw;
-      refresh();
-    });
-    
+      bjs.hover = mouseOverHandler;
+      
+      viewConf["optimize"] = 0;
+      viewConf["colorPlan"] = "cat";
+      viewConf["renderSummary"] = false;
+      viewConf["hilile"] = "nothing";
 
-    d3.select("#king_arrange").on("click", function(d){
+
+
+      d3.select("#king_filter").on("click", function(d) {
+        if ($('#filterpal').css('visibility') == 'hidden')
+          $('#filterpal').css('visibility', 'visible');
+        else
+          $('#filterpal').css('visibility', 'hidden');
+      });
+      d3.select("#king_data").on("click", function(d) {
+        if ($('#datapal').css('visibility') == 'hidden')
+          $('#datapal').css('visibility', 'visible');
+        else
+          $('#datapal').css('visibility', 'hidden');
+      });
+      d3.select("#king_obj").on("click", function(d) {
+        if ($('#objpal').css('visibility') == 'hidden')
+          $('#objpal').css('visibility', 'visible');
+        else
+          $('#objpal').css('visibility', 'hidden');
+      });
+      d3.select("#king_vis").on("click", function(d) {
+        if ($('#vispal').css('visibility') == 'hidden')
+          $('#vispal').css('visibility', 'visible');
+        else
+          $('#vispal').css('visibility', 'hidden');
+      });
+
+      d3.select("#kill_objpal").on("click", function(d) {
+        $("#objpal").css('visibility', 'hidden')
+      });
+      d3.select("#kill_datapal").on("click", function(d) {
+        $("#datapal").css('visibility', 'hidden')
+      });
+      d3.select("#kill_filterpal").on("click", function(d) {
+        $("#filterpal").css('visibility', 'hidden')
+      });
+      d3.select("#kill_vispal").on("click", function(d) {
+        $("#vispal").css('visibility', 'hidden')
+      });
+
+      d3.select("#input_json_btn").on("click", function(d) {
+        rawJson = JSON.parse($("#input_json").val());
+        refresh();
+      });
+
+      d3.select("#input_test_btn").on("click", function(d) {
+        rawJson = testdata.raw;
+        refresh();
+      });
+
+
+      d3.select("#king_arrange").on("click", function(d) {
+        arrangePalettes();
+
+      });
+
+
+      d3.select("#ctrl_vis_list").on("change", function(d) {
+        var s = this.options[this.selectedIndex].value;
+        switch (s) {
+          case "trees":
+            bip = bjstr();
+            break;
+          case "bipart":
+            bip = bjsbp();
+            break;
+          case "hive":
+            bip = bjshive();
+            break;
+          case "matrix":
+            bip = bjscm();
+            break;
+          case "flow":
+            bip = bjsln();
+            break;
+          case "cola":
+            bip = bjscl();
+            break;
+        }
+
+        clear();
+        refresh();
+      });
+
+
+
+      d3.select("#ctrl_filter_btn").on("click", function(d) {
+
+        var inc = $("#ctrl_inc").val().trim();
+        var exc = $("#ctrl_exc").val().trim();
+        var inc_rels = $("#ctrl_inc_left").val().trim();
+        var exc_rels = $("#ctrl_exc_left").val().trim();
+        var only_crit = $("#ctrl_only_crit")[0].checked;
+
+        fieldFilterFunc = function(d) {
+          return applyQuery(d, inc, exc, inc_rels, exc_rels, only_crit);
+        };
+
+        refresh();
+      });
+
+      d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
+        fieldFilterFunc = function(d) {
+          return true;
+        };
+        
+        refresh();
+      });
+
+      d3.select("#ctrl_opt_1").on("click", function(d) {
+        viewConf["optimize"]=1;
+        redraw();
+      });
+
+      d3.select("#ctrl_opt_0").on("click", function(d) {
+        viewConf["optimize"]=0;
+        redraw();
+      });
+
+      d3.select("#ctrl_detail_summary").on("click", function(d) {
+        viewConf["renderSummary"]=true;
+        redraw();
+      });
+
+      d3.select("#ctrl_detail_nodes").on("click", function(d) {
+        viewConf["renderSummary"]=false;
+        redraw();
+      });
+
+      d3.select("#ctrl_color_pkg").on("click", function(d) {
+        viewConf["colorPlan"]="pkg";
+        redraw();
+      });
+
+      d3.select("#ctrl_color_cat").on("click", function(d) {
+        viewConf["colorPlan"]="cat";
+        redraw();
+      });
+
+      d3.select("#ctrl_hi_crit").on("click", function(d) {
+        viewConf["hilite"]="critical";
+        redraw();
+      });
+
+      d3.select("#ctrl_hi_untraced").on("click", function(d) {
+        viewConf["hilite"]="untraced";
+        redraw();
+      });
+
+      d3.select("#ctrl_hi_nothing").on("click", function(d) {
+        viewConf["hilite"]="nothing";
+        redraw();
+      });
+
       arrangePalettes();
 
-    });
-
-
-    d3.select("#ctrl_vis_list").on("change", function(d){
-      var s = this.options[this.selectedIndex].value;
-      switch(s){
-        case "trees":
-        bip = bjstr(); break;
-        case "bipart":
-        bip = bjsbp(); break;
-        case "hive":
-        bip = bjshive(); break;
-        case "matrix":
-        bip = bjscm(); break;
-        case "flow":
-        bip = bjsln(); break;
-        case "cola":
-        bip = bjscl(); break;
-      }
-
-      bip.mouseOverItem = mouseOverHandler;
-      clear();
+      rawJson = testdata.raw;
       refresh();
-    });
 
 
+    }
 
-    d3.select("#ctrl_filter_btn").on("click", function(d){
+    function arrangePalettes() {
+      $('#filterpal').css('visibility', 'visible');
+      $('#vispal').css('visibility', 'visible');
+      $('#objpal').css('visibility', 'visible');
+      $('#datapal').css('visibility', 'visible');
 
-      var inc= $("#ctrl_inc").val().trim();
-      var exc= $("#ctrl_exc").val().trim();
-      var inc_rels= $("#ctrl_inc_left").val().trim();
-      var exc_rels= $("#ctrl_exc_left").val().trim();
-      var only_crit = $("#ctrl_only_crit")[0].checked;
+      $("#toppal").position({
+        my: "right-20 bottom-20",
+        at: "right bottom",
+        of: "body",
+        within: "#content",
+        collision: "fit"
+      });
+      $("#filterpal").position({
+        my: "left+20 top+20",
+        at: "left top",
+        of: "body",
+        within: "#content",
+        collision: "fit"
+      });
+      $("#vispal").position({
+        my: "left top+5",
+        at: "left bottom",
+        of: "#filterpal",
+        collision: "fit"
+      });
+      $("#objpal").position({
+        my: "right-20 top+20",
+        at: "right top",
+        of: "body",
+        within: "#content",
+        collision: "fit"
+      });
+      $("#datapal").position({
+        my: "left top+5",
+        at: "left bottom",
+        of: "#vispal",
+        collision: "fit"
+      });
+    }
 
-      fieldFilterFunc = function(d){return applyQuery(d, inc, exc, inc_rels, exc_rels, only_crit); };
-
+/*
+    function loadJsonFileSynch(fname) {
+      var data = {};
+      $.ajax({
+        url: fname,
+        async: false,
+        dataType: 'json',
+        success: function(response) {
+          $.each(response, function(k, v) {
+            data[k] = v;
+          });
+        }
+      });
+      return data;
+    }*/
       
-      bip.focusGroup = "";
-      refresh();
-    });
-
-    d3.select("#ctrl_filter_clear_btn").on("click", function(d){
-      fieldFilterFunc = function(d){return true;};
-      bip.focusGroup = "";
-      refresh();
-    });
-
-    d3.select("#ctrl_opt_1").on ("click", function(d){
-      bip.optimize = 1;
-      refresh();
-    });
-
-    d3.select("#ctrl_opt_0").on ("click", function(d){
-      bip.optimize = 0;
-      refresh();
-    });
-
-    d3.select("#ctrl_detail_summary").on ("click", function(d){
-      bip.renderSummary = true;
-      refresh();
-    });
-
-    d3.select("#ctrl_detail_nodes").on ("click", function(d){
-      bip.renderSummary = false;
-      refresh();
-    });
-
-    d3.select("#ctrl_color_pkg").on ("click", function(d){
-      bip.colorPlan = "pkg";
+    function refresh(){
+      w = bjs_data_json.fromJson(rawJson, fieldFilterFunc, null);
+      updateDataSummary(w);
       redraw();
-    });
-
-    d3.select("#ctrl_color_cat").on ("click", function(d){
-      bip.colorPlan = "cat";
-      redraw();
-    });
-
-    d3.select("#ctrl_hi_crit").on ("click", function(d){
-      bip.hilite = "critical";
-      redraw();
-    });
-
-    d3.select("#ctrl_hi_untraced").on ("click", function(d){
-      bip.hilite = "untraced";
-      redraw();
-    });
-
-    d3.select("#ctrl_hi_nothing").on ("click", function(d){
-      bip.hilite = null;
-      redraw();
-    });
-
-    arrangePalettes();
-    
-    raw = testdata.raw;
-    refresh();
-
-
-  }
-
-function arrangePalettes(){
-    $('#filterpal').css('visibility','visible');
-    $('#vispal').css('visibility','visible');
-    $('#objpal').css('visibility','visible');
-    $('#datapal').css('visibility','visible');
-
-        $("#toppal").position({my:"right-20 bottom-20", at: "right bottom", of: "body", within: "#content", collision: "fit"});
-      $("#filterpal").position({my:"left+20 top+20", at: "left top", of: "body", within: "#content", collision: "fit"});
-      $("#vispal").position({my:"left top+5", at: "left bottom", of: "#filterpal", collision: "fit"});
-      $("#objpal").position({my:"right-20 top+20", at: "right top", of: "body", within: "#content", collision: "fit"});
-      $("#datapal").position({my:"left top+5", at: "left bottom", of: "#vispal", collision: "fit"});
-}
-  
-  function loadJsonFileSynch(fname)
-  {
-    var data={};
-    $.ajax({
-      url: fname,
-      async: false,
-      dataType: 'json',
-      success: function (response) {
-        $.each(response, function(k,v) {
-          data[k] = v;
-        });
-      }
-    });
-    return data;
-  }
-
-  function refresh(){
-    dotests();
-    if(raw == null){
-      dat = null;
-    }else{
-      dat = resolveRelatives(process(prepare(raw, null)));
-      dat = markRelevant(dat, fieldFilterFunc);
-      dat = copyRelevant(dat);
-      updateDataSummary(dat);
     }
-    bip.prepareData(dat);
-    mouseOverHandler(null);
-    bip.render(svg, info, dat);
-  }
-
-  function dotests(){
-    bjs.logger = function(s){console.log("lucid: " + s);};
-
-    var w = bjs_data_json.fromJson(testdata.raw, null, null);
 
 
-  }
+    function redraw() {
+      mouseOverHandler(null);
+      bip.render(svg, w, viewConf);
+    }
 
-  function redraw(){
-    mouseOverHandler(null);
-    bip.render(svg, info, dat);
-  }
-  
-  function clear(){
-    d3.selectAll("svg > *").remove();
-  }
+    function clear() {
+      d3.selectAll("svg > *").remove();
+    }
 
 
-  $(document).ready(function(){
+    $(document).ready(function() {
+      bip = bjsbp();
+      init();
+    });
 
-    //prepare tabs
-    var activeTabIndex = -1;
-    var tabNames = ["conf","info","input"];
-    $(".tab-menu > li").click(function(e){
-      for(var i=0;i<tabNames.length;i++) {
-        if(e.target.id == tabNames[i]) {
-          activeTabIndex = i;
-        } else {
-          $("#"+tabNames[i]).removeClass("active");
-          $("#"+tabNames[i]+"-tab").css("display", "none");
+    function updateDataSummary(w) {
+
+      var txt = "";
+
+      var fields = 0,
+        outs = 0,
+        ins = 0,
+        mids = 0,
+        orphs = 0;
+
+      for (var i in w.fields) {
+        var f = w.fields[i];
+        if (f.hasSources) {
+          f.hasTargets ? mids++ : outs++;
         }
+        else {
+          f.hasTargets ? ins++ : orphs++;
+        }
+        fields++;
       }
-      $("#"+tabNames[activeTabIndex]+"-tab").fadeIn();
-      $("#"+tabNames[activeTabIndex]).addClass("active");
-      return false;
-    });
 
-    raw = testdata.raw;
+      txt += fields + " fields.<br/>";
+      txt += w.rels.length + " links.<br/><br/>";
 
-    bip = bjsbp();
-    bip.mouseOverItem = mouseOverHandler;
-    init();
-    refresh();
-  });  
+      txt += "Output fields: " + outs + "<br/>";
+      txt += "Input fields: " + ins + "<br/>";
+      txt += "Intermediate fields: " + mids + "<br/>";
+      txt += "Orphan fields: " + orphs + "<br/>";
 
-  function updateDataSummary(dat) {
 
-    var txt="";
-
-    var fields=0, outs=0, ins=0, mids=0, orphs=0;
-
-    for(var i in dat.nodes) {
-      var f = dat.nodes[i];
-      if(f.hasSources){
-        f.hasTargets?mids++:outs++;
-      } else {
-        f.hasTargets?ins++:orphs++;
-      }
-      fields++;
+      d3.select("#data_summary").html(txt);
     }
 
-    txt += fields + " fields.<br/>";
-    txt += dat.links.length + " links.<br/><br/>";
-
-    txt += "Output fields: " + outs + "<br/>";
-    txt += "Input fields: " + ins + "<br/>";
-    txt += "Intermediate fields: " + mids + "<br/>";
-    txt += "Orphan fields: " + orphs + "<br/>";
-
-
-    d3.select("#data_summary").html(txt);
-  }
-
-  function mouseOverHandler(d){
-    var name="<br/>", desc="<br/>", formula="<br/>", facts="<br/>",src="<br/>";
-    if(d != null){
+    function mouseOverHandler(d) {
+      var name = "<br/>",
+        desc = "<br/>",
+        formula = "<br/>",
+        facts = "<br/>",
+        src = "<br/>";
+      if (d != null) {
 
 
-      if(d.itemtype == "node") {
-        name = "Field " + d.name;
-        desc = d.desc;
-        formula = d.formula;
-        facts = "Found in dataset: " + d.pkgname + "<br/>";
-        facts += "Criticality: " + d.critical + "<br/>";
-        facts += "Last edit: " + "n/a" + "<br/>";
+        if (d.itemtype == "node") {
+          name = "Field " + d.name;
+          desc = d.desc;
+          formula = d.formula;
+          facts = "Found in dataset: " + d.pkgname + "<br/>";
+          facts += "Criticality: " + d.critical + "<br/>";
+          facts += "Last edit: " + "n/a" + "<br/>";
 
-        var bFoundValue = false, bFoundFilter = false;
+          var bFoundValue = false,
+            bFoundFilter = false;
 
-        
-        for(var fullname in d.usources){
-          if(d.usources[fullname].filter==false){
-            if(bFoundValue==false){
-              src = "<b>Value sources:</b>" + "<br/>";
-              bFoundValue = true;
+
+          for (var fullname in d.usources) {
+            if (d.usources[fullname].filter == false) {
+              if (bFoundValue == false) {
+                src = "<b>Value sources:</b>" + "<br/>";
+                bFoundValue = true;
+              }
+              src += fullname + "<br/>";
             }
-            src += fullname + "<br/>";
+          }
+          for (fullname in d.usources) {
+            if (d.usources[fullname].filter == true) {
+              if (bFoundFilter == false) {
+                src += "<b>Filter sources:</b>" + "<br/>";
+                bFoundFilter = true;
+              }
+              src += fullname + "<br/>";
+            }
           }
         }
-        for(fullname in d.usources){
-          if(d.usources[fullname].filter==true){
-            if(bFoundFilter==false){
-              src += "<b>Filter sources:</b>" + "<br/>";
-              bFoundFilter = true;
-            }
-            src += fullname + "<br/>";
+
+        if (d.itemtype == "group") {
+          name = "Group " + d.fullname;
+          if (d.asset) {
+            facts = "Type: " + d.asset.type + "<br/>";
+            facts += "Owner: " + d.asset.owner + "<br/>";
+            facts += "Contains " + d.asset.children.length + " field" + (d.asset.children.length == 1 ? "" : "s") + ".";
+            if (d.asset.location.toString().length > 0) formula = "At: " + d.asset.location;
+            if (d.asset.desc.toString().length > 0) desc = d.asset.desc;
+            if (d.asset.calc && d.asset.calc.toString().length > 0) src = "Calculated by: " + d.asset.calc;
           }
+          else {
+            facts = "Group not based on a data asset";
+          }
+
         }
       }
 
-      if(d.itemtype == "group") {
-        name = "Group " + d.fullname;
-        facts = "Type: " + d.type + "<br/>";
-        facts += "Owner: " + d.owner + "<br/>";
-        facts += "Contains " + d.children.length + " field" + (d.children.length==1?"":"s") + ".";
-        if(d.location.toString().length > 0) formula = "At: " + d.location;
-        if(d.desc.toString().length > 0) desc = d.desc;
-        if(d.calc && d.calc.toString().length > 0) src = "Calculated by: " + d.calc;
-        
-      }
+      d3.select("#object_name").html(name);
+      d3.select("#object_desc").html(desc);
+      d3.select("#object_formula").html(formula);
+      d3.select("#object_facts").html(facts);
+      d3.select("#object_src").html(src);
     }
+  </script>
+</head>
 
-    d3.select("#object_name").html(name);
-    d3.select("#object_desc").html(desc);
-    d3.select("#object_formula").html(formula);
-    d3.select("#object_facts").html(facts);
-    d3.select("#object_src").html(src);
-  }
-
-
-  </script>                                                               
-</head>                                                                 
 <body>
 
- <div id="toppal" class="palette">
-  <div>
-   <img src="lucidlogo.png" class="bigtitle"/>
-   <div class="byline">Transparency and insight.</div>
- </div>
- <div>
-  <input type="submit" id="king_filter" class="kingbutton" value="Filter"/>
-  <input type="submit" id="king_vis" class="kingbutton" value="Vis"/>
-  <input type="submit" id="king_obj" class="kingbutton" value="Details"/>
-  <input type="submit" id="king_data" class="kingbutton" value="Data"/>
-  <input type="submit" id="king_stats" class="kingbutton" value="Logs"/>
-  <input type="submit" id="king_help" class="kingbutton" value="Help"/>
-  <input type="submit" id="king_arrange" class="kingbutton" value="Arrange"/>
-</div>
-</div>
-
-<div id="filterpal" class="palette">
-  <div class="palheader">
-    Filter
-    <input type="submit" id="kill_filterpal" class="killbutton" value=""/>
+  <div id="toppal" class="palette">
+    <div>
+      <img src="lucidlogo.png" class="bigtitle" />
+      <div class="byline">Transparency and insight.</div>
+    </div>
+    <div>
+      <input type="submit" id="king_filter" class="kingbutton" value="Filter" />
+      <input type="submit" id="king_vis" class="kingbutton" value="Vis" />
+      <input type="submit" id="king_obj" class="kingbutton" value="Details" />
+      <input type="submit" id="king_data" class="kingbutton" value="Data" />
+      <input type="submit" id="king_stats" class="kingbutton" value="Logs" />
+      <input type="submit" id="king_help" class="kingbutton" value="Help" />
+      <input type="submit" id="king_arrange" class="kingbutton" value="Arrange" />
+    </div>
   </div>
-  <div class="palbody">
-    <table>
-      <tr><td><label for="ctrl_inc">Include</label></td>
-        <td><input type="text" name="ctrl_inc" id="ctrl_inc" value=""/></td></tr>
-        <tr><td><label for="ctrl_exc">Exclude</label></td>
-          <td><input type="text" name="ctrl_exc" id="ctrl_exc" value=""/></td></tr>
-          <tr><td><label for="ctrl_inc_left">With relatives</label></td>
-            <td><input type="text" name="ctrl_inc_left" id="ctrl_inc_left" value=""/></td></tr>
-            <tr><td><label for="ctrl_exc_left">Without relatives</label></td>
-              <td><input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value=""/></td></tr>
-              <tr><td><label for="ctrl_exc_left">Critical Only</label></td>
 
-                <td><input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true"/></td></tr>
-                <tr><td></td><td><input type="submit" name="ctrl_filter_btn" id="ctrl_filter_btn" value="Filter"/>
-                  <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear"/></td></tr>
-                </table>
-              </div>
-            </div>
+  <div id="filterpal" class="palette">
+    <div class="palheader">
+      Filter
+      <input type="submit" id="kill_filterpal" class="killbutton" value="" />
+    </div>
+    <div class="palbody">
+      <table>
+        <tr>
+          <td>
+            <label for="ctrl_inc">Include</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_inc" id="ctrl_inc" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_exc">Exclude</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_exc" id="ctrl_exc" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_inc_left">With relatives</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_inc_left" id="ctrl_inc_left" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_exc_left">Without relatives</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_exc_left">Critical Only</label>
+          </td>
 
-            <div id="objpal" class="palette">
-              <div class="palheader">
-                Object Details
-                <input type="submit" id="kill_objpal" class="killbutton" value=""/>
-              </div>
-              <div class="palbody">
-                <h2>Data item details</h2>
-                <h3>Item name:</h3>
-                <div id="object_name" class="info"></div>
-                <h3>Summary:</h3>
-                <div id="object_facts" class="info"></div>
-                <h3>Derivation:</h3>
-                <div id="object_formula" class="info"></div>
-                <h3>Description:</h3>
-                <div id="object_desc" class="info"></div>
-                <h3>Sources:</h3>
-                <div id="object_src" class="info"></div>
-              </div>
+          <td>
+            <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_btn" value="Filter" />
+            <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear" />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-            </div>
+  <div id="objpal" class="palette">
+    <div class="palheader">
+      Object Details
+      <input type="submit" id="kill_objpal" class="killbutton" value="" />
+    </div>
+    <div class="palbody">
+      <h2>Data item details</h2>
+      <h3>Item name:</h3>
+      <div id="object_name" class="info"></div>
+      <h3>Summary:</h3>
+      <div id="object_facts" class="info"></div>
+      <h3>Derivation:</h3>
+      <div id="object_formula" class="info"></div>
+      <h3>Description:</h3>
+      <div id="object_desc" class="info"></div>
+      <h3>Sources:</h3>
+      <div id="object_src" class="info"></div>
+    </div>
 
-            <div id="datapal" class="palette">
-              <div class="palheader">
-                Data Management
-                <input type="submit" id="kill_datapal" class="killbutton" value=""/>
-              </div>
-              <div class="palbody">
-              <h3>Raw JSON input:</h3>
-              <textarea id="input_json" height="300"></textarea>
+  </div>
 
-              <input type="submit" id="input_json_btn" value="Load Json"/>
-              <hr/>
-              <h3>Test dataset:</h3>
-              <input type="submit" id="input_test_btn" value="Load Test Data"/>
-              <hr/>
-              <h3>Stats:</h3>
-              <div id="data_summary" class="info"></div>
-            </div>
-            </div>
+  <div id="datapal" class="palette">
+    <div class="palheader">
+      Data Management
+      <input type="submit" id="kill_datapal" class="killbutton" value="" />
+    </div>
+    <div class="palbody">
+      <h3>Raw JSON input:</h3>
+      <textarea id="input_json" height="300"></textarea>
 
-            <div id="content" ><svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg></div>
+      <input type="submit" id="input_json_btn" value="Load Json" />
+      <hr/>
+      <h3>Test dataset:</h3>
+      <input type="submit" id="input_test_btn" value="Load Test Data" />
+      <hr/>
+      <h3>Stats:</h3>
+      <div id="data_summary" class="info"></div>
+    </div>
+  </div>
 
-
-            <div id="vispal" class="palette">
-              <div class="palheader">
-                Visualization Settings
-                <input type="submit" id="kill_vispal" class="killbutton" value=""/>
-              </div>
-              <div class="palbody">
-                <table>
-                  <tr><td><label for="ctrl_filter">Mode</label></td>
-                    <td>
-                      <select id="ctrl_vis_list">
-                        <option value="bipart">Bipart</option>
-                        <option value="cola">Cola</option>
-                        <option value="flow">Flow</option>
-                        <option value="matrix">Matrix</option>
-                        <option value="hive">Hive</option>
-                        <option value="trees">Trees</option>
-                      </select>
-                    </td></tr>
-                    <tr><td colspan="2"><hr/></td></tr>
-                    <tr><td><label for="ctrl_grouping_dom">Optimize</label></td>
-                      <td><input type="radio" name="ctrl_opt" id="ctrl_opt_1" value=""/></td></tr>
-                      <tr><td><label for="ctrl_grouping_dom">Don't Optimize</label></td>
-                        <td><input type="radio" name="ctrl_opt" id="ctrl_opt_0" value="" checked="true"/></td></tr>
-                        <tr><td colspan="2"><hr/></td></tr>
-                        <tr><td><label for="ctrl_grouping_dom">Dataset Level</label></td>
-                          <td><input type="radio" name="ctrl_detail" id="ctrl_detail_summary" value=""/></td></tr>
-                          <tr><td><label for="ctrl_grouping_dom">Field Level</label></td>
-                            <td><input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true"/></td></tr>
-                            <tr><td colspan="2"><hr/></td></tr>
-                            <tr><td><label for="ctrl_grouping_dom">Color by Dataset Group</label></td>
-                              <td><input type="radio" name="ctrl_color" id="ctrl_color_cat" value="" checked="true"/></td></tr>
-                              <tr><td><label for="ctrl_grouping_dom">Color by Dataset</label></td>
-                                <td><input type="radio" name="ctrl_color" id="ctrl_color_pkg" value=""/></td></tr>
-                                <tr><td colspan="2"><hr/></td></tr>
-                                <tr><td><label for="ctrl_grouping_dom">Hilight Critical fields</label></td>
-                                  <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_crit" value=""/></td></tr>
-                                  <tr><td><label for="ctrl_grouping_dom">Hilight Untraced fields</label></td>
-                                    <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_untraced" value=""/></td></tr>
-                                    <tr><td><label for="ctrl_grouping_dom">No hilight</label></td>
-                                      <td><input type="radio" name="ctrl_hilite" id="ctrl_hi_nothing" value="" checked="true"/></td></tr>
-                                    </table>
-                                  </div>
-                                </div>
-
-                                
-                              </div>
+  <div id="content">
+    <svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg>
+  </div>
 
 
-                            </body>                                                                 
-                            </html>
+  <div id="vispal" class="palette">
+    <div class="palheader">
+      Visualization Settings
+      <input type="submit" id="kill_vispal" class="killbutton" value="" />
+    </div>
+    <div class="palbody">
+      <table>
+        <tr>
+          <td>
+            <label for="ctrl_filter">Mode</label>
+          </td>
+          <td>
+            <select id="ctrl_vis_list">
+              <option value="bipart">Bipart</option>
+              <option value="cola">Cola</option>
+              <option value="flow">Flow</option>
+              <option value="matrix">Matrix</option>
+              <option value="hive">Hive</option>
+              <option value="trees">Trees</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <hr/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Optimize</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_opt" id="ctrl_opt_1" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Don't Optimize</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_opt" id="ctrl_opt_0" value="" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <hr/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Dataset Level</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_detail" id="ctrl_detail_summary" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Field Level</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <hr/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Color by Dataset Group</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_color" id="ctrl_color_cat" value="" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Color by Dataset</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_color" id="ctrl_color_pkg" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <hr/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Hilight Critical fields</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_hilite" id="ctrl_hi_crit" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Hilight Untraced fields</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_hilite" id="ctrl_hi_untraced" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">No hilight</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_hilite" id="ctrl_hi_nothing" value="" checked="true" />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+  </div>
+
+
+</body>
+
+</html>

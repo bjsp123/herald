@@ -1,4 +1,7 @@
-bjshive = function(){
+/* global d3 */
+/* global bjs */
+
+var bjshive = function(){
 
 	var NODE_R = 8;
 	var LEFT_AXIS_X = 200;
@@ -10,61 +13,68 @@ bjshive = function(){
 	var TOP_MARGIN = 50;
 	var GROUPBAR_WIDTH = 20;
 	var color = d3.scale.category10();
+	
+	
+	bjshive.render = function(svg, w, c)
+	{
+		var mv = prepareData(w, c);
+		
+		renderLinks(svg, mv);
+		
+		renderChain(svg, c, "lnodes", mv.lnodes, true, LEFT_AXIS_X);
+		renderChain(svg, c, "rnodes", mv.rnodes, false, RIGHT_AXIS_X);
+		renderChain(svg, c, "m1nodes", mv.m1nodes, true, MIDDLE_AXIS_X-GROUP_OFFSET/2);
+		renderChain(svg, c, "m2nodes", mv.m2nodes, false, MIDDLE_AXIS_X+GROUP_OFFSET/2);
 
-	//calling page can set these based on config.
-	bjshive.mouseOverItem = function(item){};
-	bjshive.focusGroup = "";
-	bjshive.colorPlan = "cat";
-	bjshive.hilite = null;
-
-	//private state vars
-	var data = {};
-
-// Expects the output of resolveRelatives(process(prepare)).  
-	bjshive.prepareData = function(dat){
-
-		data = dat;//save a copy so we can re-render later.  
-
-		splitSourceTargetMiddle(dat);
-
-		for(var i=0; i < dat.lgroups.length; ++i){
-			dat.lgroups[i].x = LEFT_AXIS_X - GROUP_OFFSET;
-		}
-
-		for(var i=0; i < dat.rgroups.length; ++i){
-			dat.rgroups[i].x = RIGHT_AXIS_X + GROUP_OFFSET;
-		}
-
-		for(var i=0; i < dat.mgroups.length; ++i){
-			dat.mgroups[i].x = MIDDLE_AXIS_X;
-		}
-
-		for(var i=0; i < dat.lnodes.length; ++i){
-			dat.lnodes[i].x = LEFT_AXIS_X;
-		}
-
-		for(var i=0; i < dat.rnodes.length; ++i){
-			dat.rnodes[i].x = RIGHT_AXIS_X;
-		}
-
-		for(var i=0; i < dat.m1nodes.length; ++i){
-			dat.m1nodes[i].x = MIDDLE_AXIS_X - GROUP_OFFSET/2;
-		}
-
-		for(var i=0; i < dat.m2nodes.length; ++i){
-			dat.m2nodes[i].x = MIDDLE_AXIS_X + GROUP_OFFSET/2;
-		}
-
-		updateYValues(dat);
-
-		return dat;
+		renderGroups(svg, c, "lgroups", mv.lgroups, "left", LEFT_AXIS_X-GROUP_OFFSET);
+		renderGroups(svg, c, "rgroups", mv.rgroups, "right", RIGHT_AXIS_X+GROUP_OFFSET);
+		renderGroups(svg, c, "mgroups", mv.mgroups, "middle", MIDDLE_AXIS_X);
 	}
 
-	function updateYValues(dat){
-		setYValues(dat.rnodes, dat.rgroups, bjshive.focusGroup);
-		setYValues(dat.lnodes, dat.lgroups, bjshive.focusGroup);
-		setYValues(dat.m1nodes, dat.mgroups, bjshive.focusGroup);
-		setYValues(dat.m2nodes, dat.mgroups, bjshive.focusGroup);
+
+	function prepareData(w){
+
+
+		var mv = bjs.makeTripartite(w);
+
+		for(var i=0; i < mv.lgroupa.length; ++i){
+			mv.lgroupa[i].x = LEFT_AXIS_X - GROUP_OFFSET;
+		}
+
+		for(var i=0; i < mv.rgroupa.length; ++i){
+			mv.rgroupa[i].x = RIGHT_AXIS_X + GROUP_OFFSET;
+		}
+
+		for(var i=0; i < mv.mgroupa.length; ++i){
+			mv.mgroupa[i].x = MIDDLE_AXIS_X;
+		}
+
+		for(var i=0; i < mv.lnodea.length; ++i){
+			mv.lnodea[i].x = LEFT_AXIS_X;
+		}
+
+		for(var i=0; i < mv.rnodea.length; ++i){
+			mv.rnodea[i].x = RIGHT_AXIS_X;
+		}
+
+		for(var i=0; i < mv.m1nodea.length; ++i){
+			mv.m1nodea[i].x = MIDDLE_AXIS_X - GROUP_OFFSET/2;
+		}
+
+		for(var i=0; i < mv.m2nodea.length; ++i){
+			mv.m2nodea[i].x = MIDDLE_AXIS_X + GROUP_OFFSET/2;
+		}
+
+		updateYValues(mv);
+
+		return mv;
+	}
+
+	function updateYValues(mv){
+		setYValues(mv.rnodea, mv.rgroupa, bjshive.focusGroup);
+		setYValues(mv.lnodea, mv.lgroupa, bjshive.focusGroup);
+		setYValues(mv.m1nodea, mv.mgroupa, bjshive.focusGroup);
+		setYValues(mv.m2nodea, mv.mgroupa, bjshive.focusGroup);
 	}
 
 
@@ -128,20 +138,6 @@ bjshive = function(){
 	}
 
 
-	bjshive.render = function(svg, info, dat)
-	{
-		renderLinks(svg, dat);
-		
-		renderChain(svg, "lnodes", dat.lnodes, true, LEFT_AXIS_X);
-		renderChain(svg, "rnodes", dat.rnodes, false, RIGHT_AXIS_X);
-		renderChain(svg, "m1nodes", dat.m1nodes, true, MIDDLE_AXIS_X-GROUP_OFFSET/2);
-		renderChain(svg, "m2nodes", dat.m2nodes, false, MIDDLE_AXIS_X+GROUP_OFFSET/2);
-
-		renderGroups(svg, "lgroups", dat.lgroups, "left", LEFT_AXIS_X-GROUP_OFFSET);
-		renderGroups(svg, "rgroups", dat.rgroups, "right", RIGHT_AXIS_X+GROUP_OFFSET);
-		renderGroups(svg, "mgroups", dat.mgroups, "middle", MIDDLE_AXIS_X);
-	}
-
 	function renderLinks(svg, dat){
 
 		var links = svg.selectAll(".link")
@@ -170,7 +166,7 @@ bjshive = function(){
 			.remove();
 	}
 
-	function renderGroups(svg, tag, data, orientation, x){
+	function renderGroups(svg, c, tag, data, orientation, x){
 
 		var datarray = [];
 
@@ -205,7 +201,7 @@ bjshive = function(){
 		groups.select("rect")
 			.attr("x", x - GROUPBAR_WIDTH/2)
 			.attr("width", GROUPBAR_WIDTH)
-			.style("fill",function(d){return color(d.fullname);})
+			.style("fill", bjs.getGroupColor(color, c, d))
 			.transition()
 			.attr("y", function(d){return d.topy;})
 			.attr("height", function(d){return d.bottomy-d.topy; });
@@ -239,7 +235,7 @@ bjshive = function(){
 
 	}
 
-	function renderChain(svg, tag, data, lefthanded, x){
+	function renderChain(svg, c,  tag, data, lefthanded, x){
 
 		var axis = svg.selectAll(".axis."+tag)
 			.data([1]).enter()
@@ -277,7 +273,7 @@ bjshive = function(){
 			.attr("class","node")
 			.attr("r", NODE_R)
 			.attr("cx", function(d,i){return d.x;})
-			.style("fill",function(d){return color(d.pkgname);})
+			.style("fill",bjs.getNodeColor(color, c, d))
 			.transition()
 			.attr("cy", function(d,i){return d.y;});
 
@@ -302,8 +298,8 @@ bjshive = function(){
 		    	.classed("passive", function(p){return !(p.source.pkgname == d.fullname || p.target.pkgname == d.fullname); });
 
 		    svg.selectAll(".node")
-		    	.classed("active", function(p) {return areNodesRelatedToGroup(p, d); }) 
-		    	.classed("passive", function(p){return !areNodesRelatedToGroup(p, d); });
+		    	.classed("active", function(p) {return bjs.isNodeRelatedToGroup(p, d); }) 
+		    	.classed("passive", function(p){return !bjs.isNodeRelatedToGroup(p, d); });
 
 		    svg.selectAll(".group")
 		    	.classed("active", function(p) {return p.fullname == d.fullname;})
@@ -316,12 +312,12 @@ bjshive = function(){
 
 	  function nodeMouseOver(d) {
 	    svg.selectAll(".link")
-	    	.classed("active", function(p) { return areNodesRelated(p.source, d) && areNodesRelated(p.target, d); })
-	    	.classed("passive",function(p) { return !(areNodesRelated(p.source, d) && areNodesRelated(p.target, d)); });
+	    	.classed("active", function(p) { return bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d); })
+	    	.classed("passive",function(p) { return !(bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d)); });
 
 	    svg.selectAll(".node")
-	    	.classed("active", function(p) {return areNodesRelated(p, d); }) 
-	    	.classed("passive", function(p){return !areNodesRelated(p, d); });
+	    	.classed("active", function(p) {return bjs.areNodesRelated(p, d); }) 
+	    	.classed("passive", function(p){return !bjs.areNodesRelated(p, d); });
 
 	    bjshive.mouseOverItem(d);
 	  }
@@ -338,24 +334,6 @@ bjshive = function(){
 		    bjshive.render(svg, info, data);
 	  	}
 
-	  function areNodesRelated(a, b){
-		if(a.fullname == b.fullname) return true;
-		for(fullname in a.ancestors){
-			if(fullname == b.fullname) return true;
-	  	}
-	  	for(fullname in a.descendants){
-			if(fullname == b.fullname) return true;
-	  	}
-	  	return false;
-	  }
-
-	  function areNodesRelatedToGroup(n, g){
-		if(n.pkgname == g.fullname) return true;
-		for(var i=0;i<n.peers.length;++i){
-			if(n.peers[i].pkgname == g.fullname) return true;
-	  	}
-	  	return false;
-	  }
 
 	  return bjshive;
 	}
