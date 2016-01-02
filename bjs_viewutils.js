@@ -11,17 +11,25 @@ var bjs;
 
         if (conf["hilite"] == "untraced" && n.field.ancestors.length == 0 && n.field.formula == '') return "red"
 
-        return getGroupColor(color, conf, n.group);
+            if(n.group){
+                return getGroupColor(color, conf, n.group);
+            }else{
+                return getGroupColor(color, conf, n.field.asset);
+            }
     }
 
     function getGroupColor(color, conf, g) {
 
+        var s = g.fullname;
+
+        if(!s) s = "unknown";
+
         if (conf["colorPlan"] == "cat") {
-            var cat = g.fullname.substring(0, 7);
+            var cat = s.substring(0, 7);
             return color(cat);
         }
 
-        return color(g.fullname);
+        return color(s);
     }
 
     function areNodesRelated(a, b) {

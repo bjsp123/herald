@@ -1,7 +1,9 @@
 /* global d3 */
-/* global bjs */
 
-var bjsbp = function() {
+var bjs;
+(function(bjs) {
+
+  bjs.bp_view = function() {
 
 	var NODE_R = 8;
 	var LEFT_AXIS_X = 300;
@@ -13,9 +15,13 @@ var bjsbp = function() {
 	var GROUPBAR_WIDTH = 20;
 	var color = d3.scale.category10();
 
+	var optimize = false;
 
-	bjsbp.render = function(svg, w, c) {
+
+	bjs.bp_view.render = function(svg, w, c) {
 		
+		optimize = c["optimize"]>0;
+
 		var mv = prepareData(w, c);
 
 		renderLinks(svg, mv);
@@ -23,7 +29,7 @@ var bjsbp = function() {
 		renderChain(svg, c, "lnodes", mv.lnodea, true, LEFT_AXIS_X);
 		renderChain(svg, c, "rnodes", mv.rnodea, false, RIGHT_AXIS_X);
 
-		if (c["optimize"] > 0) {
+		if (optimize) {
 			renderGroups(svg, c, "lgroups", [], true, LEFT_AXIS_X - GROUP_OFFSET);
 		}
 		else {
@@ -37,7 +43,7 @@ var bjsbp = function() {
 
 		var mv = bjs.makeBipartite(w);
 
-		if (c["optimize"] > 0) {
+		if (optimize) {
 			unilateralBipartiteSort(mv);
 		}
 
@@ -57,14 +63,14 @@ var bjsbp = function() {
 			mv.rnodea[i].x = RIGHT_AXIS_X;
 		}
 
-		updateYValues(mv);
+		updateYValues(mv, c);
 
 		return mv;
 	}
 
-	function updateYValues(mv) {
-		setYValues(mv.lnodea, mv.lgroupa, bjsbp.focusGroup, !bjsbp.optimize);
-		setYValues(mv.rnodea, mv.rgroupa, bjsbp.focusGroup, true);
+	function updateYValues(mv, c) {
+		setYValues(mv.lnodea, mv.lgroupa, bjs.bp_view.focusGroup, !optimize);
+		setYValues(mv.rnodea, mv.rgroupa, bjs.bp_view.focusGroup, true);
 	}
 
 
@@ -104,7 +110,7 @@ var bjsbp = function() {
 					prevgroupname = nodes[i].group.fullname;
 				}
 
-				if (nodes[i].group.fullname == bjsbp.focusGroup) {
+				if (nodes[i].group.fullname == bjs.bp_view.focusGroup) {
 					y += interval * 3;
 				}
 			}
@@ -229,7 +235,7 @@ var bjsbp = function() {
 			});
 
 
-		if (bjsbp.optimize) {
+		if (optimize) {
 			links
 				.transition()
 				.attr("d", function(d) {
@@ -396,7 +402,7 @@ var bjsbp = function() {
 		nodes.select("text")
 			.attr("class", "nodelabel")
 			.text(function(d) {
-				return (lefthanded & bjsbp.optimize) ? d.field.fullname : d.field.name;
+				return (lefthanded & optimize) ? d.field.fullname : d.field.name;
 			})
 			.attr("x", function(d, i) {
 				return d.x + (lefthanded ? -20 : 20);
@@ -470,10 +476,13 @@ var bjsbp = function() {
 	}
 
 	function groupClick(d) {
-		bjsbp.focusGroup = d.fullname;
-		bjsbp.prepareData(data);
-		bjsbp.render(svg, info, data);
+		bjs.bp_view.focusGroup = d.fullname;
+		bjs.bp_view.prepareData(data);
+		bjs.bp_view.render(svg, info, data);
 	}
 
-	return bjsbp;
+	return bjs.bp_view;
 }
+
+
+})(bjs || (bjs = {}));

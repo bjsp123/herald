@@ -185,7 +185,7 @@ function loadJson(json){
 			w.rels.push(rel);
 		}
 		for(var j=0;j < row.usesfilter.length;j++){
-			var rel = new bjs.rel(w.fields[row.usesvalue[j]], w.fields[row.fullname], "filter");
+			var rel = new bjs.rel(w.fields[row.usesfilter[j]], w.fields[row.fullname], "filter");
 			w.rels.push(rel);
 		}
 	}

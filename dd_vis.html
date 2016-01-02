@@ -124,19 +124,19 @@
             bip = bjstr();
             break;
           case "bipart":
-            bip = bjsbp();
+            bip = bjs.bp_view();
             break;
           case "hive":
-            bip = bjshive();
+            bip = bjs.hive_view();
             break;
           case "matrix":
-            bip = bjscm();
+            bip = bjs.cm_view();
             break;
           case "flow":
             bip = bjsln();
             break;
           case "cola":
-            bip = bjscl();
+            bip = bjs.cola_view();
             break;
         }
 
@@ -297,7 +297,7 @@
 
 
     $(document).ready(function() {
-      bip = bjsbp();
+      bip = bjs.bp_view();
       init();
     });
 

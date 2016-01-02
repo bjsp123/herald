@@ -2,9 +2,10 @@
 
 var bjs;
 (function(bjs) {
-    
+
     bjs.makeBipartite = makeBipartite;
     bjs.makeTripartite = makeTripartite;
+    bjs.makeColaGraph = makeColaGraph;
 
 
     //
@@ -81,6 +82,8 @@ var bjs;
 
         mv.lnodea = lnodea;
         mv.rnodea = rnodea;
+        mv.lnodes = lnodes;
+        mv.rnodes = rnodes;
         mv.lgroupa = lgroupa;
         mv.rgroupa = rgroupa;
         mv.lgroups = lgroups;
@@ -164,9 +167,10 @@ var bjs;
                         g.children.push(rnodes[ass.children[i].fullname]);
                         rnodes[ass.children[i].fullname].group = g;
                     }
-                    rgroupa.push(g);
-                    rgroups[fullname] = g;
                 }
+                rgroupa.push(g);
+                rgroups[fullname] = g;
+                
             }
 
             if (ass.hasTargets) {
@@ -176,9 +180,10 @@ var bjs;
                         g.children.push(lnodes[ass.children[i].fullname]);
                         lnodes[ass.children[i].fullname].group = g;
                     }
-                    lgroupa.push(g);
-                    lgroups[fullname] = g;
                 }
+                lgroupa.push(g);
+                lgroups[fullname] = g;
+                
             }
 
 
@@ -217,7 +222,7 @@ var bjs;
             var sourceNode, targetNode;
 
             if (lnodes[rel.source.fullname]) {
-                if (rnodes[rel.source.fullname]) {
+                if (rnodes[rel.target.fullname]) {
                     sourceNode = lnodes[rel.source.fullname];
                     targetNode = rnodes[rel.target.fullname];
                 }
@@ -247,6 +252,60 @@ var bjs;
 
         return mv;
     }
+
+
+/*
+  Creates a cola-compatible graph in which links refer to their nodes using index numbers rather than something sensible.
+  Nodes are given index numbers.
+  A set of group data suitable for cola is also added to dat.
+  */
+  function makeColaGraph(w){
+
+    var mv = new bjs.mv(w);
+
+    for(var i=0;i<w.fielda.length; ++i){
+        var n = new bjs.node(w.fielda[i]);
+        n.cola_index = i;
+        mv.nodea.push(n);
+        mv.nodes[n.fullname] = n;
+    }
+
+    for(var i=0; i< w.rels.length; ++i){
+        var rel = w.rels[i];
+        var src = mv.nodes[rel.source.fullname];
+        var tgt = mv.nodes[rel.target.fullname];
+        var link = new bjs.link(src, tgt, rel);
+
+        link.id = link.source.fullname+link.target.fullname+i;        
+        link.realsource = link.source;
+        link.realtarget = link.target;
+        link.source = link.source.cola_index; // replace references with numbers to please cola
+        link.target = link.target.cola_index;
+
+        mv.links.push(link);
+    }
+
+
+    for (fullname in w.assets){
+      var ass = w.assets[fullname];  
+
+      var g = new bjs.group(ass);
+      g.id = g.fullname; //it's easier in cola if it's called 'id'.
+      g.leaves = [];
+
+      for(var j =0;j<ass.children.length;++j){
+          g.leaves.push(mv.nodes[ass.children[j].fullname].cola_index);
+      }
+
+      if(g.leaves.length > 0){
+          mv.groupa.push(g);
+          mv.groups[g.fullname] = g;
+      }
+  }
+
+  return mv;
+}
+
 
 
 })(bjs || (bjs = {}));

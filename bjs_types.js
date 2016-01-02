@@ -143,6 +143,7 @@ var bjs;
 		this.nodes = {};
 		this.links = [];
 		this.groups = {};
+		this.groupa = [];
 	}
 
 

@@ -1,7 +1,9 @@
 /* global d3 */
-/* global bjs */
 
-var bjshive = function(){
+var bjs;
+(function(bjs) {
+
+bjs.hive_view = function(){
 
 	var NODE_R = 8;
 	var LEFT_AXIS_X = 200;
@@ -15,20 +17,20 @@ var bjshive = function(){
 	var color = d3.scale.category10();
 	
 	
-	bjshive.render = function(svg, w, c)
+	bjs.hive_view.render = function(svg, w, c)
 	{
 		var mv = prepareData(w, c);
 		
 		renderLinks(svg, mv);
 		
-		renderChain(svg, c, "lnodes", mv.lnodes, true, LEFT_AXIS_X);
-		renderChain(svg, c, "rnodes", mv.rnodes, false, RIGHT_AXIS_X);
-		renderChain(svg, c, "m1nodes", mv.m1nodes, true, MIDDLE_AXIS_X-GROUP_OFFSET/2);
-		renderChain(svg, c, "m2nodes", mv.m2nodes, false, MIDDLE_AXIS_X+GROUP_OFFSET/2);
+		renderChain(svg, c, "lnodes", mv.lnodea, true, LEFT_AXIS_X);
+		renderChain(svg, c, "rnodes", mv.rnodea, false, RIGHT_AXIS_X);
+		renderChain(svg, c, "m1nodes", mv.m1nodea, true, MIDDLE_AXIS_X-GROUP_OFFSET/2);
+		renderChain(svg, c, "m2nodes", mv.m2nodea, false, MIDDLE_AXIS_X+GROUP_OFFSET/2);
 
-		renderGroups(svg, c, "lgroups", mv.lgroups, "left", LEFT_AXIS_X-GROUP_OFFSET);
-		renderGroups(svg, c, "rgroups", mv.rgroups, "right", RIGHT_AXIS_X+GROUP_OFFSET);
-		renderGroups(svg, c, "mgroups", mv.mgroups, "middle", MIDDLE_AXIS_X);
+		renderGroups(svg, c, "lgroups", mv.lgroupa, "left", LEFT_AXIS_X-GROUP_OFFSET);
+		renderGroups(svg, c, "rgroups", mv.rgroupa, "right", RIGHT_AXIS_X+GROUP_OFFSET);
+		renderGroups(svg, c, "mgroups", mv.mgroupa, "middle", MIDDLE_AXIS_X);
 	}
 
 
@@ -71,10 +73,10 @@ var bjshive = function(){
 	}
 
 	function updateYValues(mv){
-		setYValues(mv.rnodea, mv.rgroupa, bjshive.focusGroup);
-		setYValues(mv.lnodea, mv.lgroupa, bjshive.focusGroup);
-		setYValues(mv.m1nodea, mv.mgroupa, bjshive.focusGroup);
-		setYValues(mv.m2nodea, mv.mgroupa, bjshive.focusGroup);
+		setYValues(mv.rnodea, mv.rgroupa, bjs.hive_view.focusGroup);
+		setYValues(mv.lnodea, mv.lgroupa, bjs.hive_view.focusGroup);
+		setYValues(mv.m1nodea, mv.mgroupa, bjs.hive_view.focusGroup);
+		setYValues(mv.m2nodea, mv.mgroupa, bjs.hive_view.focusGroup);
 	}
 
 
@@ -201,7 +203,7 @@ var bjshive = function(){
 		groups.select("rect")
 			.attr("x", x - GROUPBAR_WIDTH/2)
 			.attr("width", GROUPBAR_WIDTH)
-			.style("fill", bjs.getGroupColor(color, c, d))
+			.style("fill", function(d){return bjs.getGroupColor(color, c, d);})
 			.transition()
 			.attr("y", function(d){return d.topy;})
 			.attr("height", function(d){return d.bottomy-d.topy; });
@@ -224,7 +226,7 @@ var bjshive = function(){
 		if(orientation != "middle"){
 			groups.select("text")
 				.attr("class","grouplabel")
-				.text(function(d){return shortenString(d.fullname, 24);})
+				.text(function(d){return bjs.shortenString(d.fullname, 24);})
 				.attr("x",x+xoffset)
 				.attr("text-anchor", textanchor)
 				.transition()
@@ -273,13 +275,13 @@ var bjshive = function(){
 			.attr("class","node")
 			.attr("r", NODE_R)
 			.attr("cx", function(d,i){return d.x;})
-			.style("fill",bjs.getNodeColor(color, c, d))
+			.style("fill",function(d){return bjs.getNodeColor(color, c, d);})
 			.transition()
 			.attr("cy", function(d,i){return d.y;});
 
 		nodes.select("text")
 			.attr("class","nodelabel")
-			.text(function(d){return d.name;})
+			.text(function(d){return d.field.name;})
 			.attr("x",function(d,i){return d.x+(lefthanded?-20:20);})
 			.attr("text-anchor", lefthanded?"end":"start")
 			.transition()
@@ -306,7 +308,7 @@ var bjshive = function(){
 		    	.classed("passive", function(p) {return p.fullname != d.fullname;});
 
 
-		    bjshive.mouseOverItem(d);
+		    bjs.hover(d);
 		}
 
 
@@ -319,22 +321,25 @@ var bjshive = function(){
 	    	.classed("active", function(p) {return bjs.areNodesRelated(p, d); }) 
 	    	.classed("passive", function(p){return !bjs.areNodesRelated(p, d); });
 
-	    bjshive.mouseOverItem(d);
+	    bjs.hover(d);
 	  }
 
 	  function mouseOut() {
 	  	svg.selectAll(".passive").classed("passive", false);
 	    svg.selectAll(".active").classed("active", false);
-	    bjshive.mouseOverItem(null);
+	    bjs.hover(null);
 	  }
 
 	  function groupClick(d) {
-		    bjshive.focusGroup = d.fullname;
-		    bjshive.prepareData(data);
-		    bjshive.render(svg, info, data);
+		    bjs.hive_view.focusGroup = d.fullname;
+		    bjs.hive_view.prepareData(data);
+		    bjs.hive_view.render(svg, info, data);
 	  	}
 
 
-	  return bjshive;
+	  return bjs.hive_view;
 	}
 		
+
+
+})(bjs || (bjs = {}));

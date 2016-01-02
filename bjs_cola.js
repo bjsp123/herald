@@ -1,40 +1,36 @@
-bjscl = function() {
+/* global d3 */
 
-	var NODE_R = 8;
-	var TOTAL_WIDTH = 800;
-	var TOTAL_HEIGHT = 800;
-	var GROUP_PADDING = 20;
-	var GROUP_ROUNDY = 16;
-	var NODE_W = NODE_R * 8;
-	var NODE_H = NODE_R * 3.5;
+var bjs;
+(function(bjs) {
 
-	var color = d3.scale.category10();
+	bjs.cola_view = function() {
 
-	bjscl.mouseOverItem = function(item) {};
-	bjscl.focusGroup = "";
-	bjscl.colorPlan = "cat";
-	bjscl.hilite = null;
-	bjscl.optimize = 0;
-	//private state vars
+		var NODE_R = 8;
+		var TOTAL_WIDTH = 800;
+		var TOTAL_HEIGHT = 800;
+		var GROUP_PADDING = 20;
+		var GROUP_ROUNDY = 16;
+		var NODE_W = NODE_R * 8;
+		var NODE_H = NODE_R * 3.5;
 
-	var data = {};
+		var color = d3.scale.category20();
 
+		var optimize = 0;
+
+		var data = {};
+
+	//cola vars
 	var coke = null;
-
 	var ghosts = null;
 	var eventStart = {};
 
-	// Expects the output of resolveRelatives(process(prepare)).  This adds two arrays of ordered nodes and an array of links.
-	bjscl.prepareData = function(dat) {
-
-		//you'd think we could call createColaGraph here, but we can't as render() might get called several times in a row and obscure problems arise if it has the colagroups etc left over from before.
-		data = dat;
-		return dat;
-	}
 
 
-	bjscl.render = function(svg, info, dat) {
-		createColaGraph(dat, bjscl.colorPlan);
+	bjs.cola_view.render = function(svg, w, c) {
+
+		optimize = c["optimize"] > 0;
+
+		var mv = bjs.makeColaGraph(w, bjs.cola_view.colorPlan);
 
 		//have to manually remove everything or again cola gets confused.  no entry / exit animations for us!
 		d3.selectAll("svg > *").remove();
@@ -48,30 +44,28 @@ bjscl = function() {
 		.handleDisconnected(false)
 		.size([TOTAL_WIDTH, TOTAL_HEIGHT]);
 		
-		if(bjscl.optimize > 0){
+		if(optimize){
 			coke
-				.avoidOverlaps(true)
-				.flowLayout('x', 300)
-				.nodes(dat.nodea)
-				.links(dat.colalinks)
-				.powerGraphGroups(function(d){powerGraph=d;})
-				.start(50, 30, 20);
+			.flowLayout('x', 300)
+			.nodes(mv.nodea)
+			.links(mv.links)
+			.powerGraphGroups(function(d){powerGraph=d;})
+			.start(50, 30, 20);
 		} else {
 			coke
-				.avoidOverlaps(true)
-				.flowLayout('x', 300)
-				.nodes(dat.nodea)
-				.links(dat.colalinks)
-				.groups(dat.colagroups)
-				.start(50, 30, 20);
+			.flowLayout('x', 300)
+			.nodes(mv.nodea)
+			.links(mv.links)
+			.groups(mv.groupa)
+			.start(50, 30, 20);
 		}
 
-		dat.nodea.forEach(function(v) {
+		mv.nodea.forEach(function(v) {
 			v.width = NODE_W; //CART_WIDTH+NODE_R/2;
 			v.height = NODE_H; //CART_HEIGHT;
 		});
 
-		dat.colagroups.forEach(function(g) {
+		mv.groupa.forEach(function(g) {
 			g.padding = GROUP_PADDING;
 		});
 		
@@ -86,7 +80,7 @@ bjscl = function() {
 
 
 		var gt = svg.selectAll(".colagroup")
-		.data(powerGraph?powerGraph.groups:dat.colagroups, function(d) {
+		.data(powerGraph?powerGraph.groups:mv.groupa, function(d) {
 			return d.id;
 		});
 
@@ -98,21 +92,21 @@ bjscl = function() {
 		.on("mouseover", groupMouseOver)
 		.on("mouseout", mouseOut)
 		.style("stroke", function(d, i) {
-			return getGroupColor(d.pkg);
+			return bjs.getGroupColor(color, c, d);
 		});
 
 		var gtc = gtg.append("text")
-		.text(function(d){return powerGraph?"":d.pkg.fullname;})
+		.text(function(d){return powerGraph?"":d.fullname;})
 		.attr("text-anchor", "middle")
 		.attr("class", "grouplabel")
-		.style("fill", function(d) {return getGroupColor(d.pkg);});
+		.style("fill", function(d) {return bjs.getGroupColor(color, c, d);});
 
 
 		gt.exit().remove();
 
 
 		var lt = svg.selectAll(".link")
-		.data(powerGraph?powerGraph.powerEdges:dat.colalinks, function(d) {
+		.data(powerGraph?powerGraph.powerEdges:mv.links, function(d) {
 			return d.id;
 		});
 
@@ -120,13 +114,13 @@ bjscl = function() {
 		.attr("class", "link")
 		.attr("stroke", function(d) {
 			if (powerGraph) return "green";
-			return d.link.type == "filter" ? "grey" : "blue";
+			return d.rel.type == "filter" ? "grey" : "blue";
 		});
 
 		lt.exit().remove();
 
 		var nt = svg.selectAll("g.nt")
-		.data(dat.nodea, function(d) {
+		.data(mv.nodea, function(d) {
 			return d.fullname;
 		});
 
@@ -139,23 +133,21 @@ bjscl = function() {
 			return "translate(400,400)";
 			}); //.call(coke.drag); 
 
-		drawNode(nodeEnter);
+		drawNode(c, nodeEnter);
 
 		nt.exit().remove();
 
 		coke.on("tick", function() {
 			
-			if(bjscl.optimize > 0) {
-				
-					
+			if(optimize) {
 				lt.each(function (d) {
 					var srcInner = d.source.bounds.inflate(-GROUP_PADDING);
 					var tgtInner = d.target.bounds.inflate(-GROUP_PADDING);
-	                d.route = cola.vpsc.makeEdgeBetween(srcInner, tgtInner, 0);
-	            });
-	            
-	            lt.attr("d", connector_colaroute);
-	            
+					d.route = cola.vpsc.makeEdgeBetween(srcInner, tgtInner, 0);
+				});
+
+				lt.attr("d", connector_colaroute);
+
 			}else{
 				lt.attr("d", connector_cubic);
 			}
@@ -259,7 +251,7 @@ bjscl = function() {
 	function connector_cubic(d, i) {
 		
 		var offs = Math.abs(d.source.x - d.target.x) / 2;
-	
+
 		return "M " + (d.source.x) + " " + (d.source.y) + "C " + (d.source.x + offs) + " " + (d.source.y) + " " + (d.target.x - offs) + " " + d.target.y + " " + d.target.x + " " + d.target.y;
 	}
 	
@@ -277,19 +269,18 @@ bjscl = function() {
 		return "M " + x1 + " " + y1 + " L " + x2 + " " + y2;
 		
 		//return "M " + (x1) + " " + (y1) + "C " + (x1 + offs) + " " + (y1) + " " + (x2 - offs) + " " + y2 + " " +x2 + " " + y2;
- 
+
 	}
 
 
 	//expects an entry selection with a xlated g appended to it
-	function drawNode(ne) {
-
+	function drawNode(c, ne) {
 
 		ne.append("circle")
 		.attr("r", NODE_R)
 		.attr("class", "node")
 		.style("fill", function(d) {
-			return getNodeColor(d);
+			return bjs.getNodeColor(color, c, d);
 		});
 
 		ne.append("text")
@@ -298,106 +289,71 @@ bjscl = function() {
 		.attr("text-anchor", "middle")
 		.attr("class", "nodelabel")
 		.text(function(d) {
-			return d.name;
+			return d.field.name;
 		});
 
 	}
 
-	function getNodeColor(n) {
-		if (n.issyntharoot) return "#fff";
-
-		if (bjscl.hilite == "critical" && n.critical == "Critical") return "red";
-
-		if (bjscl.hilite == "untraced" && n.ancestors.length == 0 && n.formula == '') return "red";
-
-		return getGroupColor(n.pkg);
-	}
-
-	function getGroupColor(pkg) {
-		if(!pkg) return "#456";
-		
-		if (bjscl.colorPlan == "cat") {
-			var cat = pkg.fullname.substring(0, 7);
-			return color(cat);
-		}
-
-		return color(pkg.fullname);
-	}
 
 	function groupMouseOver(d) {
 		svg.selectAll(".link")
 		.classed("active", function(p) {
-			return p.link.source.pkgname == d.pkg.fullname || p.link.target.pkgname == d.pkg.fullname;
+			return (p.realsource||p.source).group.fullname == d.fullname || (p.realtarget||p.target).group.fullname == d.fullname;
 		})
 		.classed("passive", function(p) {
-			return !(p.link.source.pkgname == d.pkg.fullname || p.link.target.pkgname == d.pkg.fullname);
+			return !((p.realsource||p.source).group.fullname == d.fullname || (p.realtarget||p.target).group.fullname == d.fullname);
 		});
 
 		svg.selectAll(".node")
 		.classed("active", function(p) {
-			return areNodesRelatedToGroup(p, d.pkg);
+			return bjs.areNodesRelatedToGroup(p, d.pkg);
 		})
 		.classed("passive", function(p) {
-			return !areNodesRelatedToGroup(p, d.pkg);
+			return !bjs.areNodesRelatedToGroup(p, d.pkg);
 		});
 
 		svg.selectAll(".colagroup")
 		.classed("active", function(p) {
-			return p.pkg.fullname == d.pkg.fullname;
+			return p.fullname == d.fullname;
 		})
 		.classed("passive", function(p) {
-			return p.pkg.fullname != d.pkg.fullname;
+			return p.fullname != d.fullname;
 		});
 
 
-		bjscl.mouseOverItem(d);
+		bjs.hover(d);
 	}
 
 
 	function nodeMouseOver(d) {
 		svg.selectAll(".link")
 		.classed("active", function(p) {
-			return areNodesRelated(p.link.source, d) && areNodesRelated(p.link.target, d);
+			return bjs.areNodesRelated((p.realsource||p.source), d) || bjs.areNodesRelated((p.realtarget||p.target), d);
 		})
 		.classed("passive", function(p) {
-			return !(areNodesRelated(p.link.source, d) && areNodesRelated(p.link.target, d));
+			return !(bjs.areNodesRelated((p.realsource||p.source), d) || bjs.areNodesRelated((p.realtarget||p.target), d));
 		});
 
 		svg.selectAll(".node,.nodelabel")
 		.classed("active", function(p) {
-			return areNodesRelated(p, d);
+			return bjs.areNodesRelated(p, d);
 		})
 		.classed("passive", function(p) {
-			return !areNodesRelated(p, d);
+			return !bjs.areNodesRelated(p, d);
 		});
 
-		bjscl.mouseOverItem(d);
+		bjs.hover(d);
 	}
 
 	function mouseOut() {
 		svg.selectAll(".passive").classed("passive", false);
 		svg.selectAll(".active").classed("active", false);
-		bjscl.mouseOverItem(null);
+		bjs.hover(null);
 	}
 
 
-	function areNodesRelated(a, b) {
-		if (a.fullname == b.fullname) return true;
-		for (fullname in a.ancestors) {
-			if (fullname == b.fullname) return true;
-		}
-		for (fullname in a.descendants) {
-			if (fullname == b.fullname) return true;
-		}
-		return false;
-	}
-
-	function areNodesRelatedToGroup(n, g) {
-		if (n.pkgname == g.fullname) return true;
-		for (var i = 0; i < n.peers.length; ++i) {
-			if (n.peers[i].pkgname == g.fullname) return true;
-		}
-		return false;
-	}
-	return bjscl;
+	return bjs.cola_view;
 }
+
+
+})(bjs || (bjs = {}));
