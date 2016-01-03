@@ -20,10 +20,10 @@
   <script type="text/javascript" src="bjs_data_json.js"></script>
   <script type="text/javascript" src="bjs_mv.js"></script>
   <script type="text/javascript" src="bjs_misc.js"></script>
-  
+
   <script type="text/javascript" src="bjs_viewutils.js"></script>
   <script type="text/javascript" src="bjs_utils.js"></script>
-  
+
   <script type="text/javascript" src="bjs_bipartite.js"></script>
   <script type="text/javascript" src="bjs_lineage.js"></script>
   <script type="text/javascript" src="bjs_tree.js"></script>
@@ -54,7 +54,7 @@
       svg = d3.select("svg");
 
       bjs.hover = mouseOverHandler;
-      
+
       viewConf["optimize"] = 0;
       viewConf["colorPlan"] = "cat";
       viewConf["renderSummary"] = false;
@@ -165,52 +165,52 @@
         fieldFilterFunc = function(d) {
           return true;
         };
-        
+
         refresh();
       });
 
       d3.select("#ctrl_opt_1").on("click", function(d) {
-        viewConf["optimize"]=1;
+        viewConf["optimize"] = 1;
         redraw();
       });
 
       d3.select("#ctrl_opt_0").on("click", function(d) {
-        viewConf["optimize"]=0;
+        viewConf["optimize"] = 0;
         redraw();
       });
 
       d3.select("#ctrl_detail_summary").on("click", function(d) {
-        viewConf["renderSummary"]=true;
+        viewConf["renderSummary"] = true;
         redraw();
       });
 
       d3.select("#ctrl_detail_nodes").on("click", function(d) {
-        viewConf["renderSummary"]=false;
+        viewConf["renderSummary"] = false;
         redraw();
       });
 
       d3.select("#ctrl_color_pkg").on("click", function(d) {
-        viewConf["colorPlan"]="pkg";
+        viewConf["colorPlan"] = "pkg";
         redraw();
       });
 
       d3.select("#ctrl_color_cat").on("click", function(d) {
-        viewConf["colorPlan"]="cat";
+        viewConf["colorPlan"] = "cat";
         redraw();
       });
 
       d3.select("#ctrl_hi_crit").on("click", function(d) {
-        viewConf["hilite"]="critical";
+        viewConf["hilite"] = "critical";
         redraw();
       });
 
       d3.select("#ctrl_hi_untraced").on("click", function(d) {
-        viewConf["hilite"]="untraced";
+        viewConf["hilite"] = "untraced";
         redraw();
       });
 
       d3.select("#ctrl_hi_nothing").on("click", function(d) {
-        viewConf["hilite"]="nothing";
+        viewConf["hilite"] = "nothing";
         redraw();
       });
 
@@ -263,23 +263,23 @@
       });
     }
 
-/*
-    function loadJsonFileSynch(fname) {
-      var data = {};
-      $.ajax({
-        url: fname,
-        async: false,
-        dataType: 'json',
-        success: function(response) {
-          $.each(response, function(k, v) {
-            data[k] = v;
+    /*
+        function loadJsonFileSynch(fname) {
+          var data = {};
+          $.ajax({
+            url: fname,
+            async: false,
+            dataType: 'json',
+            success: function(response) {
+              $.each(response, function(k, v) {
+                data[k] = v;
+              });
+            }
           });
-        }
-      });
-      return data;
-    }*/
-      
-    function refresh(){
+          return data;
+        }*/
+
+    function refresh() {
       w = bjs_data_json.fromJson(rawJson, fieldFilterFunc, null);
       updateDataSummary(w);
       redraw();

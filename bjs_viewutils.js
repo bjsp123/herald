@@ -11,18 +11,19 @@ var bjs;
 
         if (conf["hilite"] == "untraced" && n.field.ancestors.length == 0 && n.field.formula == '') return "red"
 
-            if(n.group){
-                return getGroupColor(color, conf, n.group);
-            }else{
-                return getGroupColor(color, conf, n.field.asset);
-            }
+        if (n.group) {
+            return getGroupColor(color, conf, n.group);
+        }
+        else {
+            return getGroupColor(color, conf, n.field.asset);
+        }
     }
 
     function getGroupColor(color, conf, g) {
 
         var s = g.fullname;
 
-        if(!s) s = "unknown";
+        if (!s) s = "unknown";
 
         if (conf["colorPlan"] == "cat") {
             var cat = s.substring(0, 7);
