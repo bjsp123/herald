@@ -35,6 +35,8 @@
 
   <script>
     /*global d3*/
+    /*global bjs*/
+    /*global testdata*/
 
     //global selections
     var svg = {};
@@ -42,9 +44,8 @@
     var bip = {}; //our reference to the current visualizer, which refers to its modelview(?)
     var w = {}; //the global world (filtered)
     var viewConf = {};
-    var fieldFilterFunc = function(field) {
-      return true;
-    };
+    var theFilter = new bjs.filter();
+    var theSquash = new bjs.squash();
 
 
     function init() {
@@ -121,7 +122,7 @@
         var s = this.options[this.selectedIndex].value;
         switch (s) {
           case "trees":
-            bip = bjstr();
+            bip = bjs.tree_view();
             break;
           case "bipart":
             bip = bjs.bp_view();
@@ -133,7 +134,7 @@
             bip = bjs.cm_view();
             break;
           case "flow":
-            bip = bjsln();
+            bip = bjs.flow_view();
             break;
           case "cola":
             bip = bjs.cola_view();
@@ -153,18 +154,14 @@
         var inc_rels = $("#ctrl_inc_left").val().trim();
         var exc_rels = $("#ctrl_exc_left").val().trim();
         var only_crit = $("#ctrl_only_crit")[0].checked;
-
-        fieldFilterFunc = function(d) {
-          return applyQuery(d, inc, exc, inc_rels, exc_rels, only_crit);
-        };
+        
+        theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, only_crit);
 
         refresh();
       });
 
       d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
-        fieldFilterFunc = function(d) {
-          return true;
-        };
+        theFilter = new bjs.filter();
 
         refresh();
       });
@@ -344,11 +341,11 @@
 
 
         if (d.itemtype == "node") {
-          name = "Field " + d.name;
-          desc = d.desc;
-          formula = d.formula;
-          facts = "Found in dataset: " + d.pkgname + "<br/>";
-          facts += "Criticality: " + d.critical + "<br/>";
+          name = "Field " + d.field.name;
+          desc = d.field.desc;
+          formula = d.field.formula;
+          facts = "Found in dataset: " + d.field.asset.fullname + "<br/>";
+          facts += "Criticality: " + d.field.critical + "<br/>";
           facts += "Last edit: " + "n/a" + "<br/>";
 
           var bFoundValue = false,

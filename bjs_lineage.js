@@ -1,4 +1,10 @@
-bjsln = function() {
+"use strict";
+/* global d3 */
+
+var bjs;
+(function(bjs) {
+
+	bjs.flow_view = function() {
 
 	var NODE_R = 8;
 	var OUTPUT_GROUP_X = 850;
@@ -11,53 +17,62 @@ bjsln = function() {
 	var INVALID_DEPTH = 999; ///remember programming like this?
 	var color = d3.scale.category20();
 
-	//calling page can set these based on config.
-	//bjsln.groupFunc = function(field){return field.pkgname;};
-	//bjsln.fieldFilterFunc = function(field){return true;};
-	bjsln.mouseOverItem = function(item) {};
-	bjsln.renderSummary = false;
-	bjsln.colorPlan = "cat";
-	bjsln.hilite = null;
 
 	//private state vars.  need to figure out how not to need these.
 	var cached_svg = {};
 	var cached_dat = {};
+	var cached_conf = {};
 
 
-	// preparedata expects the output of resolveRelatives(process(prepare()))
+	bjs.flow_view.render = function(svg, w, c) {
+		cached_svg = svg;
+		cached_conf = c;
+		
+		var mv = bjs.makeDirect(w);
+		
+		layout(mv);
+		
+		cached_dat = mv;
 
-	bjsln.prepareData = function(dat) {
+		renderGroups(svg, c, mv.groups);
 
-		layout(dat.nodes, dat.pkgs);
+		if (c["renderSummary"]) {
+			renderGLinks(svg, c, mv.glinks);
+			renderLinks(svg, c, []);
+		}
+		else {
+			renderGLinks(svg, c, []);
+			renderLinks(svg, c, mv.links);
+		}
+
+		renderNodes(svg, c, mv.nodea);
 	}
+	
 
-	function layout(nodes, pkgs) {
+	function layout(mv) {
 
-		//now, for each group, set its depth -- the number of steps from it to an output node
-		//now I think of it, it may not be connectd to an output node... hm.
-
-
-		for (pkgname in dat.pkgs) {
-			var pkg = dat.pkgs[pkgname];
-			pkg.depth = 1;
-			if (!pkg.hasTargets) pkg.depth = 0;
-			if (!pkg.hasSources) pkg.depth = 2;
+		//arrange groups into 3 depth levels -- this simple approach isn't all that effective.
+		for (var fullname in mv.groups) {
+			var g = mv.groups[fullname];
+			g.depth = 1;
+			if (!g.asset.hasTargets) g.depth = 0;
+			if (!g.asset.hasSources) g.depth = 2;
 		}
 
 
 		var stax = {};
-		for (pkgname in dat.pkgs) {
-			var pkg = dat.pkgs[pkgname];
-			pkg.x = OUTPUT_GROUP_X - (pkg.depth * GROUP_INTERVAL_X);
-			pkg.height = pkg.children.length * NODE_R + GROUP_PADDING;
-			pkg.width = GROUPBAR_WIDTH;
-			if (stax[pkg.x] == null) {
-				stax[pkg.x] = TOP_MARGIN + pkg.height + GROUP_PADDING;
-				pkg.y = TOP_MARGIN;
+		for (var fullname in mv.groups) {
+			var g = mv.groups[fullname];
+			g.x = OUTPUT_GROUP_X - (g.depth * GROUP_INTERVAL_X);
+			g.height = g.children.length * NODE_R + GROUP_PADDING;
+			g.width = GROUPBAR_WIDTH;
+			if (stax[g.x] == null) {
+				stax[g.x] = TOP_MARGIN + g.height + GROUP_PADDING;
+				g.y = TOP_MARGIN;
 			}
 			else {
-				pkg.y = stax[pkg.x];
-				stax[pkg.x] += pkg.height + GROUP_PADDING;
+				g.y = stax[g.x];
+				stax[g.x] += g.height + GROUP_PADDING;
 			}
 		}
 
@@ -65,39 +80,19 @@ bjsln = function() {
 		//now do the y locations of nodes
 		//for now lets just assume they are, eh, wherever.
 		//nodes are already sorted by groupname/fullname
-		for (pkgname in dat.pkgs) {
-			var pkg = dat.pkgs[pkgname];
-			for (var i = 0; i < pkg.children.length; ++i) {
-				var node = pkg.children[i];
-				node.y = pkg.y + i * NODE_R + NODE_R / 2 + GROUP_PADDING / 2;
-				node.x = pkg.x + GROUPBAR_WIDTH / 2;
+		for (var fullname in mv.groups) {
+			var g = mv.groups[fullname];
+			for (var i = 0; i < g.children.length; ++i) {
+				var node = g.children[i];
+				node.y = g.y + i * NODE_R + NODE_R / 2 + GROUP_PADDING / 2;
+				node.x = g.x + GROUPBAR_WIDTH / 2;
 			}
 		}
-
-		return dat;
 	}
 
-	bjsln.render = function(svg, info, dat) {
-		cached_svg = svg;
-		cached_dat = dat;
-
-		renderGroups(svg, dat.pkgs);
-
-		if (bjsln.renderSummary) {
-			renderGLinks(svg, dat.glinka);
-			renderLinks(svg, []);
-		}
-		else {
-			renderGLinks(svg, []);
-			renderLinks(svg, dat.links);
-		}
 
 
-
-		renderNodes(svg, dat.nodea);
-	}
-
-	function renderGLinks(svg, glinkdata) {
+	function renderGLinks(svg, c, glinkdata) {
 
 		var links = svg.selectAll(".glink")
 			.data(glinkdata, function(d, i) {
@@ -128,7 +123,7 @@ bjsln = function() {
 
 	}
 
-	function renderLinks(svg, linkdata) {
+	function renderLinks(svg, c, linkdata) {
 
 		var links = svg.selectAll(".link")
 			.data(linkdata, function(d, i) {
@@ -160,11 +155,11 @@ bjsln = function() {
 			.remove();
 	}
 
-	function renderGroups(svg, groups) {
+	function renderGroups(svg, c, groups) {
 
 		var datarray = [];
 
-		for (groupname in groups) {
+		for (var groupname in groups) {
 			datarray.push(groups[groupname]);
 		}
 
@@ -192,7 +187,7 @@ bjsln = function() {
 				return d.width;
 			})
 			.style("fill", function(d) {
-				return getGroupColor(d);
+				return bjs.getGroupColor(color, c, d);
 			})
 			.attr("y", function(d) {
 				return d.y;
@@ -215,7 +210,7 @@ bjsln = function() {
 		g.select("text")
 			.attr("class", "grouplabel")
 			.text(function(d) {
-				return shortenString(d.fullname, 30);
+				return bjs.shortenString(d.fullname, 30);
 			})
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
@@ -229,7 +224,7 @@ bjsln = function() {
 
 	}
 
-	function renderNodes(svg, ndata) {
+	function renderNodes(svg, c, ndata) {
 
 		var nodes = svg
 			.selectAll(".nodegrp")
@@ -251,7 +246,7 @@ bjsln = function() {
 			.attr("class", "node")
 			.attr("r", NODE_R)
 			.style("fill", function(d) {
-				return getNodeColor(d);
+				return bjs.getNodeColor(color, c, d);
 			})
 			.attr("cx", function(d, i) {
 				return d.x;
@@ -286,34 +281,8 @@ bjsln = function() {
 
 		nodes.exit().remove();
 
-	} //
+	} 
 
-	function getNodeColor(n) {
-		if (bjsln.hilite == "critical" && n.critical == "Critical") return "red";
-
-		if (bjsln.hilite == "untraced" && n.ancestors.length == 0 && n.formula == '') return "red";
-
-		if (bjsln.colorPlan == "cat") {
-			var cat = n.pkg.fullname.substring(0, 7);
-			return color(cat);
-		}
-
-		return color(n.pkg.fullname);
-	}
-
-	function getGroupColor(g) {
-
-		if (g.customsize == true) {
-			return "0xdddddd";
-		}
-
-		if (bjsln.colorPlan == "cat") {
-			var cat = g.fullname.substring(0, 7);
-			return color(cat);
-		}
-
-		return color(g.fullname);
-	}
 
 	function fitGroupToNodes(g) {
 
@@ -328,12 +297,17 @@ bjsln = function() {
 			if (node.x < g.x + NODE_R * 2) {
 				g.x = node.x - NODE_R * 2;
 			}
-			if (node.x > g.x + g.width - NODE_R * 2) {
-				g.width = NODE_R * 2 + node.x - g.x;
-			}
-
+			
 			if (node.y < g.y + NODE_R * 2) {
 				g.y = node.y - NODE_R * 2;
+			}
+		}
+		
+		for (var i = 0; i < g.children.length; ++i) {
+			var node = g.children[i];
+		
+			if (node.x > g.x + g.width - NODE_R * 2) {
+				g.width = NODE_R * 2 + node.x - g.x;
 			}
 
 			if (node.y > g.y + g.height - NODE_R * 2) {
@@ -354,17 +328,17 @@ bjsln = function() {
 			node.x += d3.event.dx;
 			node.y += d3.event.dy;
 		}
-		renderGroups(cached_svg, cached_dat.pkgs);
+		renderGroups(cached_svg, cached_conf, cached_dat.groups);
 	}
 
 	function dragend(d) {
-		if (bjsln.renderSummary)
-			renderGLinks(cached_svg, cached_dat.glinka);
+		if (cached_conf["renderSummary"])
+			renderGLinks(cached_svg, cached_conf, cached_dat.glinka);
 		else
-			renderLinks(cached_svg, cached_dat.links);
+			renderLinks(cached_svg, cached_conf, cached_dat.links);
 
-		renderGroups(cached_svg, cached_dat.pkgs);
-		renderNodes(cached_svg, cached_dat.nodea);
+		renderGroups(cached_svg, cached_conf, cached_dat.groups);
+		renderNodes(cached_svg, cached_conf, cached_dat.nodea);
 	}
 
 	function dragmove(d) {
@@ -372,9 +346,9 @@ bjsln = function() {
 		d.x += d3.event.dx;
 		d.y += d3.event.dy;
 
-		fitGroupToNodes(d.pkg);
+		fitGroupToNodes(d.group);
 
-		renderNodes(cached_svg, cached_dat.nodea);
+		renderNodes(cached_svg, cached_conf, cached_dat.nodea);
 	}
 
 	function linkMouseOver(d) {}
@@ -382,10 +356,10 @@ bjsln = function() {
 	function groupMouseOver(d) {
 		svg.selectAll(".link")
 			.classed("active", function(p) {
-				return p.source.pkgname == d.fullname || p.target.pkgname == d.fullname;
+				return p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname;
 			})
 			.classed("passive", function(p) {
-				return !(p.source.pkgname == d.fullname || p.target.pkgname == d.fullname);
+				return !(p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname);
 			});
 
 		svg.selectAll(".glink")
@@ -398,10 +372,10 @@ bjsln = function() {
 
 		svg.selectAll(".node,.nodelabel")
 			.classed("active", function(p) {
-				return areNodesRelatedToGroup(p, d);
+				return bjs.isNodeRelatedToGroup(p, d);
 			})
 			.classed("passive", function(p) {
-				return !areNodesRelatedToGroup(p, d);
+				return !bjs.isNodeRelatedToGroup(p, d);
 			});
 
 		svg.selectAll(".group")
@@ -413,59 +387,42 @@ bjsln = function() {
 			});
 
 
-		bjsln.mouseOverItem(d);
+		bjs.hover(d);
 	}
 
 
 	function nodeMouseOver(d) {
 		svg.selectAll(".link")
 			.classed("active", function(p) {
-				return areNodesRelated(p.source, d) && areNodesRelated(p.target, d);
+				return bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d);
 			})
 			.classed("passive", function(p) {
-				return !(areNodesRelated(p.source, d) && areNodesRelated(p.target, d));
+				return !(bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d));
 			});
 
 		svg.selectAll(".node,.nodelabel")
 			.classed("active", function(p) {
-				return areNodesRelated(p, d);
+				return bjs.areNodesRelated(p, d);
 			})
 			.classed("passive", function(p) {
-				return !areNodesRelated(p, d);
+				return !bjs.areNodesRelated(p, d);
 			});
 
-		bjsln.mouseOverItem(d);
+		bjs.hover(d);
 	}
 
 	function mouseOut() {
 		svg.selectAll(".passive").classed("passive", false);
 		svg.selectAll(".active").classed("active", false);
-		bjsln.mouseOverItem(null);
+		bjs.hover(null);
 	}
 
 	function groupClick(d) {
-		bjsln.focusGroup = d.name;
 		//not used
 	}
 
-	function areNodesRelated(a, b) {
-		if (a.fullname == b.fullname) return true;
-		for (fullname in a.ancestors) {
-			if (fullname == b.fullname) return true;
-		}
-		for (fullname in a.descendants) {
-			if (fullname == b.fullname) return true;
-		}
-		return false;
-	}
-
-	function areNodesRelatedToGroup(n, g) {
-		if (n.pkgname == g.fullname) return true;
-		for (var i = 0; i < n.peers.length; ++i) {
-			if (n.peers[i].pkgname == g.fullname) return true;
-		}
-		return false;
-	}
-
-	return bjsln;
+	return bjs.flow_view;
 }
+
+
+})(bjs || (bjs = {}));

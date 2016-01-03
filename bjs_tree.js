@@ -1,4 +1,9 @@
-bjstr = function() {
+/* global d3 */
+
+var bjs;
+(function(bjs) {
+
+	bjs.tree_view = function() {
 
 	var NODE_R = 8;
 	var TOTAL_HEIGHT = 1000; //x and y are flipped for trees.
@@ -10,49 +15,24 @@ bjstr = function() {
 	var CART_FLAT_HEIGHT = CART_HEIGHT - 10;
 	var color = d3.scale.category20();
 
-	//calling page can set these based on config.
-	//bjstr.groupFunc = function(field){return field.pkgname;};
-	//bjstr.fieldFilterFunc = function(field){return true;};
-	bjstr.mouseOverItem = function(item) {};
-	bjstr.renderSummary = false;
-	bjstr.colorPlan = "cat";
-	bjstr.hilite = null;
-
-	//private state vars.  need to figure out how not to need these.
+	//private state vars.  we need these becuase this view re-renders itself on a click.
 	var cached_svg = {};
 	var cached_dat = {};
-	var cached_info = {};
+	var cached_conf = {};
 
 
-	// preparedata expects the output of resolveRelatives(process(prepare()))
+	
 
-	bjstr.prepareData = function(dat) {
-
-		cached_dat = dat;
-
-		extractTree(dat);
-
-		//add a synthetic root and gather all the treeroots in the dataset under it
-		var syntharoot = {};
-		syntharoot.children = dat.treeroot;
-		syntharoot.fullname = "";
-		syntharoot.issyntharoot = true;
-
-		syntharoot.x0 = 0; //these values only exist to give a point from which new nodes will appear / old nodes will disappear
-		syntharoot.y0 = TOTAL_HEIGHT / 2;
-
-		syntharoot.children.forEach(collapse);
-		dat.syntharoot = syntharoot;
-	}
-
-	bjstr.render = function(svg, info, dat) {
+	bjs.tree_view.render = function(svg, w, c) {
 		cached_svg = svg;
-		cached_info = info;
-		cached_dat = dat;
+		cached_dat = w;
+		cached_conf = c;
+		
+		var mv = prepareData(w);
 
 		var tree = d3.layout.tree().size([TOTAL_HEIGHT, TOTAL_WIDTH]);
 
-		var nodes = tree.nodes(dat.syntharoot);
+		var nodes = tree.nodes(mv.syntharoot);
 		var links = tree.links(nodes);
 
 		var duration = 500;
@@ -162,6 +142,18 @@ bjstr = function() {
 		});
 
 	}
+	
+	function prepareData(w) {
+
+		var mv = bjs.makeTree(w);
+
+		mv.syntharoot.x0 = 0; //these values only exist to give a point from which new nodes will appear / old nodes will disappear
+		mv.syntharoot.y0 = TOTAL_HEIGHT / 2;
+
+		mv.syntharoot.children.forEach(collapse);
+		
+		return mv;
+	}
 
 	function connector_elbow(d, i) {
 		return "M" + (d.source.y + CART_WIDTH) + "," + d.source.x + "H" + ((d.source.y + CART_WIDTH) + d.target.y) * .5 + "V" + d.target.x + "H" + d.target.y;
@@ -240,7 +232,7 @@ bjstr = function() {
 			expand(d);
 		}
 
-		bjstr.render(cached_svg, cached_info, cached_dat);
+		bjs.tree_view.render(cached_svg, cached_dat, cached_conf);
 	}
 
 	function collapse(d) {
@@ -264,31 +256,16 @@ bjstr = function() {
 	}
 
 
-	function getNodeColor(n) {
-		if (n.issyntharoot) return "#fff";
-
-		if (bjstr.hilite == "critical" && n.critical == "Critical") return "red";
-
-		if (bjstr.hilite == "untraced" && n.ancestors.length == 0 && n.formula == '') return "red";
-
-		if (bjstr.colorPlan == "cat") {
-			var cat = n.pkg.fullname.substring(0, 7);
-			return color(cat);
-		}
-
-		return color(n.pkg.fullname);
-	}
-
-
-
 	function nodeMouseOver(d) {
-		bjstr.mouseOverItem(d);
+		bjs.hover(d);
 	}
 
 	function mouseOut() {
-		bjstr.mouseOverItem(null);
+		bjs.hover(null);
 	}
 
 
-	return bjstr;
+	return bjs.tree_view;
 }
+
+})(bjs || (bjs = {}));

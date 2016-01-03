@@ -6,7 +6,70 @@ var bjs;
     bjs.makeBipartite = makeBipartite;
     bjs.makeTripartite = makeTripartite;
     bjs.makeColaGraph = makeColaGraph;
+    bjs.makeTree = makeTree;
+    bjs.makeDirect = makeDirect;
 
+
+
+    //
+    // Just add node, group and link collections that exactly mirror the underlying world
+    //
+    function makeDirect(w) {
+
+        var mv = new bjs.mv(w);
+
+        bjs.lg_inf("starting makeDirect");
+
+        for (var fullname in w.fields) {
+            var field = w.fields[fullname];
+
+            var n = new bjs.node(field);
+            mv.nodea.push(n);
+            mv.nodes[fullname] = n;
+            bjs.lg_inf("node: " + n.fullname);
+        }
+
+        for (var fullname in w.assets) {
+            var ass = w.assets[fullname];
+
+            var g = new bjs.group(ass);
+            mv.groupa.push(g);
+            mv.groups[fullname] = g;
+
+            for (var i = 0; i < ass.children.length; ++i) {
+                if (mv.nodes[ass.children[i].fullname] != null) {
+                    g.children.push(mv.nodes[ass.children[i].fullname]);
+                    mv.nodes[ass.children[i].fullname].group = g;
+                }
+            }
+
+            bjs.lg_inf("group: " + g.fullname);
+        }
+
+        mv.nodea.sort(firstBy("fullname"));
+        mv.groupa.sort(firstBy("fullname"));
+
+        for (var i = 0; i < w.rels.length; ++i) {
+            var rel = w.rels[i];
+            var sourceNode = mv.nodes[rel.source.fullname];
+            var targetNode = mv.nodes[rel.target.fullname];
+            var l = new bjs.link(sourceNode, targetNode, rel);
+            mv.links.push(l);
+        }
+
+        for (var i = 0; i < w.arels.length; ++i) {
+            var arel = w.arels[i];
+            var sourceG = mv.groups[arel.source.fullname];
+            var targetG = mv.groups[arel.target.fullname];
+            var gl = new bjs.glink(sourceG, targetG, arel);
+            mv.glinks.push(l);
+        }
+
+
+        bjs.lg_sum("makeDirect: n " + mv.nodea.length + " links " + mv.links.length + mv.links.length + " glinks " + mv.glinks.length);
+
+        return mv;
+    }
 
     //
     // Add lnodea, rnodea, lgroupa, rgroupa where 'l' contains all sources and 'r' all targets.   Nodes and groups that are both sources
@@ -28,7 +91,7 @@ var bjs;
         var rnodes = {};
         var links = [];
 
-        for (fullname in w.fields) {
+        for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
             if (field.hasSources) {
@@ -132,7 +195,7 @@ var bjs;
         var m2nodes = {};
         var links = [];
 
-        for (fullname in w.fields) {
+        for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
             if (field.hasSources && !field.hasTargets) {
@@ -286,7 +349,7 @@ var bjs;
         }
 
 
-        for (fullname in w.assets) {
+        for (var fullname in w.assets) {
             var ass = w.assets[fullname];
 
             var g = new bjs.group(ass);
@@ -305,6 +368,61 @@ var bjs;
 
         return mv;
     }
+
+
+
+    function makeTree(w) {
+
+        var mv = new bjs.mv(w);
+
+        mv.treeroots = [];
+
+        for (var i = 0; i < w.fielda.length; ++i) {
+
+            if (w.fielda[i].directlyrelevant) {
+                var f = w.fielda[i];
+                var root = new bjs.node(f);
+                root.children = [];
+                root.nameintree = root.fullname;
+
+                recursiveTreeBuild(root, f);
+
+                mv.treeroots.push(root);
+            }
+
+        }
+
+        //add a synthetic root and gather all the treeroots in the dataset under it
+        var syntharoot = {};
+        syntharoot.children = mv.treeroots;
+        syntharoot.fullname = "";
+        syntharoot.issyntharoot = true;
+        mv.syntharoot = syntharoot;
+
+        return mv;
+    }
+
+
+    // internal function used in makeTree.
+    // b = node in the tree we are building.  n = field under consideration.
+    function recursiveTreeBuild(b, n) {
+
+        b.children = [];
+
+        for (var i = 0; i < n.sources.length; ++i) {
+            var src = n.sources[i];
+            var newtreenode = new bjs.node(src);
+
+            newtreenode.nameintree = b.nameintree + newtreenode.fullname;
+
+            b.children.push(newtreenode);
+
+            recursiveTreeBuild(newtreenode, src);
+
+        }
+
+    }
+
 
 
 

@@ -1,4 +1,5 @@
 //load, enrich, filter, squash
+/*global bjs*/
 
 var bjs_data_json;
 (function(bjs_data_json) {
@@ -22,6 +23,8 @@ var bjs_data_json;
 
 	function filter(world, filter) {
 		var w = new bjs.world();
+		
+		
 
 
 		return world;
@@ -31,6 +34,79 @@ var bjs_data_json;
 		var w = new bjs.world();
 
 		return world;
+	}
+	
+	function isMatch(field, filter){
+
+		if (filter.only_crit) {
+			if (field.critical != "Critical")
+				return false;
+		}
+
+		if (filter.inc != "") {
+			
+			var reg = new RegExp(filter.inc, 'i');
+			if (reg.exec(field.fullname) == null) {
+					return false;
+				}
+			}
+
+
+		reg = new RegExp(filter.exc, 'i');
+		if (reg.exec(n.fullname) != null) {
+				return false;
+		}
+
+
+		clauses = exc_rels.trim().split(" ");
+
+		for (var i = 0; i < clauses.length; ++i) {
+			var clause = clauses[i];
+			if (clause == "") continue;
+			var reg = new RegExp(clause, 'i');
+
+			for (var ancestorname in n.ancestors) {
+				if (reg.exec(ancestorname) != null) {
+					return false;
+				}
+			}
+
+			for (var descendantname in n.descendants) {
+				if (reg.exec(descendantname) != null) {
+					return false;
+				}
+			}
+		}
+
+		if (inc_rels.trim() != "") {
+			clauses = inc_rels.trim().split(" ");
+
+			var selected = false;
+
+			for (var i = 0; i < clauses.length; ++i) {
+				var clause = clauses[i];
+				if (clause == "") continue;
+				var reg = new RegExp(clause, 'i');
+
+
+				for (var ancestorname in n.ancestors) {
+					if (reg.exec(ancestorname) != null) {
+						selected = true;
+					}
+				}
+
+				for (var descendantname in n.descendants) {
+					if (reg.exec(descendantname) != null) {
+						selected = true;
+					}
+				}
+			}
+
+			if (!selected) return false;
+		}
+
+
+		return true;
 	}
 
 	function enrich(w) {

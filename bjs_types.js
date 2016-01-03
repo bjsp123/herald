@@ -14,6 +14,11 @@ var bjs;
 	bjs.glink = glink;
 	bjs.world = world;
 	bjs.mv = mv;
+	bjs.filter = filter;
+	bjs.squash = squash;
+
+
+/////////// core data model
 
 	function term(code, name, desc, flags) {
 		if (code == null || code == "") throw "Tried to create term with no code";
@@ -57,6 +62,8 @@ var bjs;
 		this.asset = asset;
 		this.flags = "";
 		this.term = term;
+		this.desc = desc;
+		this.formula = formula;
 
 		this.rels = [];
 		this.peers = [];
@@ -89,6 +96,19 @@ var bjs;
 		this.target = target;
 		this.count = 0;
 	}
+	
+	function world() {
+		this.assets = {};
+		this.rels = [];
+		this.terms = {};
+		this.fields = {};
+		this.fielda = [];
+		this.arels = {};
+		this.arela = [];
+	}
+
+
+//////////////////// view model
 
 	function node(field) {
 		if (field == null) throw "Tried to create node without field";
@@ -119,21 +139,11 @@ var bjs;
 		this.children = [];
 	}
 
-	function glink(source, target, size) {
+	function glink(source, target, arel, size) {
 		this.itemtype = "glink";
 		this.source = source;
 		this.target = target;
-		tihs.size = size;
-	}
-
-	function world() {
-		this.assets = {};
-		this.rels = [];
-		this.terms = {};
-		this.fields = {};
-		this.fielda = [];
-		this.arels = {};
-		this.arela = [];
+		this.size = arel?arel.count:size;
 	}
 
 	function mv(w) {
@@ -141,8 +151,35 @@ var bjs;
 		this.nodea = [];
 		this.nodes = {};
 		this.links = [];
+		this.glinks = [];
 		this.groups = {};
 		this.groupa = [];
+		this.treeroots = [];
+	}
+	
+	
+	
+/////////////// other
+
+	function filter(inc, exc, inc_rels, exc_rels, grab_left, grab_right, only_crit) {
+		if(inc==null) inc = "";
+		if(exc==null) exc = "";
+		if(inc_rels==null) inc_rels = "";
+		if(exc_rels==null) exc_rels = "";
+		if(grab_left==null) grab_left = true;
+		if(grab_right==null) grab_right = true;
+		if(only_crit==null) only_crit = false;
+		
+		this.inc = inc.trim();
+		this.exc = exc.trim();
+		this.inc_rels = inc_rels.trim();
+		this.exc_rels = exc_rels.trim();
+		this.only_crit = false;
+	}
+	
+	function squash() {
+		this.removeAsset = "";
+		this.removeInternals = "";
 	}
 
 
