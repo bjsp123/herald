@@ -154,8 +154,10 @@
         var inc_rels = $("#ctrl_inc_left").val().trim();
         var exc_rels = $("#ctrl_exc_left").val().trim();
         var only_crit = $("#ctrl_only_crit")[0].checked;
+        var grab_left = $("#ctrl_grab_left")[0].checked;
+        var grab_right = $("#ctrl_grab_right")[0].checked;
         
-        theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, only_crit);
+        theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, only_crit, grab_left, grab_right);
 
         refresh();
       });
@@ -277,7 +279,7 @@
         }*/
 
     function refresh() {
-      w = bjs_data_json.fromJson(rawJson, fieldFilterFunc, null);
+      w = bjs_data_json.fromJson(rawJson, theFilter, null);
       updateDataSummary(w);
       redraw();
     }
@@ -457,9 +459,24 @@
         </tr>
         <tr>
           <td>
-            <label for="ctrl_exc_left">Critical Only</label>
+            <label for="ctrl_grab_left">Include ancestors</label>
           </td>
-
+          <td>
+            <input type="checkbox" name="ctrl_grab_left" id="ctrl_grab_left" value="grab_left" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grab_left">Include descendants</label>
+          </td>
+          <td>
+            <input type="checkbox" name="ctrl_grab_right" id="ctrl_grab_right" value="grab_right" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_only_crit">Critical Only</label>
+          </td>
           <td>
             <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true" />
           </td>

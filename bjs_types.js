@@ -21,18 +21,22 @@ var bjs;
 /////////// core data model
 
 	function term(code, name, desc, flags) {
-		if (code == null || code == "") throw "Tried to create term with no code";
+		bjs.lg_inf("Creating term " + code);
+		if (code == null || code == "") 
+			throw "Tried to create term with no code";
 		this.itemtype = "term";
 		this.name = name;
 		this.code = code;
 		this.flags = flags;
-		this.fullname = code + " : " + name;
+		this.fullname = code;
 
 		this.children = [];
 	}
 
 	function asset(name, location, type, owner, desc, calc) {
-		if (name == null || name == "") throw "Tried to create unnamed asset";
+		bjs.lg_inf("Creating asset " + name);
+		if (name == null || name == "") 
+			throw "Tried to create unnamed asset";
 		this.itemtype = "asset";
 		this.name = name;
 		this.fullname = name;
@@ -54,8 +58,11 @@ var bjs;
 	}
 
 	function field(fullname, name, asset, term, desc, formula) {
-		if (name == null || name == "") throw "Tried to create unnamed field";
-		if (asset == null) throw "Tried to create field " + name + " with no asset.";
+		bjs.lg_inf("Creating field " + fullname);
+		if (name == null || name == "") 
+			throw "Tried to create unnamed field";
+		if (asset == null) 
+			throw "Tried to create field " + name + " with no asset.";
 		this.itemtype = "field";
 		this.fullname = fullname;
 		this.name = name;
@@ -80,8 +87,10 @@ var bjs;
 	}
 
 	function rel(source, target, type) {
-		if (source == null) throw "Tried to create link with null source";
-		if (target == null) throw "Tried to create link with null target";
+		if (source == null) 
+			throw "Tried to create link with null source";
+		if (target == null) 
+			throw "Tried to create link with null target";
 		this.itemtype = "rel";
 		this.source = source;
 		this.target = target;
@@ -89,8 +98,10 @@ var bjs;
 	}
 
 	function arel(source, target) {
-		if (source == null) throw "Tried to create group link with null source";
-		if (target == null) throw "Tried to create group link with null target";
+		if (source == null) 
+			throw "Tried to create group link with null source";
+		if (target == null) 
+			throw "Tried to create group link with null target";
 		this.itemtype = "arel";
 		this.source = source;
 		this.target = target;
@@ -98,6 +109,7 @@ var bjs;
 	}
 	
 	function world() {
+		bjs.lg_inf("Creating new world");
 		this.assets = {};
 		this.rels = [];
 		this.terms = {};
@@ -111,8 +123,11 @@ var bjs;
 //////////////////// view model
 
 	function node(field) {
-		if (field == null) throw "Tried to create node without field";
-		if (field.itemtype != "field") throw "Tried to create node with something that is not a field";
+		bjs.lg_inf("Creating node " + field.fullname);
+		if (field == null) 
+			throw "Tried to create node without field";
+		if (field.itemtype != "field") 
+			throw "Tried to create node with something that is not a field";
 		this.itemtype = "node";
 		this.field = field;
 		this.fullname = field.fullname;
@@ -123,9 +138,12 @@ var bjs;
 	}
 
 	function link(source, target, rel) {
-		if (source == null) throw "Tried to create link with null source";
-		if (target == null) throw "Tried to create link with null target";
-		if (rel == null) throw "Tried to create link with null rel";
+		if (source == null) 
+			throw "Tried to create link with null source";
+		if (target == null) 
+			throw "Tried to create link with null target";
+		if (rel == null) 
+			throw "Tried to create link with null rel";
 		this.itemtype = "link";
 		this.source = source;
 		this.target = target;
@@ -133,6 +151,7 @@ var bjs;
 	}
 
 	function group(asset) {
+		bjs.lg_inf("Creating group " + asset.fullname);
 		this.asset = asset;
 		this.fullname = asset ? asset.fullname : "anon";
 		this.itemtype = "group";
@@ -147,6 +166,7 @@ var bjs;
 	}
 
 	function mv(w) {
+		bjs.lg_inf("Creating mv");
 		this.world = w;
 		this.nodea = [];
 		this.nodes = {};
@@ -161,20 +181,14 @@ var bjs;
 	
 /////////////// other
 
-	function filter(inc, exc, inc_rels, exc_rels, grab_left, grab_right, only_crit) {
-		if(inc==null) inc = "";
-		if(exc==null) exc = "";
-		if(inc_rels==null) inc_rels = "";
-		if(exc_rels==null) exc_rels = "";
-		if(grab_left==null) grab_left = true;
-		if(grab_right==null) grab_right = true;
-		if(only_crit==null) only_crit = false;
-		
-		this.inc = inc.trim();
-		this.exc = exc.trim();
-		this.inc_rels = inc_rels.trim();
-		this.exc_rels = exc_rels.trim();
-		this.only_crit = false;
+	function filter(inc, exc, inc_rels, exc_rels, only_crit, grab_left, grab_right) {
+		this.inc = inc?inc.trim():"";
+		this.exc = exc?exc.trim():"";
+		this.inc_rels = inc_rels?inc_rels.trim():"";
+		this.exc_rels = exc_rels?exc_rels.trim():"";
+		this.only_crit = only_crit?true:false;
+		this.grab_left = grab_left?true:false;
+		this.grab_right = grab_right?true:false;
 	}
 	
 	function squash() {

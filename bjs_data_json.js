@@ -22,25 +22,104 @@ var bjs_data_json;
 	}
 
 	function filter(world, filter) {
+		bjs.lg_inf("Filtering");
 		var w = new bjs.world();
-		
-		
 
+		for(var i=0; i<world.fielda.length; ++i){
+			var f = world.fielda[i];
 
-		return world;
+			if(isMatch(f, filter)){
+				bjs.lg_inf("Adding matched field " + f.fullname);
+				addFieldToWorld(w, world, f, filter, true);
+			}else{
+				bjs.lg_inf("Rejecting nonmatched field " + f.fullname);
+			}
+		}
+
+		for(var i = 0; i <world.rels.length;++i){
+			var rel = world.rels[i];
+			if(w.fields[rel.source.fullname] && w.fields[rel.target.fullname]){
+				var newrel = new bjs.rel(w.fields[rel.source.fullname], w.fields[rel.target.fullname], rel.type);
+				w.rels.push(newrel);
+			}
+		}
+
+		enrich(w);
+
+		return w;
 	}
 
 	function squash(world, squash) {
+		bjs.lg_inf("Squashing");
 		var w = new bjs.world();
 
 		return world;
 	}
+
+	function addFieldToWorld(w, world, f, filter, directmatch){
+		if(w.fields[f.fullname]){
+			bjs.lg_inf("Duplicate field being ignored " + f.fullname);
+			return;
+		}
+
+		//add term
+		var term = f.term;
+		if(term){
+			var newterm = w.terms[f.term.fullname];
+			if(newterm==null){
+				newterm = new bjs.term(term.code, term.name, term.desc, term.flags);
+				w.terms[newterm.fullname] = newterm;
+			}
+		}
+
+		//add asset
+		var asset = f.asset;
+		if(asset){
+			var newass = w.assets[f.asset.fullname];
+			if(newass==null){
+				newass = new bjs.asset(asset.name, asset.location, asset.type, asset.owner, asset.desc, asset.calc);
+				w.assets[newass.fullname] = newass;
+			}
+		}
+
+		//add the actual field
+		var newfield = new bjs.field(f.fullname, f.name, newass, newterm, f.desc, f.formula);
 	
+		w.fields[newfield.fullname] = newfield;
+		w.fielda.push(newfield);
+
+		if(newterm)newterm.children.push(newfield);
+		if(newass)newass.children.push(newfield);
+
+		//it will be fun adding processes and owners later!
+
+		if(directmatch){
+
+			newfield.directlyrelevant = true;
+
+			//do we need to add ancestors/descendants?
+			if(filter && filter.grab_left){
+				for(var fullname in f.ancestors){
+					bjs.lg_inf("Adding ancestor " + f.ancestors[fullname]);
+					addFieldToWorld(w, world, world.fields[fullname], filter, false);
+				}
+			}
+			if(filter && filter.grab_right){
+				bjs.lg_inf("Adding descendant " + f.descendants[fullname]);
+				for(var fullname in f.descendants){
+					addFieldToWorld(w, world, world.fields[fullname], filter, false);
+				}
+			}
+		}
+	}
+
 	function isMatch(field, filter){
 
 		if (filter.only_crit) {
-			if (field.critical != "Critical")
-				return false;
+			if(!(field.term && field.term.flags.indexOf("ritical") != -1)){
+				if(!(field.critical && field.critical.indexOf("ritical") != -1))
+					return false;
+			}
 		}
 
 		if (filter.inc != "") {
@@ -51,60 +130,42 @@ var bjs_data_json;
 				}
 			}
 
-
-		reg = new RegExp(filter.exc, 'i');
-		if (reg.exec(n.fullname) != null) {
-				return false;
+		if (filter.exc != "") {
+			reg = new RegExp(filter.exc, 'i');
+			if (reg.exec(field.fullname) != null) {
+					return false;
+			}
 		}
 
+		if (filter.inc_rels != "") {
+			reg = new RegExp(filter.inc_rels, 'i');
+			var found = false;
+			for (var ancestorname in field.ancestors) {
+				if (reg.exec(ancestorname) != null) {
+					found = true;
+				}
+			}
+			for (var descendantname in field.descendants) {
+				if (reg.exec(descendantname) != null) {
+					found = true;
+				}
+			}
+			if(found == false) return false;
+		}
 
-		clauses = exc_rels.trim().split(" ");
-
-		for (var i = 0; i < clauses.length; ++i) {
-			var clause = clauses[i];
-			if (clause == "") continue;
-			var reg = new RegExp(clause, 'i');
-
-			for (var ancestorname in n.ancestors) {
+		if(filter.exc_rels != ""){
+			reg = new RegExp(filter.exc_rels, 'i');
+			for (var ancestorname in field.ancestors) {
 				if (reg.exec(ancestorname) != null) {
 					return false;
 				}
 			}
-
-			for (var descendantname in n.descendants) {
+			for (var descendantname in field.descendants) {
 				if (reg.exec(descendantname) != null) {
 					return false;
 				}
 			}
 		}
-
-		if (inc_rels.trim() != "") {
-			clauses = inc_rels.trim().split(" ");
-
-			var selected = false;
-
-			for (var i = 0; i < clauses.length; ++i) {
-				var clause = clauses[i];
-				if (clause == "") continue;
-				var reg = new RegExp(clause, 'i');
-
-
-				for (var ancestorname in n.ancestors) {
-					if (reg.exec(ancestorname) != null) {
-						selected = true;
-					}
-				}
-
-				for (var descendantname in n.descendants) {
-					if (reg.exec(descendantname) != null) {
-						selected = true;
-					}
-				}
-			}
-
-			if (!selected) return false;
-		}
-
 
 		return true;
 	}
@@ -265,7 +326,7 @@ var bjs_data_json;
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading field " + row.fullname);
-			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], w.assets[row.fullname.split(":")[0]], w.terms[row.term], row.desc, row.formula);
+			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula);
 			w.fields[field.fullname] = field;
 			w.fielda.push(field);
 			if (field.term) field.term.children.push(field);

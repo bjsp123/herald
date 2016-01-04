@@ -385,7 +385,7 @@ var bjs;
                 root.children = [];
                 root.nameintree = root.fullname;
 
-                recursiveTreeBuild(root, f);
+                recursiveTreeBuild(mv, root, f);
 
                 mv.treeroots.push(root);
             }
@@ -405,9 +405,17 @@ var bjs;
 
     // internal function used in makeTree.
     // b = node in the tree we are building.  n = field under consideration.
-    function recursiveTreeBuild(b, n) {
+    function recursiveTreeBuild(mv, b, n) {
 
         b.children = [];
+
+        var g = mv.groups[n.asset.fullname];
+        if(g == null){
+            g = new bjs.group(n.asset);
+            mv.groups[g.fullname] = g;
+            mv.groupa.push(g);
+        }
+        b.group = g;
 
         for (var i = 0; i < n.sources.length; ++i) {
             var src = n.sources[i];
@@ -417,7 +425,10 @@ var bjs;
 
             b.children.push(newtreenode);
 
-            recursiveTreeBuild(newtreenode, src);
+            mv.nodes[newtreenode.fullname] = newtreenode;
+            mv.nodea.push(newtreenode);
+
+            recursiveTreeBuild(mv, newtreenode, src);
 
         }
 

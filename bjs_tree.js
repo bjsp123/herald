@@ -22,13 +22,20 @@ var bjs;
 
 
 	
-
+	//most of the render function can be called internally based on a tree node click, so the actual tree_view.render()
+	//just prepares the mv for the first time; the mv will be edited in place as tree nodes change status.
 	bjs.tree_view.render = function(svg, w, c) {
 		cached_svg = svg;
-		cached_dat = w;
 		cached_conf = c;
 		
 		var mv = prepareData(w);
+
+		cached_dat = mv;
+
+		doRender(svg, mv, c);
+	}
+
+	function doRender(svg, mv, c){
 
 		var tree = d3.layout.tree().size([TOTAL_HEIGHT, TOTAL_WIDTH]);
 
@@ -68,7 +75,7 @@ var bjs;
 			.on("mouseover", nodeMouseOver)
 			.on("mouseout", mouseOut);;
 
-		drawNode(nodeEnter);
+		drawNode(nodeEnter, c);
 
 		var nodeUpdate = nt.transition()
 			.duration(duration)
@@ -177,7 +184,7 @@ var bjs;
 	}
 
 	//expects an entry selection with a xlated g appended to it
-	function drawNode(ne) {
+	function drawNode(ne, c) {
 
 		ne.append("rect")
 			.attr("x", 0)
@@ -192,7 +199,7 @@ var bjs;
 			.attr("r", NODE_R)
 			.attr("class", "node")
 			.style("fill", function(d) {
-				return getNodeColor(d);
+				return bjs.getNodeColor(color, c, d);
 			});
 
 
@@ -209,7 +216,7 @@ var bjs;
 			.attr("y", 13 - CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(function(d) {
-				return d.name;
+				return d.field.name;
 			});
 
 		ne.append("text")
@@ -217,7 +224,7 @@ var bjs;
 			.attr("y", 28 - CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(function(d) {
-				return d.pkg.fullname;
+				return d.group.fullname;
 			});
 
 	}
@@ -232,7 +239,7 @@ var bjs;
 			expand(d);
 		}
 
-		bjs.tree_view.render(cached_svg, cached_dat, cached_conf);
+		doRender(cached_svg, cached_dat, cached_conf);
 	}
 
 	function collapse(d) {
