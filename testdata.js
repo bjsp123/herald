@@ -62,6 +62,19 @@ testdata.raw =
                 "Output.Reports.MR:Measure2"
             ],
             "usesfilter": []
+        },{
+            "fullname": "Output.Reports.MR:TweakedFinalMeasure",
+            "conceptname": "TotalRisk",
+            "desc": "A measure.",
+            "formula": "A tweaked version of derivedmeasure.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "critical": "",
+            "usesvalue": [
+                "Output.Reports.MR:DerivedMeasure"
+            ],
+            "usesfilter": []
         }, {
             "fullname": "Input.Files.Dynamic:inputA",
             "conceptname": "",

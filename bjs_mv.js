@@ -358,6 +358,8 @@ var bjs;
 
             for (var j = 0; j < ass.children.length; ++j) {
                 g.leaves.push(mv.nodes[ass.children[j].fullname].cola_index);
+                g.children.push(mv.nodes[ass.children[j].fullname]);
+                mv.nodes[ass.children[j].fullname].group = g;
             }
 
             if (g.leaves.length > 0) {

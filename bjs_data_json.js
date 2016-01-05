@@ -12,8 +12,6 @@ var bjs_data_json;
 
 		world = loadJson(json);
 
-		enrich(world);
-
 		world = filter(world, f);
 
 		world = squash(world, sq);
@@ -44,17 +42,146 @@ var bjs_data_json;
 			}
 		}
 
-		enrich(w);
+		enrich (w);
 
 		return w;
 	}
 
 	function squash(world, squash) {
 		bjs.lg_inf("Squashing");
-		var w = new bjs.world();
 
-		return world;
+		//copy world.
+		var w = filter(world, new bjs.filter());
+
+		var addedRels = {};
+
+		for(var i=0; i<w.fielda.length; ++i){
+			var f = w.fielda[i];
+
+			if(isSquash(f, squash)){
+				killAndBypass(w, f);
+				i--;
+			}
+		}
+
+		enrich(w);
+
+		if(squash.el_internals){
+			var changed = true;
+			while(changed){
+				changed = resolveInternalSources(w);
+			}
+		}
+
+
+		enrich(w);
+
+		return w;
 	}
+
+	function resolveInternalSources(w){
+
+		var changed = false;
+		var newrels = [];
+
+		for(var i = 0; i <w.rels.length;++i){
+			var rel = w.rels[i];
+
+			if(rel.source.asset == rel.target.asset){
+
+				for(var j=0;j<rel.source.rels.length;++j){
+					var srcrel = rel.source.rels[j];
+					if(srcrel.target == rel.source){
+						var newrel = new bjs.rel(srcrel.source, rel.target);
+						newrels.push(newrel);
+					}
+				}
+
+
+				bjs.removeItem(w.rels, rel);
+				i--;
+				changed = true;
+
+			}
+		}
+
+
+		for(var i=0;i<newrels.length;++i){
+			w.rels.push(newrels[i]);
+		}
+
+		return changed;
+
+	}
+
+	function killAndBypass(w, f){
+
+		bjs.lg_inf("Squashing field " + f.fullname);
+
+		var newrels = [];
+
+		for(var i=0; i<w.rels.length;++i){
+			var rel=w.rels[i];
+			if(rel.source == f){
+				for(var j = 0; j < w.rels.length;++j){
+					var srcrel = w.rels[j];
+					if(srcrel.target == f){
+						var newrel = new bjs.rel(srcrel.source, rel.target, rel.type);
+						newrels.push(newrel);
+					}
+				}
+			}
+			if(rel.target == f){
+				for(var j = 0; j < w.rels.length;++j){
+					var tgtrel = w.rels[j];
+					if(tgtrel.source == f){
+						var newrel = new bjs.rel(rel.source, tgtrel.target, rel.type);
+						newrels.push(newrel);
+					}
+				}
+			}
+		}
+
+		for(var i=0;i<newrels.length;++i){
+			w.rels.push(newrels[i]);
+		}
+
+		removeFieldFromWorld(w, f);
+	}
+
+	function removeFieldFromWorld(w, f){
+		var term = f.term;
+		if(term){
+			if(term.children.length==1){
+				delete w.terms[term.fullname];
+			}else{
+				bjs.removeItem(term.children, f);
+			}
+		}
+		var asset = f.asset;
+		if(asset){
+			if(asset.children.length==1){
+				delete w.assets[asset.fullname];
+			}else{
+				bjs.removeItem(asset.children, f);
+			}
+		}
+
+		delete w.fields[f.fullname];
+		bjs.removeItem(w.fielda, f);
+
+		var rels = [];
+		for(var i = 0; i <w.rels.length;++i){
+			var rel = w.rels[i];
+			if(rel.source != f && rel.target != f){
+				rels.push(rel);
+			}
+		}
+
+		w.rels = rels;
+
+	}
+
 
 	function addFieldToWorld(w, world, f, filter, directmatch){
 		if(w.fields[f.fullname]){
@@ -111,6 +238,27 @@ var bjs_data_json;
 				}
 			}
 		}
+	}
+
+	function isSquash(field, squash){
+
+		if(squash.el_fields != ""){
+			var reg = new RegExp(squash.el_fields, 'i');
+			if (reg.exec(field.fullname) != null) {
+					return true;
+				}
+			}
+		
+
+		if(squash.el_assets != ""){
+			var reg = new RegExp(squash.el_assets, 'i');
+			if (reg.exec(field.asset.fullname) != null) {
+					return true;
+				}
+			}
+		
+
+		return false;
 	}
 
 	function isMatch(field, filter){
@@ -173,6 +321,24 @@ var bjs_data_json;
 	function enrich(w) {
 
 		bjs.lg_inf("Enriching world.");
+
+		//lets make sure this is idempotent.
+		w.arels = {};
+		w.arela = [];
+		for(var i=0; i< w.fielda.length; ++i){
+			w.fielda[i].rels = [];
+			w.fielda[i].peers = [];
+			w.fielda[i].targets = [];
+			w.fielda[i].sources = [];
+			w.fielda[i].ancestors = {};
+			w.fielda[i].descendants = {};
+			w.fielda[i].ldepth = -1;
+			w.fielda[i].rdepth = -1;
+			w.fielda[i].usources = {};
+			w.fielda[i].utargets = {};
+			w.fielda[i].hasTargets = false;
+			w.fielda[i].hasSources = false;
+		}
 
 		for (var i = 0; i < w.rels.length; ++i) {
 			var rel = w.rels[i];
@@ -353,6 +519,8 @@ var bjs_data_json;
 
 		w.fielda.sort(firstBy("fullname"));
 
+
+		enrich(w);
 
 		return w;
 

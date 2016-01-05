@@ -191,9 +191,10 @@ var bjs;
 		this.grab_right = grab_right?true:false;
 	}
 	
-	function squash() {
-		this.removeAsset = "";
-		this.removeInternals = "";
+	function squash(el_fields, el_assets, el_internals) {
+		this.el_fields = el_fields?el_fields.trim():"";
+		this.el_assets = el_assets?el_assets.trim():"";
+		this.el_internals = el_internals?true:false;
 	}
 
 

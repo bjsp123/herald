@@ -62,7 +62,12 @@
       viewConf["hilile"] = "nothing";
 
 
-
+      d3.select("#king_squash").on("click", function(d) {
+        if ($('#squashpal').css('visibility') == 'hidden')
+          $('#squashpal').css('visibility', 'visible');
+        else
+          $('#squashpal').css('visibility', 'hidden');
+      });
       d3.select("#king_filter").on("click", function(d) {
         if ($('#filterpal').css('visibility') == 'hidden')
           $('#filterpal').css('visibility', 'visible');
@@ -90,6 +95,9 @@
 
       d3.select("#kill_objpal").on("click", function(d) {
         $("#objpal").css('visibility', 'hidden')
+      });
+      d3.select("#kill_squashpal").on("click", function(d) {
+        $("#squashpal").css('visibility', 'hidden')
       });
       d3.select("#kill_datapal").on("click", function(d) {
         $("#datapal").css('visibility', 'hidden')
@@ -162,6 +170,23 @@
         refresh();
       });
 
+      d3.select("#ctrl_squash_btn").on("click", function(d) {
+
+        var el_fields = $("#ctrl_el_fields").val().trim();
+        var el_assets = $("#ctrl_el_assets").val().trim();
+        var el_internal = $("#ctrl_el_internal")[0].checked;
+        
+        theSquash = new bjs.squash(el_fields, el_assets, el_internal);
+
+        refresh();
+      });
+
+      d3.select("#ctrl_squash_clear_btn").on("click", function(d) {
+        theSquash = new bjs.squash();
+
+        refresh();
+      });
+
       d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
         theFilter = new bjs.filter();
 
@@ -223,21 +248,29 @@
 
     function arrangePalettes() {
       $('#filterpal').css('visibility', 'visible');
+      $('#squashpal').css('visibility', 'visible');
       $('#vispal').css('visibility', 'visible');
       $('#objpal').css('visibility', 'visible');
       $('#datapal').css('visibility', 'visible');
 
       $("#toppal").position({
-        my: "right-20 bottom-20",
-        at: "right bottom",
+        my: "left-20 top-20",
+        at: "left top",
         of: "body",
         within: "#content",
         collision: "fit"
       });
       $("#filterpal").position({
-        my: "left+20 top+20",
-        at: "left top",
+        my: "right-20 top+20",
+        at: "right top",
         of: "body",
+        within: "#content",
+        collision: "fit"
+      });
+      $("#squashpal").position({
+        my: "right+5 top",
+        at: "left top",
+        of: "#filterpal",
         within: "#content",
         collision: "fit"
       });
@@ -248,8 +281,8 @@
         collision: "fit"
       });
       $("#objpal").position({
-        my: "right-20 top+20",
-        at: "right top",
+        my: "right-20 bottom+5",
+        at: "right bottom",
         of: "body",
         within: "#content",
         collision: "fit"
@@ -279,7 +312,7 @@
         }*/
 
     function refresh() {
-      w = bjs_data_json.fromJson(rawJson, theFilter, null);
+      w = bjs_data_json.fromJson(rawJson, theFilter, theSquash);
       updateDataSummary(w);
       redraw();
     }
@@ -409,6 +442,7 @@
     </div>
     <div>
       <input type="submit" id="king_filter" class="kingbutton" value="Filter" />
+      <input type="submit" id="king_squash" class="kingbutton" value="Simplify" />
       <input type="submit" id="king_vis" class="kingbutton" value="Vis" />
       <input type="submit" id="king_obj" class="kingbutton" value="Details" />
       <input type="submit" id="king_data" class="kingbutton" value="Data" />
@@ -478,7 +512,7 @@
             <label for="ctrl_only_crit">Critical Only</label>
           </td>
           <td>
-            <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="true" />
+            <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="false" />
           </td>
         </tr>
         <tr>
@@ -491,6 +525,49 @@
       </table>
     </div>
   </div>
+
+<div id="squashpal" class="palette">
+    <div class="palheader">
+      Simplify
+      <input type="submit" id="kill_squashpal" class="killbutton" value="" />
+    </div>
+    <div class="palbody">
+      <table>
+        <tr>
+          <td>
+            <label for="ctrl_inc">Eliminate Fields</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_el_fields" id="ctrl_el_fields" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_exc">Eliminate Assets</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_el_assets" id="ctrl_el_assets" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_only_crit">Eliminate Internals</label>
+          </td>
+          <td>
+            <input type="checkbox" name="ctrl_el_internal" id="ctrl_el_internal" value="el_internal" checked="false" />
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="submit" name="ctrl_squash_btn" id="ctrl_squash_btn" value="Simplify" />
+            <input type="submit" name="ctrl_squash_btn" id="ctrl_squash_clear_btn" value="Clear" />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
 
   <div id="objpal" class="palette">
     <div class="palheader">

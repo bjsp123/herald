@@ -267,7 +267,7 @@ var bjs;
 		nodes.select("text")
 			.attr("class", "nodelabel")
 			.text(function(d) {
-				return d.name;
+				return d.field.name;
 			})
 			.attr("x", function(d, i) {
 				return d.x + GROUP_PADDING / 2 + 4 + (d.x < 300 ? -30 : 0);
