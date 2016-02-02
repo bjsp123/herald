@@ -51,7 +51,10 @@ var bjs_data_json;
 		bjs.lg_inf("Squashing");
 
 		//copy world.
-		var w = filter(world, new bjs.filter());
+		//can't do this as it ruins the 'directlyrelevant' flag...
+		//var w = filter(world, new bjs.filter());
+		//so we edit world in place for now, which is bad.  fixme
+		var w = world;
 
 		var addedRels = {};
 

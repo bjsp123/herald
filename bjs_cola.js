@@ -6,8 +6,8 @@ var bjs;
 	bjs.cola_view = function() {
 
 		var NODE_R = 8;
-		var TOTAL_WIDTH = 800;
-		var TOTAL_HEIGHT = 800;
+		var TOTAL_WIDTH = 1600;
+		var TOTAL_HEIGHT = 1600;
 		var GROUP_PADDING = 20;
 		var GROUP_ROUNDY = 16;
 		var NODE_W = NODE_R * 8;
@@ -148,8 +148,8 @@ var bjs;
 
 				if (optimize) {
 					lt.each(function(d) {
-						var srcInner = d.source.itemtype=="node"?d.source.bounds.inflate(-GROUP_PADDING):d.source.bounds.inflate(-GROUP_PADDING/2);
-						var tgtInner = d.target.itemtype=="node"?d.target.bounds.inflate(-GROUP_PADDING):d.target.bounds.inflate(-GROUP_PADDING/2);
+						var srcInner = d.source.bounds.inflate(-GROUP_PADDING);
+						var tgtInner = d.target.bounds.inflate(-GROUP_PADDING);
 						d.route = cola.vpsc.makeEdgeBetween(srcInner, tgtInner, 0);
 					});
 
@@ -265,6 +265,8 @@ var bjs;
 
 		function connector_colaroute(d, i) {
 
+
+
 			var x1 = d.route.sourceIntersection.x;
 			var y1 = d.route.sourceIntersection.y;
 			var x2 = d.route.arrowStart.x;
@@ -272,9 +274,9 @@ var bjs;
 
 			var offs = Math.abs(x1 - x2) / 2;
 
-			//return "M " + x1 + " " + y1 + " L " + x2 + " " + y2;
+			return "M " + x1 + " " + y1 + " L " + x2 + " " + y2;
 
-			return "M " + (x1) + " " + (y1) + "C " + (x1 + offs) + " " + (y1) + " " + (x2 - offs) + " " + y2 + " " +x2 + " " + y2;
+			//return "M " + (x1) + " " + (y1) + "C " + (x1 + offs) + " " + (y1) + " " + (x2 - offs) + " " + y2 + " " +x2 + " " + y2;
 
 		}
 
@@ -302,9 +304,6 @@ var bjs;
 
 
 		function groupMouseOver(d) {
-			
-			if(optimize) return;
-
 			svg.selectAll(".link")
 				.classed("active", function(p) {
 					return (p.realsource || p.source).group.fullname == d.fullname || (p.realtarget || p.target).group.fullname == d.fullname;
@@ -315,10 +314,10 @@ var bjs;
 
 			svg.selectAll(".node")
 				.classed("active", function(p) {
-					return bjs.isNodeRelatedToGroup(p, d.pkg);
+					return bjs.areNodesRelatedToGroup(p, d.pkg);
 				})
 				.classed("passive", function(p) {
-					return !bjs.isNodeRelatedToGroup(p, d.pkg);
+					return !bjs.areNodesRelatedToGroup(p, d.pkg);
 				});
 
 			svg.selectAll(".colagroup")

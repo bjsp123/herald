@@ -7,7 +7,7 @@ var bjs;
 
 	var NODE_R = 8;
 	var TOTAL_HEIGHT = 1000; //x and y are flipped for trees.
-	var X_OFFSET = 400; //to account for hidden leftmost node
+	var X_OFFSET = 320; //to account for hidden leftmost node
 	var TOTAL_WIDTH = 1000 + X_OFFSET;
 	var TOP_MARGIN = 20;
 	var CART_WIDTH = 160;
@@ -224,7 +224,7 @@ var bjs;
 			.attr("y", 28 - CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(function(d) {
-				return d.group.fullname;
+				return d.field.asset.fullname;
 			});
 
 	}

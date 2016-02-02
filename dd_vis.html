@@ -1,13 +1,20 @@
 <html>
 
 <head>
-  <title>BJS Lucid</title>
+  <title>Kinaesis Clarity</title>
 
 
   <link rel="stylesheet" href="dd_styles.css">
+    <link rel="stylesheet" href="lib/menu.css">
 
   <script src="lib/jquery.js"></script>
   <script src="lib/jquery-ui.js"></script>
+  
+  <link rel="stylesheet" href="//jqueryui.com/jquery-wp-content/themes/jquery/css/base.css?v=1">
+	<link rel="stylesheet" href="//jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css">
+  
+
+  
   <script src="lib/touchpunch.js"></script>
 
 
@@ -22,7 +29,6 @@
   <script type="text/javascript" src="bjs_misc.js"></script>
 
   <script type="text/javascript" src="bjs_viewutils.js"></script>
-  <script type="text/javascript" src="bjs_utils.js"></script>
 
   <script type="text/javascript" src="bjs_bipartite.js"></script>
   <script type="text/javascript" src="bjs_lineage.js"></script>
@@ -32,6 +38,7 @@
   <script type="text/javascript" src="bjs_cola.js"></script>
 
   <script type="text/javascript" src="testdata.js"></script>
+
 
   <script>
     /*global d3*/
@@ -46,6 +53,78 @@
     var viewConf = {};
     var theFilter = new bjs.filter();
     var theSquash = new bjs.squash();
+    
+    function shSquash(){
+      if ($('#squashpal').css('visibility') == 'hidden')
+          $('#squashpal').css('visibility', 'visible');
+        else
+          $('#squashpal').css('visibility', 'hidden');
+    }
+    
+    function shFilter(){
+      if ($('#filterpal').css('visibility') == 'hidden')
+          $('#filterpal').css('visibility', 'visible');
+        else
+          $('#filterpal').css('visibility', 'hidden');
+    }
+    
+    function shData(){
+      if ($('#datapal').css('visibility') == 'hidden')
+          $('#datapal').css('visibility', 'visible');
+        else
+          $('#datapal').css('visibility', 'hidden');
+    }
+    
+    function shObj(){
+      if ($('#objpal').css('visibility') == 'hidden')
+          $('#objpal').css('visibility', 'visible');
+        else
+          $('#objpal').css('visibility', 'hidden');
+    }
+
+    function shVis(){
+      if ($('#vispal').css('visibility') == 'hidden')
+          $('#vispal').css('visibility', 'visible');
+        else
+          $('#vispal').css('visibility', 'hidden');
+    }
+    
+        
+    function shBipart(){
+        bip = bjs.bp_view();
+        clear();
+        refresh();
+    }
+    
+    function shHive(){
+        bip = bjs.hive_view();
+        clear();
+        refresh();
+    }
+
+  function shMatrix(){
+        bip = bjs.cm_view();
+        clear();
+        refresh();
+    }
+    
+    function shFlow(){
+        bip = bjs.flow_view();
+        clear();
+        refresh();
+    }
+    
+    function shCola(){
+        bip = bjs.cola_view();
+        clear();
+        refresh();
+    }
+    
+    function shTree(){
+        bip = bjs.tree_view();
+        clear();
+        refresh();
+    }
 
 
     function init() {
@@ -62,36 +141,6 @@
       viewConf["hilile"] = "nothing";
 
 
-      d3.select("#king_squash").on("click", function(d) {
-        if ($('#squashpal').css('visibility') == 'hidden')
-          $('#squashpal').css('visibility', 'visible');
-        else
-          $('#squashpal').css('visibility', 'hidden');
-      });
-      d3.select("#king_filter").on("click", function(d) {
-        if ($('#filterpal').css('visibility') == 'hidden')
-          $('#filterpal').css('visibility', 'visible');
-        else
-          $('#filterpal').css('visibility', 'hidden');
-      });
-      d3.select("#king_data").on("click", function(d) {
-        if ($('#datapal').css('visibility') == 'hidden')
-          $('#datapal').css('visibility', 'visible');
-        else
-          $('#datapal').css('visibility', 'hidden');
-      });
-      d3.select("#king_obj").on("click", function(d) {
-        if ($('#objpal').css('visibility') == 'hidden')
-          $('#objpal').css('visibility', 'visible');
-        else
-          $('#objpal').css('visibility', 'hidden');
-      });
-      d3.select("#king_vis").on("click", function(d) {
-        if ($('#vispal').css('visibility') == 'hidden')
-          $('#vispal').css('visibility', 'visible');
-        else
-          $('#vispal').css('visibility', 'hidden');
-      });
 
       d3.select("#kill_objpal").on("click", function(d) {
         $("#objpal").css('visibility', 'hidden')
@@ -118,41 +167,6 @@
         rawJson = testdata.raw;
         refresh();
       });
-
-
-      d3.select("#king_arrange").on("click", function(d) {
-        arrangePalettes();
-
-      });
-
-
-      d3.select("#ctrl_vis_list").on("change", function(d) {
-        var s = this.options[this.selectedIndex].value;
-        switch (s) {
-          case "trees":
-            bip = bjs.tree_view();
-            break;
-          case "bipart":
-            bip = bjs.bp_view();
-            break;
-          case "hive":
-            bip = bjs.hive_view();
-            break;
-          case "matrix":
-            bip = bjs.cm_view();
-            break;
-          case "flow":
-            bip = bjs.flow_view();
-            break;
-          case "cola":
-            bip = bjs.cola_view();
-            break;
-        }
-
-        clear();
-        refresh();
-      });
-
 
 
       d3.select("#ctrl_filter_btn").on("click", function(d) {
@@ -251,65 +265,41 @@
       $('#squashpal').css('visibility', 'visible');
       $('#vispal').css('visibility', 'visible');
       $('#objpal').css('visibility', 'visible');
-      $('#datapal').css('visibility', 'visible');
+      $('#datapal').css('visibility', 'hidden');
 
-      $("#toppal").position({
-        my: "left-20 top-20",
-        at: "left top",
-        of: "body",
-        within: "#content",
+      $("#filterpal").position({
+        my: "right-20 top-20",
+        at: "right bottom",
+        of: "#menu",
+        within: "#mycontent",
         collision: "fit"
       });
-      $("#filterpal").position({
-        my: "right-20 top+20",
-        at: "right top",
-        of: "body",
-        within: "#content",
+      $("#objpal").position({
+        my: "right-5 top",
+        at: "left top",
+        of: "#filterpal",
         collision: "fit"
       });
       $("#squashpal").position({
-        my: "right+5 top",
-        at: "left top",
-        of: "#filterpal",
-        within: "#content",
-        collision: "fit"
-      });
-      $("#vispal").position({
         my: "left top+5",
         at: "left bottom",
         of: "#filterpal",
         collision: "fit"
       });
-      $("#objpal").position({
-        my: "right-20 bottom+5",
-        at: "right bottom",
-        of: "body",
-        within: "#content",
+      $("#vispal").position({
+       my: "left top+5",
+        at: "left bottom",
+        of: "#squashpal",
         collision: "fit"
       });
       $("#datapal").position({
         my: "left top+5",
         at: "left bottom",
-        of: "#vispal",
+        of: "#objpal",
         collision: "fit"
       });
     }
 
-    /*
-        function loadJsonFileSynch(fname) {
-          var data = {};
-          $.ajax({
-            url: fname,
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-              $.each(response, function(k, v) {
-                data[k] = v;
-              });
-            }
-          });
-          return data;
-        }*/
 
     function refresh() {
       w = bjs_data_json.fromJson(rawJson, theFilter, theSquash);
@@ -434,23 +424,191 @@
 </head>
 
 <body>
+  
+    <nav id="menu-wrap">    
+	<ul id="menu">
+		<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
+		
+		<li>
+			<a href="#">Windows</a>
+			<ul>
+				<li>
+					<a href="#" onclick="shData();">Data Summary</a>
+				</li>
+				<li>
+					<a href="#" onclick="shFilter();">Filter</a>
+				</li>
+				<li>
+					<a href="#" onclick="shSquash();">Simplify</a>
+				</li>
+				<li>
+					<a href="#" onclick="shObj();">Object Viewer</a>
+				</li>
+				<li>
+					<a href="#" onclick="shVis();">Visualization</a>
+				</li>
+			</ul>
+		</li>
+		
+		
+		<li>
+			<a href="#">Visualization</a>
+			<ul>
+				<li>
+					<a href="#" onclick="shBipart();">Bipartite</a>
+				</li>
+				<li>
+					<a href="#" onclick="shHive();">Hive</a>
+				</li>
+				<li>
+					<a href="#" onclick="shFlow();">Flow</a>
+				</li>
+				<li>
+					<a href="#" onclick="shCola();">Constrained</a>
+				</li>
+				<li>
+					<a href="#" onclick="shMatrix();">Matrix</a>
+				</li>
+				<li>
+					<a href="#" onclick="shTree();">Tree</a>
+				</li>
+			</ul>
+		</li>
+		
+		<li>
+			<a href="#">Reporting</a>
+			<ul>
+				<li>
+					<a href="#" onclick="shBipart();">Export Images</a>
+					<ul>
+						<li>
+							<a href="#" onclick="$('dialog_noconnection').dialog();">One per Hit</a>
+							<a href="#" onclick="$('dialog_noconnection').dialog();">One Image</a>
+						</li>
+						</ul>
+				</li>
+				<li>
+					<a href="#" onclick="shHive();">Metadata Health</a>
+				</li>
+				<li>
+					<a href="#" onclick="shFlow();">Data Cost Metrics</a>
+					<ul>
+						<li>
+							<a href="#" onclick="$('dialog_noconnection').dialog();">Analyse Metadata</a>
+							<a href="#" onclick="$('dialog_noconnection').dialog();">Time Analysis</a>
+						</li>
+						</ul>
+				</li>
+			</ul>
+		</li>
+		
+		
+		<li>
+			<a href="#">Import</a>
+			<ul>
+			  
+			  	<li>
+					<a href="#">Connect to SAS</a>
+					<ul>
+						<li>
+							<a href="#" onclick="$('dialog_noconnection').dialog();">Connect base SAS</a>
+							<a href="#" onclick="$('dialog_noconnection').dialog();">Connect DI</a>
+						</li>
+						</ul>
+					</li>
+					
+					<li>
+					<a href="#">Import Data Sets</a>
+					<ul>
+						<li>
+						  <a href="#" onclick="$('dialog_nopermission').dialog();">Import Base</a>
+							<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
+							<a href="#" onclick="$('dialog_nopermission').dialog();">Import Json</a>
+						</li>
+						</ul>
+					</li>
+					
+					<li>
+					<a href="#">Manage Data Sets</a>
+					<ul>
+						<li>
+							<a href="#" onclick="$('dialog_nopermission').dialog();">Data Set List</a>
+							<a href="#" onclick="$('dialog_nopermission').dialog();">Refresh All</a>
+						</li>
+						</ul>
+					</li>
+					
+					<li>
+					<a href="#">Apply Values</a>
+					<ul>
+						<li>
+							<a href="#" onclick="$('dialog_nopermission').dialog();">From SAS</a>
+							<a href="#" onclick="$('dialog_nopermission').dialog();">From Json</a>
+						</li>
+						</ul>
+					</li>
+					
+			</ul>
+		</li>
+		
+		<li>
+			<a href="#">Data</a>
+			<ul>
+				<li>
+					<a href="#" onclick="">Edit Terms</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Edit Assets</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Edit Fields</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Edit Objects</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Edit Owners</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Asset Manager</a>
+				</li>
+			</ul>
+		</li>
+		
+		<li>
+			<a href="#">Favorites</a>
+			<ul>
+				<li>
+					<a href="#" onclick="">Visualizations</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Filters</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Reports</a>
+				</li>
+			</ul>
+		</li>
+		
+		
+		<li>
+			<a href="">Admin</a>
+			<ul>
+			<li>
+					<a href="#" onclick="">Users</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Connections</a>
+				</li>
+				<li>
+					<a href="#" onclick="">Console Window</a>
+				</li>
+		</li>
+		<li><a href="">Help</a></li>
+	</ul>
+</nav>
 
-  <div id="toppal" class="palette">
-    <div>
-      <img src="lucidlogo.png" class="bigtitle" />
-      <div class="byline">Transparency and insight.</div>
-    </div>
-    <div>
-      <input type="submit" id="king_filter" class="kingbutton" value="Filter" />
-      <input type="submit" id="king_squash" class="kingbutton" value="Simplify" />
-      <input type="submit" id="king_vis" class="kingbutton" value="Vis" />
-      <input type="submit" id="king_obj" class="kingbutton" value="Details" />
-      <input type="submit" id="king_data" class="kingbutton" value="Data" />
-      <input type="submit" id="king_stats" class="kingbutton" value="Logs" />
-      <input type="submit" id="king_help" class="kingbutton" value="Help" />
-      <input type="submit" id="king_arrange" class="kingbutton" value="Arrange" />
-    </div>
-  </div>
+
 
   <div id="filterpal" class="palette">
     <div class="palheader">
@@ -609,7 +767,7 @@
     </div>
   </div>
 
-  <div id="content">
+  <div id="mycontent">
     <svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg>
   </div>
 
@@ -621,21 +779,6 @@
     </div>
     <div class="palbody">
       <table>
-        <tr>
-          <td>
-            <label for="ctrl_filter">Mode</label>
-          </td>
-          <td>
-            <select id="ctrl_vis_list">
-              <option value="bipart">Bipart</option>
-              <option value="cola">Cola</option>
-              <option value="flow">Flow</option>
-              <option value="matrix">Matrix</option>
-              <option value="hive">Hive</option>
-              <option value="trees">Trees</option>
-            </select>
-          </td>
-        </tr>
         <tr>
           <td colspan="2">
             <hr/>
@@ -734,6 +877,8 @@
 
 
   </div>
+  
+  
 
 
 </body>
