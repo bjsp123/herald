@@ -7,11 +7,11 @@ var bjs;
 	bjs.flow_view = function() {
 
 	var NODE_R = 8;
-	var OUTPUT_GROUP_X = 850;
+	var OUTPUT_GROUP_X = 1050;
 	var GROUP_INTERVAL_X = 400;
 	var BUNDLE_OFFSET = 120;
 	var AXIS_HEIGHT = 1000;
-	var TOP_MARGIN = 20;
+	var TOP_MARGIN = 200;
 	var GROUPBAR_WIDTH = 20;
 	var GROUP_PADDING = 20;
 	var INVALID_DEPTH = 999; ///remember programming like this?
@@ -105,7 +105,7 @@ var bjs;
 			.append("path")
 			.attr("class", "glink")
 			.attr("stroke-width", function(d) {
-				return d.count / 2 + 1;
+				return d.size / 2 + 1;
 			});
 
 
@@ -135,9 +135,7 @@ var bjs;
 			.enter()
 			.append("path")
 			.attr("class", "link")
-			.attr("stroke", function(d) {
-				return d.type == "filter" ? "grey" : "blue";
-			});
+			.attr("stroke", bjs.getLinkColor);
 
 
 		links
@@ -333,7 +331,7 @@ var bjs;
 
 	function dragend(d) {
 		if (cached_conf["renderSummary"])
-			renderGLinks(cached_svg, cached_conf, cached_dat.glinka);
+			renderGLinks(cached_svg, cached_conf, cached_dat.glinks);
 		else
 			renderLinks(cached_svg, cached_conf, cached_dat.links);
 

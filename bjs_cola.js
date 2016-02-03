@@ -66,6 +66,8 @@ var bjs;
 			mv.nodea.forEach(function(v) {
 				v.width = NODE_W; //CART_WIDTH+NODE_R/2;
 				v.height = NODE_H; //CART_HEIGHT;
+				v.x = v.x + TOTAL_WIDTH/3;
+				v.y = v.y + TOTAL_WIDTH/3;
 			});
 
 			mv.groupa.forEach(function(g) {
@@ -121,7 +123,7 @@ var bjs;
 				.attr("class", "link")
 				.attr("stroke", function(d) {
 					if (powerGraph) return "green";
-					return d.rel.type == "filter" ? "grey" : "blue";
+					return bjs.getLinkColor(d);
 				});
 
 			lt.exit().remove();
@@ -265,8 +267,6 @@ var bjs;
 
 		function connector_colaroute(d, i) {
 
-
-
 			var x1 = d.route.sourceIntersection.x;
 			var y1 = d.route.sourceIntersection.y;
 			var x2 = d.route.arrowStart.x;
@@ -274,9 +274,9 @@ var bjs;
 
 			var offs = Math.abs(x1 - x2) / 2;
 
-			return "M " + x1 + " " + y1 + " L " + x2 + " " + y2;
+			//return "M " + x1 + " " + y1 + " L " + x2 + " " + y2;
 
-			//return "M " + (x1) + " " + (y1) + "C " + (x1 + offs) + " " + (y1) + " " + (x2 - offs) + " " + y2 + " " +x2 + " " + y2;
+			return "M " + (x1) + " " + (y1) + "C " + (x1 + offs) + " " + (y1) + " " + (x2 - offs) + " " + y2 + " " +x2 + " " + y2;
 
 		}
 
@@ -304,6 +304,8 @@ var bjs;
 
 
 		function groupMouseOver(d) {
+			
+			/*
 			svg.selectAll(".link")
 				.classed("active", function(p) {
 					return (p.realsource || p.source).group.fullname == d.fullname || (p.realtarget || p.target).group.fullname == d.fullname;
@@ -327,30 +329,32 @@ var bjs;
 				.classed("passive", function(p) {
 					return p.fullname != d.fullname;
 				});
-
+*/
 
 			bjs.hover(d);
 		}
 
 
 		function nodeMouseOver(d) {
+			
 			svg.selectAll(".link")
-				.classed("active", function(p) {
-					return bjs.areNodesRelated((p.realsource || p.source), d) || bjs.areNodesRelated((p.realtarget || p.target), d);
-				})
-				.classed("passive", function(p) {
-					return !(bjs.areNodesRelated((p.realsource || p.source), d) || bjs.areNodesRelated((p.realtarget || p.target), d));
-				});
+			.classed("active", function(p) {
+				return bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d);
+			})
+			.classed("passive", function(p) {
+				return !(bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d));
+			});
 
-			svg.selectAll(".node,.nodelabel")
-				.classed("active", function(p) {
-					return bjs.areNodesRelated(p, d);
-				})
-				.classed("passive", function(p) {
-					return !bjs.areNodesRelated(p, d);
-				});
+		svg.selectAll(".node,.nodelabel")
+			.classed("active", function(p) {
+				return bjs.areNodesRelated(p, d);
+			})
+			.classed("passive", function(p) {
+				return !bjs.areNodesRelated(p, d);
+			});
 
-			bjs.hover(d);
+		bjs.hover(d);
+		
 		}
 
 		function mouseOut() {

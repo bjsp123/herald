@@ -7,11 +7,12 @@ var bjs;
     bjs.isNodeRelatedToGroup = isNodeRelatedToGroup;
     bjs.shortenString = shortenString;
     bjs.removeItem = removeItem;
+    bjs.getLinkColor = getLinkColor;
 
     function getNodeColor(color, conf, n) {
-        if (conf["hilite"] == "critical" && n.field.critical == "Critical") return "red";
+        if (conf["hilite"] == "critical" && n.field.flags && n.field.flags.indexOf("critical") != -1) return "red";
 
-        if (conf["hilite"] == "untraced" && n.field.ancestors.length == 0 && n.field.formula == '') return "red"
+        if (conf["hilite"] == "untraced" && n.field.sources.length == 0 && n.field.formula == '') return "red"
 
         if (n.group) {
             return getGroupColor(color, conf, n.group);
@@ -19,6 +20,12 @@ var bjs;
         else {
             return getGroupColor(color, conf, n.field.asset);
         }
+    }
+    
+    function getLinkColor(l) {
+        if(l.rel.type=="filter") return "#777";
+        
+        return "blue";
     }
 
     function getGroupColor(color, conf, g) {
@@ -38,8 +45,11 @@ var bjs;
     function areNodesRelated(a, b) {
         if(a.itemtype != "node" || b.itemtype != "node") return false;
         if (a.fullname == b.fullname) return true;
-        for (var i = 0; i < a.field.peers.length; ++i) {
-            if (a.field.peers[i].fullname == b.fullname) return true;
+        for (var fullname in a.field.ancestors) {
+            if (fullname == b.fullname) return true;
+        }
+         for (var fullname in a.field.descendants) {
+            if (fullname == b.fullname) return true;
         }
         return false;
     }
@@ -47,8 +57,11 @@ var bjs;
     function isNodeRelatedToGroup(n, g) {
         if(n.itemtype != "node" || g.itemtype != "group") return false;
         if (n.group.fullname == g.fullname) return true;
-        for (var i = 0; i < n.field.peers.length; ++i) {
-            if (n.field.peers[i].asset.fullname == g.fullname) return true; //assumes asset name is group name, may not always be true
+        for (var fullname in a.field.ancestors) {
+            if (a.field.ancestors[fullname].asset.fullname == b.fullname) return true;
+        }
+         for (var fullname in a.field.descendants) {
+            if (a.field.descendants[fullname].asset.fullname == b.fullname) return true;
         }
         return false;
     }

@@ -154,9 +154,7 @@ var bjs;
 				.enter()
 				.append("path")
 				.attr("class", "link")
-				.attr("stroke", function(d) {
-					return d.type == "filter" ? "grey" : "blue";
-				});
+				.attr("stroke", bjs.getLinkColor);
 
 
 			links

@@ -57,12 +57,12 @@ var bjs;
             mv.links.push(l);
         }
 
-        for (var i = 0; i < w.arels.length; ++i) {
-            var arel = w.arels[i];
+        for (var i = 0; i < w.arela.length; ++i) {
+            var arel = w.arela[i];
             var sourceG = mv.groups[arel.source.fullname];
             var targetG = mv.groups[arel.target.fullname];
             var gl = new bjs.glink(sourceG, targetG, arel);
-            mv.glinks.push(l);
+            mv.glinks.push(gl);
         }
 
 

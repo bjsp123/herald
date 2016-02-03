@@ -57,7 +57,7 @@ var bjs;
 		this.hasSources = false;
 	}
 
-	function field(fullname, name, asset, term, desc, formula) {
+	function field(fullname, name, asset, term, desc, formula, flags) {
 		bjs.lg_inf("Creating field " + fullname);
 		if (name == null || name == "") 
 			throw "Tried to create unnamed field";
@@ -67,7 +67,7 @@ var bjs;
 		this.fullname = fullname;
 		this.name = name;
 		this.asset = asset;
-		this.flags = "";
+		this.flags = flags;
 		this.term = term;
 		this.desc = desc;
 		this.formula = formula;
@@ -163,6 +163,7 @@ var bjs;
 		this.source = source;
 		this.target = target;
 		this.size = arel?arel.count:size;
+		this.arel = arel;
 	}
 
 	function mv(w) {

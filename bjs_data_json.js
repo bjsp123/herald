@@ -213,7 +213,7 @@ var bjs_data_json;
 		}
 
 		//add the actual field
-		var newfield = new bjs.field(f.fullname, f.name, newass, newterm, f.desc, f.formula);
+		var newfield = new bjs.field(f.fullname, f.name, newass, newterm, f.desc, f.formula, f.flags);
 	
 		w.fields[newfield.fullname] = newfield;
 		w.fielda.push(newfield);
@@ -267,10 +267,9 @@ var bjs_data_json;
 	function isMatch(field, filter){
 
 		if (filter.only_crit) {
-			if(!(field.term && field.term.flags.indexOf("ritical") != -1)){
-				if(!(field.critical && field.critical.indexOf("ritical") != -1))
-					return false;
-			}
+			if(!(field.flags && field.flags.indexOf("critical") != -1))
+				return false;
+			
 		}
 
 		if (filter.inc != "") {
@@ -484,7 +483,7 @@ var bjs_data_json;
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading term " + row.code);
-			var term = new bjs.term(row.code, row.name, row.desc, row.critical);
+			var term = new bjs.term(row.code, row.name, row.desc, row.flags);
 			w.terms[term.fullname] = term;
 		}
 
@@ -495,11 +494,14 @@ var bjs_data_json;
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading field " + row.fullname);
-			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula);
+			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags);
 			w.fields[field.fullname] = field;
 			w.fielda.push(field);
 			if (field.term) field.term.children.push(field);
 			if (field.asset) field.asset.children.push(field);
+			if(field.term) {
+				field.flags += field.term.flags;
+			}
 		}
 
 		bjs.lg_sum("Read " + w.fields.length + " fields.");
