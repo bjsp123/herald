@@ -57,11 +57,11 @@ var bjs;
     function isNodeRelatedToGroup(n, g) {
         if(n.itemtype != "node" || g.itemtype != "group") return false;
         if (n.group.fullname == g.fullname) return true;
-        for (var fullname in a.field.ancestors) {
-            if (a.field.ancestors[fullname].asset.fullname == b.fullname) return true;
+        for (var fullname in n.field.ancestors) {
+            if (n.mv.world.fields[fullname].asset.fullname == g.fullname) return true;
         }
-         for (var fullname in a.field.descendants) {
-            if (a.field.descendants[fullname].asset.fullname == b.fullname) return true;
+         for (var fullname in n.field.descendants) {
+            if (n.mv.world.fields[fullname].asset.fullname == g.fullname) return true;
         }
         return false;
     }

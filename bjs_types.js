@@ -122,7 +122,7 @@ var bjs;
 
 //////////////////// view model
 
-	function node(field) {
+	function node(mv, field) {
 		bjs.lg_inf("Creating node " + field.fullname);
 		if (field == null) 
 			throw "Tried to create node without field";
@@ -132,6 +132,7 @@ var bjs;
 		this.field = field;
 		this.fullname = field.fullname;
 		this.group = null;
+		this.mv = mv;
 
 		this.x = -1;
 		this.y = -1;

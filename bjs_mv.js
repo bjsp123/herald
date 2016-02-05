@@ -23,7 +23,7 @@ var bjs;
         for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
-            var n = new bjs.node(field);
+            var n = new bjs.node(mv, field);
             mv.nodea.push(n);
             mv.nodes[fullname] = n;
             bjs.lg_inf("node: " + n.fullname);
@@ -95,14 +95,14 @@ var bjs;
             var field = w.fields[fullname];
 
             if (field.hasSources) {
-                var n = new bjs.node(field);
+                var n = new bjs.node(mv, field);
                 rnodea.push(n);
                 rnodes[fullname] = n;
                 bjs.lg_inf("lnode: " + field.fullname);
             }
 
             if (field.hasTargets) {
-                var n = new bjs.node(field);
+                var n = new bjs.node(mv, field);
                 lnodea.push(n);
                 lnodes[fullname] = n;
                 bjs.lg_inf("rnode: " + field.fullname);
@@ -199,20 +199,20 @@ var bjs;
             var field = w.fields[fullname];
 
             if (field.hasSources && !field.hasTargets) {
-                var n = new bjs.node(field);
+                var n = new bjs.node(mv, field);
                 rnodea.push(n);
                 rnodes[fullname] = n;
             }
 
             if (field.hasTargets && !field.hasSources) {
-                var n = new bjs.node(field);
+                var n = new bjs.node(mv, field);
                 lnodea.push(n);
                 lnodes[fullname] = n;
             }
 
             if (field.hasTargets && field.hasSources) {
-                var n1 = new bjs.node(field);
-                var n2 = new bjs.node(field);
+                var n1 = new bjs.node(mv, field);
+                var n2 = new bjs.node(mv, field);
                 m1nodea.push(n1);
                 m1nodes[fullname] = n1;
                 m2nodea.push(n2);
@@ -327,7 +327,7 @@ var bjs;
         var mv = new bjs.mv(w);
 
         for (var i = 0; i < w.fielda.length; ++i) {
-            var n = new bjs.node(w.fielda[i]);
+            var n = new bjs.node(mv, w.fielda[i]);
             n.cola_index = i;
             mv.nodea.push(n);
             mv.nodes[n.fullname] = n;
@@ -382,11 +382,11 @@ var bjs;
 
             if (w.fielda[i].directlyrelevant) {
                 var f = w.fielda[i];
-                var root = new bjs.node(f);
+                var root = new bjs.node(mv, f);
                 root.children = [];
                 root.nameintree = root.fullname;
 
-                recursiveTreeBuild(root, f);
+                recursiveTreeBuild(mv, root, f);
 
                 mv.treeroots.push(root);
             }
@@ -406,19 +406,19 @@ var bjs;
 
     // internal function used in makeTree.
     // b = node in the tree we are building.  n = field under consideration.
-    function recursiveTreeBuild(b, n) {
+    function recursiveTreeBuild(mv, b, n) {
 
         b.children = [];
 
         for (var i = 0; i < n.sources.length; ++i) {
             var src = n.sources[i];
-            var newtreenode = new bjs.node(src);
+            var newtreenode = new bjs.node(mv, src);
 
             newtreenode.nameintree = b.nameintree + newtreenode.fullname;
 
             b.children.push(newtreenode);
 
-            recursiveTreeBuild(newtreenode, src);
+            recursiveTreeBuild(mv, newtreenode, src);
 
         }
 
