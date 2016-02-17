@@ -88,9 +88,9 @@ var bjs;
 
 	function rel(source, target, type) {
 		if (source == null) 
-			throw "Tried to create link with null source";
+			bjs.lg_err("Tried to create rel with null source.  Target is " + target.fullname);
 		if (target == null) 
-			throw "Tried to create link with null target";
+			bjs.lg_err("Tried to create rel with null target.  Source is " + source.fullname);
 		this.itemtype = "rel";
 		this.source = source;
 		this.target = target;
@@ -99,9 +99,9 @@ var bjs;
 
 	function arel(source, target) {
 		if (source == null) 
-			throw "Tried to create group link with null source";
+			bjs.lg_err("Tried to create group rel with null source.  Target is " + target.fullname);
 		if (target == null) 
-			throw "Tried to create group link with null target";
+			bjs.lg_err("Tried to create group rel with null target.  Source is " + source.fullname);
 		this.itemtype = "arel";
 		this.source = source;
 		this.target = target;

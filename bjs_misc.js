@@ -6,7 +6,7 @@ var bjs;
 	var conf = {};
 
 	bjs.lg_inf = function(s) {
-		console.log("I: " + s);
+		//console.log("I: " + s);
 	};
 	bjs.lg_sum = function(s) {
 		console.log("S: " + s);
