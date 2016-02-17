@@ -23,7 +23,7 @@ var bjs;
 	function term(code, name, desc, flags) {
 		bjs.lg_inf("Creating term " + code);
 		if (code == null || code == "") 
-			throw "Tried to create term with no code";
+			bjs.lg_err("Tried to create term with no code");
 		this.itemtype = "term";
 		this.name = name;
 		this.code = code;
@@ -36,7 +36,7 @@ var bjs;
 	function asset(name, location, type, owner, desc, calc) {
 		bjs.lg_inf("Creating asset " + name);
 		if (name == null || name == "") 
-			throw "Tried to create unnamed asset";
+			bjs.lg_err("Tried to create unnamed asset");
 		this.itemtype = "asset";
 		this.name = name;
 		this.fullname = name;
@@ -60,9 +60,9 @@ var bjs;
 	function field(fullname, name, asset, term, desc, formula, flags) {
 		bjs.lg_inf("Creating field " + fullname);
 		if (name == null || name == "") 
-			throw "Tried to create unnamed field";
+			bjs.lg_err("Tried to create unnamed field");
 		if (asset == null) 
-			throw "Tried to create field " + name + " with no asset.";
+			bjs.lg_err("Tried to create field " + name + " with no asset.");
 		this.itemtype = "field";
 		this.fullname = fullname;
 		this.name = name;
@@ -125,9 +125,9 @@ var bjs;
 	function node(mv, field) {
 		bjs.lg_inf("Creating node " + field.fullname);
 		if (field == null) 
-			throw "Tried to create node without field";
+			bjs.lg_err("Tried to create node without field");
 		if (field.itemtype != "field") 
-			throw "Tried to create node with something that is not a field";
+			bjs.lg_err("Tried to create node with something that is not a field");
 		this.itemtype = "node";
 		this.field = field;
 		this.fullname = field.fullname;
@@ -139,12 +139,12 @@ var bjs;
 	}
 
 	function link(source, target, rel) {
+		if(rel == null)
+			bjs.lg_err("Tried to create link with no rel.");
 		if (source == null) 
-			throw "Tried to create link with null source";
+			bjs.lg_err("Tried to create link with null source.  Target is " + target.field.fullname);
 		if (target == null) 
-			throw "Tried to create link with null target";
-		if (rel == null) 
-			throw "Tried to create link with null rel";
+			bjs.lg_err("Tried to create group rel with null target.  Source is " + source.field.fullname);
 		this.itemtype = "link";
 		this.source = source;
 		this.target = target;
