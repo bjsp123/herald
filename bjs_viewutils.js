@@ -8,6 +8,7 @@ var bjs;
     bjs.shortenString = shortenString;
     bjs.removeItem = removeItem;
     bjs.getLinkColor = getLinkColor;
+    bjs.breakPath = breakPath;
 
     function getNodeColor(color, conf, n) {
         if (conf["hilite"] == "critical" && n.field.flags && n.field.flags.indexOf("critical") != -1) return "red";
@@ -72,6 +73,10 @@ var bjs;
         var bit = len / 2 - 1;
 
         return str.substring(0, bit) + "..." + str.substring(str.length - bit, str.length);
+    }
+
+    function breakPath(str){
+        return str.replace("/", "/ ").replace("\\", "\\ ");
     }
 
     function removeItem(arr, item) {

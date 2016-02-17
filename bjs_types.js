@@ -29,11 +29,12 @@ var bjs;
 		this.code = code;
 		this.flags = flags;
 		this.fullname = code;
+		this.desc = desc;
 
 		this.children = [];
 	}
 
-	function asset(name, location, type, owner, desc, calc) {
+	function asset(name, location, type, owner, dept, desc, calc, notbefore, latency, risk, comment) {
 		bjs.lg_inf("Creating asset " + name);
 		if (name == null || name == "") 
 			bjs.lg_err("Tried to create unnamed asset");
@@ -43,10 +44,15 @@ var bjs;
 		this.location = location;
 		this.type = type;
 
-		this.owner = owner;
-		this.desc = desc;
-		this.calc = calc;
+		this.owner = owner||"";
+		this.dept = dept||"";
+		this.desc = desc||"";
+		this.calc = calc||"";
+		this.comment = comment||"";
 
+		this.notbefore = notbefore||0;
+		this.latency = latency||0;
+		this.risk = risk||0;
 
 		this.rels = [];
 		this.peers = [];
@@ -55,9 +61,12 @@ var bjs;
 		this.children = [];
 		this.hasTargets = false;
 		this.hasSources = false;
+
+		this.effnotbefore = null;
+		this.isLatestSrc = false;
 	}
 
-	function field(fullname, name, asset, term, desc, formula, flags) {
+	function field(fullname, name, type, asset, term, desc, formula, flags, quality, risk, comment) {
 		bjs.lg_inf("Creating field " + fullname);
 		if (name == null || name == "") 
 			bjs.lg_err("Tried to create unnamed field");
@@ -67,10 +76,15 @@ var bjs;
 		this.fullname = fullname;
 		this.name = name;
 		this.asset = asset;
-		this.flags = flags;
+		this.flags = flags||"";
 		this.term = term;
-		this.desc = desc;
-		this.formula = formula;
+		this.desc = desc||"";
+		this.formula = formula||"";
+		this.comment = comment||"";
+		this.fieldtype = type;
+
+		this.quality = quality||1;
+		this.risk = risk||1 + asset.risk;
 
 		this.rels = [];
 		this.peers = [];
@@ -84,6 +98,9 @@ var bjs;
 		this.utargets = {};
 		this.hasTargets = false;
 		this.hasSources = false;
+
+		this.effrisk = null;
+		this.effquality = null;
 	}
 
 	function rel(source, target, type) {

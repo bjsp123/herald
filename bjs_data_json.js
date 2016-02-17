@@ -207,13 +207,13 @@ var bjs_data_json;
 		if(asset){
 			var newass = w.assets[f.asset.fullname];
 			if(newass==null){
-				newass = new bjs.asset(asset.name, asset.location, asset.type, asset.owner, asset.desc, asset.calc);
+				newass = new bjs.asset(asset.name, asset.location, asset.type, asset.owner, asset.dept, asset.desc, asset.calc, asset.notbefore, asset.latency, asset.risk, asset.comment);
 				w.assets[newass.fullname] = newass;
 			}
 		}
 
 		//add the actual field
-		var newfield = new bjs.field(f.fullname, f.name, newass, newterm, f.desc, f.formula, f.flags);
+		var newfield = new bjs.field(f.fullname, f.name, f.type, newass, newterm, f.desc, f.formula, f.flags, f.quality, f.risk, f.comment);
 	
 		w.fields[newfield.fullname] = newfield;
 		w.fielda.push(newfield);
@@ -397,6 +397,33 @@ var bjs_data_json;
 
 		}
 
+		bjs.lg_inf("Calculating asset times");
+
+		for(assetfullname in w.assets){
+			var ass = w.assets[assetfullname];
+			recursiveAssetCalculations(w, ass);
+		}
+
+	}
+
+	function recursiveAssetCalculations(w, ass){
+
+		if(ass.effnotbefore != null){
+			return;
+		}
+
+		var latest_src = ass.notbefore;
+		for(var i=0;i<ass.sources.length;++i){
+			var srcass = ass.sources[i];
+			if(ass == srcass) continue;
+			recursiveAssetCalculations(w, srcass);
+			if(srcass.effnotbefore > latest_src){
+				latest_src = srcass.effnotbefore;
+				srcass.isLatestSrc = true;
+			}
+		}
+
+		ass.effnotbefore = latest_src + ass.latency;
 	}
 
 
@@ -472,7 +499,7 @@ var bjs_data_json;
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading asset " + row.fullname);
-			var asset = new bjs.asset(row.fullname, row.location, row.type, row.owner, row.desc, row.calc);
+			var asset = new bjs.asset(row.fullname, row.location, row.type, row.owner, row.dept, row.desc, row.calc, row.notbefore, row.latency, row.risk, row.comment);
 			w.assets[asset.fullname] = asset;
 		}
 
@@ -494,7 +521,7 @@ var bjs_data_json;
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading field " + row.fullname);
-			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags);
+			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.comment);
 			w.fields[field.fullname] = field;
 			w.fielda.push(field);
 			if (field.term) field.term.children.push(field);
