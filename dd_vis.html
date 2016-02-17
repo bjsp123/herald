@@ -357,68 +357,66 @@
     }
 
     function mouseOverHandler(d) {
-      var name = "<br/>",
-        desc = "<br/>",
-        formula = "<br/>",
-        facts = "<br/>",
-        src = "<br/>";
+      var name = "",
+        summary = "",
+        details = "";
+
       if (d != null) {
 
 
         if (d.itemtype == "node") {
           name = "Field " + d.field.name;
-          desc = d.field.desc;
-          formula = d.field.formula;
-          facts = "Found in dataset: " + d.field.asset.fullname + "<br/>";
-          facts += "Criticality: " + d.field.critical + "<br/>";
-          facts += "Last edit: " + "n/a" + "<br/>";
 
-          var bFoundValue = false,
-            bFoundFilter = false;
+          summary += d.field.desc + "<br/>";
+          summary += "Type: " + d.field.fieldtype + "<br/>";
+          summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
+          summary += "Criticality: " + d.field.critical + "<br/>";
+          summary += (d.field.term == null)?"Not associated with a business term":"Term: " + d.field.term.name;
 
+          details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
 
-          for (var fullname in d.usources) {
-            if (d.usources[fullname].filter == false) {
-              if (bFoundValue == false) {
-                src = "<b>Value sources:</b>" + "<br/>";
-                bFoundValue = true;
-              }
-              src += fullname + "<br/>";
-            }
+          details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li><li>Quality: " + d.field.effquality + "</li><li>Direct Risk: " + d.field.risk + "</li><li>Direct Quality: " + d.field.quality + "</li></ul>";
+
+          if(d.field.term != null){
+            details += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
+          }else{
+            details += "Not associated with a business term";
           }
-          for (fullname in d.usources) {
-            if (d.usources[fullname].filter == true) {
-              if (bFoundFilter == false) {
-                src += "<b>Filter sources:</b>" + "<br/>";
-                bFoundFilter = true;
-              }
-              src += fullname + "<br/>";
-            }
-          }
+        
         }
 
         if (d.itemtype == "group") {
           name = "Group " + d.fullname;
-          if (d.asset) {
-            facts = "Type: " + d.asset.type + "<br/>";
-            facts += "Owner: " + d.asset.owner + "<br/>";
-            facts += "Contains " + d.asset.children.length + " field" + (d.asset.children.length == 1 ? "" : "s") + ".";
-            if (d.asset.location.toString().length > 0) formula = "At: " + d.asset.location;
-            if (d.asset.desc.toString().length > 0) desc = d.asset.desc;
-            if (d.asset.calc && d.asset.calc.toString().length > 0) src = "Calculated by: " + d.asset.calc;
-          }
+
+          summary += d.asset.desc + "<br/>";
+          summary += "Type: " + d.asset.type + "<br/>";
+
+          if(d.asset != null){
+
+            details += "<h3>Content:</h3><ul><li>Description: " + d.asset.desc + "</li><li>Located At: " + bjs.breakPath(d.asset.location) +  + "</li><li>Calculated In: " + bjs.breakPath(d.asset.calc) + "</li></ul>";
+
+            details += "<h3>Ownership:</h3><ul><li>Staff member: " + d.asset.owner + "</li><li>Team: " + d.asset.dept + "</li></ul>";
+
+            details += "<h3>Risk Characteristics:</h3><ul><li>Direct Risk: " + d.asset.risk + "</li></ul>";
+
+            details += "<h3>Timing Characteristics:</h3><ul><li>Available From: " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + "</li><li>Inherent Earliest: " + d.asset.notbefore + "</li></ul>";
+            }
+          
           else {
-            facts = "Group not based on a data asset";
+            summary = "Group is not based on a data asset";
+            details = "n/a";
           }
 
         }
+      } else {
+        name = "<br/>";
+        summary = "<br/><br/><br/>";
+        details = "<br/>";
       }
 
       d3.select("#object_name").html(name);
-      d3.select("#object_desc").html(desc);
-      d3.select("#object_formula").html(formula);
-      d3.select("#object_facts").html(facts);
-      d3.select("#object_src").html(src);
+      d3.select("#object_summary").html(summary);
+      d3.select("#object_details").html(details);
     }
   </script>
 </head>
@@ -737,13 +735,9 @@
       <h3>Item name:</h3>
       <div id="object_name" class="info"></div>
       <h3>Summary:</h3>
-      <div id="object_facts" class="info"></div>
-      <h3>Derivation:</h3>
-      <div id="object_formula" class="info"></div>
-      <h3>Description:</h3>
-      <div id="object_desc" class="info"></div>
-      <h3>Sources:</h3>
-      <div id="object_src" class="info"></div>
+      <div id="object_summary" class="info"></div>
+      <h3>Details:</h3>
+      <div id="object_details" class="info"></div>
     </div>
 
   </div>

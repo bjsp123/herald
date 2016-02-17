@@ -72,7 +72,7 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "usesvalue": ["Customer.ClientData.Individuals:Postcode",
-                "Customer.ClientData.SmallBusiness:Postcode",],
+                "Customer.ClientData.SmallBusiness:Postcode"],
             "usesfilter": [
                 ]
         },{
@@ -84,8 +84,9 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 0.8,
             "usesvalue": ["Customer.ClientData.Individuals:Name",
-                "Customer.ClientData.SmallBusiness:Name",],
+                "Customer.ClientData.SmallBusiness:Name"],
             "usesfilter": [
                 ]
         },{
@@ -119,6 +120,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 0.8,
             "usesvalue": [],
             "usesfilter": []
         },{
@@ -130,6 +132,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 0.8,
             "usesvalue": [],
             "usesfilter": []
         },  {
@@ -281,6 +284,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "adjustment": "Adjust_Limits",
             "usesvalue": [],
             "usesfilter": []
         }, {
@@ -314,17 +318,20 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "adjustment": "Adjust_Grade",
             "usesvalue": ["Customer.Quality.Internal:Provisional_Entity_Grade"],
             "usesfilter": []
         }, {
             "fullname": "Customer.Quality.Internal:Provisional_Entity_Grade",
             "conceptname": "",
             "desc": "Provisional internal entity grade derived from ratings and bureau scores.",
-            "formula": "Corp rating where present; else bureau score.",
+            "formula": "Corp rating where present; else bureau score.  Sometimes a manually entered value is used.",
             "type": "Money",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "risk": 1.2,
+            "comment": "Subject to manual overrides.",
             "usesvalue": ["Reference.SnP.Ratings:Rating", "Reference.Delphi.Scores:Score"],
             "usesfilter": []
         }, {
@@ -432,71 +439,81 @@ testdata.raw =
             "desc": "Data mart for ad-hoc queries as part of BCBS 239 response.",
             "location": "/va_server/hdfs_export/datamarts/cr",
             "type": "SAS VA Dataset",
-            "owner": "Amos Quito",
-            "dept": "Credit Risk",
-            "calc": "/server2/code/bi_code"
+            "owner": "Amos_Quito",
+            "dept": "Credit_Risk",
+            "calc": "/server2/code/bi_code",
+            "latency": 1
         }, {
             "fullname": "Customer.ClientData.Individuals",
             "desc": "Customer personal data.",
             "location": "/server2/customer_data",
             "type": "SAS Dataset",
-            "owner": "Mandy Harpoons",
-            "dept": "Customer Mgmt",
-            "calc": "/server2/code/etl_stuff"
+            "owner": "Mandy_Harpoons",
+            "dept": "Customer_Mgmt",
+            "calc": "/server2/code/etl_stuff",
+            "notbefore": 1
         }, {
             "fullname": "Customer.ClientData.SmallBusiness",
             "desc": "Small business data.",
             "location": "/server2/customer_data",
             "type": "SAS Dataset",
-            "owner": "Mandy Harpoons",
-            "dept": "Customer Mgmt",
-            "calc": "/server2/code/etl_stuff"
+            "owner": "Mandy_Harpoons",
+            "dept": "Customer_Mgmt",
+            "calc": "/server2/code/etl_stuff",
+            "notbefore": 2
         }, {
             "fullname": "Reference.ClientData.Hierarchy",
             "desc": "Business hierarchy for small corp clients, taken from bureau files.",
             "location": "/server/customer/ref/spreadsheets",
             "type": "Excel",
-            "owner": "Mandy Harpoons",
-            "dept": "Reference Data",
+            "owner": "Mandy_Harpoons",
+            "dept": "Reference_Data",
             "calc": "/server2/code/etl_stuff"
         }, {
             "fullname": "Reference.SnP.Ratings",
             "desc": "Reference data from external source (SnP).",
             "location": "/server/folder/files/ref/snp",
             "type": "Text File",
-            "owner": "Madison Avenue",
-            "dept": "Reference Data",
+            "owner": "Madison_Avenue",
+            "dept": "Reference_Data",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
             "fullname": "Reference.Delphi.Scores",
             "desc": "Reference data from external source (Delphi).",
             "location": "/server/delphi/yyymm/scores",
             "type": "SAS Dataset",
-            "owner": "Madison Avenue",
-            "dept": "Reference Data",
-            "calc": "/server/folder/scripts/calcStuff"
+            "owner": "Madison_Avenue",
+            "dept": "Reference_Data",
+            "calc": "/server/folder/scripts/calcStuff",
+            "risk": 1.1
         }, {
             "fullname": "Refinancing.Retail.Restructuring_Mods",
             "desc": "Restructuring information around account modifications.",
             "location": "/server/staging/retail/restr/mods",
             "type": "SAS Dataset",
-            "owner": "Madison Avenue",
+            "owner": "Madison_Avenue",
             "dept": "Banking",
-            "calc": "/server/folder/scripts/calcStuff"
+            "calc": "/server/folder/scripts/calcStuff",
+            "latency": 1,
+            "process": "Proc_Refinancing",
+            "risk": 1.1,
+            "comment": "Refinancing data assets are considered risky due to the complex manual processes involved."
         },{
             "fullname": "Refinancing.Retail.Restructuring",
             "desc": "Extract from payments system.",
             "location": "/server/staging/retail/restr/snapshots",
             "type": "SAS Dataset",
-            "owner": "Madison Avenue",
+            "owner": "Madison_Avenue",
             "dept": "Banking",
-            "calc": "/server/folder/scripts/calcStuff"
+            "calc": "/server/folder/scripts/calcStuff",
+            "latency": 1,
+            "process": "Proc_Refinancing"
         },{
             "fullname": "Core.Retail.Balances",
             "desc": "Account balances from retail core banking systems",
             "location": "/server/folder/files/inputDynamic",
             "type": "SAS Dataset",
-            "owner": "Madison Avenue",
+            "owner": "Madison_Avenue",
             "dept": "Banking",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
@@ -504,7 +521,7 @@ testdata.raw =
             "desc": "Account information for retail contracts.",
             "location": "/server/folder/files/inputDynamic",
             "type": "SAS Dataset",
-            "owner": "Helen Wheels",
+            "owner": "Helen_Wheels",
             "dept": "Banking",
             "calc": "/server2/logic/stuff/"
         },{
@@ -512,25 +529,27 @@ testdata.raw =
             "desc": "Contract terms information for retail contracts.",
             "location": "/server/folder/files/terms",
             "type": "SAS Dataset",
-            "owner": "Helen Wheels",
+            "owner": "Helen_Wheels",
             "dept": "Banking",
-            "calc": "/server2/logic/stuff/"
+            "calc": "/server2/logic/stuff/",
+            "notbefore": 1
         }, {
             "fullname": "Customer.Quality.Internal",
             "desc": "Internal customer quality measures.",
             "location": "/server/folder/files/dims",
             "type": "SAS Dataset",
-            "owner": "Madison Avenue",
-            "dept": "Customer Mgmt",
+            "owner": "Madison_Avenue",
+            "dept": "Customer_Mgmt",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
             "fullname": "Reports.BCBS.CreditRisk",
             "desc": "A report that is sent to auditors, governed as part of BCBS, containing retail credit risk summary information",
             "location": "/server/folder/reports/MR",
             "type": "SAS VA Dataset",
-            "owner": "Len Miatena",
-            "dept": "Credit Risk",
-            "calc": "/server/folder/scripts/calcStuff"
+            "owner": "Len_Miatena",
+            "dept": "Credit_Risk",
+            "calc": "/server/folder/scripts/calcStuff",
+            "latency": 1
         }],
         terms: [{
             "code": "TotalAssets",
@@ -553,8 +572,73 @@ testdata.raw =
             "desc": "Total assets weighted by risk classification.",
             "flags": "critical"
         }],
+        /*this system is unused*/
         tings: [{
             "type": "Process",
-            "name": "Dat"
+            "fullname": "Proc_BCBS_DW",
+            "name": "BCBS 239 DW Update",
+            "desc": "Update BCBS239 data warehouse via EOD batch run by Credit Risk",
+            "owner": "Len_Miatena",
+            "dept": "Credit_Risk"
+        }, {
+            "type": "Process",
+            "fullname": "Proc_Refinancing",
+            "name": "Refinancing Process",
+            "desc": "Refinancing Process run monthly on WD5",
+            "owner": "Madison_Avenue",
+            "dept": "Banking",
+            "risk": 1.1
+        }, {
+            "type": "Staff",
+            "fullname": "Len_Miatena",
+            "name": "Leonard Miatena"
+        }, {
+            "type": "Staff",
+            "fullname": "Mandy_Harpoons",
+            "name": "Amanda Harpoons"
+        }, {
+            "type": "Staff",
+            "fullname": "Amos_Quito",
+            "name": "Amos Q Quito"
+        }, {
+            "type": "Staff",
+            "fullname": "Madison_Avenue",
+            "name": "Madison Eurgh Avenue"
+        }, {
+            "type": "Adjustment",
+            "fullname": "Adjust_Grade",
+            "name": "Entity Grade Override",
+            "desc": "Manual overrides to internal entity grade applied by RMs",
+            "owner": "Mandy_Harpoons",
+            "dept": "Customer_Mgmt",
+            "risk": 1.2
+        }, {
+            "type": "Adjustment",
+            "fullname": "Adjust_Limits",
+            "name": "Credit Limit Adjustment",
+            "desc": "Credit Limit is adjusted manually in some cases",
+            "owner": "Mandy_Harpoons",
+            "dept": "Customer_Mgmt",
+            "risk": 1.1
+        }, {
+            "type": "Unit",
+            "fullname": "Banking",
+            "name": "Banking Team",
+            "desc": "Team responsible for core banking operations"
+        },  {
+            "type": "Unit",
+            "fullname": "Customer_Mgmt",
+            "name": "Customer Management Team",
+            "desc": "Team responsible for customer data and relationships"
+        },  {
+            "type": "Unit",
+            "fullname": "Credit_Risk",
+            "name": "Credit Risk data owner",
+            "desc": "Owner of credit risk reporting throughout the UK bank"
+        },  {
+            "type": "Unit",
+            "fullname": "Reference_Data",
+            "name": "Reference Data Dept",
+            "desc": "Responsible for import and stewardship of externally sourced reference data such as bureau and agency data"
         }]
     }
