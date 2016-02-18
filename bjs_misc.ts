@@ -1,47 +1,43 @@
 //logging, cloning etc.
 
-var bjs;
-(function(bjs) {
+namespace bjs{
 
-	var conf = {};
+	export var conf = {};
 
-	bjs.lg_inf = function(s) {
+	export function lg_inf(s) {
 		//console.log("I: " + s);
 	};
-	bjs.lg_sum = function(s) {
+	export function lg_sum(s) {
 		console.log("S: " + s);
 	};
-	bjs.lg_warn = function(s) {
+	export function g_warn(s) {
 		console.log("W: " + s);
 	};
-	bjs.lg_err = function(s) {
+	export function g_err(s) {
 		console.log("E: " + s);
 	};
 
-	bjs.hover = function(o) {};
+	export function hover(o) {};
 
 
-
-	bjs.fastrandom = function() {
-
-		var fr = {};
-
-		fr.cache = [];
-		fr.idx = 0;
-
-		for (var i = 0; i < 1000; ++i) {
-			fr.cache[i] = Math.random();
-		}
-
-		fr.next = function(n) {
-			fr.idx++;
-			if (fr.idx >= fr.cache.length) fr.idx = 0;
-
-			return Math.floor(fr.cache[fr.idx] * n);
-		}
-
-		return fr;
-	}
+    export class fastrandom {
+    	
+    	cache = [];
+    	idx = 0;
+    	
+    	constructor(){
+    		for (var i = 0; i < 1000; ++i) {
+			this.cache[i] = Math.random();
+    		}
+    	}
+    	
+    	next(n:number){
+    		this.idx++;
+    		if(this.idx >= this.cache.length) this.idx=0;
+    		
+    		return Math.floor(this.cache[this.idx] * n);
+    	}
+    }
 
 
-})(bjs || (bjs = {}));
+}

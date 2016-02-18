@@ -1,220 +1,189 @@
 //basic types
 
-var bjs;
-(function(bjs) {
-
-	bjs.term = term;
-	bjs.asset = asset;
-	bjs.field = field;
-	bjs.rel = rel;
-	bjs.arel = arel;
-	bjs.link = link;
-	bjs.node = node;
-	bjs.group = group;
-	bjs.glink = glink;
-	bjs.world = world;
-	bjs.mv = mv;
-	bjs.filter = filter;
-	bjs.squash = squash;
-
+namespace bjs {
+	
+	interface IMap<T> {
+    	[K: string]: T;
+	}
 
 /////////// core data model
-
-	function term(code, name, desc, flags) {
-		bjs.lg_inf("Creating term " + code);
-		if (code == null || code == "") 
-			bjs.lg_err("Tried to create term with no code");
-		this.itemtype = "term";
-		this.name = name;
-		this.code = code;
-		this.flags = flags;
-		this.fullname = code;
-		this.desc = desc;
-
-		this.children = [];
-	}
-
-	function asset(name, location, type, owner, dept, desc, calc, notbefore, latency, risk, comment) {
-		bjs.lg_inf("Creating asset " + name);
-		if (name == null || name == "") 
-			bjs.lg_err("Tried to create unnamed asset");
-		this.itemtype = "asset";
-		this.name = name;
-		this.fullname = name;
-		this.location = location;
-		this.type = type;
-
-		this.owner = owner||"";
-		this.dept = dept||"";
-		this.desc = desc||"";
-		this.calc = calc||"";
-		this.comment = comment||"";
-
-		this.notbefore = notbefore||0;
-		this.latency = latency||0;
-		this.risk = risk||0;
-
-		this.rels = [];
-		this.peers = [];
-		this.sources = [];
-		this.targets = [];
-		this.children = [];
-		this.hasTargets = false;
-		this.hasSources = false;
-
-		this.effnotbefore = null;
-		this.isLatestSrc = false;
-	}
-
-	function field(fullname, name, type, asset, term, desc, formula, flags, quality, risk, comment) {
-		bjs.lg_inf("Creating field " + fullname);
-		if (name == null || name == "") 
-			bjs.lg_err("Tried to create unnamed field");
-		if (asset == null) 
-			bjs.lg_err("Tried to create field " + name + " with no asset.");
-		this.itemtype = "field";
-		this.fullname = fullname;
-		this.name = name;
-		this.asset = asset;
-		this.flags = flags||"";
-		this.term = term;
-		this.desc = desc||"";
-		this.formula = formula||"";
-		this.comment = comment||"";
-		this.fieldtype = type;
-
-		this.quality = quality||1;
-		this.risk = risk||1 + asset.risk;
-
-		this.rels = [];
-		this.peers = [];
-		this.sources = [];
-		this.targets = [];
-		this.ancestors = {};
-		this.descendants = {};
-		this.ldepth = -1;
-		this.rdepth = -1;
-		this.usources = {};
-		this.utargets = {};
-		this.hasTargets = false;
-		this.hasSources = false;
-
-		this.effrisk = null;
-		this.effquality = null;
-	}
-
-	function rel(source, target, type) {
-		if (source == null) 
-			bjs.lg_err("Tried to create rel with null source.  Target is " + target.fullname);
-		if (target == null) 
-			bjs.lg_err("Tried to create rel with null target.  Source is " + source.fullname);
-		this.itemtype = "rel";
-		this.source = source;
-		this.target = target;
-		this.type = type;
-	}
-
-	function arel(source, target) {
-		if (source == null) 
-			bjs.lg_err("Tried to create group rel with null source.  Target is " + target.fullname);
-		if (target == null) 
-			bjs.lg_err("Tried to create group rel with null target.  Source is " + source.fullname);
-		this.itemtype = "arel";
-		this.source = source;
-		this.target = target;
-		this.count = 0;
+	
+	export class term {
+		children: field[];
+		itemtype = "term";
+		
+		constructor(public code:string, public name:string, public desc:string, public flags:string){
+			if (code == null || code == "") 
+				bjs.lg_err("Tried to create term with no code");
+		}
 	}
 	
-	function world() {
-		bjs.lg_inf("Creating new world");
-		this.assets = {};
-		this.rels = [];
-		this.terms = {};
-		this.fields = {};
-		this.fielda = [];
-		this.arels = {};
-		this.arela = [];
+	export class asset{
+		rels: rel[] = [];
+		peers: asset[] = [];
+		sources: asset[] = [];
+		targets: asset[] = [];
+		children: field[] = [];
+		hasTargets = false;
+		hasSources = false;
+
+		effnotbefore: number = null;
+		isLatestSrc = false;
+		
+		constructor(public fullname: string, public name: string, public location: string="", public type: string="", public owner: string="", public dept:string="", public desc: string="", public calc: string="", public notbefore: number=0, public latency: number=0, public risk: number=1, public comment: string="") {
+			if (name == null || name == "") 
+				bjs.lg_err("Tried to create unnamed asset");
+			}
 	}
+	
+	export class field{
+		
+		rels: rel[] = [];
+		peers: field[] = [];
+		sources: field[] = [];
+		targets: field[] = [];
+		ancestors: IMap<field> = {};
+		descendants: IMap<field> = {};
+		ldepth = -1;
+		rdepth = -1;
+		usources: IMap<field> = {};
+		utargets: IMap<field> = {};
+		hasTargets = false;
+		hasSources = false;
 
+		effrisk: number = null;
+		effquality: number = null;
+		
+		itemtype = "field";
+		
+		constructor(public fullname: string, public name:string, public type: string, public asset: asset, public term: term, public desc: string, public formula: string, public flags: string, public quality: number, public risk: number, public comment: string) {
+			if (name == null || name == "") 
+				bjs.lg_err("Tried to create unnamed field");
+			if (asset == null) 
+				bjs.lg_err("Tried to create field " + name + " with no asset.");
+				
+			this.risk = risk + asset.risk;
+		}
+		
+	}
+	
+	
+	export class rel{
+		itemtype="rel";
+		
+		constructor(public source: field, public target: field, public type: string){
+			
+		}
+		
+	}
+	
+	export class arel{
+		itemtype = "arel";
+		
+		constructor(public source: asset, public target: asset, public count: number=0){
+			
+		}
+	}
+	
 
+	export class world{
+		assets: IMap<asset>={};
+		rels: rel[]=[];
+		terms: IMap<term>={};
+		fields: IMap<field>={};
+		fielda: field[]=[];
+		arels: IMap<arel>={};
+		arela: arel[]=[];
+		
+		constructor(){
+			bjs.lg_inf("Creating new world");
+		}
+	}
+	
 //////////////////// view model
 
-	function node(mv, field) {
-		bjs.lg_inf("Creating node " + field.fullname);
-		if (field == null) 
+	export class node{
+		itemtype="node";
+		fullname: string="";
+		group: group = null;
+		x: number = -1;
+		y: number = -1;
+		
+		constructor(public mv: mv, public field: field){
+			if (field == null) 
 			bjs.lg_err("Tried to create node without field");
-		if (field.itemtype != "field") 
-			bjs.lg_err("Tried to create node with something that is not a field");
-		this.itemtype = "node";
-		this.field = field;
-		this.fullname = field.fullname;
-		this.group = null;
-		this.mv = mv;
-
-		this.x = -1;
-		this.y = -1;
+			
+			this.fullname = field.fullname;
+		}
 	}
 
-	function link(source, target, rel) {
-		if(rel == null)
-			bjs.lg_err("Tried to create link with no rel.");
-		if (source == null) 
-			bjs.lg_err("Tried to create link with null source.  Target is " + target.field.fullname);
-		if (target == null) 
-			bjs.lg_err("Tried to create group rel with null target.  Source is " + source.field.fullname);
-		this.itemtype = "link";
-		this.source = source;
-		this.target = target;
-		this.rel = rel;
+	export class link{
+		itemtype="link";
+		
+		constructor (public source: node, public target: node, public rel: rel){
+			if(rel == null)
+				bjs.lg_err("Tried to create link with no rel.");
+			if (source == null) 
+				bjs.lg_err("Tried to create link with null source.  Target is " + target.field.fullname);
+			if (target == null) 
+				bjs.lg_err("Tried to create group rel with null target.  Source is " + source.field.fullname);
+		}
 	}
 
-	function group(asset) {
-		bjs.lg_inf("Creating group " + asset.fullname);
-		this.asset = asset;
-		this.fullname = asset ? asset.fullname : "anon";
-		this.itemtype = "group";
-		this.children = [];
-	}
-
-	function glink(source, target, arel, size) {
-		this.itemtype = "glink";
-		this.source = source;
-		this.target = target;
-		this.size = arel?arel.count:size;
-		this.arel = arel;
-	}
-
-	function mv(w) {
-		bjs.lg_inf("Creating mv");
-		this.world = w;
-		this.nodea = [];
-		this.nodes = {};
-		this.links = [];
-		this.glinks = [];
-		this.groups = {};
-		this.groupa = [];
-		this.treeroots = [];
+	export class group{
+		itemtype = "group";
+		fullname: string="";
+		children: node[]=[];
+		
+		constructor(public asset: asset){
+			this.fullname=asset?asset.fullname:"anon";
+		}
 	}
 	
 	
+	export class glink{
+		itemtype = "glink";
+		
+		constructor(public source: group, public target: group, public arel: arel, public size:number=1){
+			if(arel) size = arel.count;
+		}
+	
+	}
+
+	export class mv{
+		nodea: node[]=[];
+		nodes: IMap<node>={};
+		links: link[]=[];
+		glinks: glink[]=[];
+		groups: IMap<group>={};
+		groupa: group[]=[];
+		treeroots: node[]=[];
+		
+		constructor(public w:world){
+			bjs.lg_inf("Creating mv");	
+		}
+	}
+
 	
 /////////////// other
 
-	function filter(inc, exc, inc_rels, exc_rels, only_crit, grab_left, grab_right) {
-		this.inc = inc?inc.trim():"";
-		this.exc = exc?exc.trim():"";
-		this.inc_rels = inc_rels?inc_rels.trim():"";
-		this.exc_rels = exc_rels?exc_rels.trim():"";
-		this.only_crit = only_crit?true:false;
-		this.grab_left = grab_left?true:false;
-		this.grab_right = grab_right?true:false;
+	export class filter{
+		
+		constructor(public inc: string="", public exc: string="", public inc_rels: string="", public exc_rels: string="", public only_crit: boolean=false, public grab_left: boolean=true, public grab_right: boolean=true){
+			this.inc = this.inc.trim();
+			this.exc = this.exc.trim();
+			this.inc_rels = this.inc_rels.trim();
+			this.exc_rels = this.exc_rels.trim();
+		}
+		
 	}
 	
-	function squash(el_fields, el_assets, el_internals) {
-		this.el_fields = el_fields?el_fields.trim():"";
-		this.el_assets = el_assets?el_assets.trim():"";
-		this.el_internals = el_internals?true:false;
+	export class squash{
+		
+		constructor(public el_fields:string="", public el_assets: string="", public el_internals:boolean=false){
+			this.el_fields = this.el_fields.trim();
+			this.el_assets = this.el_assets.trim();
+		}
 	}
 
-
-})(bjs || (bjs = {}));
+}

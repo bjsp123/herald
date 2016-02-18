@@ -207,7 +207,7 @@ var bjs_data_json;
 		if(asset){
 			var newass = w.assets[f.asset.fullname];
 			if(newass==null){
-				newass = new bjs.asset(asset.name, asset.location, asset.type, asset.owner, asset.dept, asset.desc, asset.calc, asset.notbefore, asset.latency, asset.risk, asset.comment);
+				newass = new bjs.asset(asset.fullname, asset.name, asset.location, asset.type, asset.owner, asset.dept, asset.desc, asset.calc, asset.notbefore, asset.latency, asset.risk, asset.comment);
 				w.assets[newass.fullname] = newass;
 			}
 		}
@@ -499,7 +499,7 @@ var bjs_data_json;
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading asset " + row.fullname);
-			var asset = new bjs.asset(row.fullname, row.location, row.type, row.owner, row.dept, row.desc, row.calc, row.notbefore, row.latency, row.risk, row.comment);
+			var asset = new bjs.asset(row.fullname, row.fullname, row.location, row.type, row.owner, row.dept, row.desc, row.calc, row.notbefore, row.latency, row.risk, row.comment);
 			w.assets[asset.fullname] = asset;
 		}
 

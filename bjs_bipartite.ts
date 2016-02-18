@@ -148,7 +148,7 @@ var bjs;
 			if (mv.lnodea.length < 2 || mv.rnodea.length < 2)
 				return;
 
-			var fr = bjs.fastrandom();
+			var fr = new bjs.fastrandom();
 
 			function swappem(nodes, a, b) {
 				var t = nodes[a];
