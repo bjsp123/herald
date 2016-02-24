@@ -1,12 +1,10 @@
-//load, enrich, filter, squash
-/*global bjs*/
+/// <reference path="bjs_types.ts"/>
+declare var firstBy:any;
 
-var bjs_data_json;
-(function(bjs_data_json) {
+namespace bjs_data_json{
 
-	bjs_data_json.fromJson = fromJson;
 
-	function fromJson(json, f, sq) {
+	export function fromJson(json, f, sq) {
 
 		var world;
 
@@ -19,7 +17,7 @@ var bjs_data_json;
 		return world;
 	}
 
-	function filter(world, filter) {
+	function filter(world:bjs.world, filter:bjs.filter):bjs.world {
 		bjs.lg_inf("Filtering");
 		var w = new bjs.world();
 
@@ -47,7 +45,7 @@ var bjs_data_json;
 		return w;
 	}
 
-	function squash(world, squash) {
+	function squash(world:bjs.world, squash:bjs.squash):bjs.world {
 		bjs.lg_inf("Squashing");
 
 		//copy world.
@@ -82,7 +80,7 @@ var bjs_data_json;
 		return w;
 	}
 
-	function resolveInternalSources(w){
+	function resolveInternalSources(w:bjs.world):boolean{
 
 		var changed = false;
 		var newrels = [];
@@ -95,7 +93,7 @@ var bjs_data_json;
 				for(var j=0;j<rel.source.rels.length;++j){
 					var srcrel = rel.source.rels[j];
 					if(srcrel.target == rel.source){
-						var newrel = new bjs.rel(srcrel.source, rel.target);
+						var newrel = new bjs.rel(srcrel.source, rel.target, rel.type);
 						newrels.push(newrel);
 					}
 				}
@@ -117,7 +115,7 @@ var bjs_data_json;
 
 	}
 
-	function killAndBypass(w, f){
+	function killAndBypass(w:bjs.world, f:bjs.field):void{
 
 		bjs.lg_inf("Squashing field " + f.fullname);
 
@@ -152,7 +150,7 @@ var bjs_data_json;
 		removeFieldFromWorld(w, f);
 	}
 
-	function removeFieldFromWorld(w, f){
+	function removeFieldFromWorld(w:bjs.world, f:bjs.field):void{
 		var term = f.term;
 		if(term){
 			if(term.children.length==1){
@@ -186,7 +184,7 @@ var bjs_data_json;
 	}
 
 
-	function addFieldToWorld(w, world, f, filter, directmatch){
+	function addFieldToWorld(w:bjs.world, world:bjs.world, f:bjs.field, filter:bjs.filter, directmatch:boolean):void{
 		if(w.fields[f.fullname]){
 			bjs.lg_inf("Duplicate field being ignored " + f.fullname);
 			return;
@@ -243,7 +241,7 @@ var bjs_data_json;
 		}
 	}
 
-	function isSquash(field, squash){
+	function isSquash(field:bjs.field, squash:bjs.squash):boolean{
 
 		if(squash.el_fields != ""){
 			var reg = new RegExp(squash.el_fields, 'i');
@@ -264,7 +262,7 @@ var bjs_data_json;
 		return false;
 	}
 
-	function isMatch(field, filter){
+	function isMatch(field:bjs.field, filter:bjs.filter):boolean{
 
 		if (filter.only_crit) {
 			if(!(field.flags && field.flags.indexOf("critical") != -1))
@@ -320,7 +318,7 @@ var bjs_data_json;
 		return true;
 	}
 
-	function enrich(w) {
+	function enrich(w:bjs.world):void {
 
 		bjs.lg_inf("Enriching world.");
 
@@ -365,8 +363,8 @@ var bjs_data_json;
 				arel = new bjs.arel(srcfield.asset, tgtfield.asset);
 				bjs.lg_inf("Created arel " + ar_key);
 
-				arel.source.rels.push(arel);
-				arel.target.rels.push(arel);
+				arel.source.arels.push(arel);
+				arel.target.arels.push(arel);
 				arel.source.targets.push(arel.target);
 				arel.target.sources.push(arel.source);
 				arel.source.hasTargets = true;
@@ -399,6 +397,7 @@ var bjs_data_json;
 
 		bjs.lg_inf("Calculating asset times");
 
+		var assetfullname="";
 		for(assetfullname in w.assets){
 			var ass = w.assets[assetfullname];
 			recursiveAssetCalculations(w, ass);
@@ -406,7 +405,7 @@ var bjs_data_json;
 
 	}
 
-	function recursiveAssetCalculations(w, ass){
+	function recursiveAssetCalculations(w:bjs.world, ass:bjs.asset):void{
 
 		if(ass.effnotbefore != null){
 			return;
@@ -429,7 +428,7 @@ var bjs_data_json;
 
 	//root=node we are annotating, n = node currently under consideration, depth = distance from root, bFilterEncountered = true if we
 	//had to follow a filter link to get here, bSource = true if we are recursing sourceward.
-	function recursiveRelatives(w, root, f, depth, bFilterEncountered, bSource) {
+	function recursiveRelatives(w:bjs.world, root:bjs.field, f:bjs.field, depth:number, bFilterEncountered:boolean, bSource:boolean):void {
 
 		for (var i = 0; i < f.rels.length; ++i) {
 			var isFilter = bFilterEncountered;
@@ -488,7 +487,7 @@ var bjs_data_json;
 		}
 	}
 
-	function loadJson(json) {
+	function loadJson(json:any):bjs.world {
 
 		var w = new bjs.world();
 
@@ -503,7 +502,7 @@ var bjs_data_json;
 			w.assets[asset.fullname] = asset;
 		}
 
-		bjs.lg_sum("Read " + w.assets.length + " assets.");
+		bjs.lg_sum("Read " + Object.keys(w.assets).length + " assets.");
 
 		var raw = json.terms;
 
@@ -514,14 +513,14 @@ var bjs_data_json;
 			w.terms[term.fullname] = term;
 		}
 
-		bjs.lg_sum("Read " + w.terms.length + " terms.");
+		bjs.lg_sum("Read " + Object.keys(w.terms).length + " terms.");
 
 		var raw = json.raw;
 
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading field " + row.fullname);
-			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.comment);
+			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.quality, row.risk, row.comment);
 			w.fields[field.fullname] = field;
 			w.fielda.push(field);
 			if (field.term) field.term.children.push(field);
@@ -531,7 +530,7 @@ var bjs_data_json;
 			}
 		}
 
-		bjs.lg_sum("Read " + w.fields.length + " fields.");
+		bjs.lg_sum("Read " + w.fielda.length + " fields.");
 
 		var raw = json.raw;
 
@@ -558,4 +557,4 @@ var bjs_data_json;
 
 	}
 
-})(bjs_data_json || (bjs_data_json = {}));
+}

@@ -1,16 +1,7 @@
-var bjs;
-(function(bjs) {
+namespace bjs {
 
-    bjs.getNodeColor = getNodeColor;
-    bjs.getGroupColor = getGroupColor;
-    bjs.areNodesRelated = areNodesRelated;
-    bjs.isNodeRelatedToGroup = isNodeRelatedToGroup;
-    bjs.shortenString = shortenString;
-    bjs.removeItem = removeItem;
-    bjs.getLinkColor = getLinkColor;
-    bjs.breakPath = breakPath;
 
-    function getNodeColor(color, conf, n) {
+    export function getNodeColor(color, conf, n) {
         if (conf["hilite"] == "critical" && n.field.flags && n.field.flags.indexOf("critical") != -1) return "red";
 
         if (conf["hilite"] == "untraced" && n.field.sources.length == 0 && n.field.formula == '') return "red"
@@ -23,13 +14,13 @@ var bjs;
         }
     }
     
-    function getLinkColor(l) {
+    export function getLinkColor(l) {
         if(l.rel.type=="filter") return "#777";
         
         return "blue";
     }
 
-    function getGroupColor(color, conf, g) {
+    export function getGroupColor(color, conf, g) {
 
         var s = g.fullname;
 
@@ -43,7 +34,7 @@ var bjs;
         return color(s);
     }
 
-    function areNodesRelated(a, b) {
+    export function areNodesRelated(a, b) {
         if(a.itemtype != "node" || b.itemtype != "node") return false;
         if (a.fullname == b.fullname) return true;
         for (var fullname in a.field.ancestors) {
@@ -55,7 +46,7 @@ var bjs;
         return false;
     }
 
-    function isNodeRelatedToGroup(n, g) {
+    export function isNodeRelatedToGroup(n, g) {
         if(n.itemtype != "node" || g.itemtype != "group") return false;
         if (n.group.fullname == g.fullname) return true;
         for (var fullname in n.field.ancestors) {
@@ -67,7 +58,7 @@ var bjs;
         return false;
     }
 
-    function shortenString(str, len) {
+    export function shortenString(str, len) {
         if (str.length <= len) return str;
 
         var bit = len / 2 - 1;
@@ -75,16 +66,9 @@ var bjs;
         return str.substring(0, bit) + "..." + str.substring(str.length - bit, str.length);
     }
 
-    function breakPath(str){
+    export function breakPath(str){
         return str.replace("/", "/ ").replace("\\", "\\ ");
-    }
-
-    function removeItem(arr, item) {
-        arr.splice( $.inArray(item, arr), 1 );
     }
  
 
-
-
-
-})(bjs || (bjs = {}));
+}

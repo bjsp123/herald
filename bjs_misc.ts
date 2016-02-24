@@ -1,4 +1,4 @@
-//logging, cloning etc.
+declare var $:any;
 
 namespace bjs{
 
@@ -10,10 +10,10 @@ namespace bjs{
 	export function lg_sum(s) {
 		console.log("S: " + s);
 	};
-	export function g_warn(s) {
+	export function lg_warn(s) {
 		console.log("W: " + s);
 	};
-	export function g_err(s) {
+	export function lg_err(s) {
 		console.log("E: " + s);
 	};
 
@@ -37,6 +37,10 @@ namespace bjs{
     		
     		return Math.floor(this.cache[this.idx] * n);
     	}
+    }
+    
+    export function removeItem(arr, item) {
+        arr.splice( $.inArray(item, arr), 1 );
     }
 
 

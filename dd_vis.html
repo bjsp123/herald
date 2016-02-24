@@ -91,37 +91,37 @@
     
         
     function shBipart(){
-        bip = bjs.bp_view();
+        bip = new bjs.bp_view();
         clear();
         refresh();
     }
     
     function shHive(){
-        bip = bjs.hive_view();
+        bip = new bjs.hive_view();
         clear();
         refresh();
     }
 
   function shMatrix(){
-        bip = bjs.cm_view();
+        bip = new bjs.cm_view();
         clear();
         refresh();
     }
     
     function shFlow(){
-        bip = bjs.flow_view();
+        bip = new bjs.flow_view();
         clear();
         refresh();
     }
     
     function shCola(){
-        bip = bjs.cola_view();
+        bip = new bjs.cola_view();
         clear();
         refresh();
     }
     
     function shTree(){
-        bip = bjs.tree_view();
+        bip = new bjs.tree_view();
         clear();
         refresh();
     }
@@ -319,7 +319,7 @@
 
 
     $(document).ready(function() {
-      bip = bjs.bp_view();
+      bip = new bjs.bp_view();
       init();
     });
 
@@ -669,7 +669,7 @@
             <label for="ctrl_only_crit">Critical Only</label>
           </td>
           <td>
-            <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" checked="false" />
+            <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" />
           </td>
         </tr>
         <tr>
@@ -711,7 +711,7 @@
             <label for="ctrl_only_crit">Eliminate Internals</label>
           </td>
           <td>
-            <input type="checkbox" name="ctrl_el_internal" id="ctrl_el_internal" value="el_internal" checked="false" />
+            <input type="checkbox" name="ctrl_el_internal" id="ctrl_el_internal" value="el_internal" />
           </td>
         </tr>
         <tr>

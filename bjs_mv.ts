@@ -1,20 +1,12 @@
-//model view
+/// <reference path="bjs_data_json.ts"/>
 
-var bjs;
-(function(bjs) {
-
-    bjs.makeBipartite = makeBipartite;
-    bjs.makeTripartite = makeTripartite;
-    bjs.makeColaGraph = makeColaGraph;
-    bjs.makeTree = makeTree;
-    bjs.makeDirect = makeDirect;
-
+namespace bjs {
 
 
     //
     // Just add node, group and link collections that exactly mirror the underlying world
     //
-    function makeDirect(w) {
+    export function makeDirect(view:bjs.view, w:bjs.world):bjs.mv {
 
         var mv = new bjs.mv(w);
 
@@ -23,7 +15,7 @@ var bjs;
         for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
-            var n = new bjs.node(mv, field);
+            var n = new bjs.node(view, mv, field);
             mv.nodea.push(n);
             mv.nodes[fullname] = n;
             bjs.lg_inf("node: " + n.fullname);
@@ -32,7 +24,7 @@ var bjs;
         for (var fullname in w.assets) {
             var ass = w.assets[fullname];
 
-            var g = new bjs.group(ass);
+            var g = new bjs.group(view, ass);
             mv.groupa.push(g);
             mv.groups[fullname] = g;
 
@@ -70,41 +62,61 @@ var bjs;
 
         return mv;
     }
+    
+    // in-place, add points to represent individual dependecies in a matrix
+    export function addPts(view:bjs.view, mv:bjs.mv):void{
+        
+        //we want one visual element per relationship -- where a relationship may be an actual link but may be an ancestor
+		//or usource or whatever.
+		//each pt has a source and target taken from the l and r sets.
+		for (var i = 0; i < mv.world.fielda.length; ++i) {
+			var f = mv.world.fielda[i];
+
+			for (var ancestorfullname in f.ancestors) {
+			    var pt = new bjs.pt(
+			        view,
+			        f.fullname + "-" + ancestorfullname,
+			        f.ancestors[ancestorfullname].filter,
+					f.ancestors[ancestorfullname].ult,
+					f.ancestors[ancestorfullname].depth,
+					mv.lnodes[ancestorfullname],
+					mv.rnodes[f.fullname],
+					mv.lnodes[ancestorfullname].group.fullname,
+					mv.rnodes[f.fullname].group.fullname
+			    );
+				
+				mv.pts.push(pt);
+			}
+		}
+		
+		bjs.lg_sum("addPts: " + mv.pts.length);
+    }
 
     //
     // Add lnodea, rnodea, lgroupa, rgroupa where 'l' contains all sources and 'r' all targets.   Nodes and groups that are both sources
     // and targets will appear in both sets.
     //
-    function makeBipartite(w) {
+    export function makeBipartite(view:bjs.view,w:bjs.world):bjs.mv {
 
         var mv = new bjs.mv(w);
 
         bjs.lg_inf("starting makeBipartite");
-
-        var lnodea = [];
-        var rnodea = [];
-        var lgroupa = [];
-        var rgroupa = [];
-        var lgroups = {};
-        var rgroups = {};
-        var lnodes = {};
-        var rnodes = {};
-        var links = [];
+        
 
         for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
             if (field.hasSources) {
-                var n = new bjs.node(mv, field);
-                rnodea.push(n);
-                rnodes[fullname] = n;
+                var n = new bjs.node(view, mv, field);
+                mv.rnodea.push(n);
+                mv.rnodes[fullname] = n;
                 bjs.lg_inf("lnode: " + field.fullname);
             }
 
             if (field.hasTargets) {
-                var n = new bjs.node(mv, field);
-                lnodea.push(n);
-                lnodes[fullname] = n;
+                var n = new bjs.node(view, mv, field);
+                mv.lnodea.push(n);
+                mv.lnodes[fullname] = n;
                 bjs.lg_inf("rnode: " + field.fullname);
             }
         }
@@ -113,57 +125,44 @@ var bjs;
             var ass = w.assets[fullname];
 
             if (ass.hasSources) {
-                var g = new bjs.group(ass);
+                var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
-                    if (rnodes[ass.children[i].fullname] != null) {
-                        g.children.push(rnodes[ass.children[i].fullname]);
-                        rnodes[ass.children[i].fullname].group = g;
+                    if (mv.rnodes[ass.children[i].fullname] != null) {
+                        g.children.push(mv.rnodes[ass.children[i].fullname]);
+                        mv.rnodes[ass.children[i].fullname].group = g;
                     }
-                    rgroupa.push(g);
-                    rgroups[fullname] = g;
+                    mv.rgroupa.push(g);
+                    mv.rgroups[fullname] = g;
                     bjs.lg_inf("rgroup: " + field.fullname);
                 }
             }
 
             if (ass.hasTargets) {
-                var g = new bjs.group(ass);
+                var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
-                    if (lnodes[ass.children[i].fullname] != null) {
-                        g.children.push(lnodes[ass.children[i].fullname]);
-                        lnodes[ass.children[i].fullname].group = g;
+                    if (mv.lnodes[ass.children[i].fullname] != null) {
+                        g.children.push(mv.lnodes[ass.children[i].fullname]);
+                        mv.lnodes[ass.children[i].fullname].group = g;
                     }
-                    lgroupa.push(g);
-                    lgroups[fullname] = g;
+                    mv.lgroupa.push(g);
+                    mv.lgroups[fullname] = g;
                     bjs.lg_inf("lgroup: " + field.fullname);
                 }
             }
         }
 
 
-        rnodea.sort(firstBy("fullname"));
-        lnodea.sort(firstBy("fullname"));
-
-        mv.lnodea = lnodea;
-        mv.rnodea = rnodea;
-        mv.lnodes = lnodes;
-        mv.rnodes = rnodes;
-        mv.lgroupa = lgroupa;
-        mv.rgroupa = rgroupa;
-        mv.lgroups = lgroups;
-        mv.rgroups = rgroups;
-        mv.lnodes = lnodes;
-        mv.rnodes = rnodes;
+        mv.rnodea.sort(firstBy("fullname"));
+        mv.lnodea.sort(firstBy("fullname"));
 
         //in this mv, we need exactly one link per rel
         for (var i = 0; i < w.rels.length; ++i) {
             var rel = w.rels[i];
-            var sourceNode = lnodes[rel.source.fullname];
-            var targetNode = rnodes[rel.target.fullname];
+            var sourceNode = mv.lnodes[rel.source.fullname];
+            var targetNode = mv.rnodes[rel.target.fullname];
             var l = new bjs.link(sourceNode, targetNode, rel);
-            links.push(l);
+            mv.links.push(l);
         }
-
-        mv.links = links;
 
         bjs.lg_sum("makeBipartite: l " + mv.lnodea.length + " r " + mv.rnodea.length + " links " + mv.links.length);
 
@@ -174,49 +173,34 @@ var bjs;
     // Add lnodea, rnodea, m1nodea, m2nodea, lgroupa, rgroupa, mgroups where 'l' contains all sources and 'r' all targets.   Nodes and groups that are both sources
     // and targets will appear in both sets. m2nodea and m1nodea are of course identical.
     //
-    function makeTripartite(w) {
+    export function makeTripartite(view:bjs.view,w:bjs.world):bjs.mv {
 
 
         var mv = new bjs.mv(w);
 
-        var lnodea = [];
-        var rnodea = [];
-        var m1nodea = [];
-        var m2nodea = [];
-        var lgroupa = [];
-        var rgroupa = [];
-        var mgroupa = [];
-        var mgroups = {};
-        var lgroups = {};
-        var rgroups = {};
-        var lnodes = {};
-        var rnodes = {};
-        var m1nodes = {};
-        var m2nodes = {};
-        var links = [];
 
         for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
             if (field.hasSources && !field.hasTargets) {
-                var n = new bjs.node(mv, field);
-                rnodea.push(n);
-                rnodes[fullname] = n;
+                var n = new bjs.node(view, mv, field);
+                mv.rnodea.push(n);
+                mv.rnodes[fullname] = n;
             }
 
             if (field.hasTargets && !field.hasSources) {
-                var n = new bjs.node(mv, field);
-                lnodea.push(n);
-                lnodes[fullname] = n;
+                var n = new bjs.node(view, mv, field);
+                mv.lnodea.push(n);
+                mv.lnodes[fullname] = n;
             }
 
             if (field.hasTargets && field.hasSources) {
-                var n1 = new bjs.node(mv, field);
-                var n2 = new bjs.node(mv, field);
-                m1nodea.push(n1);
-                m1nodes[fullname] = n1;
-                m2nodea.push(n2);
-                m2nodes[fullname] = n2;
+                var n1 = new bjs.node(view,mv, field);
+                var n2 = new bjs.node(view,mv, field);
+                mv.m1nodea.push(n1);
+                mv.m1nodes[fullname] = n1;
+                mv.m2nodea.push(n2);
+                mv.m2nodes[fullname] = n2;
             }
         }
 
@@ -224,94 +208,84 @@ var bjs;
             var ass = w.assets[fullname];
 
             if (ass.hasSources) {
-                var g = new bjs.group(ass);
+                var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
-                    if (rnodes[ass.children[i].fullname] != null) {
-                        g.children.push(rnodes[ass.children[i].fullname]);
-                        rnodes[ass.children[i].fullname].group = g;
+                    if (mv.rnodes[ass.children[i].fullname] != null) {
+                        g.children.push(mv.rnodes[ass.children[i].fullname]);
+                        mv.rnodes[ass.children[i].fullname].group = g;
                     }
                 }
-                rgroupa.push(g);
-                rgroups[fullname] = g;
+                mv.rgroupa.push(g);
+                mv.rgroups[fullname] = g;
 
             }
 
             if (ass.hasTargets) {
-                var g = new bjs.group(ass);
+                var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
-                    if (lnodes[ass.children[i].fullname] != null) {
-                        g.children.push(lnodes[ass.children[i].fullname]);
-                        lnodes[ass.children[i].fullname].group = g;
+                    if (mv.lnodes[ass.children[i].fullname] != null) {
+                        g.children.push(mv.lnodes[ass.children[i].fullname]);
+                        mv.lnodes[ass.children[i].fullname].group = g;
                     }
                 }
-                lgroupa.push(g);
-                lgroups[fullname] = g;
+                mv.lgroupa.push(g);
+                mv.lgroups[fullname] = g;
 
             }
 
 
             if (ass.hasTargets && ass.hasSources) {
-                var g = new bjs.group(ass);
+                var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
-                    if (m1nodes[ass.children[i].fullname] != null) {
-                        g.children.push(m1nodes[ass.children[i].fullname]);
-                        g.children.push(m2nodes[ass.children[i].fullname]);
-                        m1nodes[ass.children[i].fullname].group = g;
-                        m2nodes[ass.children[i].fullname].group = g;
+                    if (mv.m1nodes[ass.children[i].fullname] != null) {
+                        g.children.push(mv.m1nodes[ass.children[i].fullname]);
+                        g.children.push(mv.m2nodes[ass.children[i].fullname]);
+                        mv.m1nodes[ass.children[i].fullname].group = g;
+                        mv.m2nodes[ass.children[i].fullname].group = g;
                     }
                 }
-                mgroupa.push(g);
-                mgroups[fullname] = g;
+                mv.mgroupa.push(g);
+                mv.mgroups[fullname] = g;
             }
         }
 
 
-        rnodea.sort(firstBy("fullname"));
-        lnodea.sort(firstBy("fullname"));
-        m1nodea.sort(firstBy("fullname"));
-        m2nodea.sort(firstBy("fullname"));
-
-        mv.lnodea = lnodea;
-        mv.rnodea = rnodea;
-        mv.m1nodea = m1nodea;
-        mv.m2nodea = m2nodea;
-        mv.lgroupa = lgroupa;
-        mv.rgroupa = rgroupa;
-        mv.mgroupa = mgroupa;
+        mv.rnodea.sort(firstBy("fullname"));
+        mv.lnodea.sort(firstBy("fullname"));
+        mv.m1nodea.sort(firstBy("fullname"));
+        mv.m2nodea.sort(firstBy("fullname"));
 
         //in this mv, there is exactly one link per rel
         for (var i = 0; i < w.rels.length; ++i) {
             var rel = w.rels[i];
             var sourceNode, targetNode;
 
-            if (lnodes[rel.source.fullname]) {
-                if (rnodes[rel.target.fullname]) {
-                    sourceNode = lnodes[rel.source.fullname];
-                    targetNode = rnodes[rel.target.fullname];
+            if (mv.lnodes[rel.source.fullname]) {
+                if (mv.rnodes[rel.target.fullname]) {
+                    sourceNode = mv.lnodes[rel.source.fullname];
+                    targetNode = mv.rnodes[rel.target.fullname];
                 }
                 else {
-                    sourceNode = lnodes[rel.source.fullname];
-                    targetNode = m1nodes[rel.target.fullname];
+                    sourceNode = mv.lnodes[rel.source.fullname];
+                    targetNode = mv.m1nodes[rel.target.fullname];
                 }
                 var l = new bjs.link(sourceNode, targetNode, w.rels[i]);
-                links.push(l);
+                mv.links.push(l);
             }
             else {
-                if (rnodes[rel.target.fullname]) {
-                    sourceNode = m2nodes[rel.source.fullname];
-                    targetNode = rnodes[rel.target.fullname];
+                if (mv.rnodes[rel.target.fullname]) {
+                    sourceNode = mv.m2nodes[rel.source.fullname];
+                    targetNode = mv.rnodes[rel.target.fullname];
                 }
                 else {
-                    sourceNode = m1nodes[rel.source.fullname];
-                    targetNode = m2nodes[rel.target.fullname];
+                    sourceNode = mv.m1nodes[rel.source.fullname];
+                    targetNode = mv.m2nodes[rel.target.fullname];
                 }
                 var l = new bjs.link(sourceNode, targetNode, rel);
-                links.push(l);
+                mv.links.push(l);
             }
 
         }
-
-        mv.links = links;
 
         return mv;
     }
@@ -322,12 +296,12 @@ var bjs;
       Nodes are given index numbers.
       A set of group data suitable for cola is also added to dat.
       */
-    function makeColaGraph(w) {
+    export function makeColaGraph(view:bjs.view, w:bjs.world):bjs.mv {
 
         var mv = new bjs.mv(w);
 
         for (var i = 0; i < w.fielda.length; ++i) {
-            var n = new bjs.node(mv, w.fielda[i]);
+            var n = new bjs.node(view, mv, w.fielda[i]);
             n.cola_index = i;
             mv.nodea.push(n);
             mv.nodes[n.fullname] = n;
@@ -337,6 +311,18 @@ var bjs;
             var rel = w.rels[i];
             var src = mv.nodes[rel.source.fullname];
             var tgt = mv.nodes[rel.target.fullname];
+            
+            var colalink = {
+                id: src.fullname + tgt.fullname+i,
+                realsource: src,
+                realtarget: tgt,
+                source:src.cola_index,
+                target:tgt.cola_index
+            };
+            
+            mv.colalinks.push(colalink);
+            
+            /*
             var link = new bjs.link(src, tgt, rel);
 
             link.id = link.source.fullname + link.target.fullname + i;
@@ -346,14 +332,15 @@ var bjs;
             link.target = link.target.cola_index;
 
             mv.links.push(link);
+            */
+            
         }
 
 
         for (var fullname in w.assets) {
             var ass = w.assets[fullname];
 
-            var g = new bjs.group(ass);
-            g.id = g.fullname; //it's easier in cola if it's called 'id'.
+            var g = new bjs.group(view, ass);
             g.leaves = [];
 
             for (var j = 0; j < ass.children.length; ++j) {
@@ -372,7 +359,7 @@ var bjs;
 
 
 
-    function makeTree(w) {
+    export function makeTree(view:bjs.view, w:bjs.world):bjs.mv {
 
         var mv = new bjs.mv(w);
 
@@ -382,11 +369,11 @@ var bjs;
 
             if (w.fielda[i].directlyrelevant) {
                 var f = w.fielda[i];
-                var root = new bjs.node(mv, f);
+                var root = new bjs.node(view, mv, f);
                 root.children = [];
                 root.nameintree = root.fullname;
 
-                recursiveTreeBuild(mv, root, f);
+                recursiveTreeBuild(view, mv, root, f);
 
                 mv.treeroots.push(root);
             }
@@ -394,10 +381,9 @@ var bjs;
         }
 
         //add a synthetic root and gather all the treeroots in the dataset under it
-        var syntharoot = {};
+        var syntharoot = new bjs.node(view, mv, null);
         syntharoot.children = mv.treeroots;
-        syntharoot.fullname = "";
-        syntharoot.issyntharoot = true;
+        syntharoot.fullname = "Synthetic root node";
         mv.syntharoot = syntharoot;
 
         return mv;
@@ -406,25 +392,22 @@ var bjs;
 
     // internal function used in makeTree.
     // b = node in the tree we are building.  n = field under consideration.
-    function recursiveTreeBuild(mv, b, n) {
+    function recursiveTreeBuild(view:bjs.view, mv:bjs.mv, b:bjs.node, n:bjs.field):void {
 
         b.children = [];
 
         for (var i = 0; i < n.sources.length; ++i) {
             var src = n.sources[i];
-            var newtreenode = new bjs.node(mv, src);
+            var newtreenode = new bjs.node(view,mv, src);
 
             newtreenode.nameintree = b.nameintree + newtreenode.fullname;
 
             b.children.push(newtreenode);
+            newtreenode.parent = b;
 
-            recursiveTreeBuild(mv, newtreenode, src);
+            recursiveTreeBuild(view, mv, newtreenode, src);
 
         }
 
     }
-
-
-
-
-})(bjs || (bjs = {}));
+}

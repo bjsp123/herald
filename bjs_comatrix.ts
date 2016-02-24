@@ -1,81 +1,65 @@
-/* global d3 */
+/// <reference path="bjs_types.ts"/>
+/// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_data_json.ts"/>
+/// <reference path="bjs_mv.ts"/>
 
-var bjs;
-(function(bjs) {
 
-	bjs.cm_view = function() {
+declare var d3:any;
+declare var svg:any;
 
-		var NODE_R = 8;
-		var GROUPBAR_WIDTH = 20;
-		var GROUP_OFFSET = 100;
-		var MATRIX_WIDTH = 800;
-		var LEFT_AXIS_X = 200;
-		var TOP_AXIS_Y = 200;
-		var GROUP_PADDING = 20;
-		var CORNER_SPACE = 20;
-		var TRANSITION_FACTOR = 1;
-		var TRANSITION_DURATION = 500;
-		var color = d3.scale.category20();
+namespace bjs {
+
+	export class cm_view implements view {
+
+		NODE_R = 8;
+		GROUPBAR_WIDTH = 20;
+		GROUP_OFFSET = 100;
+		MATRIX_WIDTH = 800;
+		LEFT_AXIS_X = 200;
+		TOP_AXIS_Y = 200;
+		GROUP_PADDING = 20;
+		CORNER_SPACE = 20;
+		TRANSITION_FACTOR = 1;
+		TRANSITION_DURATION = 500;
+		color = d3.scale.category20();
 
 		//private state vars.  need to figure out how not to need these.
-		var cached_svg = {};
-		var cached_dat = {};
+		cached_svg = {};
+		cached_dat:bjs.mv = null;
 
 
-		bjs.cm_view.render = function(svg, w, c) {
-			var mv = prepareData(w, c);
-			cached_svg = svg;
-			cached_w = w;
+		public render(svg, w:bjs.world, c):void {
+			var mv = this.prepareData(w, c);
+			this.cached_svg = svg;
+			this.cached_dat = mv;
 
-			renderGroups(svg, c, "lgroups", mv.lgroupa, "vertical");
-			renderGroups(svg, c, "rgroups", mv.rgroupa, "horizontal");
-			renderChain(svg, c, "lnodes", "Sources:", mv.lnodea, "vertical");
-			renderChain(svg, c, "rnodes", "Outputs:", mv.rnodea, "horizontal");
+			this.renderGroups(svg, c, "lgroups", mv.lgroupa, "vertical");
+			this.renderGroups(svg, c, "rgroups", mv.rgroupa, "horizontal");
+			this.renderChain(svg, c, "lnodes", "Sources:", mv.lnodea, "vertical");
+			this.renderChain(svg, c, "rnodes", "Outputs:", mv.rnodea, "horizontal");
 
-			renderPts(svg, c, mv.pts);
+			this.renderPts(svg, c, mv.pts);
 		}
 
-		function prepareData(w, c) {
+		private prepareData(w:bjs.world, c):bjs.mv {
 
 			//create l and r sets -- we'll use l for the y axis.
-			var mv = bjs.makeBipartite(w);
+			var mv = bjs.makeBipartite(this, w);
+			
+			bjs.addPts(this, mv);
 
-			//we want one visual element per relationship -- where a relationship may be an actual link but may be an ancestor
-			//or usource or whatever.
-			//each pt has a source and target taken from the l and r sets.
-			var pts = [];
-			for (var i = 0; i < w.fielda.length; ++i) {
-				var f = w.fielda[i];
-
-				for (ancestorfullname in f.ancestors) {
-					var pt = {
-						key: f.fullname + "-" + ancestorfullname,
-						isFilter: f.ancestors[ancestorfullname].filter,
-						isUltimate: f.ancestors[ancestorfullname].ult,
-						depth: f.ancestors[ancestorfullname].depth,
-						source: mv.lnodes[ancestorfullname],
-						target: mv.rnodes[f.fullname],
-						sourcepkg: mv.lnodes[ancestorfullname].group.fullname,
-						targetpkg: mv.rnodes[f.fullname].group.fullname
-					}
-					pts.push(pt);
-				}
-			}
-
-			mv.pts = pts;
-
-			layout(mv);
+			this.layout(mv);
 
 			return mv;
 
 		}
 
-		function layout(mv) {
-			updateOffsValues(mv.lnodea, mv.lgroupa, bjs.cm_view.focusGroup, TOP_AXIS_Y + CORNER_SPACE);
-			updateOffsValues(mv.rnodea, mv.rgroupa, bjs.cm_view.focusGroup, LEFT_AXIS_X + CORNER_SPACE);
+		private layout(mv:bjs.mv):void {
+			this.updateOffsValues(mv.lnodea, mv.lgroupa, "", this.TOP_AXIS_Y + this.CORNER_SPACE);
+			this.updateOffsValues(mv.rnodea, mv.rgroupa, "", this.LEFT_AXIS_X + this.CORNER_SPACE);
 		}
 
-		function updateOffsValues(nodes, groups, focusGroup, startOffs) {
+		private updateOffsValues(nodes:bjs.node[], groups:bjs.group[], focusGroup:string, startOffs:number):void {
 
 			if (nodes.length == 0) return;
 
@@ -97,7 +81,7 @@ var bjs;
 				}
 			}
 
-			var interval = (MATRIX_WIDTH) / (numRegularNodes + (numBreaks * 2) + (numFGNodes * 4));
+			var interval = (this.MATRIX_WIDTH) / (numRegularNodes + (numBreaks * 2) + (numFGNodes * 4));
 
 			var offs = startOffs - interval / 2;
 			var prevgroup = nodes[0].group.fullname;
@@ -115,7 +99,7 @@ var bjs;
 				}
 
 				nodes[i].offs = offs;
-				nodes[i].thickness = interval;
+				//nodes[i].thickness = interval;
 
 			}
 
@@ -139,10 +123,10 @@ var bjs;
 
 		}
 
-		function renderGroups(svg, c, tag, data, orientation) {
+		private renderGroups(svg, c, tag, data:bjs.group[], orientation:string):void {
 
 			var vert = (orientation == "vertical");
-			var fixedPos = (vert ? LEFT_AXIS_X : TOP_AXIS_Y) - GROUP_OFFSET;
+			var fixedPos = (vert ? this.LEFT_AXIS_X : this.TOP_AXIS_Y) - this.GROUP_OFFSET;
 
 			var groups = svg.selectAll(".group." + tag)
 				.data(data, function(d, i) {
@@ -153,66 +137,70 @@ var bjs;
 				.enter()
 				.append("g")
 				.attr("class", "group " + tag)
-				.on("mouseover", groupMouseOver)
-				.on("mouseout", mouseOut);
+				.on("mouseover", this.groupMouseOver)
+				.on("mouseout", this.mouseOut);
 
-			groupsg.append("rect").on("click", groupClick);
+			groupsg.append("rect").on("click", this.groupClick);
 			groupsg.append("line").attr("class", "grouplinetop group");
 			groupsg.append("line").attr("class", "grouplinebottom group");;
 			groupsg.append("text");
+			
+			var trans_fact = this.TRANSITION_FACTOR;
+			var group_width = this.GROUPBAR_WIDTH;
+			
+			var color = this.color;
 
 			groups.select("rect")
 				.style("fill", function(d) {
 					return bjs.getGroupColor(color, c, d);
 				})
-
 			.transition().delay(function(d, i) {
-					return d.topoffs / TRANSITION_FACTOR;
-				}).duration(TRANSITION_DURATION)
-				.attr("x", vert ? (fixedPos - GROUPBAR_WIDTH / 2) : function(d) {
+					return d.topoffs / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
+				.attr("x", vert ? (fixedPos - group_width / 2) : function(d) {
 					return d.topoffs;
 				})
-				.attr("width", vert ? (GROUPBAR_WIDTH) : function(d) {
+				.attr("width", vert ? (group_width) : function(d) {
 					return d.bottomoffs - d.topoffs;
 				})
 				.attr("y", vert ? function(d) {
 					return d.topoffs;
-				} : (fixedPos - GROUPBAR_WIDTH / 2))
+				} : (fixedPos - group_width / 2))
 				.attr("height", vert ? function(d) {
 					return d.bottomoffs - d.topoffs;
-				} : (GROUPBAR_WIDTH));
+				} : (group_width));
 
 
 			groups.select(".grouplinetop")
 				.transition().delay(function(d, i) {
-					return d.topoffs / TRANSITION_FACTOR;
-				}).duration(TRANSITION_DURATION)
+					return d.topoffs / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
 				.attr("x1", vert ? (fixedPos) : function(d) {
 					return d.topoffs;
 				})
-				.attr("x2", vert ? (fixedPos + GROUPBAR_WIDTH) : function(d) {
+				.attr("x2", vert ? (fixedPos + group_width) : function(d) {
 					return d.topoffs;
 				})
 				.attr("y1", vert ? function(d) {
 					return d.topoffs;
-				} : (fixedPos + GROUPBAR_WIDTH))
+				} : (fixedPos + group_width))
 				.attr("y2", vert ? function(d) {
 					return d.topoffs;
 				} : (fixedPos));
 
 			groups.select(".grouplinebottom")
 				.transition().delay(function(d, i) {
-					return d.topoffs / TRANSITION_FACTOR;
-				}).duration(TRANSITION_DURATION)
+					return d.topoffs / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
 				.attr("x1", vert ? (fixedPos) : function(d) {
 					return d.bottomoffs;
 				})
-				.attr("x2", vert ? (fixedPos + GROUPBAR_WIDTH) : function(d) {
+				.attr("x2", vert ? (fixedPos + group_width) : function(d) {
 					return d.bottomoffs;
 				})
 				.attr("y1", vert ? function(d) {
 					return d.bottomoffs;
-				} : (fixedPos + GROUPBAR_WIDTH))
+				} : (fixedPos + group_width))
 				.attr("y2", vert ? function(d) {
 					return d.bottomoffs;
 				} : (fixedPos));
@@ -224,29 +212,31 @@ var bjs;
 				})
 				.attr("text-anchor", vert ? "end" : "start")
 				.attr("transform", vert ? function(d) {
-					return "rotate(-45 " + (fixedPos - GROUPBAR_WIDTH) + " " + d.offs + ")";
+					return "rotate(-45 " + (fixedPos - group_width) + " " + d.offs + ")";
 				} : function(d) {
-					return "rotate(-45 " + d.offs + " " + (fixedPos - GROUPBAR_WIDTH) + ")";
+					return "rotate(-45 " + d.offs + " " + (fixedPos - group_width) + ")";
 				})
 				//.transition().delay(function(d,i){return i*100;}).duration(TRANSITION_DURATION)
-				.attr("x", vert ? (fixedPos - GROUPBAR_WIDTH) : function(d) {
+				.attr("x", vert ? (fixedPos - group_width) : function(d) {
 					return d.offs;
 				})
 				.attr("y", vert ? function(d, i) {
 					return d.offs;
-				} : (fixedPos - GROUPBAR_WIDTH));
+				} : (fixedPos - group_width));
 
 			groups.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
-		function renderChain(svg, c, tag, label, data, orientation) {
+		private renderChain(svg, c, tag, label, data, orientation) {
 
 			var vert = (orientation == "vertical");
-			var fixedPos = (vert ? LEFT_AXIS_X : TOP_AXIS_Y);
+			var fixedPos = (vert ? this.LEFT_AXIS_X : this.TOP_AXIS_Y);
 
 			var axis = svg.selectAll(".axis." + tag)
 				.data([1]).enter().append("g");
+				
+			var group_width = this.GROUPBAR_WIDTH;
 
 			axis.append("text");
 			axis.append("line");
@@ -255,15 +245,15 @@ var bjs;
 				.text(label)
 				.attr("class", "biglabel")
 				.attr("text-anchor", vert ? "end" : "start")
-				.attr("x", vert ? LEFT_AXIS_X - GROUP_OFFSET : LEFT_AXIS_X - GROUP_OFFSET)
-				.attr("y", vert ? TOP_AXIS_Y : (TOP_AXIS_Y - GROUP_OFFSET));
+				.attr("x", vert ? this.LEFT_AXIS_X - this.GROUP_OFFSET : this.LEFT_AXIS_X - this.GROUP_OFFSET)
+				.attr("y", vert ? this.TOP_AXIS_Y : (this.TOP_AXIS_Y - this.GROUP_OFFSET));
 
 			axis.select("line")
 				.attr("class", "axis " + tag)
-				.attr("x1", vert ? LEFT_AXIS_X : LEFT_AXIS_X)
-				.attr("y1", vert ? TOP_AXIS_Y : TOP_AXIS_Y)
-				.attr("x2", vert ? LEFT_AXIS_X : MATRIX_WIDTH + LEFT_AXIS_X)
-				.attr("y2", vert ? MATRIX_WIDTH + TOP_AXIS_Y : TOP_AXIS_Y);
+				.attr("x1", vert ? this.LEFT_AXIS_X : this.LEFT_AXIS_X)
+				.attr("y1", vert ? this.TOP_AXIS_Y : this.TOP_AXIS_Y)
+				.attr("x2", vert ? this.LEFT_AXIS_X : this.MATRIX_WIDTH + this.LEFT_AXIS_X)
+				.attr("y2", vert ? this.MATRIX_WIDTH + this.TOP_AXIS_Y : this.TOP_AXIS_Y);
 
 			var nodes = svg
 				.selectAll(".node." + tag)
@@ -275,13 +265,16 @@ var bjs;
 				.enter()
 				.append("g")
 				.attr("class", "node " + tag)
-				.on("mouseover", nodeMouseOver)
-				.on("mouseout", mouseOut);
+				.on("mouseover", this.nodeMouseOver)
+				.on("mouseout", this.mouseOut);
 
 			nodesg.append("line");
 			nodesg.append("circle");
 			nodesg.append("text");
 
+			var color = this.color;
+			var trans_fact = this.TRANSITION_FACTOR;
+			var node_r = this.NODE_R;
 
 			nodes.select("line")
 				.attr("style", function(d, i) {
@@ -290,30 +283,30 @@ var bjs;
 				.on("mouseover", null)
 				.on("mouseout", null)
 				.transition().delay(function(d, i) {
-					return d.offs / TRANSITION_FACTOR;
-				}).duration(TRANSITION_DURATION)
+					return d.offs / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
 				.attr("x1", vert ? fixedPos : function(d, i) {
 					return d.offs;
 				})
 				.attr("y1", vert ? function(d, i) {
 					return d.offs;
 				} : fixedPos)
-				.attr("x2", vert ? (MATRIX_WIDTH + LEFT_AXIS_X) : function(d, i) {
+				.attr("x2", vert ? (this.MATRIX_WIDTH + this.LEFT_AXIS_X) : function(d, i) {
 					return d.offs;
 				})
 				.attr("y2", vert ? function(d) {
 					return d.offs;
-				} : (MATRIX_WIDTH + TOP_AXIS_Y));
+				} : (this.MATRIX_WIDTH + this.TOP_AXIS_Y));
 
 			nodes.select("circle")
 				.attr("class", "node")
-				.attr("r", NODE_R)
+				.attr("r", this.NODE_R)
 				.style("fill", function(d) {
 					return bjs.getNodeColor(color, c, d);
 				})
 				.transition().delay(function(d, i) {
-					return d.offs / TRANSITION_FACTOR;
-				}).duration(TRANSITION_DURATION)
+					return d.offs / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
 				.attr("cx", vert ? fixedPos : function(d, i) {
 					return d.offs;
 				})
@@ -329,23 +322,23 @@ var bjs;
 				.attr("text-anchor", vert ? "end" : "start")
 				//.transition().delay(function(d,i){return d.offs/1000;}).duration(2000)
 				.attr("transform", vert ? function(d) {
-					return "rotate(-45 " + (fixedPos - GROUPBAR_WIDTH) + " " + d.offs + ")";
+					return "rotate(-45 " + (fixedPos - group_width) + " " + d.offs + ")";
 				} : function(d) {
-					return "rotate(-45 " + d.offs + " " + (fixedPos - GROUPBAR_WIDTH) + ")";
+					return "rotate(-45 " + d.offs + " " + (fixedPos - group_width) + ")";
 				})
 
-			.attr("x", vert ? (fixedPos - NODE_R * 2) : function(d, i) {
-					return d.offs - NODE_R / 2;
+			.attr("x", vert ? (fixedPos - this.NODE_R * 2) : function(d, i) {
+					return d.offs - node_r / 2;
 				})
 				.attr("y", vert ? function(d, i) {
-					return d.offs + NODE_R;
-				} : (fixedPos - NODE_R * 1.5)); //there is some subjective tuning in text position.
+					return d.offs + node_r;
+				} : (fixedPos - this.NODE_R * 1.5)); //there is some subjective tuning in text position.
 
 			nodes.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
-		function renderPts(svg, c, data) {
+		private renderPts(svg, c, data) {
 
 			var pts = svg.selectAll(".pt")
 				.data(data, function(d, i) {
@@ -359,18 +352,22 @@ var bjs;
 
 			ptsg.append("circle");
 
+			var getpc = this.getPtColor;
+			var getpr = this.getPtRadius;
+			var trans_fact = this.TRANSITION_FACTOR;
+			
 			pts.select("circle")
 				.style("fill", function(d) {
-					return getPtColor(d);
+					return getpc(d);
 				})
 				.transition().delay(function(d, i) {
-					return (d.target.offs) / TRANSITION_FACTOR;
-				}).duration(TRANSITION_DURATION)
+					return (d.target.offs) / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
 				.attr("cx", function(d) {
 					return d.target.offs;
 				})
 				.attr("r", function(d) {
-					return getPtRadius(d);
+					return getpr(d);
 				})
 				.attr("cy", function(d) {
 					return d.source.offs;
@@ -380,18 +377,18 @@ var bjs;
 			pts.exit().transition(800).style("opacity", 0).remove();
 		}
 
-		function getPtRadius(pt) {
+		private getPtRadius(pt) {
 			if (pt.depth == 0) {
-				return NODE_R * 0.8;
+				return pt.view.NODE_R * 0.8;
 			}
 
 			if (pt.depth == 1) {
-				return NODE_R * 0.66;
+				return pt.view.NODE_R * 0.66;
 			}
-			return NODE_R * 0.45;
+			return pt.view.NODE_R * 0.45;
 		}
 
-		function getPtColor(pt) {
+		private getPtColor(pt) {
 			if (pt.depth == 0) {
 				return "#31a354";
 			}
@@ -402,15 +399,12 @@ var bjs;
 			return "#addd8e";
 		}
 
-		function groupClick(d) {
-			bjs.cm_view.focusGroup = d.fullname;
-			bjs.cm_view.prepareData(cached_dat);
-			bjs.cm_view.render(cached_svg, info, cached_dat);
+		private groupClick(d) {
 		}
 
 
 		// not currently used -- not sure what there is to do that's useful when user hovers over a point
-		function ptMouseOver(d) {
+		private ptMouseOver(d) {
 			svg.selectAll(".node,.nodelabel")
 				.classed("active", function(p) {
 					return p.fullname == d.source.fullname || p.fullname == d.target.fullname;
@@ -428,7 +422,7 @@ var bjs;
 				});
 		}
 
-		function groupMouseOver(d) {
+		private groupMouseOver(d) {
 
 			svg.selectAll(".node,.nodelabel")
 				.classed("active", function(p) {
@@ -459,7 +453,7 @@ var bjs;
 		}
 
 
-		function nodeMouseOver(d) {
+		private nodeMouseOver(d) {
 
 			svg.selectAll(".node,.nodelabel")
 				.classed("active", function(p) {
@@ -480,14 +474,12 @@ var bjs;
 			bjs.hover(d);
 		}
 
-		function mouseOut() {
+		private mouseOut() {
 			svg.selectAll(".passive").classed("passive", false);
 			svg.selectAll(".active").classed("active", false);
 			bjs.hover(null);
 		}
 
-		return bjs.cm_view;
 	}
 
-
-})(bjs || (bjs = {}));
+}

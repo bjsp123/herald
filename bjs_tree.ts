@@ -1,43 +1,49 @@
-/* global d3 */
+/// <reference path="bjs_types.ts"/>
+/// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_data_json.ts"/>
+/// <reference path="bjs_mv.ts"/>
 
-var bjs;
-(function(bjs) {
 
-	bjs.tree_view = function() {
+declare var d3:any;
+declare var ownerSVGElement:any;
 
-	var NODE_R = 8;
-	var TOTAL_HEIGHT = 1000; //x and y are flipped for trees.
-	var X_OFFSET = 320; //to account for hidden leftmost node
-	var TOTAL_WIDTH = 1000 + X_OFFSET;
-	var TOP_MARGIN = 20;
-	var CART_WIDTH = 160;
-	var CART_HEIGHT = 34;
-	var CART_FLAT_HEIGHT = CART_HEIGHT - 10;
-	var color = d3.scale.category20();
+namespace bjs {
+
+	export class tree_view implements view {
+
+	NODE_R = 8;
+	TOTAL_HEIGHT = 1000; //x and y are flipped for trees.
+	X_OFFSET = 320; //to account for hidden leftmost node
+	TOTAL_WIDTH = 1000 + this.X_OFFSET;
+	TOP_MARGIN = 20;
+	CART_WIDTH = 160;
+	CART_HEIGHT = 34;
+	CART_FLAT_HEIGHT = this.CART_HEIGHT - 10;
+	color = d3.scale.category20();
 
 	//private state vars.  we need these becuase this view re-renders itself on a click.
-	var cached_svg = {};
-	var cached_dat = {};
-	var cached_conf = {};
+	cached_svg = {};
+	cached_dat : bjs.mv = null;
+	cached_conf = {};
 
 
 	
 	//most of the render function can be called internally based on a tree node click, so the actual tree_view.render()
 	//just prepares the mv for the first time; the mv will be edited in place as tree nodes change status.
-	bjs.tree_view.render = function(svg, w, c) {
-		cached_svg = svg;
-		cached_conf = c;
+	public render(svg, w:bjs.world, c):void {
+		this.cached_svg = svg;
+		this.cached_conf = c;
 		
-		var mv = prepareData(w);
+		var mv = this.prepareData(w);
 
-		cached_dat = mv;
+		this.cached_dat = mv;
 
-		doRender(svg, mv, c);
+		this.doRender(svg, mv, c);
 	}
 
-	function doRender(svg, mv, c){
+	private doRender(svg, mv:bjs.mv, c):void{
 
-		var tree = d3.layout.tree().size([TOTAL_HEIGHT, TOTAL_WIDTH]);
+		var tree = d3.layout.tree().size([this.TOTAL_HEIGHT, this.TOTAL_WIDTH]);
 
 		var nodes = tree.nodes(mv.syntharoot);
 		var links = tree.links(nodes);
@@ -45,16 +51,16 @@ var bjs;
 		var duration = 500;
 
 		nodes = nodes.filter(function(d) {
-			return !d.issyntharoot;
+			return d.field!=null;
 		});
 		links = links.filter(function(d) {
-			return !d.source.issyntharoot;
+			return d.source.field!=null;
 		});
 
 		//shift everything left to account for hidden root node
 		nodes.forEach(function(d) {
-			d.y -= X_OFFSET;
-		});
+			d.y -= this.X_OFFSET;
+		}, this);
 
 
 		var nt = svg.selectAll("g.nt")
@@ -71,11 +77,14 @@ var bjs;
 			})
 			.style("fill-opacity", 1e-6)
 			.style("stroke-opacity", 1e-6)
-			.on("click", onNodeClick)
-			.on("mouseover", nodeMouseOver)
-			.on("mouseout", mouseOut);;
+			.on("click", this.onNodeClick)
+			.on("mouseover", this.nodeMouseOver)
+			.on("mouseout", this.mouseOut);;
 
-		drawNode(nodeEnter, c);
+		this.drawNode(nodeEnter, c);
+		
+		var con:any = this.connector_cubic;//sigh
+		var v:any = this; //good grief.
 
 		var nodeUpdate = nt.transition()
 			.duration(duration)
@@ -102,7 +111,7 @@ var bjs;
 			.data(links, function(d) {
 				return d.target.nameintree;
 			});
-
+			
 		// Enter any new links at the parent's previous position.
 		tl.enter().insert("path", "g")
 			//.filter(function(d) { return !d.source.issyntharoot && !d.target.issyntharoot;})
@@ -112,9 +121,10 @@ var bjs;
 			.attr("d", function(d) {
 				var o = {
 					x: d.source.x0,
-					y: d.source.y0
+					y: d.source.y0,
+					view: v
 				};
-				return connector_cubic({
+				return con({
 					source: o,
 					target: o
 				});
@@ -124,7 +134,7 @@ var bjs;
 		tl.transition()
 			.duration(duration)
 			.style("stroke-opacity", 1)
-			.attr("d", connector_cubic);
+			.attr("d", con);
 
 		// Transition exiting nodes to the parent's new position.
 		tl.exit().transition()
@@ -133,9 +143,10 @@ var bjs;
 			.attr("d", function(d) {
 				var o = {
 					x: d.source.x,
-					y: d.source.y
+					y: d.source.y,
+					view: v
 				};
-				return connector_cubic({
+				return con({
 					source: o,
 					target: o
 				});
@@ -143,30 +154,31 @@ var bjs;
 			.remove();
 
 		// Stash the old positions for transition.
+		
 		nodes.forEach(function(d) {
 			d.x0 = d.x;
 			d.y0 = d.y;
-		});
+		}, this);
 
 	}
 	
-	function prepareData(w) {
+	private prepareData(w:bjs.world):bjs.mv {
 
-		var mv = bjs.makeTree(w);
+		var mv = bjs.makeTree(this, w);
 
 		mv.syntharoot.x0 = 0; //these values only exist to give a point from which new nodes will appear / old nodes will disappear
-		mv.syntharoot.y0 = TOTAL_HEIGHT / 2;
+		mv.syntharoot.y0 = this.TOTAL_HEIGHT / 2;
 
-		mv.syntharoot.children.forEach(collapse);
+		mv.syntharoot.children.forEach(this.collapse, this);
 		
 		return mv;
 	}
 
-	function connector_elbow(d, i) {
-		return "M" + (d.source.y + CART_WIDTH) + "," + d.source.x + "H" + ((d.source.y + CART_WIDTH) + d.target.y) * .5 + "V" + d.target.x + "H" + d.target.y;
+	private connector_elbow(d, i) {
+		return "M" + (d.source.y + this.CART_WIDTH) + "," + d.source.x + "H" + ((d.source.y + this.CART_WIDTH) + d.target.y) * .5 + "V" + d.target.x + "H" + d.target.y;
 	}
 
-	function connector_cubic(d, i) {
+	private connector_cubic(d, i) {
 
 		var xoffs = Math.abs(d.source.y - d.target.y) / 7;
 
@@ -175,28 +187,30 @@ var bjs;
 		if (d.source.children && d.source.children.length > 1) {
 			for (var idx = 0; idx < d.source.children.length; ++idx) {
 				if (d.source.children[idx].fullname == d.target.fullname) {
-					yoffs = (idx / (d.source.children.length - 1)) * CART_FLAT_HEIGHT - CART_FLAT_HEIGHT / 2;
+					yoffs = (idx / (d.source.children.length - 1)) *  d.source.view.CART_FLAT_HEIGHT -  d.source.view.CART_FLAT_HEIGHT / 2;
 				}
 			}
 		}
 
-		return "M " + (d.source.y + CART_WIDTH) + " " + (d.source.x + yoffs) + "C " + (d.source.y + CART_WIDTH + xoffs) + " " + (d.source.x + yoffs) + " " + (d.target.y - xoffs) + " " + d.target.x + " " + d.target.y + " " + d.target.x;
+		return "M " + (d.source.y + d.source.view.CART_WIDTH) + " " + (d.source.x + yoffs) + "C " + (d.source.y +  d.source.view.CART_WIDTH + xoffs) + " " + (d.source.x + yoffs) + " " + (d.target.y - xoffs) + " " + d.target.x + " " + d.target.y + " " + d.target.x;
 	}
 
 	//expects an entry selection with a xlated g appended to it
-	function drawNode(ne, c) {
+	private drawNode(ne, c):void {
+		
+		var color = this.color;
 
 		ne.append("rect")
 			.attr("x", 0)
-			.attr("y", -CART_HEIGHT / 2)
+			.attr("y", -this.CART_HEIGHT / 2)
 			.attr("rx", 4)
 			.attr("ry", 4)
 			.attr("class", "cartouche")
-			.attr("width", CART_WIDTH)
-			.attr("height", CART_HEIGHT);
+			.attr("width", this.CART_WIDTH)
+			.attr("height", this.CART_HEIGHT);
 
 		ne.append("circle")
-			.attr("r", NODE_R)
+			.attr("r", this.NODE_R)
 			.attr("class", "node")
 			.style("fill", function(d) {
 				return bjs.getNodeColor(color, c, d);
@@ -206,14 +220,14 @@ var bjs;
 		ne.append("text").filter(function(d) {
 				return (d._children != null && d._children.length > 0) || (d.children != null && d.children.length > 0);
 			})
-			.attr("x", CART_WIDTH - NODE_R * 2)
-			.attr("y", 28 - CART_HEIGHT / 2)
+			.attr("x", this.CART_WIDTH - this.NODE_R * 2)
+			.attr("y", 28 - this.CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(">>");
 
 		ne.append("text")
 			.attr("x", 12)
-			.attr("y", 13 - CART_HEIGHT / 2)
+			.attr("y", 13 - this.CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(function(d) {
 				return d.field.name;
@@ -221,7 +235,7 @@ var bjs;
 
 		ne.append("text")
 			.attr("x", 12)
-			.attr("y", 28 - CART_HEIGHT / 2)
+			.attr("y", 28 - this.CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(function(d) {
 				return d.field.asset.fullname;
@@ -230,49 +244,57 @@ var bjs;
 	}
 
 	// Toggle children on click.
-	function onNodeClick(d) {
+	private onNodeClick(d) {
+		d.view.innerOnClick(d);
+	}
+	
+	public innerOnClick(d){
 
 		if (d.children) {
-			collapse(d);
+			this.collapse(d);
 		}
 		else {
-			expand(d);
+			this.expand(d);
 		}
 
-		doRender(cached_svg, cached_dat, cached_conf);
+		this.doRender(this.cached_svg, this.cached_dat, this.cached_conf);
 	}
 
-	function collapse(d) {
+	private collapse(d) {
 		if (d.children) {
 			d._children = d.children;
 			d.children = null;
 		}
 
-		if (d.children)
-			d.children.forEach(collapse);
+		if (d.children){
+			for(var i =0; i < d.children.length; ++i){
+				this.collapse(d.children[i]);
+			}
+		}
 	}
 
-	function expand(d) {
+	private expand(d) {
 		if (d._children) {
 			d.children = d._children;
 			d._children = null;
 		}
 
-		if (d.children)
-			d.children.forEach(expand);
+		if (d.children){
+			for(var i =0; i < d.children.length; ++i){
+				this.expand(d.children[i]);
+			}
+		}
 	}
 
 
-	function nodeMouseOver(d) {
+	private nodeMouseOver(d) {
 		bjs.hover(d);
 	}
 
-	function mouseOut() {
+	private mouseOut() {
 		bjs.hover(null);
 	}
 
-
-	return bjs.tree_view;
 }
 
-})(bjs || (bjs = {}));
+}

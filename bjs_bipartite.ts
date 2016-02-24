@@ -1,80 +1,90 @@
-/* global d3 */
-
-var bjs;
-(function(bjs) {
-
-	bjs.bp_view = function() {
-
-		var NODE_R = 8;
-		var LEFT_AXIS_X = 300;
-		var RIGHT_AXIS_X = 700;
-		var BUNDLE_OFFSET = 150;
-		var GROUP_OFFSET = 150;
-		var AXIS_HEIGHT = 950;
-		var TOP_MARGIN = 50;
-		var GROUPBAR_WIDTH = 20;
-		var color = d3.scale.category10();
-
-		var optimize = false;
+/// <reference path="bjs_types.ts"/>
+/// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_data_json.ts"/>
+/// <reference path="bjs_mv.ts"/>
 
 
-		bjs.bp_view.render = function(svg, w, c) {
+declare var d3:any;
+declare var ownerSVGElement:any;
 
-			optimize = c["optimize"] > 0;
+namespace bjs {
 
-			var mv = prepareData(w, c);
+	export class bp_view implements view {
 
-			renderLinks(svg, mv);
+		NODE_R = 8;
+		LEFT_AXIS_X = 300;
+		RIGHT_AXIS_X = 700;
+		BUNDLE_OFFSET = 150;
+		GROUP_OFFSET = 150;
+		AXIS_HEIGHT = 950;
+		TOP_MARGIN = 50;
+		GROUPBAR_WIDTH = 20;
+		color = d3.scale.category10();
 
-			renderChain(svg, c, "lnodes", mv.lnodea, true, LEFT_AXIS_X);
-			renderChain(svg, c, "rnodes", mv.rnodea, false, RIGHT_AXIS_X);
+		optimize = false;
+		
+		cached_svg = null;
 
-			if (optimize) {
-				renderGroups(svg, c, "lgroups", [], true, LEFT_AXIS_X - GROUP_OFFSET);
+
+		public render(svg, w:bjs.world, c):void {
+			
+			this.cached_svg = svg;
+
+			this.optimize = c["optimize"] > 0;
+
+			var mv = this.prepareData(w, c);
+
+			this.renderLinks(svg, mv);
+
+			this.renderChain(svg, c, "lnodes", mv.lnodea, true, this.LEFT_AXIS_X);
+			this.renderChain(svg, c, "rnodes", mv.rnodea, false, this.RIGHT_AXIS_X);
+
+			if (this.optimize) {
+				this.renderGroups(svg, c, "lgroups", {}, true, this.LEFT_AXIS_X - this.GROUP_OFFSET);
 			}
 			else {
-				renderGroups(svg, c, "lgroups", mv.lgroups, true, LEFT_AXIS_X - GROUP_OFFSET);
+				this.renderGroups(svg, c, "lgroups", mv.lgroups, true, this.LEFT_AXIS_X - this.GROUP_OFFSET);
 			}
-			renderGroups(svg, c, "rgroups", mv.rgroups, false, RIGHT_AXIS_X + GROUP_OFFSET);
+			this.renderGroups(svg, c, "rgroups", mv.rgroups, false, this.RIGHT_AXIS_X + this.GROUP_OFFSET);
 		};
 
 
-		function prepareData(w, c) {
+		private prepareData(w:bjs.world, c):bjs.mv {
 
-			var mv = bjs.makeBipartite(w);
+			var mv = bjs.makeBipartite(this, w);
 
-			if (optimize) {
-				unilateralBipartiteSort(mv);
+			if (this.optimize) {
+				this.unilateralBipartiteSort(mv);
 			}
 
 			for (var i = 0; i < mv.lgroupa.length; ++i) {
-				mv.lgroupa[i].x = LEFT_AXIS_X - GROUP_OFFSET;
+				mv.lgroupa[i].x = this.LEFT_AXIS_X - this.GROUP_OFFSET;
 			}
 
 			for (var i = 0; i < mv.rgroupa.length; ++i) {
-				mv.rgroupa[i].x = RIGHT_AXIS_X + GROUP_OFFSET;
+				mv.rgroupa[i].x = this.RIGHT_AXIS_X + this.GROUP_OFFSET;
 			}
 
 			for (var i = 0; i < mv.lnodea.length; ++i) {
-				mv.lnodea[i].x = LEFT_AXIS_X;
+				mv.lnodea[i].x = this.LEFT_AXIS_X;
 			}
 
 			for (var i = 0; i < mv.rnodea.length; ++i) {
-				mv.rnodea[i].x = RIGHT_AXIS_X;
+				mv.rnodea[i].x = this.RIGHT_AXIS_X;
 			}
 
-			updateYValues(mv, c);
+			this.updateYValues(mv, c);
 
 			return mv;
 		}
 
-		function updateYValues(mv, c) {
-			setYValues(mv.lnodea, mv.lgroupa, bjs.bp_view.focusGroup, !optimize);
-			setYValues(mv.rnodea, mv.rgroupa, bjs.bp_view.focusGroup, true);
+		private updateYValues(mv:bjs.mv, c):void {
+			this.setYValues(mv.lnodea, mv.lgroupa, "", !this.optimize);
+			this.setYValues(mv.rnodea, mv.rgroupa, "", true);
 		}
 
 
-		function setYValues(nodes, groups, focusGroup, bSeparateGroups) {
+		private setYValues(nodes:bjs.node[], groups:bjs.group[], focusGroup:string, bSeparateGroups:boolean):void {
 
 			if (nodes.length == 0) return;
 
@@ -96,9 +106,9 @@ var bjs;
 				}
 			}
 
-			var interval = (AXIS_HEIGHT - TOP_MARGIN) / (numRegularNodes + (numBreaks) + (numFGNodes * 4));
+			var interval = (this.AXIS_HEIGHT - this.TOP_MARGIN) / (numRegularNodes + (numBreaks) + (numFGNodes * 4));
 
-			var y = TOP_MARGIN - interval / 2;
+			var y = this.TOP_MARGIN - interval / 2;
 			var prevgroupname = nodes[0].group.fullname;
 			for (var i = 0; i < nodes.length; i++) {
 
@@ -110,7 +120,7 @@ var bjs;
 						prevgroupname = nodes[i].group.fullname;
 					}
 
-					if (nodes[i].group.fullname == bjs.bp_view.focusGroup) {
+					if (nodes[i].group.fullname == focusGroup) {
 						y += interval * 3;
 					}
 				}
@@ -133,8 +143,8 @@ var bjs;
 				p.y = (p.topy + p.bottomy) / 2;
 				p.topy -= interval - 2;
 				p.bottomy += interval - 2;
-				if (p.topy < TOP_MARGIN) p.topy = TOP_MARGIN;
-				if (p.bottomy > AXIS_HEIGHT) p.bottomy = AXIS_HEIGHT;
+				if (p.topy < this.TOP_MARGIN) p.topy = this.TOP_MARGIN;
+				if (p.bottomy > this.AXIS_HEIGHT) p.bottomy = this.AXIS_HEIGHT;
 			}
 		}
 
@@ -143,14 +153,14 @@ var bjs;
 		//expects a mv that has lnodes and rnodes
 		//uses brute force
 		//leaves the rhs alone, only sorts the lhs
-		function unilateralBipartiteSort(mv) {
+		private unilateralBipartiteSort(mv:bjs.mv):void {
 
 			if (mv.lnodea.length < 2 || mv.rnodea.length < 2)
 				return;
 
 			var fr = new bjs.fastrandom();
 
-			function swappem(nodes, a, b) {
+			function swappem(nodes:bjs.node[], a:number, b:number) {
 				var t = nodes[a];
 				nodes[a] = nodes[b];
 				nodes[b] = t;
@@ -159,7 +169,7 @@ var bjs;
 				nodes[b].idx = b;
 			}
 
-			function scorem(dat) {
+			function scorem(dat:bjs.mv):number {
 				var score = 0;
 				for (var i = 0; i < dat.links.length; ++i) {
 					var linka = dat.links[i];
@@ -215,7 +225,9 @@ var bjs;
 
 
 
-		function renderLinks(svg, dat) {
+		private renderLinks(svg, dat:bjs.mv):void {
+			
+			var bundle_offs = this.BUNDLE_OFFSET;
 
 			var links = svg.selectAll(".link")
 				.data(dat.links, function(d, i) {
@@ -233,13 +245,13 @@ var bjs;
 				.attr("stroke",  bjs.getLinkColor);
 
 
-			if (optimize) {
+			if (this.optimize) {
 				links
 					.transition()
 					.attr("d", function(d) {
 						return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-							"C " + (d.source.x + BUNDLE_OFFSET) + " " + d.source.y +
-							" " + (d.target.x - BUNDLE_OFFSET) + " " + d.target.y +
+							"C " + (d.source.x + bundle_offs) + " " + d.source.y +
+							" " + (d.target.x - bundle_offs) + " " + d.target.y +
 							" " + d.target.x + " " + (d.target.y + Math.random() * 3);
 					});
 			}
@@ -248,8 +260,8 @@ var bjs;
 					.transition()
 					.attr("d", function(d) {
 						return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-							"C " + (d.source.x + BUNDLE_OFFSET) + " " + d.source.group.y +
-							" " + (d.target.x - BUNDLE_OFFSET) + " " + d.target.group.y +
+							"C " + (d.source.x + bundle_offs) + " " + d.source.group.y +
+							" " + (d.target.x - bundle_offs) + " " + d.target.group.y +
 							" " + d.target.x + " " + (d.target.y + Math.random() * 3);
 					});
 			}
@@ -260,11 +272,13 @@ var bjs;
 				.remove();
 		}
 
-		function renderGroups(svg, conf, tag, data, lefthanded, x) {
+		private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>, lefthanded:boolean, x:number) {
 
 			var datarray = [];
+			
+			var color = this.color;//resolve 'this' at a good time. fuck's sake, javascript.
 
-			for (y in data) {
+			for (var y in data) {
 				datarray.push(data[y]);
 			}
 
@@ -277,8 +291,8 @@ var bjs;
 				.enter()
 				.append("g")
 				.attr("class", "group " + tag)
-				.on("mouseover", groupMouseOver)
-				.on("mouseout", mouseOut);
+				.on("mouseover", this.groupMouseOver)
+				.on("mouseout", this.mouseOut);
 
 			groupsg.append("rect");
 			groupsg.append("line").attr("class", "grouplinetop group");
@@ -286,12 +300,12 @@ var bjs;
 			groupsg.append("text");
 
 			groups.select("rect")
-				.attr("x", x - GROUPBAR_WIDTH / 2)
-				.attr("width", GROUPBAR_WIDTH)
+				.attr("x", x - this.GROUPBAR_WIDTH / 2)
+				.attr("width", this.GROUPBAR_WIDTH)
 				.style("fill", function(d) {
 					return bjs.getGroupColor(color, conf, d);
 				})
-				.on("click", groupClick)
+				.on("click", this.groupClick)
 				.transition()
 				.attr("y", function(d) {
 					return d.topy;
@@ -303,7 +317,7 @@ var bjs;
 
 			groups.select(".grouplinetop")
 				.attr("x1", x)
-				.attr("x2", x + (lefthanded ? GROUPBAR_WIDTH : -GROUPBAR_WIDTH))
+				.attr("x2", x + (lefthanded ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
 				.transition()
 				.attr("y1", function(d) {
 					return d.topy;
@@ -314,7 +328,7 @@ var bjs;
 
 			groups.select(".grouplinebottom")
 				.attr("x1", x)
-				.attr("x2", x + (lefthanded ? GROUPBAR_WIDTH : -GROUPBAR_WIDTH))
+				.attr("x2", x + (lefthanded ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
 				.transition()
 				.attr("y1", function(d) {
 					return d.bottomy;
@@ -328,7 +342,7 @@ var bjs;
 				.text(function(d) {
 					return bjs.shortenString(d.fullname, 24);
 				})
-				.attr("x", x + (lefthanded ? -GROUPBAR_WIDTH : GROUPBAR_WIDTH))
+				.attr("x", x + (lefthanded ? -this.GROUPBAR_WIDTH : this.GROUPBAR_WIDTH))
 				.attr("text-anchor", lefthanded ? "end" : "start")
 				.transition()
 				.attr("y", function(d, i) {
@@ -339,7 +353,9 @@ var bjs;
 
 		}
 
-		function renderChain(svg, conf, tag, data, lefthanded, x) {
+		private renderChain(svg, conf, tag:string, data:bjs.node[], lefthanded:boolean, x:number):void {
+		
+			var color = this.color;
 
 			var axis = svg.selectAll(".axis." + tag)
 				.data([1]).enter()
@@ -348,7 +364,7 @@ var bjs;
 				.attr("x1", x)
 				.attr("y1", 0)
 				.attr("x2", x)
-				.attr("y2", AXIS_HEIGHT);
+				.attr("y2", this.AXIS_HEIGHT);
 
 			var nodes = svg
 				.selectAll(".node." + tag)
@@ -360,8 +376,8 @@ var bjs;
 				.enter()
 				.append("g")
 				.attr("class", "node " + tag)
-				.on("mouseover", nodeMouseOver)
-				.on("mouseout", mouseOut);
+				.on("mouseover", this.nodeMouseOver)
+				.on("mouseout", this.mouseOut);
 
 			nodesg.append("rect");
 			nodesg.append("circle");
@@ -370,10 +386,10 @@ var bjs;
 			nodes.select("rect")
 				.attr("class", "nodeinvis")
 				.attr("x", function(d, i) {
-					return d.x + (lefthanded ? -GROUP_OFFSET : 0);
+					return d.x + (lefthanded ? -this.GROUP_OFFSET : 0);
 				})
 				.attr("width", function(d, i) {
-					return GROUP_OFFSET;
+					return this.GROUP_OFFSET;
 				})
 				.attr("height", function(d, i) {
 					return 18;
@@ -385,7 +401,7 @@ var bjs;
 
 			nodes.select("circle")
 				.attr("class", "node")
-				.attr("r", NODE_R)
+				.attr("r", this.NODE_R)
 				.attr("cx", function(d, i) {
 					return d.x;
 				})
@@ -400,7 +416,8 @@ var bjs;
 			nodes.select("text")
 				.attr("class", "nodelabel")
 				.text(function(d) {
-					return (lefthanded & optimize) ? d.field.fullname : d.field.name;
+					if(lefthanded && this.optimize) return d.field.fullname;
+					return d.field.name;
 				})
 				.attr("x", function(d, i) {
 					return d.x + (lefthanded ? -20 : 20);
@@ -415,9 +432,10 @@ var bjs;
 
 		}
 
-		function linkMouseOver(d) {}
+		private linkMouseOver(d) {}
 
-		function groupMouseOver(d) {
+		private groupMouseOver(d) {
+			var svg = d3.select("svg");//horrible, horrible.  javascript is a threat to mankind.
 			svg.selectAll(".link")
 				.classed("active", function(p) {
 					return p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname;
@@ -447,7 +465,8 @@ var bjs;
 		}
 
 
-		function nodeMouseOver(d) {
+		private nodeMouseOver(d) {
+			var svg = d3.select("svg");
 			svg.selectAll(".link")
 				.classed("active", function(p) {
 					return p.source.fullname == d.fullname || p.target.fullname == d.fullname;
@@ -467,20 +486,22 @@ var bjs;
 			bjs.hover(d);
 		}
 
-		function mouseOut() {
+		private mouseOut() {
+			var svg = d3.select("svg");
 			svg.selectAll(".passive").classed("passive", false);
 			svg.selectAll(".active").classed("active", false);
 			bjs.hover(null);
 		}
 
-		function groupClick(d) {
+		private groupClick(d) {
+			/*
 			bjs.bp_view.focusGroup = d.fullname;
 			bjs.bp_view.prepareData(data);
 			bjs.bp_view.render(svg, info, data);
+			*/
 		}
 
-		return bjs.bp_view;
 	}
 
+}
 
-})(bjs || (bjs = {}));
