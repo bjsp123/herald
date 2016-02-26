@@ -114,6 +114,8 @@ namespace bjs {
 		x0: number = -1; //'hiding' position of node, for use in expand/collapse
 		y0: number = -1;
 		offs: number = -1; //for grid view
+		width: number = -1;
+		height: number = -1;//for cola
 		children: node[]=[];//for use in tree structures, blank otherwise
 		parent: node;//for use in tree
 		nameintree: string="";//ditto
@@ -160,6 +162,7 @@ namespace bjs {
 		topoffs = -1;  //these 3 are for the matrix view.
 		bottomoffs = -1;
 		offs = -1;
+		padding = -1;//used by cola
 		pts = null; //points represent a dependency seen as a point rather than a link
 		
 		constructor(public view:view, public asset: asset){

@@ -316,6 +316,7 @@ namespace bjs {
                 id: src.fullname + tgt.fullname+i,
                 realsource: src,
                 realtarget: tgt,
+                rel: rel,
                 source:src.cola_index,
                 target:tgt.cola_index
             };
