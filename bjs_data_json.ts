@@ -326,18 +326,11 @@ namespace bjs_data_json{
 		w.arels = {};
 		w.arela = [];
 		for(var i=0; i< w.fielda.length; ++i){
-			w.fielda[i].rels = [];
-			w.fielda[i].peers = [];
-			w.fielda[i].targets = [];
-			w.fielda[i].sources = [];
-			w.fielda[i].ancestors = {};
-			w.fielda[i].descendants = {};
-			w.fielda[i].ldepth = -1;
-			w.fielda[i].rdepth = -1;
-			w.fielda[i].usources = {};
-			w.fielda[i].utargets = {};
-			w.fielda[i].hasTargets = false;
-			w.fielda[i].hasSources = false;
+			w.fielda[i].resetvolatile();
+		}
+		
+		for(var assname in w.assets){
+			w.assets[assname].resetvolatile();
 		}
 
 		for (var i = 0; i < w.rels.length; ++i) {
@@ -360,7 +353,7 @@ namespace bjs_data_json{
 			var arel = w.arels[ar_key];
 
 			if (arel == null) {
-				arel = new bjs.arel(srcfield.asset, tgtfield.asset);
+				arel = new bjs.arel(srcfield.asset, tgtfield.asset, 0, rel.type);
 				bjs.lg_inf("Created arel " + ar_key);
 
 				arel.source.arels.push(arel);
@@ -374,6 +367,10 @@ namespace bjs_data_json{
 			}
 
 			arel.count += 1;
+			
+			if(rel.type == "value"){
+				arel.type = "value";
+			}
 
 		}
 
@@ -387,21 +384,33 @@ namespace bjs_data_json{
 		bjs.lg_inf("Finding relatives");
 
 		for (var i = 0; i < w.fielda.length; ++i) {
-
 			var f = w.fielda[i];
-
+			recursiveFieldCalculations(w, f);
 			recursiveRelatives(w, f, f, 0, false, true);
 			recursiveRelatives(w, f, f, 0, false, false);
-
 		}
-
-		bjs.lg_inf("Calculating asset times");
-
-		var assetfullname="";
-		for(assetfullname in w.assets){
+		
+		
+		bjs.lg_inf("Finding asset relatives");
+		
+		for (var assetfullname in w.assets){
 			var ass = w.assets[assetfullname];
 			recursiveAssetCalculations(w, ass);
+			recursiveARelatives(w, ass, ass, 0, false, true);
+			recursiveARelatives(w, ass, ass, 0, false, false);
 		}
+		
+		//fixes up the rhs of the time critical path
+		for (assetfullname in w.assets){
+			var ass = w.assets[assetfullname];
+			for(var influencename in ass.ancestors){
+				var inf = ass.ancestors[influencename];
+				if(inf.tcritpath){
+					inf.asset.descendants[ass.fullname].tcritpath=true;
+				}
+			}
+		}
+
 
 	}
 
@@ -418,13 +427,72 @@ namespace bjs_data_json{
 			recursiveAssetCalculations(w, srcass);
 			if(srcass.effnotbefore > latest_src){
 				latest_src = srcass.effnotbefore;
-				srcass.isLatestSrc = true;
 			}
 		}
 
 		ass.effnotbefore = latest_src + ass.latency;
 	}
+	
+	function recursiveFieldCalculations(w:bjs.world, f:bjs.field):void{
 
+		if(f.effrisk != null){
+			return;
+		}
+		
+		f.effrisk = f.risk;
+		f.effquality = f.quality;
+
+		for(var i=0;i<f.sources.length;++i){
+			var src = f.sources[i];
+			recursiveFieldCalculations(w, src);
+			f.effrisk += src.effrisk;
+			f.effquality *= src.effquality;
+		}
+	}
+
+
+	function recursiveARelatives(w:bjs.world, root:bjs.asset, a:bjs.asset, depth:number, bFilterEncountered:boolean, bSource:boolean):void {
+
+		for (var i = 0; i < a.arels.length; ++i) {
+			var isFilter = bFilterEncountered;
+			if (a.arels[i].type == "filter")
+				isFilter = true;
+				
+			if(a.arels[i].source.fullname == a.arels[i].target.fullname){//assets may have internal relationships
+				continue;	
+			}
+			
+			var isSource = a.arels[i].source.fullname != a.fullname;
+			
+			var lastReady = 0;
+
+			if (bSource && isSource) {
+				var p = a.arels[i].source;
+				if(p.effnotbefore > lastReady) lastReady = p.effnotbefore;
+				if (p.sources.length == 0) {
+					root.ancestors[p.fullname] = new bjs.ainfluence(p, depth, isFilter, true, p.effnotbefore == lastReady);
+					if (p.rdepth < depth) p.rdepth = depth;
+				}
+				else {
+					root.ancestors[p.fullname] = new bjs.ainfluence(p, depth, isFilter, false, p.effnotbefore == lastReady);
+					recursiveARelatives(w, root, p, depth + 1, isFilter, bSource);
+				}
+			}
+
+			if (!bSource && !isSource) {
+				var p = a.arels[i].target;
+				if (p.targets.length == 0) {
+					root.descendants[p.fullname]  = new bjs.ainfluence(p, depth, isFilter, true, false); //tcritpath is filled in in a separate sweep later
+					if (p.ldepth < depth) p.ldepth = depth;
+				}
+				else {
+					root.descendants[p.fullname] = new bjs.ainfluence(p, depth, isFilter, false, false);
+					recursiveARelatives(w, root, p, depth + 1, isFilter, bSource);
+				}
+			}
+
+		}
+	}
 
 	//root=node we are annotating, n = node currently under consideration, depth = distance from root, bFilterEncountered = true if we
 	//had to follow a filter link to get here, bSource = true if we are recursing sourceward.
@@ -439,23 +507,12 @@ namespace bjs_data_json{
 			if (bSource && isSource) {
 				var p = f.rels[i].source;
 				if (p.sources.length == 0) {
-					root.ancestors[p.fullname] = {
-						filter: isFilter,
-						depth: depth,
-						ult: true
-					};
-					root.usources[p.fullname] = {
-						filter: isFilter,
-						depth: depth
-					};
+					root.ancestors[p.fullname] = new bjs.influence(p, depth, isFilter, true);
+					root.usources[p.fullname] = new bjs.influence(p, depth, isFilter, true);
 					if (p.rdepth < depth) p.rdepth = depth;
 				}
 				else {
-					root.ancestors[p.fullname] = {
-						filter: isFilter,
-						depth: depth,
-						ult: false
-					};
+					root.ancestors[p.fullname] = new bjs.influence(p, depth, isFilter, false);
 					recursiveRelatives(w, root, p, depth + 1, isFilter, bSource);
 				}
 			}
@@ -463,23 +520,12 @@ namespace bjs_data_json{
 			if (!bSource && !isSource) {
 				var p = f.rels[i].target;
 				if (p.targets.length == 0) {
-					root.descendants[p.fullname] = {
-						filter: isFilter,
-						depth: depth,
-						ult: true
-					};
-					root.utargets[p.fullname] = {
-						filter: isFilter,
-						depth: depth
-					};
+					root.descendants[p.fullname]  = new bjs.influence(p, depth, isFilter, true);
+					root.utargets[p.fullname] = new bjs.influence(p, depth, isFilter, true);
 					if (p.ldepth < depth) p.ldepth = depth;
 				}
 				else {
-					root.descendants[p.fullname] = {
-						filter: isFilter,
-						depth: depth,
-						ult: false
-					};
+					root.descendants[p.fullname] = new bjs.influence(p, depth, isFilter, false);
 					recursiveRelatives(w, root, p, depth + 1, isFilter, bSource);
 				}
 			}

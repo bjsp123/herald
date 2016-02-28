@@ -29,14 +29,34 @@ namespace bjs {
 		children: field[] = [];
 		hasTargets = false;
 		hasSources = false;
+		ldepth = -1;
+		rdepth = -1;
+		
+		ancestors: IMap<ainfluence> = {};
+		descendants: IMap<ainfluence> = {};
 
 		effnotbefore: number = null;
-		isLatestSrc = false;
 		
-		constructor(public fullname: string, public name: string, public location: string="", public type: string="", public owner: string="", public dept:string="", public desc: string="", public calc: string="", public notbefore: number=0, public latency: number=0, public risk: number=1, public comment: string="") {
+		constructor(public fullname: string, public name: string, public location: string, public type: string, public owner: string, public dept:string, public desc: string, public calc: string, public notbefore: number, public latency: number, public risk: number, public comment: string) {
 			if (name == null || name == "") 
 				bjs.lg_err("Tried to create unnamed asset");
-			}
+			if(risk == null || risk == undefined)
+				this.risk = 0;
+		}
+			
+		public resetvolatile(){
+			this.arels = [];
+			this.peers = [];
+			this.targets = [];
+			this.sources = [];
+			this.ancestors = {};
+			this.descendants = {};
+			this.ldepth = -1;
+			this.rdepth = -1;
+			this.hasTargets = false;
+			this.hasSources = false;
+			this.effnotbefore = null;
+		}
 	}
 	
 	export class field{
@@ -45,12 +65,12 @@ namespace bjs {
 		peers: field[] = [];
 		sources: field[] = [];
 		targets: field[] = [];
-		ancestors = {};
-		descendants = {};
+		ancestors: IMap<influence> = {};
+		descendants: IMap<influence> = {};
 		ldepth = -1;
 		rdepth = -1;
-		usources = {};
-		utargets = {};
+		usources: IMap<influence> = {};
+		utargets: IMap<influence> = {};
 		hasTargets = false;
 		hasSources = false;
 		directlyrelevant = false; //NB this is a bit of ephemeral state used in filtering.
@@ -65,8 +85,29 @@ namespace bjs {
 				bjs.lg_err("Tried to create unnamed field");
 			if (asset == null) 
 				bjs.lg_err("Tried to create field " + name + " with no asset.");
+			if(risk == null || risk == undefined)
+				this.risk = 0;
+			if(quality == null || quality == undefined || quality == 0)
+				this.quality = 1;
 				
-			this.risk = risk + asset.risk;
+			this.risk = this.risk + asset.risk;
+		}
+		
+		public resetvolatile(){
+			this.rels = [];
+			this.peers = [];
+			this.targets = [];
+			this.sources = [];
+			this.ancestors = {};
+			this.descendants = {};
+			this.ldepth = -1;
+			this.rdepth = -1;
+			this.usources = {};
+			this.utargets = {};
+			this.hasTargets = false;
+			this.hasSources = false;
+			this.effrisk = null;
+			this.effquality = null;
 		}
 		
 	}
@@ -83,8 +124,21 @@ namespace bjs {
 	export class arel{
 		itemtype = "arel";
 		
-		constructor(public source: asset, public target: asset, public count: number=0){
+		constructor(public source: asset, public target: asset, public count: number, public type: string){
 			
+		}
+	}
+	
+	export class influence{
+		itemtype = "influence";
+		tcritpath:boolean=undefined;
+		constructor (public field:field, public depth:number, public filt:boolean, public ult:boolean){
+		}
+	}
+		
+	export class ainfluence{
+		itemtype = "ainfluence";
+		constructor (public asset:asset, public depth:number, public filt:boolean, public ult:boolean, public tcritpath:boolean){
 		}
 	}
 	
