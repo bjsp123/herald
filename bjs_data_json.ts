@@ -211,7 +211,7 @@ namespace bjs_data_json{
 		}
 
 		//add the actual field
-		var newfield = new bjs.field(f.fullname, f.name, f.type, newass, newterm, f.desc, f.formula, f.flags, f.quality, f.risk, f.comment);
+		var newfield = new bjs.field(f.fullname, f.name, f.type, newass, newterm, f.desc, f.formula, f.flags, f.quality, f.risk, f.importance, f.comment);
 	
 		w.fields[newfield.fullname] = newfield;
 		w.fielda.push(newfield);
@@ -344,8 +344,6 @@ namespace bjs_data_json{
 			tgtfield.peers.push(srcfield);
 			srcfield.targets.push(tgtfield);
 			tgtfield.sources.push(srcfield);
-			srcfield.hasTargets = true;
-			tgtfield.hasSources = true;
 
 
 			var ar_key = srcfield.asset.fullname + "-" + tgtfield.asset.fullname;
@@ -360,8 +358,6 @@ namespace bjs_data_json{
 				arel.target.arels.push(arel);
 				arel.source.targets.push(arel.target);
 				arel.target.sources.push(arel.source);
-				arel.source.hasTargets = true;
-				arel.target.hasSources = true;
 
 				w.arels[ar_key] = arel;
 			}
@@ -386,6 +382,7 @@ namespace bjs_data_json{
 		for (var i = 0; i < w.fielda.length; ++i) {
 			var f = w.fielda[i];
 			recursiveFieldCalculations(w, f);
+			recursiveLeftwardFieldCalculations(w, f);
 			recursiveRelatives(w, f, f, 0, false, true);
 			recursiveRelatives(w, f, f, 0, false, false);
 		}
@@ -439,7 +436,7 @@ namespace bjs_data_json{
 			return;
 		}
 		
-		f.effrisk = f.risk;
+		f.effrisk = f.risk + f.asset.risk;
 		f.effquality = f.quality;
 
 		for(var i=0;i<f.sources.length;++i){
@@ -448,6 +445,24 @@ namespace bjs_data_json{
 			f.effrisk += src.effrisk;
 			f.effquality *= src.effquality;
 		}
+	}
+	
+	function recursiveLeftwardFieldCalculations(w:bjs.world, f:bjs.field):void{
+
+		if(f.effimportance != null){
+			return;
+		}
+		
+		var most_imp_target = f.importance;
+		for(var i=0;i<f.targets.length;++i){
+			var tgt = f.targets[i];
+			recursiveLeftwardFieldCalculations(w, tgt);
+			if(tgt.effimportance > most_imp_target){
+				most_imp_target = tgt.effimportance;
+			}
+		}
+
+		f.effimportance = most_imp_target;
 	}
 
 
@@ -566,7 +581,7 @@ namespace bjs_data_json{
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading field " + row.fullname);
-			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.quality, row.risk, row.comment);
+			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.quality, row.risk, row.importance, row.comment);
 			w.fields[field.fullname] = field;
 			w.fielda.push(field);
 			if (field.term) field.term.children.push(field);

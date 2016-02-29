@@ -12,6 +12,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 1,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance",
@@ -27,6 +28,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 1,
             "usesvalue": [],
             "usesfilter": [
                 "Core.Retail.Balances:DrawnBalance",
@@ -42,6 +44,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 1,
             "usesvalue": [],
             "usesfilter": [
                 "Customer.ClientData.Individuals:Cust_ID",
@@ -57,6 +60,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 1,
             "usesvalue": [],
             "usesfilter": [
                 "Customer.Quality.Internal:Entity_Grade",
@@ -71,6 +75,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 1,
             "usesvalue": ["Customer.ClientData.Individuals:Postcode",
                 "Customer.ClientData.SmallBusiness:Postcode"],
             "usesfilter": [
@@ -85,6 +90,7 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "quality": 0.8,
+            "importance": 1,
             "usesvalue": ["Customer.ClientData.Individuals:Name",
                 "Customer.ClientData.SmallBusiness:Name"],
             "usesfilter": [
@@ -177,6 +183,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 2,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance"
@@ -191,6 +198,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 2,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance"
@@ -207,6 +215,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 2,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance"
@@ -223,6 +232,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 2,
             "usesvalue": [
                 "Reports.BCBS.CreditRisk:Distressed",
                 "Core.Retail.Balances:Arrears"
@@ -237,6 +247,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "importance": 2,
             "usesvalue": [
                 "Reports.BCBS.CreditRisk:Distressed",
                 "Reports.BCBS.CreditRisk:Substandard"

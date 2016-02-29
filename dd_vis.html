@@ -376,7 +376,9 @@
 
           details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
 
-          details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li><li>Quality: " + d.field.effquality + "</li><li>Direct Risk: " + d.field.risk + "</li><li>Direct Quality: " + d.field.quality + "</li></ul>";
+          details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + " (" + d.field.risk + " inherent, " + d.field.asset.risk + " from asset, " + (d.field.effrisk-(d.field.risk + d.field.asset.risk)) + " from upstream)</li>";
+          details += "<li>Quality: " + (d.field.effquality*100).toPrecision(2) + "% (" + (d.field.quality*100).toPrecision(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toPrecision(2) + " from upstream)</li>";
+          details += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
 
           if(d.field.term != null){
             details += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;

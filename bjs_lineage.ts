@@ -61,8 +61,8 @@ namespace bjs {
 		for (var fullname in mv.groups) {
 			var g = mv.groups[fullname];
 			g.depth = 1;
-			if (!g.asset.hasTargets) g.depth = 0;
-			if (!g.asset.hasSources) g.depth = 2;
+			if (!g.asset.hasTargets()) g.depth = 0;
+			if (!g.asset.hasSources()) g.depth = 2;
 		}
 
 

@@ -76,7 +76,7 @@ namespace bjs {
 			    var pt = new bjs.pt(
 			        view,
 			        f.fullname + "-" + ancestorfullname,
-			        f.ancestors[ancestorfullname].filter,
+			        f.ancestors[ancestorfullname].filt,
 					f.ancestors[ancestorfullname].ult,
 					f.ancestors[ancestorfullname].depth,
 					mv.lnodes[ancestorfullname],
@@ -106,14 +106,14 @@ namespace bjs {
         for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
-            if (field.hasSources) {
+            if (field.hasSources()) {
                 var n = new bjs.node(view, mv, field);
                 mv.rnodea.push(n);
                 mv.rnodes[fullname] = n;
                 bjs.lg_inf("lnode: " + field.fullname);
             }
 
-            if (field.hasTargets) {
+            if (field.hasTargets()) {
                 var n = new bjs.node(view, mv, field);
                 mv.lnodea.push(n);
                 mv.lnodes[fullname] = n;
@@ -182,19 +182,19 @@ namespace bjs {
         for (var fullname in w.fields) {
             var field = w.fields[fullname];
 
-            if (field.hasSources && !field.hasTargets) {
+            if (field.hasSources() && !field.hasTargets()) {
                 var n = new bjs.node(view, mv, field);
                 mv.rnodea.push(n);
                 mv.rnodes[fullname] = n;
             }
 
-            if (field.hasTargets && !field.hasSources) {
+            if (field.hasTargets() && !field.hasSources()) {
                 var n = new bjs.node(view, mv, field);
                 mv.lnodea.push(n);
                 mv.lnodes[fullname] = n;
             }
 
-            if (field.hasTargets && field.hasSources) {
+            if (field.hasTargets() && field.hasSources()) {
                 var n1 = new bjs.node(view,mv, field);
                 var n2 = new bjs.node(view,mv, field);
                 mv.m1nodea.push(n1);
@@ -207,7 +207,7 @@ namespace bjs {
         for (fullname in w.assets) {
             var ass = w.assets[fullname];
 
-            if (ass.hasSources) {
+            if (ass.hasSources()) {
                 var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
                     if (mv.rnodes[ass.children[i].fullname] != null) {
@@ -220,7 +220,7 @@ namespace bjs {
 
             }
 
-            if (ass.hasTargets) {
+            if (ass.hasTargets()) {
                 var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
                     if (mv.lnodes[ass.children[i].fullname] != null) {
@@ -234,7 +234,7 @@ namespace bjs {
             }
 
 
-            if (ass.hasTargets && ass.hasSources) {
+            if (ass.hasTargets() && ass.hasSources()) {
                 var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
                     if (mv.m1nodes[ass.children[i].fullname] != null) {

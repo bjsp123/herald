@@ -27,8 +27,6 @@ namespace bjs {
 		sources: asset[] = [];
 		targets: asset[] = [];
 		children: field[] = [];
-		hasTargets = false;
-		hasSources = false;
 		ldepth = -1;
 		rdepth = -1;
 		
@@ -53,9 +51,15 @@ namespace bjs {
 			this.descendants = {};
 			this.ldepth = -1;
 			this.rdepth = -1;
-			this.hasTargets = false;
-			this.hasSources = false;
 			this.effnotbefore = null;
+		}
+		
+		public hasSources():boolean {
+			return this.sources.length > 0;
+		}
+		
+		public hasTargets():boolean {
+			return this.targets.length > 0;
 		}
 	}
 	
@@ -71,16 +75,15 @@ namespace bjs {
 		rdepth = -1;
 		usources: IMap<influence> = {};
 		utargets: IMap<influence> = {};
-		hasTargets = false;
-		hasSources = false;
 		directlyrelevant = false; //NB this is a bit of ephemeral state used in filtering.
 
 		effrisk: number = null;
 		effquality: number = null;
+		effimportance:number=null;
 		
 		itemtype = "field";
 		
-		constructor(public fullname: string, public name:string, public type: string, public asset: asset, public term: term, public desc: string, public formula: string, public flags: string, public quality: number, public risk: number, public comment: string) {
+		constructor(public fullname: string, public name:string, public type: string, public asset: asset, public term: term, public desc: string, public formula: string, public flags: string, public quality: number, public risk: number, public importance: number, public comment: string) {
 			if (name == null || name == "") 
 				bjs.lg_err("Tried to create unnamed field");
 			if (asset == null) 
@@ -89,8 +92,8 @@ namespace bjs {
 				this.risk = 0;
 			if(quality == null || quality == undefined || quality == 0)
 				this.quality = 1;
-				
-			this.risk = this.risk + asset.risk;
+			if(importance == null || importance == undefined)
+				this.importance = 0;
 		}
 		
 		public resetvolatile(){
@@ -104,10 +107,17 @@ namespace bjs {
 			this.rdepth = -1;
 			this.usources = {};
 			this.utargets = {};
-			this.hasTargets = false;
-			this.hasSources = false;
 			this.effrisk = null;
 			this.effquality = null;
+			this.effimportance = null;
+		}
+		
+		public hasSources():boolean {
+			return this.sources.length > 0;
+		}
+		
+		public hasTargets():boolean {
+			return this.targets.length > 0;
 		}
 		
 	}
