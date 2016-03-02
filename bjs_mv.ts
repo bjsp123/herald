@@ -124,30 +124,31 @@ namespace bjs {
         for (fullname in w.assets) {
             var ass = w.assets[fullname];
 
-            if (ass.hasSources) {
+            if (ass.hasSources() && ass.children.length > 0) {
                 var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
                     if (mv.rnodes[ass.children[i].fullname] != null) {
                         g.children.push(mv.rnodes[ass.children[i].fullname]);
                         mv.rnodes[ass.children[i].fullname].group = g;
                     }
-                    mv.rgroupa.push(g);
-                    mv.rgroups[fullname] = g;
-                    bjs.lg_inf("rgroup: " + field.fullname);
                 }
+                mv.rgroupa.push(g);
+                mv.rgroups[fullname] = g;
+                bjs.lg_inf("rgroup: " + field.fullname);
+            
             }
 
-            if (ass.hasTargets) {
+            if (ass.hasTargets() && ass.children.length > 0) {
                 var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
                     if (mv.lnodes[ass.children[i].fullname] != null) {
                         g.children.push(mv.lnodes[ass.children[i].fullname]);
                         mv.lnodes[ass.children[i].fullname].group = g;
                     }
-                    mv.lgroupa.push(g);
-                    mv.lgroups[fullname] = g;
-                    bjs.lg_inf("lgroup: " + field.fullname);
                 }
+                mv.lgroupa.push(g);
+                mv.lgroups[fullname] = g;
+                bjs.lg_inf("lgroup: " + field.fullname);
             }
         }
 

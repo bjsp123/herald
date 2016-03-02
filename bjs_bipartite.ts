@@ -37,16 +37,16 @@ namespace bjs {
 
 			this.renderLinks(svg, mv);
 
-			this.renderChain(svg, c, "lnodes", mv.lnodea, bjs.handed.left, this.LEFT_AXIS_X);
-			this.renderChain(svg, c, "rnodes", mv.rnodea, bjs.handed.right, this.RIGHT_AXIS_X);
+			this.renderChain(svg, c, "lnodes", mv.lnodea, this.LEFT_AXIS_X);
+			this.renderChain(svg, c, "rnodes", mv.rnodea, this.RIGHT_AXIS_X);
 
 			if (this.config.optimize) {
-				this.renderGroups(svg, c, "lgroups", {}, bjs.handed.left, this.LEFT_AXIS_X - this.GROUP_OFFSET);
+				this.renderGroups(svg, c, "lgroups", {});
 			}
 			else {
-				this.renderGroups(svg, c, "lgroups", mv.lgroups, bjs.handed.left, this.LEFT_AXIS_X - this.GROUP_OFFSET);
+				this.renderGroups(svg, c, "lgroups", mv.lgroups);
 			}
-			this.renderGroups(svg, c, "rgroups", mv.rgroups, bjs.handed.right, this.RIGHT_AXIS_X + this.GROUP_OFFSET);
+			this.renderGroups(svg, c, "rgroups", mv.rgroups);
 		};
 
 
@@ -60,18 +60,22 @@ namespace bjs {
 
 			for (var i = 0; i < mv.lgroupa.length; ++i) {
 				mv.lgroupa[i].x = this.LEFT_AXIS_X - this.GROUP_OFFSET;
+				mv.lgroupa[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rgroupa.length; ++i) {
 				mv.rgroupa[i].x = this.RIGHT_AXIS_X + this.GROUP_OFFSET;
+				mv.rgroupa[i].handed = bjs.handed.right;
 			}
 
 			for (var i = 0; i < mv.lnodea.length; ++i) {
 				mv.lnodea[i].x = this.LEFT_AXIS_X;
+				mv.lnodea[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rnodea.length; ++i) {
 				mv.rnodea[i].x = this.RIGHT_AXIS_X;
+				mv.rnodea[i].handed = bjs.handed.right;
 			}
 
 			this.updateYValues(mv, c);
@@ -131,21 +135,7 @@ namespace bjs {
 
 			for (var j = 0; j < groups.length; ++j) {
 				var p = groups[j];
-				p.topy = 10000000;
-				p.bottomy = 0;
-				for (var i = 0; i < p.children.length; ++i) {
-					if (p.children[i].y < p.topy) {
-						p.topy = p.children[i].y;
-					}
-					if (p.children[i].y > p.bottomy) {
-						p.bottomy = p.children[i].y;
-					}
-				}
-				p.y = (p.topy + p.bottomy) / 2;
-				p.topy -= interval - 2;
-				p.bottomy += interval - 2;
-				if (p.topy < this.TOP_MARGIN) p.topy = this.TOP_MARGIN;
-				if (p.bottomy > this.AXIS_HEIGHT) p.bottomy = this.AXIS_HEIGHT;
+				fitGroupToNodesBar(p, this.NODE_R, this.GROUP_OFFSET);
 			}
 		}
 
@@ -261,8 +251,8 @@ namespace bjs {
 					.transition()
 					.attr("d", function(d) {
 						return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-							"C " + (d.source.x + bundle_offs) + " " + d.source.group.y +
-							" " + (d.target.x - bundle_offs) + " " + d.target.group.y +
+							"C " + (d.source.x + bundle_offs) + " " + (d.source.group.y + d.source.group.height/2) +
+							" " + (d.target.x - bundle_offs) + " " + (d.target.group.y + d.target.group.height/2) +
 							" " + d.target.x + " " + (d.target.y + Math.random() * 3);
 					});
 			}
@@ -273,7 +263,7 @@ namespace bjs {
 				.remove();
 		}
 
-		private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>, handed:bjs.handed, x:number) {
+		private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>) {
 
 			var datarray = [];
 			
@@ -292,70 +282,29 @@ namespace bjs {
 			var groupsg = groups
 				.enter()
 				.append("g")
+				.style("opacity", 0)
 				.attr("class", "group " + tag)
+					.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				})
 				.on("mouseover", this.groupMouseOver)
 				.on("mouseout", this.mouseOut);
-
-			groupsg.append("rect");
-			groupsg.append("line").attr("class", "grouplinetop group");
-			groupsg.append("line").attr("class", "grouplinebottom group");;
-			groupsg.append("text");
-
-			groups.select("rect")
-				.attr("x", x - this.GROUPBAR_WIDTH / 2)
-				.attr("width", this.GROUPBAR_WIDTH)
-				.style("fill", function(d) {
-					return bjs.getColorFromName(color, config, d.fullname);
-				})
-				.on("click", this.groupClick)
+				
+			bjs.drawGroupBar(groups, groupsg, this.color, this.config);
+			
+			var groupupdate = groups
 				.transition()
-				.attr("y", function(d) {
-					return d.topy;
-				})
-				.attr("height", function(d) {
-					return d.bottomy - d.topy;
+				.style("opacity", 1)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
 				});
+				
 
-
-			groups.select(".grouplinetop")
-				.attr("x1", x)
-				.attr("x2", x + (handed==bjs.handed.left ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
-				.transition()
-				.attr("y1", function(d) {
-					return d.topy;
-				})
-				.attr("y2", function(d) {
-					return d.topy;
-				});
-
-			groups.select(".grouplinebottom")
-				.attr("x1", x)
-				.attr("x2", x + (handed==bjs.handed.left ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
-				.transition()
-				.attr("y1", function(d) {
-					return d.bottomy;
-				})
-				.attr("y2", function(d) {
-					return d.bottomy;
-				});
-
-			groups.select("text")
-				.attr("class", "grouplabel")
-				.text(function(d) {
-					return bjs.shortenString(d.fullname, 24);
-				})
-				.attr("x", x + (handed==bjs.handed.left ? -this.GROUPBAR_WIDTH : this.GROUPBAR_WIDTH))
-				.attr("text-anchor", handed==bjs.handed.left ? "end" : "start")
-				.transition()
-				.attr("y", function(d, i) {
-					return d.y;
-				});
-
-			groups.exit().transition(800).style("opacity", 0).remove();
+			var groupexit = groups.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
-		private renderChain(svg, conf, tag:string, data:bjs.node[], handed:bjs.handed, x:number):void {
+		private renderChain(svg, conf, tag:string, data:bjs.node[], x:number):void {
 		
 			var color = this.color;
 			var config = this.config;
@@ -379,16 +328,18 @@ namespace bjs {
 				.enter()
 				.append("g")
 				.attr("class", "node " + tag)
+				.style("opacity",0)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
 				})
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodesg, color, config, handed, this.NODE_R, true, (config.optimize && handed==bjs.handed.left));
+			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, true, (config.optimize && (x<400)));//approx way to decide whether to draw full name
 			
 			var nodeupdate = nodes
 				.transition()
+				.style("opacity",1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
 				});

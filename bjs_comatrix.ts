@@ -34,8 +34,8 @@ namespace bjs {
 			this.mv = mv;
 			this.config=c;
 
-			this.renderGroups(svg, "lgroups", mv.lgroupa, "vertical");
-			this.renderGroups(svg, "rgroups", mv.rgroupa, "horizontal");
+			this.renderGroups(svg, "lgroups", mv.lgroupa, bjs.handed.column);
+			this.renderGroups(svg, "rgroups", mv.rgroupa, bjs.handed.row);
 			this.renderChain(svg, "lnodes", "Sources:", mv.lnodea, bjs.handed.column);
 			this.renderChain(svg, "rnodes", "Outputs:", mv.rnodea, bjs.handed.row);
 
@@ -56,6 +56,18 @@ namespace bjs {
 		}
 
 		private layout(mv:bjs.mv):void {
+			for(var i =0; i < mv.lgroupa.length;++i){
+				mv.lgroupa[i].handed = bjs.handed.column;
+			}
+			for(var i =0; i < mv.rgroupa.length;++i){
+				mv.rgroupa[i].handed = bjs.handed.row;
+			}
+			for(var i =0; i < mv.lnodea.length;++i){
+				mv.lnodea[i].handed = bjs.handed.column;
+			}
+			for(var i =0; i < mv.rnodea.length;++i){
+				mv.rnodea[i].handed = bjs.handed.row;
+			}
 			this.updateOffsValues(mv.lnodea, mv.lgroupa, "", this.TOP_AXIS_Y + this.CORNER_SPACE);
 			this.updateOffsValues(mv.rnodea, mv.rgroupa, "", this.LEFT_AXIS_X + this.CORNER_SPACE);
 		}
@@ -99,34 +111,26 @@ namespace bjs {
 					offs += interval * 3;
 				}
 
-				nodes[i].offs = offs;
-				//nodes[i].thickness = interval;
-
+				if(nodes[i].handed == bjs.handed.row) {
+					nodes[i].x = offs;
+					nodes[i].y = this.TOP_AXIS_Y;
+				}else{
+					nodes[i].y = offs;
+					nodes[i].x = this.LEFT_AXIS_X;
+				}
 			}
 
 			for (var j = 0; j < groups.length; ++j) {
 				var p = groups[j];
-				p.topoffs = 10000000;
-				p.bottomoffs = 0;
-				for (var i = 0; i < p.children.length; ++i) {
-					if (p.children[i].offs < p.topoffs) {
-						p.topoffs = p.children[i].offs;
-					}
-					if (p.children[i].offs > p.bottomoffs) {
-						p.bottomoffs = p.children[i].offs;
-					}
-				}
-				p.offs = (p.topoffs + p.bottomoffs) / 2;
-				p.topoffs -= interval - 2;
-				p.bottomoffs += interval - 2;
+				bjs.fitGroupToNodesBar(p, this.NODE_R, this.GROUP_OFFSET);
 			}
 
 
 		}
 
-		private renderGroups(svg, tag, data:bjs.group[], orientation:string):void {
+		private renderGroups(svg, tag, data:bjs.group[], handed:bjs.handed):void {
 
-			var vert = (orientation == "vertical");
+			var vert = (handed == bjs.handed.column);
 			var fixedPos = (vert ? this.LEFT_AXIS_X : this.TOP_AXIS_Y) - this.GROUP_OFFSET;
 
 			var groups = svg.selectAll(".group." + tag)
@@ -137,94 +141,33 @@ namespace bjs {
 			var groupsg = groups
 				.enter()
 				.append("g")
+				.style("opacity", 0)
 				.attr("class", "group " + tag)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				})
 				.on("mouseover", this.groupMouseOver)
 				.on("mouseout", this.mouseOut);
-
-			groupsg.append("rect").on("click", this.groupClick);
-			groupsg.append("line").attr("class", "grouplinetop group");
-			groupsg.append("line").attr("class", "grouplinebottom group");;
-			groupsg.append("text");
-			
+				
+			groupsg.selectAll("g")
+				.style("opacity",0)
+				.transition().delay(1)
+				.style("opacity", 1);
+				
 			var trans_fact = this.TRANSITION_FACTOR;
-			var group_width = this.GROUPBAR_WIDTH;
+
 			
-			var color = this.color;
-			var config = this.config;
-
-			groups.select("rect")
-				.style("fill", function(d) {
-					return bjs.getColorFromName(color, config, d.fullname);
-				})
-			.transition().delay(function(d, i) {
-					return d.topoffs / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
-				.attr("x", vert ? (fixedPos - group_width / 2) : function(d) {
-					return d.topoffs;
-				})
-				.attr("width", vert ? (group_width) : function(d) {
-					return d.bottomoffs - d.topoffs;
-				})
-				.attr("y", vert ? function(d) {
-					return d.topoffs;
-				} : (fixedPos - group_width / 2))
-				.attr("height", vert ? function(d) {
-					return d.bottomoffs - d.topoffs;
-				} : (group_width));
-
-
-			groups.select(".grouplinetop")
+			bjs.drawGroupBar(groups, groupsg, this.color, this.config);
+			
+			var groupupdate = groups
 				.transition().delay(function(d, i) {
-					return d.topoffs / trans_fact;
+					return Math.max(d.x,d.y) / trans_fact;
 				}).duration(this.TRANSITION_DURATION)
-				.attr("x1", vert ? (fixedPos) : function(d) {
-					return d.topoffs;
-				})
-				.attr("x2", vert ? (fixedPos + group_width) : function(d) {
-					return d.topoffs;
-				})
-				.attr("y1", vert ? function(d) {
-					return d.topoffs;
-				} : (fixedPos + group_width))
-				.attr("y2", vert ? function(d) {
-					return d.topoffs;
-				} : (fixedPos));
-
-			groups.select(".grouplinebottom")
-				.transition().delay(function(d, i) {
-					return d.topoffs / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
-				.attr("x1", vert ? (fixedPos) : function(d) {
-					return d.bottomoffs;
-				})
-				.attr("x2", vert ? (fixedPos + group_width) : function(d) {
-					return d.bottomoffs;
-				})
-				.attr("y1", vert ? function(d) {
-					return d.bottomoffs;
-				} : (fixedPos + group_width))
-				.attr("y2", vert ? function(d) {
-					return d.bottomoffs;
-				} : (fixedPos));
-
-			groups.select("text")
-				.attr("class", "grouplabel")
-				.text(function(d) {
-					return bjs.shortenString(d.fullname, 24);
-				})
-				.attr("text-anchor", vert ? "end" : "start")
-				.attr("transform", vert ? function(d) {
-					return "rotate(-45 " + (fixedPos - group_width) + " " + d.offs + ")";
-				} : function(d) {
-					return "rotate(-45 " + d.offs + " " + (fixedPos - group_width) + ")";
-				})
-				//.transition().delay(function(d,i){return i*100;}).duration(TRANSITION_DURATION)
-				.attr("x", vert ? (fixedPos - group_width) : function(d) {
-					return d.offs;
-				})
-				.attr("y", vert ? function(d, i) {
-					return d.offs;
-				} : (fixedPos - group_width));
+				.style("opacity", 1)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				});
+				
 
 			groups.exit().transition(800).style("opacity", 0).remove();
 
@@ -232,7 +175,7 @@ namespace bjs {
 
 		private renderChain(svg, tag:string, label:string, data:bjs.node[], handed:bjs.handed) {
 
-			var vert = (orientation == "vertical");
+			var vert = (handed == bjs.handed.column);
 			var fixedPos = (vert ? this.LEFT_AXIS_X : this.TOP_AXIS_Y);
 
 			var axis = svg.selectAll(".axis." + tag)
@@ -267,16 +210,21 @@ namespace bjs {
 				.enter()
 				.append("g")
 				.attr("class", "node " + tag)
+				.style("opacity", 0)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				})
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 
 			nodesg.append("line");
-		
 
 			var color = this.color;
 			var trans_fact = this.TRANSITION_FACTOR;
 			var node_r = this.NODE_R;
 			var config = this.config;
+			var matrix_width = this.MATRIX_WIDTH;
+			var matrix_height = this.MATRIX_WIDTH;
 
 			nodes.select("line")
 				.attr("style", function(d, i) {
@@ -284,60 +232,22 @@ namespace bjs {
 				}) // attr rather than style because it needs to override the css style
 				.on("mouseover", null)
 				.on("mouseout", null)
+				.attr("x1", 0)
+				.attr("y1", 0)
+				.attr("x2", function(d){return (d.handed==bjs.handed.row?0:matrix_width);})
+				.attr("y2", function(d){return (d.handed==bjs.handed.row?matrix_height:0);});
+				
+				
+			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, false, false);
+			
+			var nodeupdate = nodes
 				.transition().delay(function(d, i) {
-					return d.offs / trans_fact;
+					return Math.max(d.x,d.y) / trans_fact;
 				}).duration(this.TRANSITION_DURATION)
-				.attr("x1", vert ? fixedPos : function(d, i) {
-					return d.offs;
-				})
-				.attr("y1", vert ? function(d, i) {
-					return d.offs;
-				} : fixedPos)
-				.attr("x2", vert ? (this.MATRIX_WIDTH + this.LEFT_AXIS_X) : function(d, i) {
-					return d.offs;
-				})
-				.attr("y2", vert ? function(d) {
-					return d.offs;
-				} : (this.MATRIX_WIDTH + this.TOP_AXIS_Y));
-
-
-			nodes.select("circle")
-				.attr("class", "node")
-				.attr("r", this.NODE_R)
-				.style("fill", function(d) {
-					return bjs.getNodeColor(color, config, d);
-				})
-				.transition().delay(function(d, i) {
-					return d.offs / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
-				.attr("cx", vert ? fixedPos : function(d, i) {
-					return d.offs;
-				})
-				.attr("cy", vert ? function(d, i) {
-					return d.offs;
-				} : fixedPos);
-
-			nodes.select("text")
-				.attr("class", "nodelabel")
-				.text(function(d) {
-					return d.field.name;
-				})
-				.attr("text-anchor", vert ? "end" : "start")
-				//.transition().delay(function(d,i){return d.offs/1000;}).duration(2000)
-				.attr("transform", vert ? function(d) {
-					return "rotate(-45 " + (fixedPos - group_width) + " " + d.offs + ")";
-				} : function(d) {
-					return "rotate(-45 " + d.offs + " " + (fixedPos - group_width) + ")";
-				})
-
-			.attr("x", vert ? (fixedPos - this.NODE_R * 2) : function(d, i) {
-					return d.offs - node_r / 2;
-				})
-				.attr("y", vert ? function(d, i) {
-					return d.offs + node_r;
-				} : (fixedPos - this.NODE_R * 1.5)); //there is some subjective tuning in text position.
-
-
+				.style("opacity", 1)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				});
 
 			var nodeexit = nodes.exit().transition(800).style("opacity", 0).remove();
 
@@ -349,35 +259,42 @@ namespace bjs {
 				.data(data, function(d, i) {
 					return d.key;
 				});
+				
+			var getpc = this.getPtColor;
+			var getpr = this.getPtRadius;
+			var trans_fact = this.TRANSITION_FACTOR;
 
 			var ptsg = pts
 				.enter()
 				.append("g")
-				.attr("class", "pt");
+				.attr("class", "pt")
+				.style("opacity",0)
+				.attr("transform", function(d) {
+					return "translate(" + d.target.x + "," + d.source.y + ")";
+				});
 
 			ptsg.append("circle");
 
-			var getpc = this.getPtColor;
-			var getpr = this.getPtRadius;
-			var trans_fact = this.TRANSITION_FACTOR;
 			
 			pts.select("circle")
 				.style("fill", function(d) {
 					return getpc(d);
 				})
-				.transition().delay(function(d, i) {
-					return (d.target.offs) / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
-				.attr("cx", function(d) {
-					return d.target.offs;
-				})
+				
+				.attr("cx", 0)
 				.attr("r", function(d) {
 					return getpr(d);
 				})
-				.attr("cy", function(d) {
-					return d.source.offs;
-				});
+				.attr("cy", 0);
 
+			pts
+				.transition().delay(function(d, i) {
+					return (Math.max(d.target.x,d.source.y)) / trans_fact;
+				}).duration(this.TRANSITION_DURATION)
+				.style("opacity",1)
+				.attr("transform", function(d) {
+					return "translate(" + d.target.x + "," + d.source.y + ")";
+				});
 
 			pts.exit().transition(800).style("opacity", 0).remove();
 		}

@@ -145,12 +145,12 @@ namespace bjs {
 
 			lt.exit().remove();
 
-			var nt = svg.selectAll("g.nt")
+			var nodes = svg.selectAll("g.nt")
 				.data(mv.nodea, function(d) {
 					return d.fullname;
 				});
 
-			var nodesg = nt.enter()
+			var nodesg = nodes.enter()
 				.append("g")
 				.attr("class", "nt")
 				.on("mouseover", this.nodeMouseOver)
@@ -159,9 +159,9 @@ namespace bjs {
 					return "translate(400,400)";
 				}); //.call(this.coke.drag); 
 
-			bjs.drawNodes(nodesg, color, config, bjs.handed.low, this.NODE_R, false, false);
+			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, false, false);
 
-			var nodeexit = nt.exit().remove();
+			var nodeexit = nodes.exit().remove();
 			
 			var connector_colaroute = this.connector_colaroute;
 			var connector_cubic = this.connector_cubic;
@@ -205,7 +205,7 @@ namespace bjs {
 						return d.bounds.y + d.bounds.height() + node_r / 4;
 					});
 
-				nt.attr("transform", function(d) {
+				nodes.attr("transform", function(d) {
 					return "translate(" + (d.x) + "," + (d.y) + ")";
 				});
 
@@ -220,7 +220,7 @@ namespace bjs {
 				.on("drag", this.drag)
 				.on("dragend", this.dragEnd);
 
-			nt.call(dragListener);
+			nodes.call(dragListener);
 
 
 		}

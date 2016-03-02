@@ -41,9 +41,9 @@ namespace bjs {
 			this.renderChain(svg, c, "m1nodes", mv.m1nodea, bjs.handed.left, this.MIDDLE_AXIS_X - this.GROUP_OFFSET / 2);
 			this.renderChain(svg, c, "m2nodes", mv.m2nodea, bjs.handed.right, this.MIDDLE_AXIS_X + this.GROUP_OFFSET / 2);
 
-			this.renderGroups(svg, c, "lgroups", mv.lgroupa, "left", this.LEFT_AXIS_X - this.GROUP_OFFSET);
-			this.renderGroups(svg, c, "rgroups", mv.rgroupa, "right", this.RIGHT_AXIS_X + this.GROUP_OFFSET);
-			this.renderGroups(svg, c, "mgroups", mv.mgroupa, "middle", this.MIDDLE_AXIS_X);
+			this.renderGroups(svg, c, "lgroups", mv.lgroupa);
+			this.renderGroups(svg, c, "rgroups", mv.rgroupa);
+			this.renderGroups(svg, c, "mgroups", mv.mgroupa);
 		}
 
 
@@ -54,30 +54,37 @@ namespace bjs {
 
 			for (var i = 0; i < mv.lgroupa.length; ++i) {
 				mv.lgroupa[i].x = this.LEFT_AXIS_X - this.GROUP_OFFSET;
+				mv.lgroupa[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rgroupa.length; ++i) {
 				mv.rgroupa[i].x = this.RIGHT_AXIS_X + this.GROUP_OFFSET;
+				mv.rgroupa[i].handed = bjs.handed.right;
 			}
 
 			for (var i = 0; i < mv.mgroupa.length; ++i) {
 				mv.mgroupa[i].x = this.MIDDLE_AXIS_X;
+				mv.mgroupa[i].handed = bjs.handed.low;
 			}
 
 			for (var i = 0; i < mv.lnodea.length; ++i) {
 				mv.lnodea[i].x = this.LEFT_AXIS_X;
+				mv.lnodea[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rnodea.length; ++i) {
 				mv.rnodea[i].x = this.RIGHT_AXIS_X;
+				mv.rnodea[i].handed = bjs.handed.right;
 			}
 
 			for (var i = 0; i < mv.m1nodea.length; ++i) {
 				mv.m1nodea[i].x = this.MIDDLE_AXIS_X - this.GROUP_OFFSET / 2;
+				mv.m1nodea[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.m2nodea.length; ++i) {
 				mv.m2nodea[i].x = this.MIDDLE_AXIS_X + this.GROUP_OFFSET / 2;
+				mv.m2nodea[i].handed = bjs.handed.right;
 			}
 
 			this.updateYValues(mv);
@@ -136,22 +143,7 @@ namespace bjs {
 			}
 
 			for (var j = 0; j < groups.length; ++j) {
-				var p = groups[j];
-				p.topy = 10000000;
-				p.bottomy = 0;
-				for (var i = 0; i < p.children.length; ++i) {
-					if (p.children[i].y < p.topy) {
-						p.topy = p.children[i].y;
-					}
-					if (p.children[i].y > p.bottomy) {
-						p.bottomy = p.children[i].y;
-					}
-				}
-				p.y = (p.topy + p.bottomy) / 2;
-				p.topy -= interval - 2;
-				p.bottomy += interval - 2;
-				if (p.topy < this.TOP_MARGIN) p.topy = this.TOP_MARGIN;
-				if (p.bottomy > this.AXIS_HEIGHT) p.bottomy = this.AXIS_HEIGHT;
+				bjs.fitGroupToNodesBar(groups[j], this.NODE_R, this.GROUP_OFFSET);
 			}
 		}
 
@@ -188,19 +180,13 @@ namespace bjs {
 				.remove();
 		}
 
-		private renderGroups(svg, c, tag:string, data:bjs.group[], orientation:string, x:number):void {
+		private renderGroups(svg, c, tag:string, data:bjs.group[]):void {
 
 			var datarray = data;
 
 			var color = this.color;
 			var config = this.config;
-			var xoffset = 0;
-			if (orientation == "left") xoffset = -this.GROUPBAR_WIDTH;
-			if (orientation == "right") xoffset = this.GROUPBAR_WIDTH;
-			var textanchor = "center";
-			if (orientation == "left") textanchor = "end";
-			if (orientation == "right") textanchor = "start";
-
+			
 
 			var groups = svg.selectAll(".group." + tag)
 				.data(datarray, function(d, i) {
@@ -211,67 +197,24 @@ namespace bjs {
 				.enter()
 				.append("g")
 				.attr("class", "group " + tag)
+				.style("opacity",0)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				})
 				.on("mouseover", this.groupMouseOver)
 				.on("mouseout", this.mouseOut)
 				.on("click", this.groupClick);
-
-			groupsg.append("rect");
-			groupsg.append("line").attr("class", "grouplinetop group");
-			groupsg.append("line").attr("class", "grouplinebottom group");;
-			groupsg.append("text");
-
-			groups.select("rect")
-				.attr("x", x - this.GROUPBAR_WIDTH / 2)
-				.attr("width", this.GROUPBAR_WIDTH)
-				.style("fill", function(d) {
-					return bjs.getColorFromName(color, config, d.fullname);
-				})
+				
+			bjs.drawGroupBar(groups, groupsg, this.color, this.config);
+			
+			var groupupdate = groups
 				.transition()
-				.attr("y", function(d) {
-					return d.topy;
-				})
-				.attr("height", function(d) {
-					return d.bottomy - d.topy;
+				.style("opacity",1)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
 				});
 
-
-			groups.select(".grouplinetop")
-				.attr("x1", x)
-				.attr("x2", x + xoffset)
-				.transition()
-				.attr("y1", function(d) {
-					return d.topy;
-				})
-				.attr("y2", function(d) {
-					return d.topy;
-				});
-
-			groups.select(".grouplinebottom")
-				.attr("x1", x)
-				.attr("x2", x + xoffset)
-				.transition()
-				.attr("y1", function(d) {
-					return d.bottomy;
-				})
-				.attr("y2", function(d) {
-					return d.bottomy;
-				});
-
-			if (orientation != "middle") {
-				groups.select("text")
-					.attr("class", "grouplabel")
-					.text(function(d) {
-						return bjs.shortenString(d.fullname, 24);
-					})
-					.attr("x", x + xoffset)
-					.attr("text-anchor", textanchor)
-					.transition()
-					.attr("y", function(d, i) {
-						return d.y;
-					});
-			}
-
-			groups.exit().transition(800).style("opacity", 0).remove();
+			var groupexit = groups.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
@@ -298,13 +241,18 @@ namespace bjs {
 				.enter()
 				.append("g")
 				.attr("class", "node " + tag)
+				.style("opacity",0)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				})
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodesg, color, config, handed, this.NODE_R, true, false);
+			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, true, false);
 			
 			var nodeupdate = nodes
 				.transition()
+				.style("opacity",1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
 				});

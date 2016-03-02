@@ -93,6 +93,10 @@ namespace bjs {
 				node.x = g.x + this.GROUPBAR_WIDTH / 2;
 			}
 		}
+		
+		for(var i=0;i<mv.nodea.length;++i){
+			mv.nodea[i].handed = bjs.handed.leftright;
+		}
 	}
 
 
@@ -167,43 +171,36 @@ namespace bjs {
 		for (var groupname in groups) {
 			datarray.push(groups[groupname]);
 		}
+		
+		svg.selectAll("#groupholder")
+				.data([1]).enter()
+				.append("g")
+				.attr("id", "groupholder");
+				
+		var gholder = svg.selectAll("#groupholder");
 
-		var g = svg.selectAll(".group")
+		var groups = gholder.selectAll(".group")
 			.data(datarray, function(d, i) {
 				return d.fullname;
 			});
 
-		var groupsg = g
+		var groupsg = groups
 			.enter()
 			.append("g")
 			.attr("class", "group")
+			.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			})
 			.on("mouseover", this.groupMouseOver)
 			.on("mouseout", this.mouseOut)
 			.on("click", this.groupClick);
+			
+		bjs.drawGroupBox(groups, groupsg, this.color, this.config, 4);
 
-		groupsg.append("rect");
-		groupsg.append("text");
-		
-		var color = this.color;
-		var config = this.config;//for pity's sake, javascript!
 
-		g.select("rect")
-			.attr("x", function(d) {
-				return d.x;
-			})
-			.attr("width", function(d) {
-				return d.width;
-			})
-			.style("fill", function(d) {
-				return bjs.getColorFromName(color, config, d.fullname);
-			})
-			.attr("y", function(d) {
-				return d.y;
-			})
-			.attr("rx", 4)
-			.attr("ry", 4)
-			.attr("height", function(d) {
-				return d.height;
+		var groupsupdate = groups
+			.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
 			})
 			.call(d3.behavior.drag()
 				.origin(function(d) {
@@ -214,21 +211,9 @@ namespace bjs {
 				})
 				.on("drag", this.gdragmove)
 				.on("dragend", this.dragend));
+		
 
-		g.select("text")
-			.attr("class", "grouplabel")
-			.text(function(d) {
-				return bjs.shortenString(d.fullname, 30);
-			})
-			.attr("text-anchor", "middle")
-			.attr("x", function(d) {
-				return d.x + d.width / 2;
-			})
-			.attr("y", function(d, i) {
-				return d.y - 4;
-			});
-
-		g.exit().remove();
+		var groupexit = groups.exit().remove();
 
 	}
 
@@ -250,10 +235,10 @@ namespace bjs {
 			.on("mouseover", this.nodeMouseOver)
 			.on("mouseout", this.mouseOut);
 
-		bjs.drawNodes(nodesg, this.color, this.config, bjs.handed.leftright, this.NODE_R, false, false);
-			
+		bjs.drawNodes(nodes, nodesg, this.color, this.config, this.NODE_R, false, false);
+
 		var nodeupdate = nodes
-			.transition()
+			//.transition()
 			.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
@@ -273,40 +258,6 @@ namespace bjs {
 
 	} 
 
-
-	private fitGroupToNodes(g) {
-
-		g.x = 100000;
-		g.width = this.GROUPBAR_WIDTH;
-		g.y = 100000;
-		g.height = this.NODE_R * 2;
-
-		for (var i = 0; i < g.children.length; ++i) {
-			var node = g.children[i];
-
-			if (node.x < g.x + this.NODE_R * 2) {
-				g.x = node.x - this.NODE_R * 2;
-			}
-			
-			if (node.y < g.y + this.NODE_R * 2) {
-				g.y = node.y - this.NODE_R * 2;
-			}
-		}
-		
-		for (var i = 0; i < g.children.length; ++i) {
-			var node = g.children[i];
-		
-			if (node.x > g.x + g.width - this.NODE_R * 2) {
-				g.width = this.NODE_R * 2 + node.x - g.x;
-			}
-
-			if (node.y > g.y + g.height - this.NODE_R * 2) {
-				g.height = this.NODE_R * 2 + node.y - g.y;
-			}
-		}
-
-		g.customsize = true;
-	}
 
 	private gdragmove(d) {
 		d.view.innergdragmove(d);
@@ -348,7 +299,7 @@ namespace bjs {
 		d.x += d3.event.dx;
 		d.y += d3.event.dy;
 
-		this.fitGroupToNodes(d.group);
+		bjs.fitGroupToNodesBox(d.group, this.NODE_R*2);
 
 		this.renderNodes(this.svg, this.config, this.mv.nodea);
 	}

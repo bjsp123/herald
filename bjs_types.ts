@@ -191,12 +191,12 @@ namespace bjs {
 		y: number = -1;
 		x0: number = -1; //'hiding' position of node, for use in expand/collapse
 		y0: number = -1;
-		offs: number = -1; //for grid view
 		width: number = -1;
 		height: number = -1;//for cola
 		children: node[]=[];//for use in tree structures, blank otherwise
 		parent: node;//for use in tree
 		nameintree: string="";//ditto
+		handed: bjs.handed=bjs.handed.low;
 		cola_index: number = -1;//or is this really ephemeral state?
 		idx: number = -1; // holds the node's position in an array in some cases
 		
@@ -235,11 +235,7 @@ namespace bjs {
 		y: number = -1;
 		height: number = -1;
 		width: number = -1;
-		topy: number = -1;
-		bottomy: number = -1;
-		topoffs = -1;  //these 3 are for the matrix view.
-		bottomoffs = -1;
-		offs = -1;
+		handed: bjs.handed=bjs.handed.low;
 		padding = -1;//used by cola
 		pts:pt[] = null; //points represent a dependency seen as a point rather than a link
 		
