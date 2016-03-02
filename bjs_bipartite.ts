@@ -21,31 +21,32 @@ namespace bjs {
 		GROUPBAR_WIDTH = 20;
 		color = d3.scale.category10();
 
-		optimize = false;
 		
-		cached_svg = null;
+		svg:any = null;
+		config:bjs.config=null;
+		mv:bjs.mv=null;
 
 
-		public render(svg, w:bjs.world, c):void {
+		public render(svg, w:bjs.world, c:bjs.config):void {
 			
-			this.cached_svg = svg;
-
-			this.optimize = c["optimize"] > 0;
+			this.svg = svg;
+			this.config=c;
 
 			var mv = this.prepareData(w, c);
+			this.mv = mv;
 
 			this.renderLinks(svg, mv);
 
-			this.renderChain(svg, c, "lnodes", mv.lnodea, true, this.LEFT_AXIS_X);
-			this.renderChain(svg, c, "rnodes", mv.rnodea, false, this.RIGHT_AXIS_X);
+			this.renderChain(svg, c, "lnodes", mv.lnodea, bjs.handed.left, this.LEFT_AXIS_X);
+			this.renderChain(svg, c, "rnodes", mv.rnodea, bjs.handed.right, this.RIGHT_AXIS_X);
 
-			if (this.optimize) {
-				this.renderGroups(svg, c, "lgroups", {}, true, this.LEFT_AXIS_X - this.GROUP_OFFSET);
+			if (this.config.optimize) {
+				this.renderGroups(svg, c, "lgroups", {}, bjs.handed.left, this.LEFT_AXIS_X - this.GROUP_OFFSET);
 			}
 			else {
-				this.renderGroups(svg, c, "lgroups", mv.lgroups, true, this.LEFT_AXIS_X - this.GROUP_OFFSET);
+				this.renderGroups(svg, c, "lgroups", mv.lgroups, bjs.handed.left, this.LEFT_AXIS_X - this.GROUP_OFFSET);
 			}
-			this.renderGroups(svg, c, "rgroups", mv.rgroups, false, this.RIGHT_AXIS_X + this.GROUP_OFFSET);
+			this.renderGroups(svg, c, "rgroups", mv.rgroups, bjs.handed.right, this.RIGHT_AXIS_X + this.GROUP_OFFSET);
 		};
 
 
@@ -53,7 +54,7 @@ namespace bjs {
 
 			var mv = bjs.makeBipartite(this, w);
 
-			if (this.optimize) {
+			if (this.config.optimize) {
 				this.unilateralBipartiteSort(mv);
 			}
 
@@ -79,7 +80,7 @@ namespace bjs {
 		}
 
 		private updateYValues(mv:bjs.mv, c):void {
-			this.setYValues(mv.lnodea, mv.lgroupa, "", !this.optimize);
+			this.setYValues(mv.lnodea, mv.lgroupa, "", !this.config.optimize);
 			this.setYValues(mv.rnodea, mv.rgroupa, "", true);
 		}
 
@@ -245,7 +246,7 @@ namespace bjs {
 				.attr("stroke",  bjs.getLinkColor);
 
 
-			if (this.optimize) {
+			if (this.config.optimize) {
 				links
 					.transition()
 					.attr("d", function(d) {
@@ -272,11 +273,12 @@ namespace bjs {
 				.remove();
 		}
 
-		private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>, lefthanded:boolean, x:number) {
+		private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>, handed:bjs.handed, x:number) {
 
 			var datarray = [];
 			
 			var color = this.color;//resolve 'this' at a good time. fuck's sake, javascript.
+			var config = this.config;
 
 			for (var y in data) {
 				datarray.push(data[y]);
@@ -303,7 +305,7 @@ namespace bjs {
 				.attr("x", x - this.GROUPBAR_WIDTH / 2)
 				.attr("width", this.GROUPBAR_WIDTH)
 				.style("fill", function(d) {
-					return bjs.getGroupColor(color, conf, d);
+					return bjs.getColorFromName(color, config, d.fullname);
 				})
 				.on("click", this.groupClick)
 				.transition()
@@ -317,7 +319,7 @@ namespace bjs {
 
 			groups.select(".grouplinetop")
 				.attr("x1", x)
-				.attr("x2", x + (lefthanded ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
+				.attr("x2", x + (handed==bjs.handed.left ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
 				.transition()
 				.attr("y1", function(d) {
 					return d.topy;
@@ -328,7 +330,7 @@ namespace bjs {
 
 			groups.select(".grouplinebottom")
 				.attr("x1", x)
-				.attr("x2", x + (lefthanded ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
+				.attr("x2", x + (handed==bjs.handed.left ? this.GROUPBAR_WIDTH : -this.GROUPBAR_WIDTH))
 				.transition()
 				.attr("y1", function(d) {
 					return d.bottomy;
@@ -342,8 +344,8 @@ namespace bjs {
 				.text(function(d) {
 					return bjs.shortenString(d.fullname, 24);
 				})
-				.attr("x", x + (lefthanded ? -this.GROUPBAR_WIDTH : this.GROUPBAR_WIDTH))
-				.attr("text-anchor", lefthanded ? "end" : "start")
+				.attr("x", x + (handed==bjs.handed.left ? -this.GROUPBAR_WIDTH : this.GROUPBAR_WIDTH))
+				.attr("text-anchor", handed==bjs.handed.left ? "end" : "start")
 				.transition()
 				.attr("y", function(d, i) {
 					return d.y;
@@ -353,9 +355,10 @@ namespace bjs {
 
 		}
 
-		private renderChain(svg, conf, tag:string, data:bjs.node[], lefthanded:boolean, x:number):void {
+		private renderChain(svg, conf, tag:string, data:bjs.node[], handed:bjs.handed, x:number):void {
 		
 			var color = this.color;
+			var config = this.config;
 
 			var axis = svg.selectAll(".axis." + tag)
 				.data([1]).enter()
@@ -376,67 +379,28 @@ namespace bjs {
 				.enter()
 				.append("g")
 				.attr("class", "node " + tag)
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
+				})
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
-
-			nodesg.append("rect");
-			nodesg.append("circle");
-			nodesg.append("text");
-
-			nodes.select("rect")
-				.attr("class", "nodeinvis")
-				.attr("x", function(d, i) {
-					return d.x + (lefthanded ? -this.GROUP_OFFSET : 0);
-				})
-				.attr("width", function(d, i) {
-					return this.GROUP_OFFSET;
-				})
-				.attr("height", function(d, i) {
-					return 18;
-				})
+				
+			bjs.drawNodes(nodesg, color, config, handed, this.NODE_R, true, (config.optimize && handed==bjs.handed.left));
+			
+			var nodeupdate = nodes
 				.transition()
-				.attr("y", function(d, i) {
-					return d.y;
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
 				});
 
-			nodes.select("circle")
-				.attr("class", "node")
-				.attr("r", this.NODE_R)
-				.attr("cx", function(d, i) {
-					return d.x;
-				})
-				.style("fill", function(d) {
-					return bjs.getNodeColor(color, conf, d);
-				})
-				.transition()
-				.attr("cy", function(d, i) {
-					return d.y;
-				});
-
-			nodes.select("text")
-				.attr("class", "nodelabel")
-				.text(function(d) {
-					if(lefthanded && this.optimize) return d.field.fullname;
-					return d.field.name;
-				})
-				.attr("x", function(d, i) {
-					return d.x + (lefthanded ? -20 : 20);
-				})
-				.attr("text-anchor", lefthanded ? "end" : "start")
-				.transition()
-				.attr("y", function(d, i) {
-					return d.y;
-				});
-
-			nodes.exit().transition(800).style("opacity", 0).remove();
+			var nodeexit = nodes.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
 		private linkMouseOver(d) {}
 
 		private groupMouseOver(d) {
-			var svg = d3.select("svg");//horrible, horrible.  javascript is a threat to mankind.
-			svg.selectAll(".link")
+			d.view.svg.selectAll(".link")
 				.classed("active", function(p) {
 					return p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname;
 				})
@@ -444,7 +408,7 @@ namespace bjs {
 					return !(p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname);
 				});
 
-			svg.selectAll(".node")
+			d.view.svg.selectAll(".node")
 				.classed("active", function(p) {
 					return bjs.isNodeRelatedToGroup(p, d);
 				})
@@ -452,7 +416,7 @@ namespace bjs {
 					return !bjs.isNodeRelatedToGroup(p, d);
 				});
 
-			svg.selectAll(".group")
+			d.view.svg.selectAll(".group")
 				.classed("active", function(p) {
 					return p.fullname == d.fullname;
 				})
@@ -466,8 +430,8 @@ namespace bjs {
 
 
 		private nodeMouseOver(d) {
-			var svg = d3.select("svg");
-			svg.selectAll(".link")
+			
+			d.view.svg.selectAll(".link")
 				.classed("active", function(p) {
 					return p.source.fullname == d.fullname || p.target.fullname == d.fullname;
 				})
@@ -475,7 +439,7 @@ namespace bjs {
 					return !(p.source.fullname == d.fullname || p.target.fullname == d.fullname);
 				});
 
-			svg.selectAll(".node")
+			d.view.svg.selectAll(".node")
 				.classed("active", function(p) {
 					return bjs.areNodesRelated(p, d);
 				})
@@ -486,10 +450,9 @@ namespace bjs {
 			bjs.hover(d);
 		}
 
-		private mouseOut() {
-			var svg = d3.select("svg");
-			svg.selectAll(".passive").classed("passive", false);
-			svg.selectAll(".active").classed("active", false);
+		private mouseOut(d) {
+			d.view.svg.selectAll(".passive").classed("passive", false);
+			d.view.svg.selectAll(".active").classed("active", false);
 			bjs.hover(null);
 		}
 

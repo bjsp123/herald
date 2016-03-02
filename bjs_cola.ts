@@ -6,7 +6,6 @@
 
 declare var d3:any;
 declare var cola:any;
-declare var svg:any;
 
 namespace bjs {
 
@@ -30,14 +29,22 @@ namespace bjs {
 		coke = null;
 		ghosts = null;
 		eventStart = {};
+		
+		svg:any = null;
+		config:bjs.config=null;
+		mv:bjs.mv=null;
 
 
 
-		public render(svg, w:bjs.world, c):void {
+		public render(svg, w:bjs.world, c:bjs.config):void {
 
 			this.optimize = c["this.optimize"] > 0;
 
 			var mv = bjs.makeColaGraph(this, w);
+			
+			this.mv=mv;
+			this.config = c;
+			this.svg=svg;
 
 			//have to manually remove everything or again cola gets confused.  no entry / exit animations for us!
 			d3.selectAll("svg > *").remove();
@@ -99,6 +106,7 @@ namespace bjs {
 			var gtg = gt.enter().append("g");
 			
 			var color = this.color;
+			var config = this.config;
 
 			var gtr = gtg.append("rect")
 				.attr("rx", this.GROUP_ROUNDY).attr("ry", this.GROUP_ROUNDY)
@@ -106,7 +114,7 @@ namespace bjs {
 				.on("mouseover", this.groupMouseOver)
 				.on("mouseout", this.mouseOut)
 				.style("stroke", function(d, i) {
-					return bjs.getGroupColor(color, c, d);
+					return bjs.getColorFromName(color, config, d.fullname);
 				});
 
 			var gtc = gtg.append("text")
@@ -116,7 +124,7 @@ namespace bjs {
 				.attr("text-anchor", "middle")
 				.attr("class", "grouplabel")
 				.style("fill", function(d) {
-					return bjs.getGroupColor(color, c, d);
+					return bjs.getColorFromName(color, config, d.fullname);
 				});
 
 
@@ -142,7 +150,7 @@ namespace bjs {
 					return d.fullname;
 				});
 
-			var nodeEnter = nt.enter()
+			var nodesg = nt.enter()
 				.append("g")
 				.attr("class", "nt")
 				.on("mouseover", this.nodeMouseOver)
@@ -151,9 +159,9 @@ namespace bjs {
 					return "translate(400,400)";
 				}); //.call(this.coke.drag); 
 
-			this.drawNode(c, nodeEnter);
+			bjs.drawNodes(nodesg, color, config, bjs.handed.low, this.NODE_R, false, false);
 
-			nt.exit().remove();
+			var nodeexit = nt.exit().remove();
 			
 			var connector_colaroute = this.connector_colaroute;
 			var connector_cubic = this.connector_cubic;
@@ -296,57 +304,7 @@ namespace bjs {
 		}
 
 
-		//expects an entry selection with a xlated g appended to it
-		private drawNode(c, ne) {
-			
-			var color = this.color;
-
-			ne.append("circle")
-				.attr("r", this.NODE_R)
-				.attr("class", "node")
-				.style("fill", function(d) {
-					return bjs.getNodeColor(color, c, d);
-				});
-
-			ne.append("text")
-				.attr("x", 0)
-				.attr("y", 15)
-				.attr("text-anchor", "middle")
-				.attr("class", "nodelabel")
-				.text(function(d) {
-					return d.field.name;
-				});
-
-		}
-
-
 		private groupMouseOver(d) {
-			
-			/*
-			svg.selectAll(".link")
-				.classed("active", function(p) {
-					return (p.realsource || p.source).group.fullname == d.fullname || (p.realtarget || p.target).group.fullname == d.fullname;
-				})
-				.classed("passive", function(p) {
-					return !((p.realsource || p.source).group.fullname == d.fullname || (p.realtarget || p.target).group.fullname == d.fullname);
-				});
-
-			svg.selectAll(".node")
-				.classed("active", function(p) {
-					return bjs.areNodesRelatedToGroup(p, d.pkg);
-				})
-				.classed("passive", function(p) {
-					return !bjs.areNodesRelatedToGroup(p, d.pkg);
-				});
-
-			svg.selectAll(".colagroup")
-				.classed("active", function(p) {
-					return p.fullname == d.fullname;
-				})
-				.classed("passive", function(p) {
-					return p.fullname != d.fullname;
-				});
-*/
 
 			bjs.hover(d);
 		}
@@ -354,7 +312,7 @@ namespace bjs {
 
 		private nodeMouseOver(d) {
 			
-			svg.selectAll(".link")
+			d.view.svg.selectAll(".link")
 			.classed("active", function(p) {
 				return bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d);
 			})
@@ -362,7 +320,7 @@ namespace bjs {
 				return !(bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d));
 			});
 
-		svg.selectAll(".node,.nodelabel")
+			d.view.svg.selectAll(".node,.nodelabel")
 			.classed("active", function(p) {
 				return bjs.areNodesRelated(p, d);
 			})
@@ -374,9 +332,9 @@ namespace bjs {
 		
 		}
 
-		private mouseOut() {
-			svg.selectAll(".passive").classed("passive", false);
-			svg.selectAll(".active").classed("active", false);
+		private mouseOut(d) {
+			d.view.svg.selectAll(".passive").classed("passive", false);
+			d.view.svg.selectAll(".active").classed("active", false);
 			bjs.hover(null);
 		}
 

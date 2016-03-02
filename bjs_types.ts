@@ -6,10 +6,14 @@ namespace bjs {
 	export interface IMap<T> {
     	[K: string]: T;
 	}
+	
+	export interface cloneable {
+		clone():cloneable;
+	}
 
 /////////// core data model
 	
-	export class term {
+	export class term implements cloneable{
 		children: field[]=[];
 		fullname:string;
 		itemtype = "term";
@@ -19,9 +23,13 @@ namespace bjs {
 			if (code == null || code == "") 
 				bjs.lg_err("Tried to create term with no code");
 		}
+		
+		public clone():term {
+			return new term(this.code, this.name, this.desc, this.flags);
+		}
 	}
 	
-	export class asset{
+	export class asset implements cloneable{
 		arels: arel[] = [];
 		peers: asset[] = [];
 		sources: asset[] = [];
@@ -61,9 +69,13 @@ namespace bjs {
 		public hasTargets():boolean {
 			return this.targets.length > 0;
 		}
+		
+		public clone():asset{
+			return new asset(this.fullname, this.name, this.location, this.type, this.owner, this.dept, this.desc, this.calc, this.notbefore, this.latency, this.risk, this.comment);
+		}
 	}
 	
-	export class field{
+	export class field implements cloneable{
 		
 		rels: rel[] = [];
 		peers: field[] = [];
@@ -120,6 +132,9 @@ namespace bjs {
 			return this.targets.length > 0;
 		}
 		
+		public clone():field{
+			return new field(this.fullname, this.name, this.type, this.asset, this.term, this.desc, this.formula, this.flags, this.quality, this.risk, this.importance, this.comment);
+		}
 	}
 	
 	
@@ -128,7 +143,6 @@ namespace bjs {
 		
 		constructor(public source: field, public target: field, public type: string){
 		}
-		
 	}
 	
 	export class arel{
@@ -227,7 +241,7 @@ namespace bjs {
 		bottomoffs = -1;
 		offs = -1;
 		padding = -1;//used by cola
-		pts = null; //points represent a dependency seen as a point rather than a link
+		pts:pt[] = null; //points represent a dependency seen as a point rather than a link
 		
 		constructor(public view:view, public asset: asset){
 			this.fullname=asset?asset.fullname:"anon";
@@ -309,14 +323,25 @@ namespace bjs {
 	
 	export class squash{
 		
-		constructor(public el_fields:string="", public el_assets: string="", public el_internals:boolean=false){
+		constructor(public el_fields:string="", public el_assets: string="", public cr_assets:string="", public el_internals:boolean=false){
 			this.el_fields = this.el_fields.trim();
 			this.el_assets = this.el_assets.trim();
+			this.cr_assets = this.cr_assets.trim();
 		}
 	}
 	
+	export class config{
+		public optimize:boolean=false;
+		public colorPlan:string="cat";
+		public summary:boolean=false;
+		public hilite:string="nothing";
+	}
+	
 	export interface view{
-		render(svg: any, w: bjs.world, c: any):void;
+		render(svg: any, w: bjs.world, c: bjs.config):void;
+		svg:any;
+		config:config;
+		mv:mv;
 	}
 
 }

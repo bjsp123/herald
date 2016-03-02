@@ -24,21 +24,20 @@ namespace bjs {
 	color = d3.scale.category20();
 
 
-	//private state vars.  need to figure out how not to need these.
-	cached_svg: any = null;
-	cached_dat :bjs.mv = null;
-	cached_conf: any = null;
+	svg: any = null;
+	mv :bjs.mv = null;
+	config: bjs.config = null;
 
 
-	public render(svg, w:bjs.world, c) {
-		this.cached_svg = svg;
-		this.cached_conf = c;
+	public render(svg, w:bjs.world, c:bjs.config):void {
+		this.svg = svg;
+		this.config = c;
 		
 		var mv = bjs.makeDirect(this, w);
 		
 		this.layout(mv);
 		
-		this.cached_dat = mv;
+		this.mv = mv;
 
 		this.renderGroups(svg, c, mv.groups);
 
@@ -186,6 +185,7 @@ namespace bjs {
 		groupsg.append("text");
 		
 		var color = this.color;
+		var config = this.config;//for pity's sake, javascript!
 
 		g.select("rect")
 			.attr("x", function(d) {
@@ -195,7 +195,7 @@ namespace bjs {
 				return d.width;
 			})
 			.style("fill", function(d) {
-				return bjs.getGroupColor(color, c, d);
+				return bjs.getColorFromName(color, config, d.fullname);
 			})
 			.attr("y", function(d) {
 				return d.y;
@@ -244,26 +244,21 @@ namespace bjs {
 			.enter()
 			.append("g")
 			.attr("class", "nodegrp")
+			.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			})
 			.on("mouseover", this.nodeMouseOver)
 			.on("mouseout", this.mouseOut);
 
-		nodesg.append("circle");
-		nodesg.append("text");
-		
-		var color = this.color;
+		bjs.drawNodes(nodesg, this.color, this.config, bjs.handed.leftright, this.NODE_R, false, false);
+			
+		var nodeupdate = nodes
+			.transition()
+			.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			});
 
 		nodes.select("circle")
-			.attr("class", "node")
-			.attr("r", this.NODE_R)
-			.style("fill", function(d) {
-				return bjs.getNodeColor(color, c, d);
-			})
-			.attr("cx", function(d, i) {
-				return d.x;
-			})
-			.attr("cy", function(d, i) {
-				return d.y;
-			})
 			.call(d3.behavior.drag()
 				.origin(function(d) {
 					return d;
@@ -273,25 +268,8 @@ namespace bjs {
 				})
 				.on("drag", this.dragmove)
 				.on("dragend", this.dragend));
-				
-		var pad = this.GROUP_PADDING;
 
-		nodes.select("text")
-			.attr("class", "nodelabel")
-			.text(function(d) {
-				return d.field.name;
-			})
-			.attr("x", function(d, i) {
-				return d.x + pad / 2 + 4 + (d.x < 300 ? -30 : 0);
-			})
-			.attr("text-anchor", function(d) {
-				return d.x < 300 ? "end" : "start";
-			})
-			.attr("y", function(d, i) {
-				return d.y;
-			});
-
-		nodes.exit().remove();
+		var nodeexit = nodes.exit().remove();
 
 	} 
 
@@ -344,7 +322,7 @@ namespace bjs {
 			node.x += d3.event.dx;
 			node.y += d3.event.dy;
 		}
-		this.renderGroups(this.cached_svg, this.cached_conf, this.cached_dat.groups);
+		this.renderGroups(this.svg, this.config, this.mv.groups);
 	}
 
 	private dragend(d) {
@@ -352,13 +330,13 @@ namespace bjs {
 	}
 	
 	private innerdragend(d){
-		if (this.cached_conf["renderSummary"])
-			this.renderGLinks(this.cached_svg, this.cached_conf, this.cached_dat.glinks);
+		if (this.config["renderSummary"])
+			this.renderGLinks(this.svg, this.config, this.mv.glinks);
 		else
-			this.renderLinks(this.cached_svg, this.cached_conf, this.cached_dat.links);
+			this.renderLinks(this.svg, this.config, this.mv.links);
 
-		this.renderGroups(this.cached_svg, this.cached_conf, this.cached_dat.groups);
-		this.renderNodes(this.cached_svg, this.cached_conf, this.cached_dat.nodea);
+		this.renderGroups(this.svg, this.config, this.mv.groups);
+		this.renderNodes(this.svg, this.config, this.mv.nodea);
 	}
 
 	private dragmove(d) {
@@ -372,7 +350,7 @@ namespace bjs {
 
 		this.fitGroupToNodes(d.group);
 
-		this.renderNodes(this.cached_svg, this.cached_conf, this.cached_dat.nodea);
+		this.renderNodes(this.svg, this.config, this.mv.nodea);
 	}
 
 	private linkMouseOver(d) {}
@@ -416,7 +394,7 @@ namespace bjs {
 
 
 	private nodeMouseOver(d) {
-		svg.selectAll(".link")
+		d.view.svg.selectAll(".link")
 			.classed("active", function(p) {
 				return bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d);
 			})
@@ -424,7 +402,7 @@ namespace bjs {
 				return !(bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d));
 			});
 
-		svg.selectAll(".node,.nodelabel")
+		d.view.svg.selectAll(".node,.nodelabel")
 			.classed("active", function(p) {
 				return bjs.areNodesRelated(p, d);
 			})
@@ -435,9 +413,9 @@ namespace bjs {
 		bjs.hover(d);
 	}
 
-	private mouseOut() {
-		svg.selectAll(".passive").classed("passive", false);
-		svg.selectAll(".active").classed("active", false);
+	private mouseOut(d) {
+		d.view.svg.selectAll(".passive").classed("passive", false);
+		d.view.svg.selectAll(".active").classed("active", false);
 		bjs.hover(null);
 	}
 

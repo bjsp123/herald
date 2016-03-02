@@ -258,7 +258,7 @@ namespace bjs {
         //in this mv, there is exactly one link per rel
         for (var i = 0; i < w.rels.length; ++i) {
             var rel = w.rels[i];
-            var sourceNode, targetNode;
+            var sourceNode:bjs.node, targetNode:bjs.node;
 
             if (mv.lnodes[rel.source.fullname]) {
                 if (mv.rnodes[rel.target.fullname]) {

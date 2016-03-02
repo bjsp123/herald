@@ -54,12 +54,10 @@ namespace bjs_data_json{
 		//so we edit world in place for now, which is bad.  fixme
 		var w = world;
 
-		var addedRels = {};
-
 		for(var i=0; i<w.fielda.length; ++i){
 			var f = w.fielda[i];
 
-			if(isSquash(f, squash)){
+			if(isSquashEliminate(f, squash)){
 				killAndBypass(w, f);
 				i--;
 			}
@@ -74,6 +72,14 @@ namespace bjs_data_json{
 			}
 		}
 
+		enrich(w);
+		
+		for(var assetfullname in w.assets){
+			var ass = w.assets[assetfullname];
+
+			if(isSquashCompress(ass, squash)){
+			}
+		}
 
 		enrich(w);
 
@@ -98,21 +104,17 @@ namespace bjs_data_json{
 					}
 				}
 
-
 				bjs.removeItem(w.rels, rel);
 				i--;
 				changed = true;
-
 			}
 		}
-
 
 		for(var i=0;i<newrels.length;++i){
 			w.rels.push(newrels[i]);
 		}
 
 		return changed;
-
 	}
 
 	function killAndBypass(w:bjs.world, f:bjs.field):void{
@@ -241,25 +243,34 @@ namespace bjs_data_json{
 		}
 	}
 
-	function isSquash(field:bjs.field, squash:bjs.squash):boolean{
+	function isSquashEliminate(field:bjs.field, squash:bjs.squash):boolean{
 
 		if(squash.el_fields != ""){
 			var reg = new RegExp(squash.el_fields, 'i');
 			if (reg.exec(field.fullname) != null) {
-					return true;
-				}
+				return true;
 			}
+		}
 		
 
 		if(squash.el_assets != ""){
 			var reg = new RegExp(squash.el_assets, 'i');
 			if (reg.exec(field.asset.fullname) != null) {
-					return true;
-				}
+				return true;
 			}
+		}
 		
 
 		return false;
+	}
+	
+	function isSquashCompress(ass:bjs.asset, squash:bjs.squash):boolean{
+		if(squash.cr_assets != ""){
+			var reg = new RegExp(squash.cr_assets, 'i');
+			if (reg.exec(ass.fullname) != null) {
+				return true;
+			}
+		}
 	}
 
 	function isMatch(field:bjs.field, filter:bjs.filter):boolean{

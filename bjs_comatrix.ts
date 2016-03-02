@@ -23,22 +23,23 @@ namespace bjs {
 		TRANSITION_DURATION = 500;
 		color = d3.scale.category20();
 
-		//private state vars.  need to figure out how not to need these.
-		cached_svg = {};
-		cached_dat:bjs.mv = null;
+		svg:any = null;
+		config:bjs.config=null;
+		mv:bjs.mv=null;
 
 
-		public render(svg, w:bjs.world, c):void {
+		public render(svg, w:bjs.world, c:bjs.config):void {
 			var mv = this.prepareData(w, c);
-			this.cached_svg = svg;
-			this.cached_dat = mv;
+			this.svg = svg;
+			this.mv = mv;
+			this.config=c;
 
-			this.renderGroups(svg, c, "lgroups", mv.lgroupa, "vertical");
-			this.renderGroups(svg, c, "rgroups", mv.rgroupa, "horizontal");
-			this.renderChain(svg, c, "lnodes", "Sources:", mv.lnodea, "vertical");
-			this.renderChain(svg, c, "rnodes", "Outputs:", mv.rnodea, "horizontal");
+			this.renderGroups(svg, "lgroups", mv.lgroupa, "vertical");
+			this.renderGroups(svg, "rgroups", mv.rgroupa, "horizontal");
+			this.renderChain(svg, "lnodes", "Sources:", mv.lnodea, bjs.handed.column);
+			this.renderChain(svg, "rnodes", "Outputs:", mv.rnodea, bjs.handed.row);
 
-			this.renderPts(svg, c, mv.pts);
+			this.renderPts(svg, mv.pts);
 		}
 
 		private prepareData(w:bjs.world, c):bjs.mv {
@@ -123,7 +124,7 @@ namespace bjs {
 
 		}
 
-		private renderGroups(svg, c, tag, data:bjs.group[], orientation:string):void {
+		private renderGroups(svg, tag, data:bjs.group[], orientation:string):void {
 
 			var vert = (orientation == "vertical");
 			var fixedPos = (vert ? this.LEFT_AXIS_X : this.TOP_AXIS_Y) - this.GROUP_OFFSET;
@@ -149,10 +150,11 @@ namespace bjs {
 			var group_width = this.GROUPBAR_WIDTH;
 			
 			var color = this.color;
+			var config = this.config;
 
 			groups.select("rect")
 				.style("fill", function(d) {
-					return bjs.getGroupColor(color, c, d);
+					return bjs.getColorFromName(color, config, d.fullname);
 				})
 			.transition().delay(function(d, i) {
 					return d.topoffs / trans_fact;
@@ -228,7 +230,7 @@ namespace bjs {
 
 		}
 
-		private renderChain(svg, c, tag, label, data, orientation) {
+		private renderChain(svg, tag:string, label:string, data:bjs.node[], handed:bjs.handed) {
 
 			var vert = (orientation == "vertical");
 			var fixedPos = (vert ? this.LEFT_AXIS_X : this.TOP_AXIS_Y);
@@ -269,16 +271,16 @@ namespace bjs {
 				.on("mouseout", this.mouseOut);
 
 			nodesg.append("line");
-			nodesg.append("circle");
-			nodesg.append("text");
+		
 
 			var color = this.color;
 			var trans_fact = this.TRANSITION_FACTOR;
 			var node_r = this.NODE_R;
+			var config = this.config;
 
 			nodes.select("line")
 				.attr("style", function(d, i) {
-					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(color, c, d);
+					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(color, config, d);
 				}) // attr rather than style because it needs to override the css style
 				.on("mouseover", null)
 				.on("mouseout", null)
@@ -298,11 +300,12 @@ namespace bjs {
 					return d.offs;
 				} : (this.MATRIX_WIDTH + this.TOP_AXIS_Y));
 
+
 			nodes.select("circle")
 				.attr("class", "node")
 				.attr("r", this.NODE_R)
 				.style("fill", function(d) {
-					return bjs.getNodeColor(color, c, d);
+					return bjs.getNodeColor(color, config, d);
 				})
 				.transition().delay(function(d, i) {
 					return d.offs / trans_fact;
@@ -334,11 +337,13 @@ namespace bjs {
 					return d.offs + node_r;
 				} : (fixedPos - this.NODE_R * 1.5)); //there is some subjective tuning in text position.
 
-			nodes.exit().transition(800).style("opacity", 0).remove();
+
+
+			var nodeexit = nodes.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
-		private renderPts(svg, c, data) {
+		private renderPts(svg, data) {
 
 			var pts = svg.selectAll(".pt")
 				.data(data, function(d, i) {
@@ -455,7 +460,7 @@ namespace bjs {
 
 		private nodeMouseOver(d) {
 
-			svg.selectAll(".node,.nodelabel")
+			d.view.svg.selectAll(".node,.nodelabel")
 				.classed("active", function(p) {
 					return bjs.areNodesRelated(p, d);
 				})
@@ -463,7 +468,7 @@ namespace bjs {
 					return !bjs.areNodesRelated(p, d);
 				});
 
-			svg.selectAll(".pt")
+			d.view.svg.selectAll(".pt")
 				.classed("active", function(p) {
 					return p.source.fullname == d.fullname || p.target.fullname == d.fullname;
 				})
@@ -474,9 +479,9 @@ namespace bjs {
 			bjs.hover(d);
 		}
 
-		private mouseOut() {
-			svg.selectAll(".passive").classed("passive", false);
-			svg.selectAll(".active").classed("active", false);
+		private mouseOut(d) {
+			d.view.svg.selectAll(".passive").classed("passive", false);
+			d.view.svg.selectAll(".active").classed("active", false);
 			bjs.hover(null);
 		}
 

@@ -21,22 +21,21 @@ namespace bjs {
 	CART_FLAT_HEIGHT = this.CART_HEIGHT - 10;
 	color = d3.scale.category20();
 
-	//private state vars.  we need these becuase this view re-renders itself on a click.
-	cached_svg = {};
-	cached_dat : bjs.mv = null;
-	cached_conf = {};
+	svg: any = null;
+	mv :bjs.mv = null;
+	config: bjs.config = null;
 
 
 	
 	//most of the render function can be called internally based on a tree node click, so the actual tree_view.render()
 	//just prepares the mv for the first time; the mv will be edited in place as tree nodes change status.
-	public render(svg, w:bjs.world, c):void {
-		this.cached_svg = svg;
-		this.cached_conf = c;
+	public render(svg, w:bjs.world, c:config):void {
+		this.svg = svg;
+		this.config = c;
 		
 		var mv = this.prepareData(w);
 
-		this.cached_dat = mv;
+		this.mv = mv;
 
 		this.doRender(svg, mv, c);
 	}
@@ -257,7 +256,7 @@ namespace bjs {
 			this.expand(d);
 		}
 
-		this.doRender(this.cached_svg, this.cached_dat, this.cached_conf);
+		this.doRender(this.svg, this.mv, this.config);
 	}
 
 	private collapse(d) {
@@ -291,7 +290,7 @@ namespace bjs {
 		bjs.hover(d);
 	}
 
-	private mouseOut() {
+	private mouseOut(d) {
 		bjs.hover(null);
 	}
 

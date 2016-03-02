@@ -23,19 +23,7 @@
   <script type="text/javascript" src="lib/cola.js"></script>
   <script type="text/javascript" src="lib/thenBy.js"></script>
 
-  <script type="text/javascript" src="bjs_types.js"></script>
-  <script type="text/javascript" src="bjs_data_json.js"></script>
-  <script type="text/javascript" src="bjs_mv.js"></script>
-  <script type="text/javascript" src="bjs_misc.js"></script>
-
-  <script type="text/javascript" src="bjs_viewutils.js"></script>
-
-  <script type="text/javascript" src="bjs_bipartite.js"></script>
-  <script type="text/javascript" src="bjs_lineage.js"></script>
-  <script type="text/javascript" src="bjs_tree.js"></script>
-  <script type="text/javascript" src="bjs_comatrix.js"></script>
-  <script type="text/javascript" src="bjs_hive.js"></script>
-  <script type="text/javascript" src="bjs_cola.js"></script>
+  <script type="text/javascript" src="lucid.js"></script>
 
   <script type="text/javascript" src="testdata.js"></script>
 
@@ -50,7 +38,7 @@
     var rawJson = {}; // the last json string we processed
     var bip = {}; //our reference to the current visualizer, which refers to its modelview(?)
     var w = {}; //the global world (filtered)
-    var viewConf = {};
+    var config= new bjs.config();
     var theFilter = new bjs.filter();
     var theSquash = new bjs.squash();
     
@@ -135,11 +123,7 @@
 
       bjs.hover = mouseOverHandler;
 
-      viewConf["optimize"] = 0;
-      viewConf["colorPlan"] = "cat";
-      viewConf["renderSummary"] = false;
-      viewConf["hilile"] = "nothing";
-
+      config = new bjs.config();
 
 
       d3.select("#kill_objpal").on("click", function(d) {
@@ -208,47 +192,47 @@
       });
 
       d3.select("#ctrl_opt_1").on("click", function(d) {
-        viewConf["optimize"] = 1;
+        config.optimize=true;
         redraw();
       });
 
       d3.select("#ctrl_opt_0").on("click", function(d) {
-        viewConf["optimize"] = 0;
+        config.optimize=false;
         redraw();
       });
 
       d3.select("#ctrl_detail_summary").on("click", function(d) {
-        viewConf["renderSummary"] = true;
+        config.summary=true;
         redraw();
       });
 
       d3.select("#ctrl_detail_nodes").on("click", function(d) {
-        viewConf["renderSummary"] = false;
+       config.summary=false;
         redraw();
       });
 
       d3.select("#ctrl_color_pkg").on("click", function(d) {
-        viewConf["colorPlan"] = "pkg";
+        config.colorPlan="pkg";
         redraw();
       });
 
       d3.select("#ctrl_color_cat").on("click", function(d) {
-        viewConf["colorPlan"] = "cat";
+        config.colorPlan="cat";
         redraw();
       });
 
       d3.select("#ctrl_hi_crit").on("click", function(d) {
-        viewConf["hilite"] = "critical";
+        config.hilite = "critical";
         redraw();
       });
 
       d3.select("#ctrl_hi_untraced").on("click", function(d) {
-        viewConf["hilite"] = "untraced";
+        config.hilite = "untraced";
         redraw();
       });
 
       d3.select("#ctrl_hi_nothing").on("click", function(d) {
-        viewConf["hilite"] = "nothing";
+        config.hilite = "nothing";
         redraw();
       });
 
@@ -310,7 +294,7 @@
 
     function redraw() {
       mouseOverHandler(null);
-      bip.render(svg, w, viewConf);
+      bip.render(svg, w, config);
     }
 
     function clear() {

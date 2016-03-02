@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "out": "lucid.js",
+        "sourceMap": true
+    },
+    "files": [
+	"bjs_bipartite.ts",
+	"bjs_cola.ts",
+	"bjs_comatrix",
+	"bjs_hive.ts",
+	"bjs_lineage.ts",
+	"bjs_tree.ts"
+    ]
+
+}

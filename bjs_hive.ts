@@ -22,17 +22,24 @@ namespace bjs {
 		GROUPBAR_WIDTH = 20;
 		GROUP_OFFSET = 80;
 		color = d3.scale.category10();
+		
+		svg:any = null;
+		config:bjs.config=null;
+		mv:bjs.mv=null;
 
 
 		public render(svg, w:bjs.world, c):void {
 			var mv = this.prepareData(w, c);
+			this.svg = svg;
+			this.config=c;
+			this.mv=mv;
 
 			this.renderLinks(svg, mv);
 
-			this.renderChain(svg, c, "lnodes", mv.lnodea, true, this.LEFT_AXIS_X);
-			this.renderChain(svg, c, "rnodes", mv.rnodea, false, this.RIGHT_AXIS_X);
-			this.renderChain(svg, c, "m1nodes", mv.m1nodea, true, this.MIDDLE_AXIS_X - this.GROUP_OFFSET / 2);
-			this.renderChain(svg, c, "m2nodes", mv.m2nodea, false, this.MIDDLE_AXIS_X + this.GROUP_OFFSET / 2);
+			this.renderChain(svg, c, "lnodes", mv.lnodea, bjs.handed.left, this.LEFT_AXIS_X);
+			this.renderChain(svg, c, "rnodes", mv.rnodea, bjs.handed.right, this.RIGHT_AXIS_X);
+			this.renderChain(svg, c, "m1nodes", mv.m1nodea, bjs.handed.left, this.MIDDLE_AXIS_X - this.GROUP_OFFSET / 2);
+			this.renderChain(svg, c, "m2nodes", mv.m2nodea, bjs.handed.right, this.MIDDLE_AXIS_X + this.GROUP_OFFSET / 2);
 
 			this.renderGroups(svg, c, "lgroups", mv.lgroupa, "left", this.LEFT_AXIS_X - this.GROUP_OFFSET);
 			this.renderGroups(svg, c, "rgroups", mv.rgroupa, "right", this.RIGHT_AXIS_X + this.GROUP_OFFSET);
@@ -186,6 +193,7 @@ namespace bjs {
 			var datarray = data;
 
 			var color = this.color;
+			var config = this.config;
 			var xoffset = 0;
 			if (orientation == "left") xoffset = -this.GROUPBAR_WIDTH;
 			if (orientation == "right") xoffset = this.GROUPBAR_WIDTH;
@@ -216,7 +224,7 @@ namespace bjs {
 				.attr("x", x - this.GROUPBAR_WIDTH / 2)
 				.attr("width", this.GROUPBAR_WIDTH)
 				.style("fill", function(d) {
-					return bjs.getGroupColor(color, c, d);
+					return bjs.getColorFromName(color, config, d.fullname);
 				})
 				.transition()
 				.attr("y", function(d) {
@@ -267,7 +275,7 @@ namespace bjs {
 
 		}
 
-		private renderChain(svg, c, tag, data, lefthanded, x) {
+		private renderChain(svg, config:bjs.config, tag:string, data, handed:bjs.handed, x:number):void {
 		
 			var color = this.color;
 
@@ -292,52 +300,17 @@ namespace bjs {
 				.attr("class", "node " + tag)
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
-
-			nodesg.append("rect");
-			nodesg.append("circle");
-			nodesg.append("text");
-
-			nodes.select("rect")
-				.attr("class", "nodeinvis")
-				.attr("x", function(d, i) {
-					return d.x + (lefthanded ? -this.GROUP_OFFSET : 0);
-				})
-				.attr("width", this.GROUP_OFFSET)
-				.attr("height", 18)
+				
+			bjs.drawNodes(nodesg, color, config, handed, this.NODE_R, true, false);
+			
+			var nodeupdate = nodes
 				.transition()
-				.attr("y", function(d, i) {
-					return d.y;
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")";
 				});
 
-			nodes.select("circle")
-				.attr("class", "node")
-				.attr("r", this.NODE_R)
-				.attr("cx", function(d, i) {
-					return d.x;
-				})
-				.style("fill", function(d) {
-					return bjs.getNodeColor(color, c, d);
-				})
-				.transition()
-				.attr("cy", function(d, i) {
-					return d.y;
-				});
 
-			nodes.select("text")
-				.attr("class", "nodelabel")
-				.text(function(d) {
-					return d.field.name;
-				})
-				.attr("x", function(d, i) {
-					return d.x + (lefthanded ? -20 : 20);
-				})
-				.attr("text-anchor", lefthanded ? "end" : "start")
-				.transition()
-				.attr("y", function(d, i) {
-					return d.y;
-				});
-
-			nodes.exit().transition(800).style("opacity", 0).remove();
+			var nodeexit = nodes.exit().transition(800).style("opacity", 0).remove();
 
 		}
 
