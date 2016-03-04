@@ -11,6 +11,15 @@ namespace bjs {
 		clone():cloneable;
 	}
 
+    export const enum handed {
+        left,
+        right,
+        low,
+        row,
+        column,
+        leftright
+    }
+    
 /////////// core data model
 	
 	export class term implements cloneable{

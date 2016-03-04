@@ -1,4 +1,4 @@
-/// <reference path="bjs_types.ts"/>
+
 /// <reference path="bjs_viewutils.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 /// <reference path="bjs_mv.ts"/>
@@ -96,6 +96,11 @@ namespace bjs {
 		
 		for(var i=0;i<mv.nodea.length;++i){
 			mv.nodea[i].handed = bjs.handed.leftright;
+		}
+
+		//despite having just positioned groups manually, we now fit them to their nodes... needs sorting out really
+		for(var fullname in mv.groups){
+			bjs.fitGroupToNodesBox(mv.groups[fullname], this.NODE_R*2);
 		}
 	}
 

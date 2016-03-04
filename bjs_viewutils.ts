@@ -1,15 +1,7 @@
 /// <reference path="bjs_types.ts"/>
 
 namespace bjs {
-    
-    export const enum handed {
-        left,
-        right,
-        low,
-        row,
-        column,
-        leftright
-    }
+   
     
     export class rect{
         constructor(public top:number, public left:number, public bottom:number, public right:number){
@@ -115,12 +107,15 @@ namespace bjs {
 			.text(function(d) {
 				return bjs.shortenString(d.fullname, 30);
 			})
+			.style("fill", function(d) {
+				return bjs.getColorFromName(color, config, d.fullname);
+			})
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
 				return d.width / 2;
 			})
 			.attr("y", function(d, i) {
-				return d.height + 4;
+				return d.height + 15;
 			});
     	
     }
@@ -145,7 +140,7 @@ namespace bjs {
 			   case bjs.handed.column:
 			   		return -10;
 			   	case bjs.handed.leftright:
-			   		return; d.x<300?-20:20+d.width;
+			   		return d.x<300?-20:20+d.width;
 			   default:
 			   		return 0;
 			}
@@ -179,7 +174,7 @@ namespace bjs {
 			   	case bjs.handed.column:
 			   		return "end";
 			    case bjs.handed.leftright:
-			   		return; d.x<300?"end":"start";
+			   		return d.x<300?"end":"start";
 			    default:
 			    	return "start";
 			}

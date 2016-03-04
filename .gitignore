@@ -1,3 +1,6 @@
 bjs_*.js
+node_modules
 lucid.js
 lucid.js.map
+.bashrc
+*.swp
