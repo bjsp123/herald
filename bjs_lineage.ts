@@ -12,8 +12,8 @@ namespace bjs {
 	export class flow_view implements view{
 
 	NODE_R = 8;
-	OUTPUT_GROUP_X = 1050;
-	GROUP_INTERVAL_X = 400;
+	LEFT_EDGE = 100;
+	RIGHT_EDGE = 1000;
 	UNDLE_OFFSET = 120;
 	AXIS_HEIGHT = 1000;
 	TOP_MARGIN = 200;
@@ -22,6 +22,7 @@ namespace bjs {
 	BUNDLE_OFFSET = 50;
 	INVALID_DEPTH = 999; ///remember programming like this?
 	color = d3.scale.category20();
+	xScale = d3.scale.linear();
 
 
 	svg: any = null;
@@ -38,6 +39,13 @@ namespace bjs {
 		this.layout(mv);
 		
 		this.mv = mv;
+		
+		var r = this.xScale.range();
+		var d = this.xScale.domain();
+		
+		var m = d3.max(this.mv.groupa, function(d){return d.asset.ldepth;});
+		this.xScale.range([this.LEFT_EDGE,this.RIGHT_EDGE])
+			.domain([0,m]);
 
 		this.renderGroups(svg, c, mv.groups);
 
@@ -56,19 +64,12 @@ namespace bjs {
 
 	private layout(mv:bjs.mv):void {
 
-		//arrange groups into 3 depth levels -- this simple approach isn't all that effective.
-		for (var fullname in mv.groups) {
-			var g = mv.groups[fullname];
-			g.depth = 1;
-			if (!g.asset.hasTargets()) g.depth = 0;
-			if (!g.asset.hasSources()) g.depth = 2;
-		}
 
 
 		var stax = {};
 		for (var fullname in mv.groups) {
 			var g = mv.groups[fullname];
-			g.x = this.OUTPUT_GROUP_X - (g.depth * this.GROUP_INTERVAL_X);
+			g.x = this.xScale(g.asset.ldepth);
 			g.height = g.children.length * this.NODE_R + this.GROUP_PADDING;
 			g.width = this.GROUPBAR_WIDTH;
 			if (stax[g.x] == null) {

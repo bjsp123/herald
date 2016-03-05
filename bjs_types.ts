@@ -35,8 +35,8 @@ namespace bjs {
 		sources: asset[] = [];
 		targets: asset[] = [];
 		children: field[] = [];
-		ldepth = -1;
-		rdepth = -1;
+		ldepth = 0;
+		rdepth = 0;
 		
 		ancestors: IMap<ainfluence> = {};
 		descendants: IMap<ainfluence> = {};
@@ -57,8 +57,8 @@ namespace bjs {
 			this.sources = [];
 			this.ancestors = {};
 			this.descendants = {};
-			this.ldepth = -1;
-			this.rdepth = -1;
+			this.ldepth = 0;
+			this.rdepth = 0;
 			this.effnotbefore = null;
 		}
 		
@@ -83,8 +83,8 @@ namespace bjs {
 		targets: field[] = [];
 		ancestors: IMap<influence> = {};
 		descendants: IMap<influence> = {};
-		ldepth = -1;
-		rdepth = -1;
+		ldepth = 0;
+		rdepth = 0;
 		usources: IMap<influence> = {};
 		utargets: IMap<influence> = {};
 		directlyrelevant = false; //NB this is a bit of ephemeral state used in filtering.
@@ -115,8 +115,8 @@ namespace bjs {
 			this.sources = [];
 			this.ancestors = {};
 			this.descendants = {};
-			this.ldepth = -1;
-			this.rdepth = -1;
+			this.ldepth = 0;
+			this.rdepth = 0;
 			this.usources = {};
 			this.utargets = {};
 			this.effrisk = null;
@@ -230,7 +230,6 @@ namespace bjs {
 		id: string="";//because cola likes to have a property called this.
 		leaves: number[]=[];//because cola ditto ditto
 		children: node[]=[];
-		depth:number=0;
 		x: number = -1;
 		y: number = -1;
 		height: number = -1;

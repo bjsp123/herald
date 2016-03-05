@@ -364,6 +364,8 @@
           details += "<li>Quality: " + (d.field.effquality*100).toPrecision(2) + "% (" + (d.field.quality*100).toPrecision(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toPrecision(2) + " from upstream)</li>";
           details += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
 
+          details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
+          
           if(d.field.term != null){
             details += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
           }else{
@@ -387,6 +389,8 @@
             details += "<h3>Risk Characteristics:</h3><ul><li>Direct Risk: " + d.asset.risk + "</li></ul>";
 
             details += "<h3>Timing Characteristics:</h3><ul><li>Available From:  Day " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + " Days </li><li>Theoretical Earliest: Day " + d.asset.notbefore + "</li></ul>";
+            
+            details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.asset.ldepth + "</li><li>Rdepth: " + d.asset.rdepth + "</li></ul>";
             }
           
           else {

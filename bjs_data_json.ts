@@ -494,10 +494,10 @@ namespace bjs_data_json{
 
 			if (bSource && isSource) {
 				var p = a.arels[i].source;
+				if (p.rdepth < depth) p.rdepth = depth;
 				if(p.effnotbefore > lastReady) lastReady = p.effnotbefore;
 				if (p.sources.length == 0) {
 					root.ancestors[p.fullname] = new bjs.ainfluence(p, depth, isFilter, true, p.effnotbefore == lastReady);
-					if (p.rdepth < depth) p.rdepth = depth;
 				}
 				else {
 					root.ancestors[p.fullname] = new bjs.ainfluence(p, depth, isFilter, false, p.effnotbefore == lastReady);
@@ -507,9 +507,9 @@ namespace bjs_data_json{
 
 			if (!bSource && !isSource) {
 				var p = a.arels[i].target;
+				if (p.ldepth < depth) p.ldepth = depth;
 				if (p.targets.length == 0) {
 					root.descendants[p.fullname]  = new bjs.ainfluence(p, depth, isFilter, true, false); //tcritpath is filled in in a separate sweep later
-					if (p.ldepth < depth) p.ldepth = depth;
 				}
 				else {
 					root.descendants[p.fullname] = new bjs.ainfluence(p, depth, isFilter, false, false);
@@ -532,10 +532,10 @@ namespace bjs_data_json{
 
 			if (bSource && isSource) {
 				var p = f.rels[i].source;
+				if (p.rdepth < depth) p.rdepth = depth;
 				if (p.sources.length == 0) {
 					root.ancestors[p.fullname] = new bjs.influence(p, depth, isFilter, true);
 					root.usources[p.fullname] = new bjs.influence(p, depth, isFilter, true);
-					if (p.rdepth < depth) p.rdepth = depth;
 				}
 				else {
 					root.ancestors[p.fullname] = new bjs.influence(p, depth, isFilter, false);
@@ -545,10 +545,10 @@ namespace bjs_data_json{
 
 			if (!bSource && !isSource) {
 				var p = f.rels[i].target;
+				if (p.ldepth < depth) p.ldepth = depth;
 				if (p.targets.length == 0) {
 					root.descendants[p.fullname]  = new bjs.influence(p, depth, isFilter, true);
 					root.utargets[p.fullname] = new bjs.influence(p, depth, isFilter, true);
-					if (p.ldepth < depth) p.ldepth = depth;
 				}
 				else {
 					root.descendants[p.fullname] = new bjs.influence(p, depth, isFilter, false);
