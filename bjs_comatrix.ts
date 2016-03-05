@@ -230,6 +230,7 @@ namespace bjs {
 				.attr("style", function(d, i) {
 					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(color, config, d);
 				}) // attr rather than style because it needs to override the css style
+				.attr("class", "node")
 				.on("mouseover", null)
 				.on("mouseout", null)
 				.attr("x1", 0)

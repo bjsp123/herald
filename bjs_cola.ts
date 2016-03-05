@@ -108,6 +108,12 @@ namespace bjs {
 			var color = this.color;
 			var config = this.config;
 
+			bjs.drawGroupBox(gt, gtg, this.color, this.config, this.GROUP_ROUNDY);
+
+
+			var gtr = gt.select("rect");
+			var gtc = gt.select("text");
+/*
 			var gtr = gtg.append("rect")
 				.attr("rx", this.GROUP_ROUNDY).attr("ry", this.GROUP_ROUNDY)
 				.attr("class", "colagroup")
@@ -128,8 +134,8 @@ namespace bjs {
 				});
 
 
-			gt.exit().remove();
-
+*/
+			var groupexit = gt.exit().remove();
 
 			var lt = svg.selectAll(".link")
 				.data(powerGraph ? powerGraph.powerEdges : mv.colalinks, function(d) {
@@ -238,7 +244,7 @@ namespace bjs {
 		private dragStart(d) {
 			d.px = d.x, d.py = d.y; // set velocity to zero
 			d.view.ghosts = [1, 2].map(function(i) {
-				return svg.append('circle')
+				return d.view.svg.append('circle')
 					.attr({
 						class: 'ghost',
 						cx: d.x,
