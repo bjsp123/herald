@@ -19,7 +19,7 @@ namespace bjs {
 	TOP_MARGIN = 200;
 	GROUPBAR_WIDTH = 20;
 	GROUP_PADDING = 20;
-	BUNDLE_OFFSET = 50;
+	BUNDLE_OFFSET = 150;
 	INVALID_DEPTH = 999; ///remember programming like this?
 	color = d3.scale.category20();
 	xScale = d3.scale.linear();
@@ -36,16 +36,11 @@ namespace bjs {
 		
 		var mv = bjs.makeDirect(this, w);
 		
+		this.xScale = this.makeScale(mv, this.config);
+		
 		this.layout(mv);
 		
 		this.mv = mv;
-		
-		var r = this.xScale.range();
-		var d = this.xScale.domain();
-		
-		var m = d3.max(this.mv.groupa, function(d){return d.asset.ldepth;});
-		this.xScale.range([this.LEFT_EDGE,this.RIGHT_EDGE])
-			.domain([0,m]);
 
 		this.renderGroups(svg, c, mv.groups);
 
@@ -61,15 +56,46 @@ namespace bjs {
 		this.renderNodes(svg, c, mv.nodea);
 	}
 	
+	private makeScale(mv:bjs.mv, c:bjs.config):any{
+		var scale = d3.scale.linear().range([this.LEFT_EDGE,this.RIGHT_EDGE]);
+		
+		switch(c.xorder){
+			case "ldepth":
+				scale.domain([0,d3.max(mv.groupa, function(d){return d.asset.ldepth;})]);
+				break;
+			case "rdepth":
+				scale.domain([d3.max(mv.groupa, function(d){return d.asset.rdepth;}),0]);
+				break;
+			case "notbefore":
+				scale.domain([0, d3.max(mv.groupa, function(d){return d.asset.effnotbefore;})]);
+				break;
+			default:
+				scale.domain([d3.max(mv.groupa, function(d){return d.asset.rdepth;}),0]);
+				break;
+		}
+		return scale;
+	}
+	
+	private  xValue(g:bjs.group, c:bjs.config):number{
+		switch(c.xorder){
+			case "ldepth":
+				return g.asset.ldepth;
+			case "rdepth":
+				return g.asset.rdepth;
+			case "notbefore":
+				return g.asset.effnotbefore;
+			default:
+				return g.asset.ldepth;
+		}
+	}
+	
 
 	private layout(mv:bjs.mv):void {
-
-
 
 		var stax = {};
 		for (var fullname in mv.groups) {
 			var g = mv.groups[fullname];
-			g.x = this.xScale(g.asset.ldepth);
+			g.x = this.xScale(this.xValue(g, this.config));
 			g.height = g.children.length * this.NODE_R + this.GROUP_PADDING;
 			g.width = this.GROUPBAR_WIDTH;
 			if (stax[g.x] == null) {

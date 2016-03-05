@@ -57,6 +57,10 @@ namespace bjs {
 				bjs.lg_err("Tried to create unnamed asset");
 			if(risk == null || risk == undefined)
 				this.risk = 0;
+			if(notbefore==null || notbefore == undefined)
+				this.notbefore = 0;
+			if(latency==null || latency == undefined)
+				this.latency = 1;
 		}
 			
 		public resetvolatile(){
@@ -101,6 +105,7 @@ namespace bjs {
 		effrisk: number = null;
 		effquality: number = null;
 		effimportance:number=null;
+		effnolineage:boolean=null;
 		
 		itemtype = "field";
 		
@@ -131,6 +136,7 @@ namespace bjs {
 			this.effrisk = null;
 			this.effquality = null;
 			this.effimportance = null;
+			this.effnolineage = null;
 		}
 		
 		public hasSources():boolean {
@@ -143,6 +149,10 @@ namespace bjs {
 		
 		public clone():field{
 			return new field(this.fullname, this.name, this.type, this.asset, this.term, this.desc, this.formula, this.flags, this.quality, this.risk, this.importance, this.comment);
+		}
+		
+		public hasNoLineage():boolean{
+			return this.sources.length == 0 && this.formula.length == 0;
 		}
 	}
 	
@@ -339,6 +349,7 @@ namespace bjs {
 		public colorPlan:string="cat";
 		public summary:boolean=false;
 		public hilite:string="nothing";
+		public xorder:string="ldepth";
 	}
 	
 	export interface view{

@@ -394,8 +394,8 @@ namespace bjs_data_json{
 			var f = w.fielda[i];
 			recursiveFieldCalculations(w, f);
 			recursiveLeftwardFieldCalculations(w, f);
-			recursiveRelatives(w, f, f, 0, false, true);
-			recursiveRelatives(w, f, f, 0, false, false);
+			recursiveRelatives(w, f, f, 1, false, true);
+			recursiveRelatives(w, f, f, 1, false, false);
 		}
 		
 		
@@ -404,8 +404,8 @@ namespace bjs_data_json{
 		for (var assetfullname in w.assets){
 			var ass = w.assets[assetfullname];
 			recursiveAssetCalculations(w, ass);
-			recursiveARelatives(w, ass, ass, 0, false, true);
-			recursiveARelatives(w, ass, ass, 0, false, false);
+			recursiveARelatives(w, ass, ass, 1, false, true);
+			recursiveARelatives(w, ass, ass, 1, false, false);
 		}
 		
 		//fixes up the rhs of the time critical path
@@ -449,12 +449,14 @@ namespace bjs_data_json{
 		
 		f.effrisk = f.risk + f.asset.risk;
 		f.effquality = f.quality;
+		f.effnolineage = f.hasNoLineage();
 
 		for(var i=0;i<f.sources.length;++i){
 			var src = f.sources[i];
 			recursiveFieldCalculations(w, src);
 			f.effrisk += src.effrisk;
 			f.effquality *= src.effquality;
+			if(src.hasNoLineage()) f.effnolineage = true;
 		}
 	}
 	
@@ -495,7 +497,6 @@ namespace bjs_data_json{
 			if (bSource && isSource) {
 				var p = a.arels[i].source;
 				if (p.rdepth < depth) p.rdepth = depth;
-				if(p.effnotbefore > lastReady) lastReady = p.effnotbefore;
 				if (p.sources.length == 0) {
 					root.ancestors[p.fullname] = new bjs.ainfluence(p, depth, isFilter, true, p.effnotbefore == lastReady);
 				}

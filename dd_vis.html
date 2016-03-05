@@ -190,6 +190,21 @@
 
         refresh();
       });
+      
+      d3.select("#ctrl_xo_l").on("click", function(d) {
+        config.xorder="ldepth";
+        redraw();
+      });
+
+      d3.select("#ctrl_xo_r").on("click", function(d) {
+        config.xorder="rdepth";
+        redraw();
+      });
+      
+      d3.select("#ctrl_xo_t").on("click", function(d) {
+        config.xorder="notbefore";
+        redraw();
+      });
 
       d3.select("#ctrl_opt_1").on("click", function(d) {
         config.optimize=true;
@@ -804,6 +819,35 @@
           </td>
           <td>
             <input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <hr/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Order by depth</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_xo" id="ctrl_xo_l" value="" checked="true" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Order by shallowness</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_xo" id="ctrl_xo_r" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_grouping_dom">Order by timing</label>
+          </td>
+          <td>
+            <input type="radio" name="ctrl_xo" id="ctrl_xo_t" value="" />
           </td>
         </tr>
         <tr>
