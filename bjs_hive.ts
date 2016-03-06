@@ -13,15 +13,14 @@ namespace bjs {
 
 		NODE_R = 8;
 		LEFT_AXIS_X = 200;
-		MIDDLE_AXIS_X = 500;
-		RIGHT_AXIS_X = 800;
+		MIDDLE_AXIS_X = 550;
+		RIGHT_AXIS_X = 900;
 		BUNDLE_OFFSET = 100;
 		ROUP_OFFSET = 140;
 		AXIS_HEIGHT = 950;
 		TOP_MARGIN = 50;
 		GROUPBAR_WIDTH = 20;
-		GROUP_OFFSET = 80;
-		color = d3.scale.category10();
+		GROUP_OFFSET = 120;
 		
 		svg:any = null;
 		config:bjs.config=null;
@@ -50,8 +49,8 @@ namespace bjs {
 		private prepareData(w:bjs.world, c):bjs.mv {
 
 
-			var mv = bjs.makeTripartite(this, w);
-
+			var mv = bjs.makeTripartite(this, w, true);
+			
 			for (var i = 0; i < mv.lgroupa.length; ++i) {
 				mv.lgroupa[i].x = this.LEFT_AXIS_X - this.GROUP_OFFSET;
 				mv.lgroupa[i].handed = bjs.handed.left;
@@ -147,8 +146,10 @@ namespace bjs {
 			}
 		}
 
-
+			
 		private renderLinks(svg, dat:bjs.mv):void {
+			
+			var config = this.config;
 			
 			var bundle_offs = this.BUNDLE_OFFSET;
 
@@ -162,17 +163,12 @@ namespace bjs {
 				.enter()
 				.append("path")
 				.attr("class", "link")
-				.attr("stroke", bjs.getLinkColor);
+				.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
 
 
 			links
 				.transition()
-				.attr("d", function(d) {
-					return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-						"C " + (d.source.x + bundle_offs) + " " + d.source.y +
-						" " + (d.target.x - bundle_offs) + " " + d.target.y +
-						" " + d.target.x + " " + (d.target.y + Math.random() * 3);
-				});
+				.attr("d", function(d) {return bjs.getLinkPath(d, bundle_offs, true, false);});
 
 			links
 				.exit()
@@ -183,9 +179,6 @@ namespace bjs {
 		private renderGroups(svg, c, tag:string, data:bjs.group[]):void {
 
 			var datarray = data;
-
-			var color = this.color;
-			var config = this.config;
 			
 
 			var groups = svg.selectAll(".group." + tag)
@@ -205,7 +198,7 @@ namespace bjs {
 				.on("mouseout", this.mouseOut)
 				.on("click", this.groupClick);
 				
-			bjs.drawGroupBar(groups, groupsg, this.color, this.config);
+			bjs.drawGroupBar(groups, groupsg, this.config);
 			
 			var groupupdate = groups
 				.transition()
@@ -220,7 +213,6 @@ namespace bjs {
 
 		private renderChain(svg, config:bjs.config, tag:string, data, handed:bjs.handed, x:number):void {
 		
-			var color = this.color;
 
 			var axis = svg.selectAll(".axis." + tag)
 				.data([1]).enter()
@@ -248,7 +240,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, true, false);
+			bjs.drawNodes(nodes, nodesg, this.config, this.NODE_R, true, false);
 			
 			var nodeupdate = nodes
 				.transition()

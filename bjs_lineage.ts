@@ -21,7 +21,6 @@ namespace bjs {
 	GROUP_PADDING = 20;
 	BUNDLE_OFFSET = 150;
 	INVALID_DEPTH = 999; ///remember programming like this?
-	color = d3.scale.category20();
 	xScale = d3.scale.linear();
 
 
@@ -166,6 +165,8 @@ namespace bjs {
 	}
 
 	private renderLinks(svg, c, linkdata) {
+		
+		var config = this.config;
 
 		var links = svg.selectAll(".link")
 			.data(linkdata, function(d, i) {
@@ -177,19 +178,12 @@ namespace bjs {
 			.enter()
 			.append("path")
 			.attr("class", "link")
-			.attr("stroke", bjs.getLinkColor);
+			.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
 
 		var boff = this.BUNDLE_OFFSET;
 
 		links
-			.attr("d", function(d) {
-				return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-					"C " + (d.source.x + boff) + " " + (d.source.y) +
-					" " + (d.target.x - boff) + " " + (d.target.y) +
-					//"C " + (dat.groups[d.source.groupname].x+BUNDLE_OFFSET) + " " + (dat.groups[d.source.groupname].y + dat.groups[d.source.groupname].height/2) +
-					//" " + (dat.groups[d.target.groupname].x-BUNDLE_OFFSET) + " " + (dat.groups[d.target.groupname].y + dat.groups[d.target.groupname].height/2) +
-					" " + d.target.x + " " + (d.target.y + Math.random() * 3);
-			});
+			.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);});
 
 		links
 			.exit()
@@ -227,7 +221,7 @@ namespace bjs {
 			.on("mouseout", this.mouseOut)
 			.on("click", this.groupClick);
 			
-		bjs.drawGroupBox(groups, groupsg, this.color, this.config, 4);
+		bjs.drawGroupBox(groups, groupsg, this.config, 4);
 
 
 		var groupsupdate = groups
@@ -267,7 +261,7 @@ namespace bjs {
 			.on("mouseover", this.nodeMouseOver)
 			.on("mouseout", this.mouseOut);
 
-		bjs.drawNodes(nodes, nodesg, this.color, this.config, this.NODE_R, false, false);
+		bjs.drawNodes(nodes, nodesg, this.config, this.NODE_R, false, false);
 
 		var nodeupdate = nodes
 			//.transition()

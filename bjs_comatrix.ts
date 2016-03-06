@@ -21,7 +21,6 @@ namespace bjs {
 		CORNER_SPACE = 20;
 		TRANSITION_FACTOR = 1;
 		TRANSITION_DURATION = 500;
-		color = d3.scale.category20();
 
 		svg:any = null;
 		config:bjs.config=null;
@@ -157,7 +156,7 @@ namespace bjs {
 			var trans_fact = this.TRANSITION_FACTOR;
 
 			
-			bjs.drawGroupBar(groups, groupsg, this.color, this.config);
+			bjs.drawGroupBar(groups, groupsg, this.config);
 			
 			var groupupdate = groups
 				.transition().delay(function(d, i) {
@@ -219,7 +218,6 @@ namespace bjs {
 
 			nodesg.append("line");
 
-			var color = this.color;
 			var trans_fact = this.TRANSITION_FACTOR;
 			var node_r = this.NODE_R;
 			var config = this.config;
@@ -228,7 +226,7 @@ namespace bjs {
 
 			nodes.select("line")
 				.attr("style", function(d, i) {
-					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(color, config, d);
+					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(config, d);
 				}) // attr rather than style because it needs to override the css style
 				.attr("class", "node")
 				.on("mouseover", null)
@@ -239,7 +237,7 @@ namespace bjs {
 				.attr("y2", function(d){return (d.handed==bjs.handed.row?matrix_height:0);});
 				
 				
-			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, false, false);
+			bjs.drawNodes(nodes, nodesg, config, this.NODE_R, false, false);
 			
 			var nodeupdate = nodes
 				.transition().delay(function(d, i) {

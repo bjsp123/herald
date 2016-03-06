@@ -14,12 +14,13 @@ namespace bjs {
 		NODE_R = 8;
 		TOTAL_WIDTH = 1600;
 		TOTAL_HEIGHT = 1600;
+		X_CENTER = 400;
+		Y_CENTER = 400;
 		GROUP_PADDING = 20;
 		GROUP_ROUNDY = 16;
 		NODE_W = this.NODE_R * 8;
 		NODE_H = this.NODE_R * 3.5;
 
-		color = d3.scale.category20();
 
 		optimize = false;
 
@@ -66,7 +67,7 @@ namespace bjs {
 					.powerGraphGroups(function(d) {
 						powerGraph = d;
 					})
-					.start(50, 30, 20);
+					.start(150, 130, 120);
 			}
 			else {
 				this.coke
@@ -74,14 +75,12 @@ namespace bjs {
 					.nodes(mv.nodea)
 					.links(mv.colalinks)
 					.groups(mv.groupa)
-					.start(50, 30, 20);
+					.start(150, 130, 120);
 			}
 
 			mv.nodea.forEach(function(v) {
 				v.width = this.NODE_W; //CART_WIDTH+NODE_R/2;
 				v.height = this.NODE_H; //CART_HEIGHT;
-				v.x = v.x + this.TOTAL_WIDTH/3;
-				v.y = v.y + this.TOTAL_WIDTH/3;
 			}, this);
 
 			mv.groupa.forEach(function(g) {
@@ -97,47 +96,33 @@ namespace bjs {
 				},this);
 			}
 
+			var xformbox = svg.selectAll("#colacontainer")
+				.data([1])
+				.enter()
+				.append("g")
+				.attr("id", "colacontainer")
+				.attr("transform", "translate(" + this.X_CENTER + ", " + this.Y_CENTER + ")");
 
-			var gt = svg.selectAll(".colagroup")
+			var gt = xformbox.selectAll(".colagroup")
 				.data(powerGraph ? powerGraph.groups : mv.groupa, function(d) {
 					return d.id;
 				});
 
-			var gtg = gt.enter().append("g");
+			var gtg = gt.enter()
+			.append("g")
+			.attr("class", "group");
 			
-			var color = this.color;
 			var config = this.config;
 
-			bjs.drawGroupBox(gt, gtg, this.color, this.config, this.GROUP_ROUNDY);
+			bjs.drawGroupBox(gt, gtg, this.config, this.GROUP_ROUNDY);
 
 
 			var gtr = gt.select("rect");
 			var gtc = gt.select("text");
-/*
-			var gtr = gtg.append("rect")
-				.attr("rx", this.GROUP_ROUNDY).attr("ry", this.GROUP_ROUNDY)
-				.attr("class", "colagroup")
-				.on("mouseover", this.groupMouseOver)
-				.on("mouseout", this.mouseOut)
-				.style("stroke", function(d, i) {
-					return bjs.getColorFromName(color, config, d.fullname);
-				});
 
-			var gtc = gtg.append("text")
-				.text(function(d) {
-					return powerGraph ? "" : d.fullname;
-				})
-				.attr("text-anchor", "middle")
-				.attr("class", "grouplabel")
-				.style("fill", function(d) {
-					return bjs.getColorFromName(color, config, d.fullname);
-				});
-
-
-*/
 			var groupexit = gt.exit().remove();
 
-			var lt = svg.selectAll(".link")
+			var lt = xformbox.selectAll(".link")
 				.data(powerGraph ? powerGraph.powerEdges : mv.colalinks, function(d) {
 					return d.id;
 				});
@@ -146,12 +131,12 @@ namespace bjs {
 				.attr("class", "link")
 				.attr("stroke", function(d) {
 					if (powerGraph) return "green";
-					return bjs.getLinkColor(d);
+					return bjs.getLinkColor(d, config);
 				});
 
 			lt.exit().remove();
 
-			var nodes = svg.selectAll("g.nt")
+			var nodes = xformbox.selectAll("g.nt")
 				.data(mv.nodea, function(d) {
 					return d.fullname;
 				});
@@ -160,12 +145,9 @@ namespace bjs {
 				.append("g")
 				.attr("class", "nt")
 				.on("mouseover", this.nodeMouseOver)
-				.on("mouseout", this.mouseOut)
-				.attr("transform", function(d) {
-					return "translate(400,400)";
-				}); //.call(this.coke.drag); 
+				.on("mouseout", this.mouseOut); //.call(this.coke.drag); 
 
-			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, false, false);
+			bjs.drawNodes(nodes, nodesg, config, this.NODE_R, false, false);
 
 			var nodeexit = nodes.exit().remove();
 			
@@ -247,8 +229,8 @@ namespace bjs {
 				return d.view.svg.append('circle')
 					.attr({
 						class: 'ghost',
-						cx: d.x,
-						cy: d.y,
+						cx: d.x+d.view.X_CENTER,
+						cy: d.y+d.view.Y_CENTER,
 						r: d.width / 3
 					});
 			});
@@ -266,6 +248,8 @@ namespace bjs {
 
 		private drag(d) {
 			var p = d.view.getDragPos(d);
+			p.cx += d.view.X_CENTER;
+			p.cy += d.view.Y_CENTER;
 			d.view.ghosts[1].attr(p);
 		}
 
@@ -291,7 +275,7 @@ namespace bjs {
 
 			var offs = Math.abs(d.source.x - d.target.x) / 2;
 
-			return "M " + (d.source.x) + " " + (d.source.y) + "C " + (d.source.x + offs) + " " + (d.source.y) + " " + (d.target.x - offs) + " " + d.target.y + " " + d.target.x + " " + d.target.y;
+			return bjs.getLinkPath(d, offs, false, false);
 		}
 
 		private connector_colaroute(d, i) {

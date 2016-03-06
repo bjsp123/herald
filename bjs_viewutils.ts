@@ -13,35 +13,59 @@ namespace bjs {
     }
 
 
-    export function getNodeColor(color:any, config:bjs.config, n:bjs.node):string {
+    export function getNodeColor(config:bjs.config, n:bjs.node):string {
         if (config.hilite=="critical" && n.field.flags && n.field.flags.indexOf("critical") != -1) return "red";
 
         if (config.hilite == "untraced" && n.field.sources.length == 0 && n.field.formula == '') return "red"
 
         if (n.group) {
-            return getColorFromName(color, config, n.group.fullname);
+            return getColorFromName(config, n.group.fullname);
         }
         else {
-            return getColorFromName(color, config, n.field.asset.fullname);
+            return getColorFromName(config, n.field.asset.fullname);
         }
     }
     
-    export function getLinkColor(l:bjs.link):string {
-        if(l.rel.type=="filter") return "#777";
-        
-        return "blue";
+    export function getLinkColor(l:bjs.link, config:bjs.config):string {
+    	
+    	switch(config.linkColorPlan){
+    		case "linktype":
+    			return(l.rel.type=="filter") ? "#575" : "blue";
+    		case "nodecolor":
+    			return bjs.getNodeColor(config, l.source);
+    		default:
+    			return "blue";
+    	}
+    }
+    
+    export function getLinkPath(d:bjs.link, offs:number, random:boolean, bundle:boolean){
+    	
+    	var randy = random?Math.random()*3:0;
+    	
+    	if(!bundle){
+    		return "M " + d.source.x + " " + (d.source.y + randy) +
+				"C " + (d.source.x + offs) + " " + d.source.y +
+				" " + (d.target.x - offs) + " " + d.target.y +
+				" " + d.target.x + " " + (d.target.y + randy);
+    	}
+    	
+    	
+		return "M " + d.source.x + " " + (d.source.y + randy) +
+			"C " + (d.source.x + offs) + " " + (d.source.group.y + d.source.group.height/2) +
+			" " + (d.target.x - offs) + " " + (d.target.group.y + d.target.group.height/2) +
+			" " + d.target.x + " " + (d.target.y + randy);
     }
 
-    export function getColorFromName(color:any, config:bjs.config, fullname:string) {
+    export function getColorFromName(config:bjs.config, fullname:string) {
 
         if (!fullname) fullname = "unknown";
 
         if (config.colorPlan == "cat") {
             var cat = fullname.substring(0, 7);
-            return color(cat);
+            return config.color(cat);
         }
 
-        return color(fullname);
+        return config.color(fullname);
     }
 
     export function areNodesRelated(a:bjs.node, b:bjs.node):boolean {
@@ -81,7 +105,7 @@ namespace bjs {
     }
     
     
-    export function drawGroupBox(groupsel:any, groupsenter:any, color:any, config:bjs.config, corners:number){
+    export function drawGroupBox(groupsel:any, groupsenter:any, config:bjs.config, corners:number){
     	
     	groupsenter.append("rect");
 		groupsenter.append("text");
@@ -92,7 +116,7 @@ namespace bjs {
 				return d.width;
 			})
 			.style("fill", function(d) {
-				return bjs.getColorFromName(color, config, d.fullname);
+				return bjs.getColorFromName(config, d.fullname);
 			})
 			.attr("y", 0)
 			.attr("rx", corners)
@@ -108,7 +132,7 @@ namespace bjs {
 				return bjs.shortenString(d.fullname, 30);
 			})
 			.style("fill", function(d) {
-				return bjs.getColorFromName(color, config, d.fullname);
+				return bjs.getColorFromName(config, d.fullname);
 			})
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
@@ -120,7 +144,7 @@ namespace bjs {
     	
     }
     
-    export function drawGroupBar(groupsel:any, groupsenter:any, color:any, config:bjs.config):void{
+    export function drawGroupBar(groupsel:any, groupsenter:any, config:bjs.config):void{
     	
     	groupsenter.append("rect").attr("class", "grouprect");
 		groupsenter.append("line").attr("class", "grouplinetop group");
@@ -257,7 +281,7 @@ namespace bjs {
 			.attr("x", 0)
 			.attr("width", function(d){return d.width;})
 			.style("fill", function(d) {
-				return bjs.getColorFromName(color, config, d.fullname);
+				return bjs.getColorFromName(config, d.fullname);
 			})
 			.attr("y", 0)
 			.attr("height", function(d) {return d.height;});
@@ -288,7 +312,7 @@ namespace bjs {
     }
     
     
-    export function drawNodes(nodesel:any, nodesenter:any, color:any, config:bjs.config, r:number, invisrect:boolean, longname:boolean):void{
+    export function drawNodes(nodesel:any, nodesenter:any, config:bjs.config, r:number, invisrect:boolean, longname:boolean):void{
         //nodesenter.append("rect");
 		nodesenter.append("circle");
 		nodesenter.append("text");
@@ -370,7 +394,7 @@ namespace bjs {
 			.attr("class", "node")
 			.attr("r", r)
 			.attr("cx", x)
-			.style("fill", function(d){return bjs.getNodeColor(color, config, d);})
+			.style("fill", function(d){return bjs.getNodeColor(config, d);})
 			.attr("cy", y);
 
 		nodesel.select("text")
@@ -442,6 +466,6 @@ namespace bjs {
 	    
 	    return rec;
 	}
- 
+	
 
 }

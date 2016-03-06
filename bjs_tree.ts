@@ -19,7 +19,6 @@ namespace bjs {
 	CART_WIDTH = 160;
 	CART_HEIGHT = 34;
 	CART_FLAT_HEIGHT = this.CART_HEIGHT - 10;
-	color = d3.scale.category20();
 
 	svg: any = null;
 	mv :bjs.mv = null;
@@ -48,6 +47,8 @@ namespace bjs {
 		var links = tree.links(nodes);
 
 		var duration = 500;
+		
+		var config = this.config;
 
 		nodes = nodes.filter(function(d) {
 			return d.field!=null;
@@ -115,7 +116,7 @@ namespace bjs {
 		tl.enter().insert("path", "g")
 			//.filter(function(d) { return !d.source.issyntharoot && !d.target.issyntharoot;})
 			.attr("class", "link")
-			.attr("stroke", "grey")
+			.attr("stroke", function(d){return bjs.getLinkColor(d, config);})
 			.style("stroke-opacity", 1e-6)
 			.attr("d", function(d) {
 				var o = {
@@ -195,9 +196,7 @@ namespace bjs {
 	}
 
 	//expects an entry selection with a xlated g appended to it
-	private drawNode(ne, c):void {
-		
-		var color = this.color;
+	private drawNode(ne, c:bjs.config):void {
 
 		ne.append("rect")
 			.attr("x", 0)
@@ -212,7 +211,7 @@ namespace bjs {
 			.attr("r", this.NODE_R)
 			.attr("class", "node")
 			.style("fill", function(d) {
-				return bjs.getNodeColor(color, c, d);
+				return bjs.getNodeColor(c, d);
 			});
 
 

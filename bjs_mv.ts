@@ -174,7 +174,7 @@ namespace bjs {
     // Add lnodea, rnodea, m1nodea, m2nodea, lgroupa, rgroupa, mgroups where 'l' contains all sources and 'r' all targets.   Nodes and groups that are both sources
     // and targets will appear in both sets. m2nodea and m1nodea are of course identical.
     //
-    export function makeTripartite(view:bjs.view,w:bjs.world):bjs.mv {
+    export function makeTripartite(view:bjs.view,w:bjs.world, fullcenter:boolean):bjs.mv {
 
 
         var mv = new bjs.mv(w);
@@ -195,7 +195,7 @@ namespace bjs {
                 mv.lnodes[fullname] = n;
             }
 
-            if (field.hasTargets() && field.hasSources()) {
+            if ((field.hasTargets() && field.hasSources()) || fullcenter ) {
                 var n1 = new bjs.node(view,mv, field);
                 var n2 = new bjs.node(view,mv, field);
                 mv.m1nodea.push(n1);
@@ -235,7 +235,7 @@ namespace bjs {
             }
 
 
-            if (ass.hasTargets() && ass.hasSources()) {
+            if ((ass.hasTargets() && ass.hasSources()) || fullcenter) {
                 var g = new bjs.group(view, ass);
                 for (var i = 0; i < ass.children.length; ++i) {
                     if (mv.m1nodes[ass.children[i].fullname] != null) {
@@ -256,15 +256,26 @@ namespace bjs {
         mv.m1nodea.sort(firstBy("fullname"));
         mv.m2nodea.sort(firstBy("fullname"));
 
-        //in this mv, there is exactly one link per rel
+        //if !fullcenter, there is exactly 1 link per rel
+        //but if fullcenter, rels from ult src to ult tgt become 2 links
+        
         for (var i = 0; i < w.rels.length; ++i) {
             var rel = w.rels[i];
             var sourceNode:bjs.node, targetNode:bjs.node;
 
             if (mv.lnodes[rel.source.fullname]) {
                 if (mv.rnodes[rel.target.fullname]) {
-                    sourceNode = mv.lnodes[rel.source.fullname];
-                    targetNode = mv.rnodes[rel.target.fullname];
+                    if(!fullcenter){
+                        sourceNode = mv.lnodes[rel.source.fullname];
+                        targetNode = mv.rnodes[rel.target.fullname];
+                    }else{
+                        sourceNode = mv.lnodes[rel.source.fullname];
+                        targetNode = mv.m1nodes[rel.target.fullname];
+                        var xtra = new bjs.link(sourceNode, targetNode, w.rels[i]);
+                        mv.links.push(xtra);
+                        sourceNode = mv.m2nodes[rel.source.fullname];
+                        targetNode = mv.rnodes[rel.target.fullname];
+                    }
                 }
                 else {
                     sourceNode = mv.lnodes[rel.source.fullname];
@@ -285,8 +296,8 @@ namespace bjs {
                 var l = new bjs.link(sourceNode, targetNode, rel);
                 mv.links.push(l);
             }
-
         }
+    
 
         return mv;
     }

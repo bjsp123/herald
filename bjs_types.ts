@@ -347,9 +347,11 @@ namespace bjs {
 	export class config{
 		public optimize:boolean=false;
 		public colorPlan:string="cat";
+		public linkColorPlan:string="nodecolor";
 		public summary:boolean=false;
 		public hilite:string="nothing";
 		public xorder:string="ldepth";
+		public color:any=d3.scale.category20();
 	}
 	
 	export interface view{

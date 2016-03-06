@@ -19,8 +19,6 @@ namespace bjs {
 		AXIS_HEIGHT = 950;
 		TOP_MARGIN = 50;
 		GROUPBAR_WIDTH = 20;
-		color = d3.scale.category10();
-
 		
 		svg:any = null;
 		config:bjs.config=null;
@@ -227,34 +225,26 @@ namespace bjs {
 					return d.source.fullname + d.target.fullname;
 
 				});
+				
+			var config = this.config;
 
 
 			links
 				.enter()
 				.append("path")
 				.attr("class", "link")
-				.attr("stroke",  bjs.getLinkColor);
+				.attr("stroke",  function(d){return bjs.getLinkColor(d, config);});
 
 
 			if (this.config.optimize) {
 				links
 					.transition()
-					.attr("d", function(d) {
-						return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-							"C " + (d.source.x + bundle_offs) + " " + d.source.y +
-							" " + (d.target.x - bundle_offs) + " " + d.target.y +
-							" " + d.target.x + " " + (d.target.y + Math.random() * 3);
-					});
+					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, false);});
 			}
 			else {
 				links
 					.transition()
-					.attr("d", function(d) {
-						return "M " + d.source.x + " " + (d.source.y + Math.random() * 3) +
-							"C " + (d.source.x + bundle_offs) + " " + (d.source.group.y + d.source.group.height/2) +
-							" " + (d.target.x - bundle_offs) + " " + (d.target.group.y + d.target.group.height/2) +
-							" " + d.target.x + " " + (d.target.y + Math.random() * 3);
-					});
+					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, true);});
 			}
 
 			links
@@ -266,9 +256,6 @@ namespace bjs {
 		private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>) {
 
 			var datarray = [];
-			
-			var color = this.color;//resolve 'this' at a good time. fuck's sake, javascript.
-			var config = this.config;
 
 			for (var y in data) {
 				datarray.push(data[y]);
@@ -290,7 +277,7 @@ namespace bjs {
 				.on("mouseover", this.groupMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawGroupBar(groups, groupsg, this.color, this.config);
+			bjs.drawGroupBar(groups, groupsg, this.config);
 			
 			var groupupdate = groups
 				.transition()
@@ -306,8 +293,6 @@ namespace bjs {
 
 		private renderChain(svg, conf, tag:string, data:bjs.node[], x:number):void {
 		
-			var color = this.color;
-			var config = this.config;
 
 			var axis = svg.selectAll(".axis." + tag)
 				.data([1]).enter()
@@ -335,7 +320,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodes, nodesg, color, config, this.NODE_R, true, (config.optimize && (x<400)));//approx way to decide whether to draw full name
+			bjs.drawNodes(nodes, nodesg, this.config, this.NODE_R, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
 			
 			var nodeupdate = nodes
 				.transition()
