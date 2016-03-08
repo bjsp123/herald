@@ -90,12 +90,14 @@ namespace bjs {
 	
 
 	private layout(mv:bjs.mv):void {
+		
+		var spacing = this.NODE_R*2;
 
 		var stax = {};
 		for (var fullname in mv.groups) {
 			var g = mv.groups[fullname];
 			g.x = this.xScale(this.xValue(g, this.config));
-			g.height = g.children.length * this.NODE_R + this.GROUP_PADDING;
+			g.height = g.children.length * spacing + this.GROUP_PADDING;
 			g.width = this.GROUPBAR_WIDTH;
 			if (stax[g.x] == null) {
 				stax[g.x] = this.TOP_MARGIN + g.height + this.GROUP_PADDING;
@@ -106,6 +108,8 @@ namespace bjs {
 				stax[g.x] += g.height + this.GROUP_PADDING;
 			}
 		}
+		
+		
 
 
 		//now do the y locations of nodes
@@ -115,7 +119,7 @@ namespace bjs {
 			var g = mv.groups[fullname];
 			for (var i = 0; i < g.children.length; ++i) {
 				var node = g.children[i];
-				node.y = g.y + i * this.NODE_R + this.NODE_R / 2 + this.GROUP_PADDING / 2;
+				node.y = g.y + i * spacing + this.NODE_R / 2 + this.GROUP_PADDING / 2;
 				node.x = g.x + this.GROUPBAR_WIDTH / 2;
 			}
 		}
@@ -225,9 +229,12 @@ namespace bjs {
 
 
 		var groupsupdate = groups
+			.transition()
 			.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
-			})
+			});
+			
+			groups
 			.call(d3.behavior.drag()
 				.origin(function(d) {
 					return d;
@@ -264,7 +271,7 @@ namespace bjs {
 		bjs.drawNodes(nodes, nodesg, this.config, this.NODE_R, false, false);
 
 		var nodeupdate = nodes
-			//.transition()
+			.transition()
 			.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});

@@ -14,9 +14,14 @@ namespace bjs {
 
 
     export function getNodeColor(config:bjs.config, n:bjs.node):string {
+    	if(config.focus != null && config.focus != ""){
+    		if(isFocus(n, config))
+    			return "red";
+    	}
+    		
         if (config.hilite=="critical" && n.field.flags && n.field.flags.indexOf("critical") != -1) return "red";
 
-        if (config.hilite == "untraced" && n.field.sources.length == 0 && n.field.formula == '') return "red"
+        if (config.hilite == "untraced" && n.field.effnolineage == true) return "red"
 
         if (n.group) {
             return getColorFromName(config, n.group.fullname);
@@ -27,6 +32,11 @@ namespace bjs {
     }
     
     export function getLinkColor(l:bjs.link, config:bjs.config):string {
+    	
+    	if(config.focus != null && config.focus != ""){
+    		if(isFocus(l.source, config))
+    			return "red";
+    	}
     	
     	switch(config.linkColorPlan){
     		case "linktype":
@@ -313,7 +323,6 @@ namespace bjs {
     
     
     export function drawNodes(nodesel:any, nodesenter:any, config:bjs.config, r:number, invisrect:boolean, longname:boolean):void{
-        //nodesenter.append("rect");
 		nodesenter.append("circle");
 		nodesenter.append("text");
 		
@@ -326,8 +335,6 @@ namespace bjs {
 			    case bjs.handed.left:
 			        return -20;
 			    case bjs.handed.right:
-			        return 20;
-			   case bjs.handed.leftright:
 			        return 20;
 			   case bjs.handed.low:
 			        return 0;
@@ -379,16 +386,6 @@ namespace bjs {
 			}
 			
 		}
-		
-        if(invisrect){
-        	/*
-    		nodesg.select("rect")
-    			.attr("class", "nodeinvis")
-    			.attr("x", x + (handed==bjs.handed.left ? -80 : 0))
-    			.attr("width", 80)
-    			.attr("height", 18)
-    			.attr("y", y);*/
-        }
 
 		nodesel.select("circle")
 			.attr("class", "node")
@@ -465,6 +462,38 @@ namespace bjs {
 	    }
 	    
 	    return rec;
+	}
+	
+	function isFocus(n:bjs.node, c:bjs.config):boolean {
+		
+		var s = c.focus;
+		if (s==null || s=="")
+			return false;
+			
+		var reg = new RegExp(s, 'i');
+		
+		if(reg.exec(n.field.fullname) != null)
+			return true;
+			
+		if(reg.exec(n.field.asset.type) != null)
+			return true;
+			
+		for(var i in n.field.ancestors){
+			if(reg.exec(n.field.ancestors[i].field.fullname) != null)
+				return true;
+			if(reg.exec(n.field.ancestors[i].field.asset.type) != null)
+				return true;
+		}
+		
+		for(var i in n.field.descendants){
+			if(reg.exec(n.field.descendants[i].field.fullname) != null)
+				return true;
+			if(reg.exec(n.field.descendants[i].field.asset.type) != null)
+				return true;
+		}
+		
+		return false;
+		
 	}
 	
 

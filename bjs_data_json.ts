@@ -26,7 +26,7 @@ namespace bjs_data_json{
 
 			if(isMatch(f, filter)){
 				bjs.lg_inf("Adding matched field " + f.fullname);
-				addFieldToWorld(w, world, f, filter, true);
+				addFieldToNewWorld(w, world, f, filter, true);
 			}else{
 				bjs.lg_inf("Rejecting nonmatched field " + f.fullname);
 			}
@@ -78,6 +78,7 @@ namespace bjs_data_json{
 			var ass = w.assets[assetfullname];
 
 			if(isSquashCompress(ass, squash)){
+				compressAsset(w, ass);
 			}
 		}
 
@@ -116,6 +117,40 @@ namespace bjs_data_json{
 
 		return changed;
 	}
+	
+	function compressAsset(w:bjs.world, ass:bjs.asset){
+		
+		bjs.lg_inf("Compressing asset " + ass.fullname);
+		
+		if(ass.children.length < 2)
+			return;
+			
+		var newfield = new bjs.field(ass.fullname+":all", "all", "placeholder", ass, null, "desc", "Placeholder representing many fields.", "logical", 1, 1, 0, "");
+		
+		addFieldToWorld(w, newfield);
+		
+		var desc = "Represents fields:\n";
+		var quality = 1;
+		var risk = 1;
+		
+		for(var i=0; i<w.fielda.length; ++i){
+			var f = w.fielda[i];
+
+			if(f.asset == ass && f.type != "placeholder"){
+				desc += f.name + "\n";
+				if(f.quality < quality) quality = f.quality;
+				if(f.risk > risk) risk = f.risk;
+				killAndRedirect(w, f, newfield);
+				--i;
+			}
+		}
+		
+		newfield.desc = desc;
+		newfield.quality = quality;
+		newfield.risk = risk;
+		ass.children = [newfield];
+		
+	}
 
 	function killAndBypass(w:bjs.world, f:bjs.field):void{
 
@@ -151,6 +186,32 @@ namespace bjs_data_json{
 
 		removeFieldFromWorld(w, f);
 	}
+	
+	function killAndRedirect(w:bjs.world, f:bjs.field, newfield:bjs.field):void{
+
+		bjs.lg_inf("Squashing and redirecting field " + f.fullname);
+
+		var newrels = [];
+
+		for(var i=0; i<w.rels.length;++i){
+			var rel=w.rels[i];
+			if(rel.source == f){
+				var newrel = new bjs.rel(newfield, rel.target, rel.type);
+					newrels.push(newrel);
+			}
+			if(rel.target == f){
+				var newrel = new bjs.rel(rel.source, newfield, rel.type);
+					newrels.push(newrel);
+			}
+		}
+
+		for(var i=0;i<newrels.length;++i){
+			w.rels.push(newrels[i]);
+		}
+
+		removeFieldFromWorld(w, f);
+	}
+
 
 	function removeFieldFromWorld(w:bjs.world, f:bjs.field):void{
 		var term = f.term;
@@ -186,7 +247,7 @@ namespace bjs_data_json{
 	}
 
 
-	function addFieldToWorld(w:bjs.world, world:bjs.world, f:bjs.field, filter:bjs.filter, directmatch:boolean):void{
+	function addFieldToNewWorld(w:bjs.world, world:bjs.world, f:bjs.field, filter:bjs.filter, directmatch:boolean):void{
 		if(w.fields[f.fullname]){
 			bjs.lg_inf("Duplicate field being ignored " + f.fullname);
 			return;
@@ -231,16 +292,46 @@ namespace bjs_data_json{
 			if(filter && filter.grab_left){
 				for(var fullname in f.ancestors){
 					bjs.lg_inf("Adding ancestor " + f.ancestors[fullname]);
-					addFieldToWorld(w, world, world.fields[fullname], filter, false);
+					addFieldToNewWorld(w, world, world.fields[fullname], filter, false);
 				}
 			}
 			if(filter && filter.grab_right){
 				bjs.lg_inf("Adding descendant " + f.descendants[fullname]);
 				for(var fullname in f.descendants){
-					addFieldToWorld(w, world, world.fields[fullname], filter, false);
+					addFieldToNewWorld(w, world, world.fields[fullname], filter, false);
 				}
 			}
 		}
+	}
+	
+	function addFieldToWorld(w:bjs.world, f:bjs.field):void{
+		if(w.fields[f.fullname]){
+			bjs.lg_inf("Duplicate field being ignored " + f.fullname);
+			return;
+		}
+
+		//add term
+		var term = f.term;
+		if(term){
+			var newterm = w.terms[f.term.fullname];
+			if(newterm==null)
+				bjs.lg_err("Tried to add field " + f.fullname + " but term " + f.term.name + " not found.");
+		}
+
+		//add asset
+		var asset = f.asset;
+		if(asset){
+			var newass = w.assets[f.asset.fullname];
+			if(newass==null)
+				bjs.lg_err("Tried to add field " + f.fullname + " but asset " + f.asset.fullname + " not found.");
+		}
+
+		w.fields[f.fullname] = f;
+		w.fielda.push(f);
+
+		if(newterm)newterm.children.push(f);
+		if(newass)newass.children.push(f);
+
 	}
 
 	function isSquashEliminate(field:bjs.field, squash:bjs.squash):boolean{

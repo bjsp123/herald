@@ -352,6 +352,7 @@ namespace bjs {
 		public hilite:string="nothing";
 		public xorder:string="ldepth";
 		public color:any=d3.scale.category20();
+		public focus:string="";
 	}
 	
 	export interface view{

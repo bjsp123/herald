@@ -124,6 +124,8 @@
       bjs.hover = mouseOverHandler;
 
       config = new bjs.config();
+      config.color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666"]);
+      config.focus = "Refin";
 
 
       d3.select("#kill_objpal").on("click", function(d) {
@@ -173,6 +175,7 @@
         var el_fields = $("#ctrl_el_fields").val().trim();
         var el_assets = $("#ctrl_el_assets").val().trim();
         var el_internal = $("#ctrl_el_internal")[0].checked;
+        var cr_assets = $("#ctrl_cr_assets").val().trim();
         
         theSquash = new bjs.squash(el_fields, el_assets, cr_assets, el_internal);
 
@@ -709,6 +712,14 @@
           </td>
           <td>
             <input type="text" name="ctrl_el_assets" id="ctrl_el_assets" value="" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="ctrl_exc">Compress Assets</label>
+          </td>
+          <td>
+            <input type="text" name="ctrl_cr_assets" id="ctrl_cr_assets" value="" />
           </td>
         </tr>
         <tr>
