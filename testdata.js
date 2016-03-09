@@ -4,6 +4,168 @@ testdata.raw =
 
     {
         raw: [{
+            "fullname": "MIS.BCBS.Dashboard:Retail_UpToDate",
+            "conceptname": "",
+            "desc": "Sum of balances not in arrears.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:Retail_Arrears_1M",
+            "conceptname": "",
+            "desc": "Sum of balances <1 month in arrears.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:Retail_Arrears_2M",
+            "conceptname": "",
+            "desc": "Sum of balances 1-2 months in arrears.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:Retail_Arrears_3M",
+            "conceptname": "",
+            "desc": "Sum of balances 3+ months in arrears.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:All_UpToDate",
+            "conceptname": "",
+            "desc": "Sum of balances not in arrears, retail and BB.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:All_Arrears_1M",
+            "conceptname": "",
+            "desc": "Sum of balances <1 month in arrears, retail and BB.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+             "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:All_Arrears_2M",
+            "conceptname": "",
+            "desc": "Sum of balances 1-2 months in arrears, retail and BB.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
+        }, {
+            "fullname": "MIS.BCBS.Dashboard:All_Arrears_3M",
+            "conceptname": "",
+            "desc": "Sum of balances 3+ months in arrears, retail and BB.",
+            "formula": "Balance filtered by arrears amount.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 3,
+            "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
+            "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
+        }, {
+            "fullname": "MIS.Staging.Retail:DrawnBalance",
+            "conceptname": "",
+            "desc": "Loan drawn balance after manual adjustment.",
+            "formula": "Balance plus adjustment.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Retail.Balances:DrawnBalance"],
+            "usesfilter": []
+        }, {
+            "fullname": "MIS.Staging.SmallBusiness:DrawnBalance",
+            "conceptname": "",
+            "desc": "Loan drawn balance for small businesses.",
+            "formula": "Balance plus adjustment.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Retail.Balances:DrawnBalance", "MIS.Staging.SB_Adjust:DrawnBalance"],
+            "usesfilter": []
+        }, {
+            "fullname": "MIS.Staging.SB_Adjust:DrawnBalance",
+            "conceptname": "",
+            "desc": "Adjustments to balances reflecting forbearances, writeoffs, etc.  Delivered via email from relationship managers.",
+            "formula": "",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "MIS.Staging.SmallBusiness:DaysPastDue",
+            "conceptname": "",
+            "desc": "Number of business days since last required complete payment.",
+            "formula": "Taken directly from balances Last Payment Date.",
+            "type": "Enumeration",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Retail.Balances:LastPaymentDate"],
+            "usesfilter": []
+        }, {
+            "fullname": "MIS.Staging.Retail:DaysPastDue",
+            "conceptname": "",
+            "desc": "Number of business days since last required complete payment.",
+            "formula": "Taken directly from balances Last Payment Date.",
+            "type": "Enumeration",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Retail.Balances:LastPaymentDate"],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Retail.Balances:LastPaymentDate",
+            "conceptname": "",
+            "desc": "Number of business days since last required complete payment.",
+            "formula": "Function of current month end and last payment date.",
+            "type": "Enumeration",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Retail.Accounts:LastPaymentDate"],
+            "usesfilter": []
+        }, {
             "fullname": "MIS.BCBS.CreditRisk:Exposure",
             "conceptname": "",
             "desc": "Measure: exposure amount.",
@@ -310,6 +472,17 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         }, {
+            "fullname": "Core.Retail.Accounts:LastPaymentDate",
+            "conceptname": "",
+            "desc": "Date of last payment.",
+            "formula": "",
+            "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
             "fullname": "Core.Retail.Accounts:Funded",
             "conceptname": "",
             "desc": "Funded amount on the account -- this should equal the finance figure.",
@@ -446,10 +619,56 @@ testdata.raw =
             "usesfilter": []
         }],
         sources: [{
+            "fullname": "MIS.Staging.Retail",
+            "desc": "Staging area for retail dashboard fields.",
+            "location": "/va_server/hdfs_export/datamarts/cr",
+            "type": "SAS VA",
+            "owner": "Amos_Quito",
+            "dept": "Credit_Risk",
+            "calc": "/server2/code/bi_code",
+            "latency": 1
+        }, {
+            "fullname": "MIS.Staging.Retail",
+            "desc": "Staging area for retail dashboard fields.",
+            "location": "/va_server/hdfs_export/datamarts/cr",
+            "type": "SAS VA",
+            "owner": "Amos_Quito",
+            "dept": "Credit_Risk",
+            "calc": "/server2/code/bi_code",
+            "latency": 1
+        }, {
+            "fullname": "MIS.Staging.SmallBusiness",
+            "desc": "Staging area for BB dashboard fields.",
+            "location": "/va_server/hdfs_export/datamarts/cr",
+            "type": "SAS VA",
+            "owner": "Amos_Quito",
+            "dept": "Credit_Risk",
+            "calc": "/server2/code/bi_code",
+            "latency": 1
+        }, {
+            "fullname": "MIS.Staging.SB_Adjust",
+            "desc": "Adjustments file brought in to fix up dashboard.",
+            "location": "P:/crmaterial/monthly/adjustments_sheets",
+            "type": "Excel",
+            "owner": "n/a",
+            "dept": "Credit_Risk",
+            "calc": "n/a",
+            "risk": 1.4,
+            "notbefore": 6
+        }, {
+            "fullname": "MIS.BCBS.Dashboard",
+            "desc": "Senior management dashboard.",
+            "location": "/va_server/hdfs_export/datamarts/cr",
+            "type": "SAS VA",
+            "owner": "Amos_Quito",
+            "dept": "Credit_Risk",
+            "calc": "/server2/code/bi_code",
+            "latency": 1
+        }, {
             "fullname": "MIS.BCBS.CreditRisk",
             "desc": "Data mart for ad-hoc queries as part of BCBS 239 response.",
             "location": "/va_server/hdfs_export/datamarts/cr",
-            "type": "SAS VA Dataset",
+            "type": "SAS VA",
             "owner": "Amos_Quito",
             "dept": "Credit_Risk",
             "calc": "/server2/code/bi_code",

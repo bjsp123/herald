@@ -357,7 +357,10 @@ namespace bjs {
             g.leaves = [];
 
             for (var j = 0; j < ass.children.length; ++j) {
-                g.leaves.push(mv.nodes[ass.children[j].fullname].cola_index);
+                var n:bjs.node = mv.nodes[ass.children[j].fullname];
+                g.leaves.push(n.cola_index);
+                g.children.push(n);
+                n.group = g;
             }
 
             if (g.leaves.length > 0) {

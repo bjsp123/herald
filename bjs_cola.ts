@@ -39,7 +39,7 @@ namespace bjs {
 
 		public render(svg, w:bjs.world, c:bjs.config):void {
 
-			this.optimize = c["this.optimize"] > 0;
+			this.optimize = c.optimize;
 
 			var mv = bjs.makeColaGraph(this, w);
 			
@@ -52,9 +52,26 @@ namespace bjs {
 
 			var powerGraph = null;
 
+			var constraints = [];
+
+			for (var i = 0; i < mv.groupa.length; ++i){
+				var con:any = { type: "alignment", axis: "x", offsets: [] };
+				for (var j = 0; j < mv.groupa[i].children.length; ++j){
+					con.offsets.push({ node: mv.groupa[i].children[j].cola_index, offset: 0 });
+				}
+				//constraints.push(con);
+			}
+
+			for (var i = 0; i < mv.colalinks.length; ++i){
+				var l = mv.colalinks[i];
+				var con:any = { axis: "x", left: l.source, right: l.target, gap: 140 };
+				constraints.push(con);
+			}
+
+
 			//omg omg
 			this.coke = cola.d3adaptor()
-				.linkDistance(100)
+				//.linkDistance(200)
 				.avoidOverlaps(true)
 				.handleDisconnected(false)
 				.size([this.TOTAL_WIDTH, this.TOTAL_HEIGHT]);
@@ -71,10 +88,11 @@ namespace bjs {
 			}
 			else {
 				this.coke
-					.flowLayout('x', 300)
+					//.flowLayout('x', 300)
 					.nodes(mv.nodea)
 					.links(mv.colalinks)
 					.groups(mv.groupa)
+					.constraints(constraints)
 					.start(150, 130, 120);
 			}
 
@@ -92,7 +110,7 @@ namespace bjs {
 					g.padding = this.GROUP_PADDING;
 				},this);
 				powerGraph.powerEdges.forEach(function(g) {
-					g.id = g.source.fullname + ":" + g.target.fullname;
+					g.id = this.makeIdForGroup(g);
 				},this);
 			}
 
@@ -211,6 +229,30 @@ namespace bjs {
 			nodes.call(dragListener);
 
 
+		}
+
+		private makeIdForGroup(g: any):string {
+			var id = "";
+
+			if(g.source.fullname != null) {
+				id += g.source.fullname;
+			}else{
+				for(var i= 0;i<g.source.leaves.length;++i){
+					id+="s"+g.source.leaves[i].cola_index;
+				}
+			}
+
+			id += ":";
+
+			if (g.target.fullname != null) {
+				id += g.target.fullname;
+			} else {
+				for (var i = 0; i < g.target.leaves.length; ++i) {
+					id += "t"+g.target.leaves[i].cola_index;
+				}
+			}
+
+			return id;
 		}
 
 		private getEventPos() {

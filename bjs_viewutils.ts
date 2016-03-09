@@ -103,6 +103,7 @@ namespace bjs {
     }
 
     export function shortenString(str:string, len:number):string {
+		if (str == null) return "";
         if (str.length <= len) return str;
 
         var bit = len / 2 - 1;
