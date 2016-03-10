@@ -11,9 +11,9 @@
 	
 	
 	.info {
-		border-style: solid;
-		border-width: 1px;
-		background-color: #eee;
+		xborder-style: solid;
+		xborder-width: 1px;
+		xbackground-color: #eee;
 		margin-bottom: 10px;
 		font-size: 12;
 		padding-left:15px;
@@ -102,8 +102,8 @@
 	/* svg panel */
 	
 	#mycontent {
-		width: 100%;
-		height: 100%;
+		width: 1200px;
+		height: 1200px;
 		border-style: solid;
 		border-width: 1px;
 		overflow: scroll;

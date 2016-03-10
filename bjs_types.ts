@@ -326,7 +326,7 @@ namespace bjs {
 
 	export class filter{
 		
-		constructor(public inc: string="", public exc: string="", public inc_rels: string="", public exc_rels: string="", public only_crit: boolean=false, public grab_left: boolean=true, public grab_right: boolean=true){
+		constructor(public inc: string="", public exc: string="", public inc_rels: string="", public exc_rels: string="", public grab_left: boolean=true, public grab_right: boolean=true){
 			this.inc = this.inc.trim();
 			this.exc = this.exc.trim();
 			this.inc_rels = this.inc_rels.trim();
