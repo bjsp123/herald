@@ -7,7 +7,7 @@
 	#menu {
 		width: 100%;
 		/*margin: 60px auto;*/
-		border: 1px solid #222;
+		xborder: 1px solid #222;
 		background-color: #111;
 		background-image: -moz-linear-gradient(#00708e, #00a79f); 
 		background-image: -webkit-gradient(linear, left top, left bottom, from(#00708e), to(#00a79f));	
@@ -15,9 +15,9 @@
 		background-image: -o-linear-gradient(#00708e, #00a79f);
 		background-image: -ms-linear-gradient(#00708e, #00a79f);
 		background-image: linear-gradient(#00708e, #00a79f);
-		-moz-border-radius: 6px;
-		-webkit-border-radius: 6px;
-		border-radius: 6px;
+		x-moz-border-radius: 6px;
+		x-webkit-border-radius: 6px;
+		xborder-radius: 6px;
 		-moz-box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
 		-webkit-box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
 		box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
@@ -85,7 +85,7 @@
 		box-shadow: 0 -1px 0 rgba(255,255,255,.3);	
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
-		border-radius: 3px;
+		xborder-radius: 3px;
 		-webkit-transition: all .2s ease-in-out;
 		-moz-transition: all .2s ease-in-out;
 		-ms-transition: all .2s ease-in-out;

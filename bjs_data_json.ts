@@ -366,12 +366,6 @@ namespace bjs_data_json{
 
 	function isMatch(field:bjs.field, filter:bjs.filter):boolean{
 
-		if (filter.only_crit) {
-			if(!(field.flags && field.flags.indexOf("critical") != -1))
-				return false;
-			
-		}
-
 		if (filter.inc != "") {
 			
 			var reg = new RegExp(filter.inc, 'i');

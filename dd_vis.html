@@ -1,37 +1,37 @@
 <html>
 
 <head>
-  <title>Lucid Lineage</title>
+	<title>Lucid Lineage</title>
 
 
-  <link rel="stylesheet" href="dd_styles.css">
-    <link rel="stylesheet" href="lib/menu.css">
-
-  <script src="lib/jquery.js"></script>
-  <script src="lib/jquery-ui.js"></script>
-  
-  <link rel="stylesheet" href="lib/jquery_base.css">
-	<link rel="stylesheet" href="lib/jquery_style.css">
-  
-
-  
-  <script src="lib/touchpunch.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/herald/easyui.css">
+	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/icon.css">
+	
+	<script type="text/javascript" src="lib/jeasy/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/jeasy/jquery.easyui.min.js"></script>
 
 
-  <script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
 
-  <script type="text/javascript" src="lib/cola.js"></script>
-  <script type="text/javascript" src="lib/thenBy.js"></script>
+	<link rel="stylesheet" href="dd_styles.css">
+	<link rel="stylesheet" href="lib/menu.css">
 
-  <script type="text/javascript" src="lucid.js"></script>
+	<script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
+	<script type="text/javascript" src="lib/cola.js"></script>
+	<script type="text/javascript" src="lib/thenBy.js"></script>
 
-  <script type="text/javascript" src="testdata.js"></script>
+	<script type="text/javascript" src="lucid.js"></script>
+	<script type="text/javascript" src="testdata.js"></script>
 
+	<script>
+		/*global d3*/
+		/*global bjs*/
+		/*global testdata*/
 
-  <script>
-    /*global d3*/
-    /*global bjs*/
-    /*global testdata*/
+		/*
+		linear-gradient(to left, rgb(0, 118, 150), rgb(0, 169, 157))
+		#007696
+		#00A99D
+		*/
 
     //global selections
     var svg = {};
@@ -43,882 +43,734 @@
     var theSquash = new bjs.squash();
     
     function shSquash(){
-      if ($('#squashpal').css('visibility') == 'hidden')
-          $('#squashpal').css('visibility', 'visible');
-        else
-          $('#squashpal').css('visibility', 'hidden');
+    	if ($('#squashpal').css('visibility') == 'hidden')
+    		$('#squashpal').css('visibility', 'visible');
+    	else
+    		$('#squashpal').css('visibility', 'hidden');
     }
     
     function shFilter(){
-      if ($('#filterpal').css('visibility') == 'hidden')
-          $('#filterpal').css('visibility', 'visible');
-        else
-          $('#filterpal').css('visibility', 'hidden');
+    	if ($('#filterpal').css('visibility') == 'hidden')
+    		$('#filterpal').css('visibility', 'visible');
+    	else
+    		$('#filterpal').css('visibility', 'hidden');
     }
     
     function shData(){
-      if ($('#datapal').css('visibility') == 'hidden')
-          $('#datapal').css('visibility', 'visible');
-        else
-          $('#datapal').css('visibility', 'hidden');
+    	if ($('#datapal').css('visibility') == 'hidden')
+    		$('#datapal').css('visibility', 'visible');
+    	else
+    		$('#datapal').css('visibility', 'hidden');
     }
     
     function shObj(){
-      if ($('#objpal').css('visibility') == 'hidden')
-          $('#objpal').css('visibility', 'visible');
-        else
-          $('#objpal').css('visibility', 'hidden');
+    	if ($('#objpal').css('visibility') == 'hidden')
+    		$('#objpal').css('visibility', 'visible');
+    	else
+    		$('#objpal').css('visibility', 'hidden');
     }
 
     function shVis(){
-      if ($('#vispal').css('visibility') == 'hidden')
-          $('#vispal').css('visibility', 'visible');
-        else
-          $('#vispal').css('visibility', 'hidden');
+    	if ($('#vispal').css('visibility') == 'hidden')
+    		$('#vispal').css('visibility', 'visible');
+    	else
+    		$('#vispal').css('visibility', 'hidden');
     }
     
-        
+
     function shBipart(){
-        bip = new bjs.bp_view();
-        clear();
-        refresh();
+    	bip = new bjs.bp_view();
+    	clear();
+    	refresh();
     }
     
     function shHive(){
-        bip = new bjs.hive_view();
-        clear();
-        refresh();
+    	bip = new bjs.hive_view();
+    	clear();
+    	refresh();
     }
 
-  function shMatrix(){
-        bip = new bjs.cm_view();
-        clear();
-        refresh();
+    function shMatrix(){
+    	bip = new bjs.cm_view();
+    	clear();
+    	refresh();
     }
     
     function shFlow(){
-        bip = new bjs.flow_view();
-        clear();
-        refresh();
+    	bip = new bjs.flow_view();
+    	clear();
+    	refresh();
     }
     
     function shCola(){
-        bip = new bjs.cola_view();
-        clear();
-        refresh();
+    	bip = new bjs.cola_view();
+    	clear();
+    	refresh();
     }
     
     function shTree(){
-        bip = new bjs.tree_view();
-        clear();
-        refresh();
+    	bip = new bjs.tree_view();
+    	clear();
+    	refresh();
     }
 
 
     function init() {
 
-      $('.palette').draggable().resize();
+    	$('.palette').draggable().resize();
 
-      svg = d3.select("svg");
+    	svg = d3.select("svg");
 
-      bjs.hover = mouseOverHandler;
+    	bjs.hover = mouseOverHandler;
 
-      config = new bjs.config();
-      config.color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666"]);
-      config.focus = "Refin";
-
-
-      d3.select("#kill_objpal").on("click", function(d) {
-        $("#objpal").css('visibility', 'hidden')
-      });
-      d3.select("#kill_squashpal").on("click", function(d) {
-        $("#squashpal").css('visibility', 'hidden')
-      });
-      d3.select("#kill_datapal").on("click", function(d) {
-        $("#datapal").css('visibility', 'hidden')
-      });
-      d3.select("#kill_filterpal").on("click", function(d) {
-        $("#filterpal").css('visibility', 'hidden')
-      });
-      d3.select("#kill_vispal").on("click", function(d) {
-        $("#vispal").css('visibility', 'hidden')
-      });
-
-      d3.select("#input_json_btn").on("click", function(d) {
-        rawJson = JSON.parse($("#input_json").val());
-        refresh();
-      });
-
-      d3.select("#input_test_btn").on("click", function(d) {
-        rawJson = testdata.raw;
-        refresh();
-      });
+    	config = new bjs.config();
+    	config.color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666"]);
+    	config.focus = "Refin";
 
 
-      d3.select("#ctrl_filter_btn").on("click", function(d) {
+    	d3.select("#kill_objpal").on("click", function(d) {
+    		$("#objpal").css('visibility', 'hidden')
+    	});
+    	d3.select("#kill_squashpal").on("click", function(d) {
+    		$("#squashpal").css('visibility', 'hidden')
+    	});
+    	d3.select("#kill_datapal").on("click", function(d) {
+    		$("#datapal").css('visibility', 'hidden')
+    	});
+    	d3.select("#kill_filterpal").on("click", function(d) {
+    		$("#filterpal").css('visibility', 'hidden')
+    	});
+    	d3.select("#kill_vispal").on("click", function(d) {
+    		$("#vispal").css('visibility', 'hidden')
+    	});
 
-        var inc = $("#ctrl_inc").val().trim();
-        var exc = $("#ctrl_exc").val().trim();
-        var inc_rels = $("#ctrl_inc_left").val().trim();
-        var exc_rels = $("#ctrl_exc_left").val().trim();
-        var only_crit = $("#ctrl_only_crit")[0].checked;
-        var grab_left = $("#ctrl_grab_left")[0].checked;
-        var grab_right = $("#ctrl_grab_right")[0].checked;
-        
-        theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, only_crit, grab_left, grab_right);
+    	d3.select("#input_json_btn").on("click", function(d) {
+    		rawJson = JSON.parse($("#input_json").val());
+    		refresh();
+    	});
 
-        refresh();
-      });
+    	d3.select("#input_test_btn").on("click", function(d) {
+    		rawJson = testdata.raw;
+    		refresh();
+    	});
 
-      d3.select("#ctrl_squash_btn").on("click", function(d) {
 
-        var el_fields = $("#ctrl_el_fields").val().trim();
-        var el_assets = $("#ctrl_el_assets").val().trim();
-        var el_internal = $("#ctrl_el_internal")[0].checked;
-        var cr_assets = $("#ctrl_cr_assets").val().trim();
-        
-        theSquash = new bjs.squash(el_fields, el_assets, cr_assets, el_internal);
+    	d3.select("#ctrl_filter_btn").on("click", function(d) {
 
-        refresh();
-      });
+    		var inc = $("#ctrl_inc").val().trim();
+    		var exc = $("#ctrl_exc").val().trim();
+    		var inc_rels = $("#ctrl_inc_left").val().trim();
+    		var exc_rels = $("#ctrl_exc_left").val().trim();
+    		var grab_left = $("#ctrl_grab_left")[0].checked;
+    		var grab_right = $("#ctrl_grab_right")[0].checked;
 
-      d3.select("#ctrl_squash_clear_btn").on("click", function(d) {
-        theSquash = new bjs.squash();
+    		theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, grab_left, grab_right);
 
-        refresh();
-      });
+    		refresh();
+    	});
 
-      d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
-        theFilter = new bjs.filter();
+    	d3.select("#ctrl_squash_btn").on("click", function(d) {
 
-        refresh();
-      });
-      
-      d3.select("#ctrl_xo_l").on("click", function(d) {
-        config.xorder="ldepth";
-        redraw();
-      });
+    		var el_fields = $("#ctrl_el_fields").val().trim();
+    		var el_assets = $("#ctrl_el_assets").val().trim();
+    		var el_internal = $("#ctrl_el_internal")[0].checked;
+    		var cr_assets = $("#ctrl_cr_assets").val().trim();
 
-      d3.select("#ctrl_xo_r").on("click", function(d) {
-        config.xorder="rdepth";
-        redraw();
-      });
-      
-      d3.select("#ctrl_xo_t").on("click", function(d) {
-        config.xorder="notbefore";
-        redraw();
-      });
+    		theSquash = new bjs.squash(el_fields, el_assets, cr_assets, el_internal);
 
-      d3.select("#ctrl_opt_1").on("click", function(d) {
-        config.optimize=true;
-        redraw();
-      });
+    		refresh();
+    	});
 
-      d3.select("#ctrl_opt_0").on("click", function(d) {
-        config.optimize=false;
-        redraw();
-      });
+    	d3.select("#ctrl_squash_clear_btn").on("click", function(d) {
+    		theSquash = new bjs.squash();
 
-      d3.select("#ctrl_detail_summary").on("click", function(d) {
-        config.summary=true;
-        redraw();
-      });
+    		refresh();
+    	});
 
-      d3.select("#ctrl_detail_nodes").on("click", function(d) {
-       config.summary=false;
-        redraw();
-      });
+    	d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
+    		theFilter = new bjs.filter();
 
-      d3.select("#ctrl_color_pkg").on("click", function(d) {
-        config.colorPlan="pkg";
-        redraw();
-      });
+    		refresh();
+    	});
 
-      d3.select("#ctrl_color_cat").on("click", function(d) {
-        config.colorPlan="cat";
-        redraw();
-      });
+    	d3.select("#ctrl_xo_l").on("click", function(d) {
+    		config.xorder="ldepth";
+    		redraw();
+    	});
 
-      d3.select("#ctrl_hi_crit").on("click", function(d) {
-        config.hilite = "critical";
-        redraw();
-      });
+    	d3.select("#ctrl_xo_r").on("click", function(d) {
+    		config.xorder="rdepth";
+    		redraw();
+    	});
 
-      d3.select("#ctrl_hi_untraced").on("click", function(d) {
-        config.hilite = "untraced";
-        redraw();
-      });
+    	d3.select("#ctrl_xo_t").on("click", function(d) {
+    		config.xorder="notbefore";
+    		redraw();
+    	});
 
-      d3.select("#ctrl_hi_nothing").on("click", function(d) {
-        config.hilite = "nothing";
-        redraw();
-      });
+    	d3.select("#ctrl_opt_1").on("click", function(d) {
+    		config.optimize=true;
+    		redraw();
+    	});
 
-      arrangePalettes();
+    	d3.select("#ctrl_opt_0").on("click", function(d) {
+    		config.optimize=false;
+    		redraw();
+    	});
 
-      rawJson = testdata.raw;
-      refresh();
+    	d3.select("#ctrl_detail_summary").on("click", function(d) {
+    		config.summary=true;
+    		redraw();
+    	});
+
+    	d3.select("#ctrl_detail_nodes").on("click", function(d) {
+    		config.summary=false;
+    		redraw();
+    	});
+
+    	d3.select("#ctrl_color_pkg").on("click", function(d) {
+    		config.colorPlan="pkg";
+    		redraw();
+    	});
+
+    	d3.select("#ctrl_color_cat").on("click", function(d) {
+    		config.colorPlan="cat";
+    		redraw();
+    	});
+
+    	d3.select("#ctrl_hi_crit").on("click", function(d) {
+    		config.hilite = "critical";
+    		redraw();
+    	});
+
+    	d3.select("#ctrl_hi_untraced").on("click", function(d) {
+    		config.hilite = "untraced";
+    		redraw();
+    	});
+
+    	d3.select("#ctrl_hi_nothing").on("click", function(d) {
+    		config.hilite = "nothing";
+    		redraw();
+    	});
+
+    	arrangePalettes();
+
+    	rawJson = testdata.raw;
+    	refresh();
 
 
     }
 
     function arrangePalettes() {
-      $('#filterpal').css('visibility', 'visible');
-      $('#squashpal').css('visibility', 'visible');
-      $('#vispal').css('visibility', 'visible');
-      $('#objpal').css('visibility', 'visible');
-      $('#datapal').css('visibility', 'hidden');
+    	$('#filterpal').css('visibility', 'visible');
+    	$('#squashpal').css('visibility', 'visible');
+    	$('#vispal').css('visibility', 'visible');
+    	$('#objpal').css('visibility', 'visible');
+    	$('#datapal').css('visibility', 'hidden');
 
-      $("#filterpal").position({
-        my: "right-20 top-20",
-        at: "right bottom",
-        of: "#menu",
-        within: "#mycontent",
-        collision: "fit"
-      });
-      $("#objpal").position({
-        my: "right-5 top",
-        at: "left top",
-        of: "#filterpal",
-        collision: "fit"
-      });
-      $("#squashpal").position({
-        my: "left top+5",
-        at: "left bottom",
-        of: "#filterpal",
-        collision: "fit"
-      });
-      $("#vispal").position({
-       my: "left top+5",
-        at: "left bottom",
-        of: "#squashpal",
-        collision: "fit"
-      });
-      $("#datapal").position({
-        my: "left top+5",
-        at: "left bottom",
-        of: "#objpal",
-        collision: "fit"
-      });
+    	$("#filterpal").position({
+    		my: "right-20 top-20",
+    		at: "right bottom",
+    		of: "#menu",
+    		within: "#mycontent",
+    		collision: "fit"
+    	});
+    	$("#objpal").position({
+    		my: "right-5 top",
+    		at: "left top",
+    		of: "#filterpal",
+    		collision: "fit"
+    	});
+    	$("#squashpal").position({
+    		my: "left top+5",
+    		at: "left bottom",
+    		of: "#filterpal",
+    		collision: "fit"
+    	});
+    	$("#vispal").position({
+    		my: "left top+5",
+    		at: "left bottom",
+    		of: "#squashpal",
+    		collision: "fit"
+    	});
+    	$("#datapal").position({
+    		my: "left top+5",
+    		at: "left bottom",
+    		of: "#objpal",
+    		collision: "fit"
+    	});
     }
 
 
     function refresh() {
-      w = bjs_data_json.fromJson(rawJson, theFilter, theSquash);
-      updateDataSummary(w);
-      redraw();
+    	w = bjs_data_json.fromJson(rawJson, theFilter, theSquash);
+    	updateDataSummary(w);
+    	redraw();
     }
 
 
     function redraw() {
-      mouseOverHandler(null);
-      bip.render(svg, w, config);
+    	mouseOverHandler(null);
+    	bip.render(svg, w, config);
     }
 
     function clear() {
-      d3.selectAll("svg > *").remove();
+    	d3.selectAll("svg > *").remove();
     }
 
 
     $(document).ready(function() {
-      bip = new bjs.bp_view();
-      init();
+    	bip = new bjs.bp_view();
+    	init();
     });
 
     function updateDataSummary(w) {
 
-      var txt = "";
+    	var txt = "";
 
-      var fields = 0,
-        outs = 0,
-        ins = 0,
-        mids = 0,
-        orphs = 0;
+    	var fields = 0,
+    	outs = 0,
+    	ins = 0,
+    	mids = 0,
+    	orphs = 0;
 
-      for (var i in w.fields) {
-        var f = w.fields[i];
-        if (f.hasSources) {
-          f.hasTargets ? mids++ : outs++;
-        }
-        else {
-          f.hasTargets ? ins++ : orphs++;
-        }
-        fields++;
-      }
+    	for (var i in w.fields) {
+    		var f = w.fields[i];
+    		if (f.hasSources) {
+    			f.hasTargets ? mids++ : outs++;
+    		}
+    		else {
+    			f.hasTargets ? ins++ : orphs++;
+    		}
+    		fields++;
+    	}
 
-      txt += fields + " fields.<br/>";
-      txt += w.rels.length + " links.<br/><br/>";
+    	txt += fields + " fields.<br/>";
+    	txt += w.rels.length + " links.<br/><br/>";
 
-      txt += "Output fields: " + outs + "<br/>";
-      txt += "Input fields: " + ins + "<br/>";
-      txt += "Intermediate fields: " + mids + "<br/>";
-      txt += "Orphan fields: " + orphs + "<br/>";
+    	txt += "Output fields: " + outs + "<br/>";
+    	txt += "Input fields: " + ins + "<br/>";
+    	txt += "Intermediate fields: " + mids + "<br/>";
+    	txt += "Orphan fields: " + orphs + "<br/>";
 
 
-      d3.select("#data_summary").html(txt);
+    	d3.select("#data_summary").html(txt);
     }
 
     function mouseOverHandler(d) {
 
-      var name = "",
-        summary = "",
-        details = "";
+    	var name = "",
+    	summary = "",
+    	details = "";
 
-      if (d != null) {
+    	if (d != null) {
 
 
-        if (d.itemtype == "node") {
-          name = "Field " + d.field.name;
+    		if (d.itemtype == "node") {
+    			name = "Field " + d.field.name;
 
-          summary += d.field.desc + "<br/>";
-          summary += "Type: " + d.field.fieldtype + "<br/>";
-          summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
-          summary += "Criticality: " + d.field.critical + "<br/>";
-          summary += (d.field.term == null)?"Not associated with a business term":"Term: " + d.field.term.name;
+    			summary += d.field.desc + "<br/>";
+    			summary += "Type: " + d.field.fieldtype + "<br/>";
+    			summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
+    			summary += "Criticality: " + d.field.critical + "<br/>";
+    			summary += (d.field.term == null)?"Not associated with a business term":"Term: " + d.field.term.name;
 
-          details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
+    			details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
 
-          details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + " (" + d.field.risk + " inherent, " + d.field.asset.risk + " from asset, " + (d.field.effrisk-(d.field.risk + d.field.asset.risk)) + " from upstream)</li>";
-          details += "<li>Quality: " + (d.field.effquality*100).toPrecision(2) + "% (" + (d.field.quality*100).toPrecision(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toPrecision(2) + " from upstream)</li>";
-          details += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
+    			details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + " (" + d.field.risk + " inherent, " + d.field.asset.risk + " from asset, " + (d.field.effrisk-(d.field.risk + d.field.asset.risk)) + " from upstream)</li>";
+    			details += "<li>Quality: " + (d.field.effquality*100).toPrecision(2) + "% (" + (d.field.quality*100).toPrecision(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toPrecision(2) + " from upstream)</li>";
+    			details += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
 
-          details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
-          
-          if(d.field.term != null){
-            details += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
-          }else{
-            details += "Not associated with a business term";
-          }
-        
-        }
+    			details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
 
-        if (d.itemtype == "group") {
-          name = "Group " + d.fullname;
+    			if(d.field.term != null){
+    				details += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
+    			}else{
+    				details += "Not associated with a business term";
+    			}
 
-          summary += d.asset.desc + "<br/>";
-          summary += "Type: " + d.asset.type + "<br/>";
+    		}
 
-          if(d.asset != null){
+    		if (d.itemtype == "group") {
+    			name = "Group " + d.fullname;
 
-            details += "<h3>Content:</h3><ul><li>Description: " + d.asset.desc + "</li><li>Located At: " + bjs.breakPath(d.asset.location) +  + "</li><li>Calculated In: " + bjs.breakPath(d.asset.calc) + "</li></ul>";
+    			summary += d.asset.desc + "<br/>";
+    			summary += "Type: " + d.asset.type + "<br/>";
 
-            details += "<h3>Ownership:</h3><ul><li>Staff member: " + d.asset.owner + "</li><li>Team: " + d.asset.dept + "</li></ul>";
+    			if(d.asset != null){
 
-            details += "<h3>Risk Characteristics:</h3><ul><li>Direct Risk: " + d.asset.risk + "</li></ul>";
+    				details += "<h3>Content:</h3><ul><li>Description: " + d.asset.desc + "</li><li>Located At: " + bjs.breakPath(d.asset.location) +  + "</li><li>Calculated In: " + bjs.breakPath(d.asset.calc) + "</li></ul>";
 
-            details += "<h3>Timing Characteristics:</h3><ul><li>Available From:  Day " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + " Days </li><li>Theoretical Earliest: Day " + d.asset.notbefore + "</li></ul>";
-            
-            details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.asset.ldepth + "</li><li>Rdepth: " + d.asset.rdepth + "</li></ul>";
-            }
-          
-          else {
-            summary = "Group is not based on a data asset";
-            details = "n/a";
-          }
+    				details += "<h3>Ownership:</h3><ul><li>Staff member: " + d.asset.owner + "</li><li>Team: " + d.asset.dept + "</li></ul>";
 
-        }
-      } else {
-        name = "<br/>";
-        summary = "<br/><br/><br/>";
-        details = "<br/>";
-      }
+    				details += "<h3>Risk Characteristics:</h3><ul><li>Direct Risk: " + d.asset.risk + "</li></ul>";
 
-      d3.select("#object_name").html(name);
-      d3.select("#object_summary").html(summary);
-      d3.select("#object_details").html(details);
+    				details += "<h3>Timing Characteristics:</h3><ul><li>Available From:  Day " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + " Days </li><li>Theoretical Earliest: Day " + d.asset.notbefore + "</li></ul>";
+
+    				details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.asset.ldepth + "</li><li>Rdepth: " + d.asset.rdepth + "</li></ul>";
+    			}
+
+    			else {
+    				summary = "Group is not based on a data asset";
+    				details = "n/a";
+    			}
+
+    		}
+    	} else {
+    		name = "<br/>";
+    		summary = "<br/><br/><br/>";
+    		details = "<br/>";
+    	}
+
+    	d3.select("#object_name").html(name);
+    	d3.select("#object_summary").html(summary);
+    	d3.select("#object_details").html(details);
     }
-  </script>
+</script>
 </head>
 
 <body>
-  
-    <nav id="menu-wrap">    
-	<ul id="menu">
-		<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
-		
-		<li>
-			<a href="#">Windows</a>
-			<ul>
-				<li>
-					<a href="#" onclick="shData();">Data Summary</a>
-				</li>
-				<li>
-					<a href="#" onclick="shFilter();">Filter</a>
-				</li>
-				<li>
-					<a href="#" onclick="shSquash();">Simplify</a>
-				</li>
-				<li>
-					<a href="#" onclick="shObj();">Object Viewer</a>
-				</li>
-				<li>
-					<a href="#" onclick="shVis();">Visualization</a>
-				</li>
-			</ul>
-		</li>
-		
-		
-		<li>
-			<a href="#">Visualization</a>
-			<ul>
-				<li>
-					<a href="#" onclick="shBipart();">Bipartite</a>
-				</li>
-				<li>
-					<a href="#" onclick="shHive();">Hive</a>
-				</li>
-				<li>
-					<a href="#" onclick="shFlow();">Flow</a>
-				</li>
-				<li>
-					<a href="#" onclick="shCola();">Constrained</a>
-				</li>
-				<li>
-					<a href="#" onclick="shMatrix();">Matrix</a>
-				</li>
-				<li>
-					<a href="#" onclick="shTree();">Tree</a>
-				</li>
-			</ul>
-		</li>
-		
-		<li>
-			<a href="#">Reporting</a>
-			<ul>
-				<li>
-					<a href="#" onclick="shBipart();">Export Images</a>
-					<ul>
-						<li>
-							<a href="#" onclick="$('dialog_noconnection').dialog();">One per Hit</a>
-							<a href="#" onclick="$('dialog_noconnection').dialog();">One Image</a>
-						</li>
-						</ul>
-				</li>
-				<li>
-					<a href="#" onclick="shHive();">Metadata Health</a>
-				</li>
-				<li>
-					<a href="#" onclick="shFlow();">Data Cost Metrics</a>
-					<ul>
-						<li>
-							<a href="#" onclick="$('dialog_noconnection').dialog();">Analyse Metadata</a>
-							<a href="#" onclick="$('dialog_noconnection').dialog();">Time Analysis</a>
-						</li>
-						</ul>
-				</li>
-			</ul>
-		</li>
-		
-		
-		<li>
-			<a href="#">Import</a>
-			<ul>
-			  
-			  	<li>
-					<a href="#">Connect to SAS</a>
-					<ul>
-						<li>
-							<a href="#" onclick="$('dialog_noconnection').dialog();">Connect base SAS</a>
-							<a href="#" onclick="$('dialog_noconnection').dialog();">Connect DI</a>
-						</li>
-						</ul>
-					</li>
-					
-					<li>
-					<a href="#">Import Data Sets</a>
-					<ul>
-						<li>
-						  <a href="#" onclick="$('dialog_nopermission').dialog();">Import Base</a>
-							<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
-							<a href="#" onclick="$('dialog_nopermission').dialog();">Import Json</a>
-						</li>
-						</ul>
-					</li>
-					
-					<li>
-					<a href="#">Manage Data Sets</a>
-					<ul>
-						<li>
-							<a href="#" onclick="$('dialog_nopermission').dialog();">Data Set List</a>
-							<a href="#" onclick="$('dialog_nopermission').dialog();">Refresh All</a>
-						</li>
-						</ul>
-					</li>
-					
-					<li>
-					<a href="#">Apply Values</a>
-					<ul>
-						<li>
-							<a href="#" onclick="$('dialog_nopermission').dialog();">From SAS</a>
-							<a href="#" onclick="$('dialog_nopermission').dialog();">From Json</a>
-						</li>
-						</ul>
-					</li>
-					
-			</ul>
-		</li>
-		
-		<li>
-			<a href="#">Data</a>
-			<ul>
-				<li>
-					<a href="#" onclick="">Edit Terms</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Edit Assets</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Edit Fields</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Edit Objects</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Edit Owners</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Asset Manager</a>
-				</li>
-			</ul>
-		</li>
-		
-		<li>
-			<a href="#">Favorites</a>
-			<ul>
-				<li>
-					<a href="#" onclick="">Visualizations</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Filters</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Reports</a>
-				</li>
-			</ul>
-		</li>
-		
-		
-		<li>
-			<a href="">Admin</a>
-			<ul>
+
+
+	<nav id="menu-wrap">    
+		<ul id="menu">
+			<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
+
 			<li>
-					<a href="#" onclick="">Users</a>
+				<a href="#">Windows</a>
+				<ul>
+					<li>
+						<a href="#" onclick="shData();">Data Summary</a>
+					</li>
+					<li>
+						<a href="#" onclick="shFilter();">Filter</a>
+					</li>
+					<li>
+						<a href="#" onclick="shSquash();">Simplify</a>
+					</li>
+					<li>
+						<a href="#" onclick="shObj();">Object Viewer</a>
+					</li>
+					<li>
+						<a href="#" onclick="shVis();">Visualization</a>
+					</li>
+				</ul>
+			</li>
+
+
+			<li>
+				<a href="#">Visualization</a>
+				<ul>
+					<li>
+						<a href="#" onclick="shBipart();">Bipartite</a>
+					</li>
+					<li>
+						<a href="#" onclick="shHive();">Hive</a>
+					</li>
+					<li>
+						<a href="#" onclick="shFlow();">Flow</a>
+					</li>
+					<li>
+						<a href="#" onclick="shCola();">Constrained</a>
+					</li>
+					<li>
+						<a href="#" onclick="shMatrix();">Matrix</a>
+					</li>
+					<li>
+						<a href="#" onclick="shTree();">Tree</a>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="#">Reporting</a>
+				<ul>
+					<li>
+						<a href="#" onclick="shBipart();">Export Images</a>
+						<ul>
+							<li>
+								<a href="#" onclick="$('dialog_noconnection').dialog();">One per Hit</a>
+								<a href="#" onclick="$('dialog_noconnection').dialog();">One Image</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#" onclick="shHive();">Metadata Health</a>
+					</li>
+					<li>
+						<a href="#" onclick="shFlow();">Data Cost Metrics</a>
+						<ul>
+							<li>
+								<a href="#" onclick="$('dialog_noconnection').dialog();">Analyse Metadata</a>
+								<a href="#" onclick="$('dialog_noconnection').dialog();">Time Analysis</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+
+
+			<li>
+				<a href="#">Import</a>
+				<ul>
+
+					<li>
+						<a href="#">Connect to SAS</a>
+						<ul>
+							<li>
+								<a href="#" onclick="$('dialog_noconnection').dialog();">Connect base SAS</a>
+								<a href="#" onclick="$('dialog_noconnection').dialog();">Connect DI</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li>
+						<a href="#">Import Data Sets</a>
+						<ul>
+							<li>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Base</a>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Json</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li>
+						<a href="#">Manage Data Sets</a>
+						<ul>
+							<li>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">Data Set List</a>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">Refresh All</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li>
+						<a href="#">Apply Values</a>
+						<ul>
+							<li>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">From SAS</a>
+								<a href="#" onclick="$('dialog_nopermission').dialog();">From Json</a>
+							</li>
+						</ul>
+					</li>
+					
+				</ul>
+			</li>
+
+			<li>
+				<a href="#">Data</a>
+				<ul>
+					<li>
+						<a href="#" onclick="">Edit Terms</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Edit Assets</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Edit Fields</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Edit Objects</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Edit Owners</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Asset Manager</a>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="#">Favorites</a>
+				<ul>
+					<li>
+						<a href="#" onclick="">Visualizations</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Filters</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Reports</a>
+					</li>
+				</ul>
+			</li>
+
+
+			<li>
+				<a href="">Admin</a>
+				<ul>
+					<li>
+						<a href="#" onclick="">Users</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Connections</a>
+					</li>
+					<li>
+						<a href="#" onclick="">Console Window</a>
+					</li>
 				</li>
-				<li>
-					<a href="#" onclick="">Connections</a>
-				</li>
-				<li>
-					<a href="#" onclick="">Console Window</a>
-				</li>
-		</li>
-		<li><a href="">Help</a></li>
-	</ul>
-</nav>
+				<li><a href="">Help</a></li>
+			</ul>
+		</nav>
+
+		<div class="easyui-layout" style="width:100%;height:100%;">
+		<!--
+			<div data-options="region:'north'" style="height:42px">
+		    <div class="easyui-panel" style="padding:5px;background-color: #007696">
+		        <a href="#" class="easyui-linkbutton" data-options="plain:true">Home</a>
+		        <a href="#" class="easyui-menubutton" data-options="menu:'#mm1',iconCls:'icon-edit'">Edit</a>
+		        <a href="#" class="easyui-menubutton" data-options="menu:'#mm2',iconCls:'icon-help'">Help</a>
+		        <a href="#" class="easyui-menubutton" data-options="menu:'#mm3'">About</a>
+		    </div>
+		    <div id="mm1" style="width:150px;">
+		        <div data-options="iconCls:'icon-undo'">Undo</div>
+		        <div data-options="iconCls:'icon-redo'">Redo</div>
+		        <div class="menu-sep"></div>
+		        <div>Cut</div>
+		        <div>Copy</div>
+		    </div>
+		    <div id="mm2" style="width:100px;">
+		        <div>Help</div>
+		        <div>Update</div>
+		        <div>About</div>
+		    </div>
+		    <div id="mm3" class="menu-content" style="background:#f0f0f0;padding:10px;text-align:left">
+		        <img src="http://www.jeasyui.com/images/logo1.png" style="width:150px;height:50px">
+		        <p style="font-size:14px;color:#444;">Try jQuery EasyUI to build your modern, interactive, javascript applications.</p>
+		    </div>
+
+				
+			</div>
+		-->
+		<div data-options="region:'south',split:true,collapsible:true" style="height:150px;">
+
+		</div>
+		<div data-options="region:'east',split:true,hideCollapsedContent:false" title="Object Info" style="width:300px;">
+			<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
+				<div title="Object ID" style="overflow:auto;padding:10px;">
+					<div id="object_name" class="info"></div>
+				</div>
+				<div title="Summary" style="padding:10px;">
+					<div id="object_summary" class="info"></div>
+				</div>
+				<div title="Details" style="padding:10px;">
+					<div id="object_details" class="info"></div>
+				</div>
+			</div>
+		</div>
+		<div data-options="region:'west',split:true,hideCollapsedContent:false" title="Controls" style="width:340px;">
+
+			<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
+				<div title="Filter" style="overflow:auto;padding:10px;">
+					<table cellpadding="5">
+						<tr>
+							<td>Include:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_inc" id="ctrl_inc"></input></td>
+						</tr>
+						<tr>
+							<td>Exclude:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_exc" id="ctrl_exc"></input></td>
+						</tr>
+						<tr>
+							<td>Include Related:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_inc_left" id="ctrl_inc_left"></input></td>
+						</tr>
+						<tr>
+							<td>Exclude Related:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_exc_left" id="ctrl_exc_left"></input></td>
+						</tr>
+						<tr>
+							<td>Add Ancestors:</td>
+							<td><input id="ctrl_grab_left" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
+						</tr>
+						<tr>
+							<td>Add Descendants:</td>
+							<td><input id="ctrl_grab_right" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<a href="#" name="ctrl_filter_btn" id="ctrl_filter_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-reload'">Filter</a>
+						        <a href="#" name="ctrl_filter_clear_btn" id="ctrl_filter_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-cancel'">Clear</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div title="Simplify" style="padding:10px;">
+					<table>
+						<tr>
+							<td>Eliminate Fields:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_el_fields" id="ctrl_el_fields"></input></td>
+						</tr>
+						<tr>
+							<td>Eliminate Assets:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_el_assets" id="ctrl_el_assets"></input></td>
+						</tr>
+						<tr>
+							<td>Compress Assets:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_cr_assets" id="ctrl_cr_assets"></input></td>
+						</tr>
+						<tr>
+							<td>Resolve Internal Links:</td>
+							<td><input id="ctrl_el_internal" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<a href="#" name="ctrl_squash_btn" id="ctrl_squash_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-reload'">Simplify</a>
+						        <a href="#" name="ctrl_squash_clear_btn" id="ctrl_squash_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-cancel'">Clear</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div title="Focus" style="padding:10px;">
+					<table>
+						<tr>
+							<td>Focus on path through:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_focus" id="ctrl_focus"></input></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<a href="#" name="ctrl_focus_btn" id="ctrl_focus_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-reload'">Focus</a>
+						        <a href="#" name="ctrl_focus_clear_btn" id="ctrl_focus_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-cancel'">Clear</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div title="View Options" style="padding:10px;">
+					<table>
+						<tr>
+							<td>Adjust Links:</td>
+							<td><input id="ctrl_opt" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
+						</tr>
+						<tr>
+							<td>Meaning of X Axis:</td>
+							<td><select class="easyui-combobox" id="ctrl_xo" name="ctrl_xo">
+						        <option value="depth">depth</option>
+						        <option value="shallowness">shallowness</option>
+						        <option value="timing">timing</option>
+						    </select></td>
+						 </tr>	
+						 
+					</table>
+				</div>
+			</div>
+		</div>
+		<div data-options="region:'center'">
+			<div id="mycontentx">
+				<svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg>
+			</div>
+		</div>
+	</div>
 
 
 
-  <div id="filterpal" class="palette">
-    <div class="palheader">
-      Filter
-      <input type="submit" id="kill_filterpal" class="killbutton" value="" />
-    </div>
-    <div class="palbody">
-      <table>
-        <tr>
-          <td>
-            <label for="ctrl_inc">Include</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_inc" id="ctrl_inc" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_exc">Exclude</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_exc" id="ctrl_exc" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_inc_left">With relatives</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_inc_left" id="ctrl_inc_left" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_exc_left">Without relatives</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_exc_left" id="ctrl_exc_left" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grab_left">Include ancestors</label>
-          </td>
-          <td>
-            <input type="checkbox" name="ctrl_grab_left" id="ctrl_grab_left" value="grab_left" checked="true" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grab_left">Include descendants</label>
-          </td>
-          <td>
-            <input type="checkbox" name="ctrl_grab_right" id="ctrl_grab_right" value="grab_right" checked="true" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_only_crit">Critical Only</label>
-          </td>
-          <td>
-            <input type="checkbox" name="ctrl_only_crit" id="ctrl_only_crit" value="only_crit" />
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_btn" value="Filter" />
-            <input type="submit" name="ctrl_filter_btn" id="ctrl_filter_clear_btn" value="Clear" />
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-<div id="squashpal" class="palette">
-    <div class="palheader">
-      Simplify
-      <input type="submit" id="kill_squashpal" class="killbutton" value="" />
-    </div>
-    <div class="palbody">
-      <table>
-        <tr>
-          <td>
-            <label for="ctrl_inc">Eliminate Fields</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_el_fields" id="ctrl_el_fields" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_exc">Eliminate Assets</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_el_assets" id="ctrl_el_assets" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_exc">Compress Assets</label>
-          </td>
-          <td>
-            <input type="text" name="ctrl_cr_assets" id="ctrl_cr_assets" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_only_crit">Eliminate Internals</label>
-          </td>
-          <td>
-            <input type="checkbox" name="ctrl_el_internal" id="ctrl_el_internal" value="el_internal" />
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <input type="submit" name="ctrl_squash_btn" id="ctrl_squash_btn" value="Simplify" />
-            <input type="submit" name="ctrl_squash_btn" id="ctrl_squash_clear_btn" value="Clear" />
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+</div>
 
 
-  <div id="objpal" class="palette">
-    <div class="palheader">
-      Object Details
-      <input type="submit" id="kill_objpal" class="killbutton" value="" />
-    </div>
-    <div class="palbody">
-      <h2>Data item details</h2>
-      <h3>Item name:</h3>
-      <div id="object_name" class="info"></div>
-      <h3>Summary:</h3>
-      <div id="object_summary" class="info"></div>
-      <h3>Details:</h3>
-      <div id="object_details" class="info"></div>
-    </div>
-
-  </div>
-
-  <div id="datapal" class="palette">
-    <div class="palheader">
-      Data Management
-      <input type="submit" id="kill_datapal" class="killbutton" value="" />
-    </div>
-    <div class="palbody">
-      <h3>Raw JSON input:</h3>
-      <textarea id="input_json" height="300"></textarea>
-
-      <input type="submit" id="input_json_btn" value="Load Json" />
-      <hr/>
-      <h3>Test dataset:</h3>
-      <input type="submit" id="input_test_btn" value="Load Test Data" />
-      <hr/>
-      <h3>Stats:</h3>
-      <div id="data_summary" class="info"></div>
-    </div>
-  </div>
-
-  <div id="mycontent">
-    <svg id="vis" viewbox="0 0 1600 1600" preserveAspectRatio="xMinyMin meet"></svg>
-  </div>
-
-
-  <div id="vispal" class="palette">
-    <div class="palheader">
-      Visualization Settings
-      <input type="submit" id="kill_vispal" class="killbutton" value="" />
-    </div>
-    <div class="palbody">
-      <table>
-        <tr>
-          <td colspan="2">
-            <hr/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Optimize</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_opt" id="ctrl_opt_1" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Don't Optimize</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_opt" id="ctrl_opt_0" value="" checked="true" />
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <hr/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Dataset Level</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_detail" id="ctrl_detail_summary" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Field Level</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_detail" id="ctrl_detail_nodes" value="" checked="true" />
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <hr/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Order by depth</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_xo" id="ctrl_xo_l" value="" checked="true" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Order by shallowness</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_xo" id="ctrl_xo_r" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Order by timing</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_xo" id="ctrl_xo_t" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <hr/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Color by Dataset Group</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_color" id="ctrl_color_cat" value="" checked="true" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Color by Dataset</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_color" id="ctrl_color_pkg" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <hr/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Hilight Critical fields</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_hilite" id="ctrl_hi_crit" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">Hilight Untraced fields</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_hilite" id="ctrl_hi_untraced" value="" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="ctrl_grouping_dom">No hilight</label>
-          </td>
-          <td>
-            <input type="radio" name="ctrl_hilite" id="ctrl_hi_nothing" value="" checked="true" />
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-
-  </div>
-  
-  
 
 
 </body>
