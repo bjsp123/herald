@@ -16,12 +16,21 @@ namespace bjs {
     export function getNodeColor(config:bjs.config, n:bjs.node):string {
     	if(config.focus != null && config.focus != ""){
     		if(isFocus(n, config))
-    			return "red";
+    			return "green";
     	}
-    		
-        if (config.hilite=="critical" && n.field.flags && n.field.flags.indexOf("critical") != -1) return "red";
-
-        if (config.hilite == "untraced" && n.field.effnolineage == true) return "red"
+    	
+    	switch(config.showDetail){
+			case bjs.showDetail.timing:
+				return config.detailColor(n.field.asset.effnotbefore / d3.max(n.mv.world.fielda, function(d) { return d.asset.effnotbefore;}));
+			case bjs.showDetail.importance:
+				return config.detailColor(n.field.effimportance / d3.max(n.mv.world.fielda, function(d) { return d.effimportance; }));
+			case bjs.showDetail.risk:
+				return config.detailColor(n.field.effrisk / d3.max(n.mv.world.fielda, function(d) { return d.effrisk; }));
+			case bjs.showDetail.quality:
+				return config.detailColor((1-n.field.effquality) / d3.max(n.mv.world.fielda, function(d) { return (1-d.effquality); }));
+			case bjs.showDetail.nolineage:
+				return config.detailColor(n.field.effnolineage?1:0);
+    	}
 
         if (n.group) {
             return getColorFromName(config, n.group.fullname);
@@ -35,16 +44,16 @@ namespace bjs {
     	
     	if(config.focus != null && config.focus != ""){
     		if(isFocus(l.source, config))
-    			return "red";
+    			return "green";
     	}
     	
-    	switch(config.linkColorPlan){
-    		case "linktype":
+    	switch(config.linkColorplan){
+    		case bjs.linkColorplan.bytype:
     			return(l.rel.type=="filter") ? "#575" : "blue";
-    		case "nodecolor":
+    		case bjs.linkColorplan.bynode:
     			return bjs.getNodeColor(config, l.source);
     		default:
-    			return "blue";
+    			return "gray";
     	}
     }
     
@@ -66,13 +75,17 @@ namespace bjs {
 			" " + d.target.x + " " + (d.target.y + randy);
     }
 
-    export function getColorFromName(config:bjs.config, fullname:string) {
+    export function getColorFromName(config:bjs.config, fullname:string):string {
 
         if (!fullname) fullname = "unknown";
 
-        if (config.colorPlan == "cat") {
-            var cat = fullname.substring(0, 7);
-            return config.color(cat);
+        switch(config.colorplan){
+			case bjs.colorplan.flat:
+				return "gray";
+			case bjs.colorplan.cat:
+				return config.color(fullname.substring(0, 7));
+			case bjs.colorplan.asset:
+				return config.color(fullname);
         }
 
         return config.color(fullname);
@@ -175,7 +188,7 @@ namespace bjs {
 			   case bjs.handed.column:
 			   		return -10;
 			   	case bjs.handed.leftright:
-			   		return d.x<300?-20:20+d.width;
+			   		return d.x<400?-20:20+d.width;
 			   default:
 			   		return 0;
 			}
@@ -209,7 +222,7 @@ namespace bjs {
 			   	case bjs.handed.column:
 			   		return "end";
 			    case bjs.handed.leftright:
-			   		return d.x<300?"end":"start";
+			   		return d.x<400?"end":"start";
 			    default:
 			    	return "start";
 			}
@@ -324,7 +337,8 @@ namespace bjs {
     
     
     export function drawNodes(nodesel:any, nodesenter:any, config:bjs.config, r:number, invisrect:boolean, longname:boolean):void{
-		nodesenter.append("circle");
+		nodesenter.append("circle").attr("class", "nodecenter");
+		nodesenter.append("circle").attr("class", "nodepie");
 		nodesenter.append("text");
 		
 		var labelx=0,labely=0,labeltheta=0;
@@ -344,7 +358,7 @@ namespace bjs {
 			   case bjs.handed.column:
 			   		return -20;
 			   	case bjs.handed.leftright:
-			   		return d.x<300?-20:20;
+			   		return d.x<400?-20:20;
 			   default:
 			   		return 0;
 			}
@@ -371,7 +385,7 @@ namespace bjs {
 			    case bjs.handed.column:
 			    	return "end";
 			    case bjs.handed.leftright:
-			   		return d.x<300?"end":"start";
+			   		return d.x<400?"end":"start";
 			    default:
 			    	return "start";
 			}

@@ -59,13 +59,13 @@ namespace bjs {
 		var scale = d3.scale.linear().range([this.LEFT_EDGE,this.RIGHT_EDGE]);
 		
 		switch(c.xorder){
-			case "ldepth":
+			case bjs.xorder.depth:
 				scale.domain([0,d3.max(mv.groupa, function(d){return d.asset.ldepth;})]);
 				break;
-			case "rdepth":
+			case bjs.xorder.shallowness:
 				scale.domain([d3.max(mv.groupa, function(d){return d.asset.rdepth;}),0]);
 				break;
-			case "notbefore":
+			case bjs.xorder.timing:
 				scale.domain([0, d3.max(mv.groupa, function(d){return d.asset.effnotbefore;})]);
 				break;
 			default:
@@ -77,11 +77,11 @@ namespace bjs {
 	
 	private  xValue(g:bjs.group, c:bjs.config):number{
 		switch(c.xorder){
-			case "ldepth":
+			case bjs.xorder.depth:
 				return g.asset.ldepth;
-			case "rdepth":
+			case bjs.xorder.shallowness:
 				return g.asset.rdepth;
-			case "notbefore":
+			case bjs.xorder.timing:
 				return g.asset.effnotbefore;
 			default:
 				return g.asset.ldepth;

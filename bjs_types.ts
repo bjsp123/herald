@@ -19,6 +19,32 @@ namespace bjs {
         column,
         leftright
     }
+
+    export const enum colorplan {
+    	flat,
+    	cat,
+    	asset
+    }
+
+    export const enum linkColorplan {
+    	bytype,
+    	bynode
+    }
+
+    export const enum xorder {
+    	depth,
+    	shallowness,
+    	timing
+    }
+
+    export const enum showDetail {
+    	none,
+    	risk,
+    	quality,
+    	importance,
+    	nolineage,
+    	timing
+    }
     
 /////////// core data model
 	
@@ -346,13 +372,14 @@ namespace bjs {
 	
 	export class config{
 		public optimize:boolean=false;
-		public colorPlan:string="cat";
-		public linkColorPlan:string="nodecolor";
-		public summary:boolean=false;
-		public hilite:string="nothing";
-		public xorder:string="ldepth";
+		public colorplan:number=colorplan.cat;
+		public linkColorplan:number=linkColorplan.bynode;
+		public showDetail:number=showDetail.none;
+		public xorder:number=xorder.shallowness;
 		public color:any=d3.scale.category20();
+		public detailColor: any = d3.scale.category10();
 		public focus:string="";
+
 	}
 	
 	export interface view{

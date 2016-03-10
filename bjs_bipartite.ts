@@ -304,7 +304,7 @@ namespace bjs {
 				.attr("y2", this.AXIS_HEIGHT);
 
 			var nodes = svg
-				.selectAll(".node." + tag)
+				.selectAll(".nodegrp." + tag)
 				.data(data, function(d) {
 					return d.fullname;
 				});
@@ -312,7 +312,7 @@ namespace bjs {
 			var nodesg = nodes
 				.enter()
 				.append("g")
-				.attr("class", "node " + tag)
+				.attr("class", "nodegrp " + tag)
 				.style("opacity",0)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";

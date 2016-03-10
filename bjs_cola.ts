@@ -14,8 +14,8 @@ namespace bjs {
 		NODE_R = 8;
 		TOTAL_WIDTH = 1600;
 		TOTAL_HEIGHT = 1600;
-		X_CENTER = 400;
-		Y_CENTER = 400;
+		X_CENTER = 550;
+		Y_CENTER = 450;
 		GROUP_PADDING = 20;
 		GROUP_ROUNDY = 16;
 		NODE_W = this.NODE_R * 8;
@@ -33,7 +33,7 @@ namespace bjs {
 		
 		svg:any = null;
 		config:bjs.config=null;
-		mv:bjs.mv=null;
+		mv: bjs.mv = null;
 
 
 
@@ -78,7 +78,7 @@ namespace bjs {
 
 			if (this.optimize) {
 				this.coke
-					.flowLayout('x', 300)
+					//.flowLayout('x', 300)
 					.nodes(mv.nodea)
 					.links(mv.colalinks)
 					.powerGraphGroups(function(d) {
