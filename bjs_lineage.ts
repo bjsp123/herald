@@ -181,13 +181,13 @@ namespace bjs {
 		links
 			.enter()
 			.append("path")
-			.attr("class", "link")
-			.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
+			.attr("class", "link");
 
 		var boff = this.BUNDLE_OFFSET;
 
 		links
-			.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);});
+			.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);})
+			.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
 
 		links
 			.exit()

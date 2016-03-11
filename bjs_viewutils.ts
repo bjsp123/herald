@@ -16,7 +16,7 @@ namespace bjs {
     export function getNodeColor(config:bjs.config, n:bjs.node):string {
     	if(config.focus != null && config.focus != ""){
     		if(isFocus(n, config))
-    			return "green";
+    			return "red";
     	}
     	
     	switch(config.showDetail){
@@ -44,7 +44,7 @@ namespace bjs {
     	
     	if(config.focus != null && config.focus != ""){
     		if(isFocus(l.source, config))
-    			return "green";
+    			return "red";
     	}
     	
     	switch(config.linkColorplan){

@@ -89,7 +89,7 @@
 
     	config = new bjs.config();
     	config.color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666"]);
-        config.detailColor = d3.scale.ordinal().range( ["#ffffcc","#ffeda0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#bd0026","#800026"]);
+        config.detailColor = d3.scale.quantile().range( ["#ffffcc","#ffeda0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#bd0026","#800026"]).domain([0,1]);
     	config.focus = "";
 
 
@@ -599,29 +599,29 @@
 						<tr>
 							<td class="formlabel">X Axis:</td>
 							<td><select class="easyui-combobox" style="width:140px" id="ctrl_xo" name="ctrl_xo" data-options="onSelect: onXOChanged">
+                                <option value="shallowness">Output Order</option>
 						        <option value="depth">Source Order</option>
-						        <option value="shallowness">Output Order</option>
 						        <option value="timing">Timing</option>
 						    </select></td>
 						 </tr>	
                          <tr>
                             <td class="formlabel">Node color plan:</td>
                             <td><select class="easyui-combobox" style="width:140px" id="ctrl_node_cp" name="ctrl_node_cp" data-options="onSelect: onNCPChanged">
-                                <option value="flat">Flat</option>
                                 <option value="cat">Asset Group</option>
+                                <option value="flat">Flat</option>
                                 <option value="asset">Asset</option>
                             </select></td>
                          </tr>  
                          <tr>
                             <td class="formlabel">Link color plan:</td>
-                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_link_cp" name="ctrl_link_cp" data-options="onSelect: onLCPChanged">
-                                <option value="depth">Link Type</option>
-                                <option value="shallowness">Node Color</option>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_link_cp" name="ctrl_link_cp" data-options="onSelect: onLCPChanged" selected="bynode">
+                                <option value="bynode">Node Color</option>
+                                <option value="bytype">Link Type</option>
                             </select></td>
                          </tr>  
                          <tr>
                             <td class="formlabel">Highlight:</td>
-                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_hilite" name="ctrl_hilite" data-options="onSelect: onHLChanged">
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_hilite" name="ctrl_hilite" data-options="onSelect: onHLChanged" selected="none">
                                 <option value="none">None</option>
                                 <option value="risk">Risk Level</option>
                                 <option value="quality">Quality/Error</option>

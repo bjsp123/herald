@@ -232,19 +232,20 @@ namespace bjs {
 			links
 				.enter()
 				.append("path")
-				.attr("class", "link")
-				.attr("stroke",  function(d){return bjs.getLinkColor(d, config);});
+				.attr("class", "link");
 
 
 			if (this.config.optimize) {
 				links
 					.transition()
-					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, false);});
+					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, false);})
+					.attr("stroke",  function(d){return bjs.getLinkColor(d, config);});
 			}
 			else {
 				links
 					.transition()
-					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, true);});
+					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, true);})
+					.attr("stroke",  function(d){return bjs.getLinkColor(d, config);});
 			}
 
 			links

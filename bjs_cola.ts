@@ -188,7 +188,8 @@ namespace bjs {
 
 				}
 				else {
-					lt.attr("d", connector_cubic);
+					lt.attr("d", connector_cubic)
+					.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
 				}
 
 				gtr.attr("x", function(d) {
