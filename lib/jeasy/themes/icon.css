@@ -1,3 +1,37 @@
+.icon-herald-load{
+	background:url('icons/h_load_upload.png') no-repeat center center;
+	background-size:cover;
+}
+.icon-herald-filter{
+	background:url('icons/h_calculator.png') no-repeat center center;
+	background-size:cover;
+}
+.icon-herald-clear{
+	background:url('icons/h_notification_error.png') no-repeat center center;
+	background-size:cover;
+}
+.icon-herald-pie{
+	background:url('icons/h_piechart.png') no-repeat center center;
+	background-size:cover;
+}
+.icon-herald-star{
+	background:url('icons/h_star_full.png') no-repeat center center;
+	background-size:cover;
+}
+.icon-herald-plus{
+	background:url('icons/h_notification_add.png') no-repeat center center;
+	background-size:cover;
+}
+
+
+
+
+.icon-reload{
+	background:url('icons/reload.png') no-repeat center center;
+}
+.icon-reload{
+	background:url('icons/reload.png') no-repeat center center;
+}
 .icon-blank{
 	background:url('icons/blank.gif') no-repeat center center;
 }

@@ -1,15 +1,6 @@
 	/*furniture*/
-	
-	.cleared {
-		clear: both;
-	}
-	
-	#toppal {
-		width: 200px;
-		background: linear-gradient(#489, white);
-	}
-	
-	
+
+
 	.info {
 		xborder-style: solid;
 		xborder-width: 1px;
@@ -18,85 +9,20 @@
 		font-size: 12;
 		padding-left:15px;
 	}
-
-	.byline {
-		text-align: center;
-		font-style: italic;
-		margin: 5px;
-	}
 	
 	body {
 		font-family: sans-serif;
 	}
 	
-	.bigtitle {
-		display: block;
-		margin: auto;
-		width: 80%;
-		padding-top:10px;
+	.sidepanel {
+		padding:10px;
+		font-size:8;
+	}
+
+	.formlabel {
+		font-size:14;
 	}
 	
-	.smalltitle {
-		float: right;
-		padding: 20px;
-		width: 150px;
-	}
-	
-	.palette {
-		position:absolute;
-		width: 340;
-		padding:0px;
-		border-style: solid;
-		border-width: 1px;
-		resize:both;
-		overflow:auto;
-	}
-
-	.palheader {
-		background-color: #eee;
-		background: linear-gradient(to right, #00708e, white);
-		font-size: 16;
-		font-weight: bold;
-		text-align:left;
-		vertical-align: center;
-		padding: 10px;
-	}
-
-	.palbody {
-		background-color: #fff;
-		font-size: 12;
-		padding: 10px;
-	}
-
-	.kingbutton {
-		background-color: #ddd;
-		border-style: solid;
-		border-width: 1px;
-		margin: 5px;
-		width: 5em;
-	}
-
-	.killbutton {
-		background-color: #faa;
-		border-style: solid;
-		border-width: 1px;
-		margin: 5px;
-		width: 1.2em;
-		height: 1.2em;
-		position:absolute;
-		top:0;
-		right:0;
-		
-	}
-
-	
-
-	
-	#input_json{
-		height:100px;
-		font-size: 12;
-		width: 100%;
-	}
 	
 	
 	/* svg panel */

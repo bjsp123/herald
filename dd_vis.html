@@ -41,42 +41,6 @@
     var config= new bjs.config();
     var theFilter = new bjs.filter();
     var theSquash = new bjs.squash();
-    
-    function shSquash(){
-    	if ($('#squashpal').css('visibility') == 'hidden')
-    		$('#squashpal').css('visibility', 'visible');
-    	else
-    		$('#squashpal').css('visibility', 'hidden');
-    }
-    
-    function shFilter(){
-    	if ($('#filterpal').css('visibility') == 'hidden')
-    		$('#filterpal').css('visibility', 'visible');
-    	else
-    		$('#filterpal').css('visibility', 'hidden');
-    }
-    
-    function shData(){
-    	if ($('#datapal').css('visibility') == 'hidden')
-    		$('#datapal').css('visibility', 'visible');
-    	else
-    		$('#datapal').css('visibility', 'hidden');
-    }
-    
-    function shObj(){
-    	if ($('#objpal').css('visibility') == 'hidden')
-    		$('#objpal').css('visibility', 'visible');
-    	else
-    		$('#objpal').css('visibility', 'hidden');
-    }
-
-    function shVis(){
-    	if ($('#vispal').css('visibility') == 'hidden')
-    		$('#vispal').css('visibility', 'visible');
-    	else
-    		$('#vispal').css('visibility', 'hidden');
-    }
-    
 
     function shBipart(){
     	bip = new bjs.bp_view();
@@ -125,34 +89,8 @@
 
     	config = new bjs.config();
     	config.color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666"]);
-    	config.focus = "Refin";
-
-
-    	d3.select("#kill_objpal").on("click", function(d) {
-    		$("#objpal").css('visibility', 'hidden')
-    	});
-    	d3.select("#kill_squashpal").on("click", function(d) {
-    		$("#squashpal").css('visibility', 'hidden')
-    	});
-    	d3.select("#kill_datapal").on("click", function(d) {
-    		$("#datapal").css('visibility', 'hidden')
-    	});
-    	d3.select("#kill_filterpal").on("click", function(d) {
-    		$("#filterpal").css('visibility', 'hidden')
-    	});
-    	d3.select("#kill_vispal").on("click", function(d) {
-    		$("#vispal").css('visibility', 'hidden')
-    	});
-
-    	d3.select("#input_json_btn").on("click", function(d) {
-    		rawJson = JSON.parse($("#input_json").val());
-    		refresh();
-    	});
-
-    	d3.select("#input_test_btn").on("click", function(d) {
-    		rawJson = testdata.raw;
-    		refresh();
-    	});
+        config.detailColor = d3.scale.ordinal().range( ["#ffffcc","#ffeda0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#bd0026","#800026"]);
+    	config.focus = "";
 
 
     	d3.select("#ctrl_filter_btn").on("click", function(d) {
@@ -181,6 +119,15 @@
     		refresh();
     	});
 
+        d3.select("#ctrl_focus_btn").on("click", function(d) {
+
+            var focus = $("#ctrl_focus").val().trim();
+
+            config.focus = focus;
+
+            refresh();
+        });
+
     	d3.select("#ctrl_squash_clear_btn").on("click", function(d) {
     		theSquash = new bjs.squash();
 
@@ -193,112 +140,39 @@
     		refresh();
     	});
 
-    	d3.select("#ctrl_xo_l").on("click", function(d) {
-    		config.xorder="ldepth";
-    		redraw();
-    	});
+        d3.select("#ctrl_focus_clear_btn").on("click", function(d) {
+            config.focus = "";
 
-    	d3.select("#ctrl_xo_r").on("click", function(d) {
-    		config.xorder="rdepth";
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_xo_t").on("click", function(d) {
-    		config.xorder="notbefore";
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_opt_1").on("click", function(d) {
-    		config.optimize=true;
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_opt_0").on("click", function(d) {
-    		config.optimize=false;
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_detail_summary").on("click", function(d) {
-    		config.summary=true;
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_detail_nodes").on("click", function(d) {
-    		config.summary=false;
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_color_pkg").on("click", function(d) {
-    		config.colorPlan="pkg";
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_color_cat").on("click", function(d) {
-    		config.colorPlan="cat";
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_hi_crit").on("click", function(d) {
-    		config.hilite = "critical";
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_hi_untraced").on("click", function(d) {
-    		config.hilite = "untraced";
-    		redraw();
-    	});
-
-    	d3.select("#ctrl_hi_nothing").on("click", function(d) {
-    		config.hilite = "nothing";
-    		redraw();
-    	});
-
-    	arrangePalettes();
+            refresh();
+        });
 
     	rawJson = testdata.raw;
     	refresh();
-
-
     }
 
-    function arrangePalettes() {
-    	$('#filterpal').css('visibility', 'visible');
-    	$('#squashpal').css('visibility', 'visible');
-    	$('#vispal').css('visibility', 'visible');
-    	$('#objpal').css('visibility', 'visible');
-    	$('#datapal').css('visibility', 'hidden');
+    function onOptChanged(chk){
+        config.optimize = chk;
+        redraw();
+    }
 
-    	$("#filterpal").position({
-    		my: "right-20 top-20",
-    		at: "right bottom",
-    		of: "#menu",
-    		within: "#mycontent",
-    		collision: "fit"
-    	});
-    	$("#objpal").position({
-    		my: "right-5 top",
-    		at: "left top",
-    		of: "#filterpal",
-    		collision: "fit"
-    	});
-    	$("#squashpal").position({
-    		my: "left top+5",
-    		at: "left bottom",
-    		of: "#filterpal",
-    		collision: "fit"
-    	});
-    	$("#vispal").position({
-    		my: "left top+5",
-    		at: "left bottom",
-    		of: "#squashpal",
-    		collision: "fit"
-    	});
-    	$("#datapal").position({
-    		my: "left top+5",
-    		at: "left bottom",
-    		of: "#objpal",
-    		collision: "fit"
-    	});
+    function onXOChanged(r){
+        config.xorder=bjs.xorder[r.value];
+        redraw();
+    }
+
+    function onNCPChanged(r){
+        config.nodeColorplan=bjs.colorplan[r.value];
+         redraw();       
+    }
+
+    function onLCPChanged(r){
+        config.linkColorplan=bjs.linkColorplan[r.value];
+        redraw();        
+    }
+
+    function onHLChanged(r){
+        config.showDetail=bjs.showDetail[r.value];
+        redraw();    
     }
 
 
@@ -362,12 +236,15 @@
     	var name = "",
     	summary = "",
     	details = "";
+        stats = "";
+        terms = "";
 
     	if (d != null) {
 
 
     		if (d.itemtype == "node") {
-    			name = "Field " + d.field.name;
+    			name += "Field " + d.field.name + "<br/>";
+                name += d.field.fullname;
 
     			summary += d.field.desc + "<br/>";
     			summary += "Type: " + d.field.fieldtype + "<br/>";
@@ -381,12 +258,12 @@
     			details += "<li>Quality: " + (d.field.effquality*100).toPrecision(2) + "% (" + (d.field.quality*100).toPrecision(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toPrecision(2) + " from upstream)</li>";
     			details += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
 
-    			details += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
+    			stats += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
 
     			if(d.field.term != null){
-    				details += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
+    				terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
     			}else{
-    				details += "Not associated with a business term";
+    				terms += "Not associated with any business term";
     			}
 
     		}
@@ -395,7 +272,7 @@
     			name = "Group " + d.fullname;
 
     			summary += d.asset.desc + "<br/>";
-    			summary += "Type: " + d.asset.type + "<br/>";
+    			summary += "Type: " + d.asset.type + "<br/><br/>";
 
     			if(d.asset != null){
 
@@ -417,9 +294,11 @@
 
     		}
     	} else {
-    		name = "<br/>";
+    		name = "<br/><br/>";
     		summary = "<br/><br/><br/>";
     		details = "<br/>";
+            stats = "<br/>";
+            terms = "<br/>";
     	}
 
     	d3.select("#object_name").html(name);
@@ -435,53 +314,29 @@
 	<nav id="menu-wrap">    
 		<ul id="menu">
 			<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
-
-			<li>
-				<a href="#">Windows</a>
-				<ul>
-					<li>
-						<a href="#" onclick="shData();">Data Summary</a>
-					</li>
-					<li>
-						<a href="#" onclick="shFilter();">Filter</a>
-					</li>
-					<li>
-						<a href="#" onclick="shSquash();">Simplify</a>
-					</li>
-					<li>
-						<a href="#" onclick="shObj();">Object Viewer</a>
-					</li>
-					<li>
-						<a href="#" onclick="shVis();">Visualization</a>
-					</li>
-				</ul>
-			</li>
-
-
-			<li>
-				<a href="#">Visualization</a>
-				<ul>
-					<li>
-						<a href="#" onclick="shBipart();">Bipartite</a>
-					</li>
-					<li>
-						<a href="#" onclick="shHive();">Hive</a>
-					</li>
-					<li>
-						<a href="#" onclick="shFlow();">Flow</a>
-					</li>
-					<li>
-						<a href="#" onclick="shCola();">Constrained</a>
-					</li>
-					<li>
-						<a href="#" onclick="shMatrix();">Matrix</a>
-					</li>
-					<li>
-						<a href="#" onclick="shTree();">Tree</a>
-					</li>
-				</ul>
-			</li>
-
+            <li>
+                <a href="#">Visualization</a>
+                <ul>
+                    <li>
+                        <a href="#" onclick="shBipart();">Bipartite</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shHive();">Hive</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shFlow();">Flow</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shCola();">Constrained</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shMatrix();">Matrix</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shTree();">Tree</a>
+                    </li>
+                </ul>
+            </li>
 			<li>
 				<a href="#">Reporting</a>
 				<ul>
@@ -508,8 +363,6 @@
 					</li>
 				</ul>
 			</li>
-
-
 			<li>
 				<a href="#">Import</a>
 				<ul>
@@ -616,145 +469,167 @@
 		</nav>
 
 		<div class="easyui-layout" style="width:100%;height:100%;">
-		<!--
-			<div data-options="region:'north'" style="height:42px">
-		    <div class="easyui-panel" style="padding:5px;background-color: #007696">
-		        <a href="#" class="easyui-linkbutton" data-options="plain:true">Home</a>
-		        <a href="#" class="easyui-menubutton" data-options="menu:'#mm1',iconCls:'icon-edit'">Edit</a>
-		        <a href="#" class="easyui-menubutton" data-options="menu:'#mm2',iconCls:'icon-help'">Help</a>
-		        <a href="#" class="easyui-menubutton" data-options="menu:'#mm3'">About</a>
-		    </div>
-		    <div id="mm1" style="width:150px;">
-		        <div data-options="iconCls:'icon-undo'">Undo</div>
-		        <div data-options="iconCls:'icon-redo'">Redo</div>
-		        <div class="menu-sep"></div>
-		        <div>Cut</div>
-		        <div>Copy</div>
-		    </div>
-		    <div id="mm2" style="width:100px;">
-		        <div>Help</div>
-		        <div>Update</div>
-		        <div>About</div>
-		    </div>
-		    <div id="mm3" class="menu-content" style="background:#f0f0f0;padding:10px;text-align:left">
-		        <img src="http://www.jeasyui.com/images/logo1.png" style="width:150px;height:50px">
-		        <p style="font-size:14px;color:#444;">Try jQuery EasyUI to build your modern, interactive, javascript applications.</p>
-		    </div>
-
-				
-			</div>
-		-->
-		<div data-options="region:'south',split:true,collapsible:true" style="height:150px;">
-
-		</div>
+		
 		<div data-options="region:'east',split:true,hideCollapsedContent:false" title="Object Info" style="width:300px;">
 			<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
-				<div title="Object ID" style="overflow:auto;padding:10px;">
+				<div title="Object ID" class="sidepanel">
 					<div id="object_name" class="info"></div>
 				</div>
-				<div title="Summary" style="padding:10px;">
+				<div title="Summary" class="sidepanel">
 					<div id="object_summary" class="info"></div>
 				</div>
-				<div title="Details" style="padding:10px;">
+                <div title="Related Terms" class="sidepanel">
+                    <div id="object_terms" class="info"></div>
+                </div>
+				<div title="Details" class="sidepanel">
 					<div id="object_details" class="info"></div>
 				</div>
+                <div title="Stats" class="sidepanel">
+                    <div id="object_stats" class="info"></div>
+                </div>
 			</div>
 		</div>
+
 		<div data-options="region:'west',split:true,hideCollapsedContent:false" title="Controls" style="width:340px;">
 
 			<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
-				<div title="Filter" style="overflow:auto;padding:10px;">
+            <div title="Data Set" class="sidepanel">
+                    <table>
+                        <tr>
+                            <td class="formlabel">Data source:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_node_cp" name="ctrl_node_cp">
+                                <option value="flat">Demo</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td class="formlabel">As of date:</td>
+                            <td><input class="easyui-datebox" id="ctrl_thedate"></input></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a href="#" name="ctrl_load_btn" id="ctrl_load_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Load Data</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+				<div title="Filter" class="sidepanel">
 					<table cellpadding="5">
 						<tr>
-							<td>Include:</td>
+							<td class="formlabel">Include:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_inc" id="ctrl_inc"></input></td>
 						</tr>
 						<tr>
-							<td>Exclude:</td>
+							<td class="formlabel">Exclude:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_exc" id="ctrl_exc"></input></td>
 						</tr>
 						<tr>
-							<td>Include Related:</td>
+							<td class="formlabel">Include Related:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_inc_left" id="ctrl_inc_left"></input></td>
 						</tr>
 						<tr>
-							<td>Exclude Related:</td>
+							<td class="formlabel">Exclude Related:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_exc_left" id="ctrl_exc_left"></input></td>
 						</tr>
 						<tr>
-							<td>Add Ancestors:</td>
+							<td class="formlabel">Add Ancestors:</td>
 							<td><input id="ctrl_grab_left" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
 						</tr>
 						<tr>
-							<td>Add Descendants:</td>
+							<td class="formlabel">Add Descendants:</td>
 							<td><input id="ctrl_grab_right" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>
-								<a href="#" name="ctrl_filter_btn" id="ctrl_filter_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-reload'">Filter</a>
-						        <a href="#" name="ctrl_filter_clear_btn" id="ctrl_filter_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-cancel'">Clear</a>
+								<a href="#" name="ctrl_filter_btn" id="ctrl_filter_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-filter'">Filter</a>
+						        <a href="#" name="ctrl_filter_clear_btn" id="ctrl_filter_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-clear'">Clear</a>
 							</td>
 						</tr>
 					</table>
 				</div>
-				<div title="Simplify" style="padding:10px;">
+				<div title="Simplify" class="sidepanel">
 					<table>
 						<tr>
-							<td>Eliminate Fields:</td>
+							<td class="formlabel">Eliminate Fields:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_el_fields" id="ctrl_el_fields"></input></td>
 						</tr>
 						<tr>
-							<td>Eliminate Assets:</td>
+							<td class="formlabel">Eliminate Assets:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_el_assets" id="ctrl_el_assets"></input></td>
 						</tr>
 						<tr>
-							<td>Compress Assets:</td>
+							<td class="formlabel">Compress Assets:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_cr_assets" id="ctrl_cr_assets"></input></td>
 						</tr>
 						<tr>
-							<td>Resolve Internal Links:</td>
+							<td class="formlabel">Resolve Inner Links:</td>
 							<td><input id="ctrl_el_internal" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>
-								<a href="#" name="ctrl_squash_btn" id="ctrl_squash_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-reload'">Simplify</a>
-						        <a href="#" name="ctrl_squash_clear_btn" id="ctrl_squash_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-cancel'">Clear</a>
+								<a href="#" name="ctrl_squash_btn" id="ctrl_squash_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-filter'">Simplify</a>
+						        <a href="#" name="ctrl_squash_clear_btn" id="ctrl_squash_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-clear'">Clear</a>
 							</td>
 						</tr>
 					</table>
 				</div>
-				<div title="Focus" style="padding:10px;">
+				<div title="Focus" class="sidepanel">
 					<table>
 						<tr>
-							<td>Focus on path through:</td>
+							<td class="formlabel">Focus on path:</td>
 							<td><input class="easyui-textbox" type="text" name="ctrl_focus" id="ctrl_focus"></input></td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>
-								<a href="#" name="ctrl_focus_btn" id="ctrl_focus_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-reload'">Focus</a>
-						        <a href="#" name="ctrl_focus_clear_btn" id="ctrl_focus_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-cancel'">Clear</a>
+								<a href="#" name="ctrl_focus_btn" id="ctrl_focus_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-filter'">Focus</a>
+						        <a href="#" name="ctrl_focus_clear_btn" id="ctrl_focus_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-clear'">Clear</a>
 							</td>
 						</tr>
 					</table>
 				</div>
-				<div title="View Options" style="padding:10px;">
+				<div title="View Options" class="sidepanel">
 					<table>
 						<tr>
-							<td>Adjust Links:</td>
-							<td><input id="ctrl_opt" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
+							<td class="formlabel">Adjust Links:</td>
+							<td><input id="ctrl_opt" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onOptChanged"/></td>
 						</tr>
 						<tr>
-							<td>Meaning of X Axis:</td>
-							<td><select class="easyui-combobox" id="ctrl_xo" name="ctrl_xo">
-						        <option value="depth">depth</option>
-						        <option value="shallowness">shallowness</option>
-						        <option value="timing">timing</option>
+							<td class="formlabel">X Axis:</td>
+							<td><select class="easyui-combobox" style="width:140px" id="ctrl_xo" name="ctrl_xo" data-options="onSelect: onXOChanged">
+						        <option value="depth">Source Order</option>
+						        <option value="shallowness">Output Order</option>
+						        <option value="timing">Timing</option>
 						    </select></td>
 						 </tr>	
-						 
+                         <tr>
+                            <td class="formlabel">Node color plan:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_node_cp" name="ctrl_node_cp" data-options="onSelect: onNCPChanged">
+                                <option value="flat">Flat</option>
+                                <option value="cat">Asset Group</option>
+                                <option value="asset">Asset</option>
+                            </select></td>
+                         </tr>  
+                         <tr>
+                            <td class="formlabel">Link color plan:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_link_cp" name="ctrl_link_cp" data-options="onSelect: onLCPChanged">
+                                <option value="depth">Link Type</option>
+                                <option value="shallowness">Node Color</option>
+                            </select></td>
+                         </tr>  
+                         <tr>
+                            <td class="formlabel">Highlight:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_hilite" name="ctrl_hilite" data-options="onSelect: onHLChanged">
+                                <option value="none">None</option>
+                                <option value="risk">Risk Level</option>
+                                <option value="quality">Quality/Error</option>
+                                <option value="importance">Importance</option>
+                                <option value="nolineage">Lineage Break</option>
+                                <option value="timing">Timing</option>
+                            </select></td>
+                         </tr>  
 					</table>
 				</div>
 			</div>

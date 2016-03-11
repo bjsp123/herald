@@ -79,7 +79,7 @@ namespace bjs {
 
         if (!fullname) fullname = "unknown";
 
-        switch(config.colorplan){
+        switch(config.nodeColorplan){
 			case bjs.colorplan.flat:
 				return "gray";
 			case bjs.colorplan.cat:
@@ -182,7 +182,7 @@ namespace bjs {
 			    case bjs.handed.right:
 			        return 20+d.width;
 			   case bjs.handed.low:
-			        return 0;
+			        return d.width/2;
 			   case bjs.handed.row:
 			   		return d.width/2-10;
 			   case bjs.handed.column:
@@ -201,7 +201,7 @@ namespace bjs {
 		    case bjs.handed.right:
 		        return d.height/2;
 			   case bjs.handed.low:
-			       return d.height+15;
+			       return d.height+12;
 			   case bjs.handed.row:
 			   		return -5;
 			   	case bjs.handed.column:

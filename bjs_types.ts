@@ -372,7 +372,7 @@ namespace bjs {
 	
 	export class config{
 		public optimize:boolean=false;
-		public colorplan:number=colorplan.cat;
+		public nodeColorplan:number=colorplan.cat;
 		public linkColorplan:number=linkColorplan.bynode;
 		public showDetail:number=showDetail.none;
 		public xorder:number=xorder.shallowness;
