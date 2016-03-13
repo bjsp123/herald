@@ -81,6 +81,7 @@ namespace bjs {
 					//.flowLayout('x', 300)
 					.nodes(mv.nodea)
 					.links(mv.colalinks)
+					.constraints(constraints)
 					.powerGraphGroups(function(d) {
 						powerGraph = d;
 					})

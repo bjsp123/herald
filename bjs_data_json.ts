@@ -187,6 +187,8 @@ namespace bjs_data_json{
 		removeFieldFromWorld(w, f);
 	}
 	
+	//Remove a node, moving its rels to point to another node
+	//rels that would thus become circular are simply dropped.
 	function killAndRedirect(w:bjs.world, f:bjs.field, newfield:bjs.field):void{
 
 		bjs.lg_inf("Squashing and redirecting field " + f.fullname);
@@ -196,10 +198,12 @@ namespace bjs_data_json{
 		for(var i=0; i<w.rels.length;++i){
 			var rel=w.rels[i];
 			if(rel.source == f){
+				if(newfield==rel.target) continue;
 				var newrel = new bjs.rel(newfield, rel.target, rel.type);
 					newrels.push(newrel);
 			}
 			if(rel.target == f){
+				if(newfield==rel.source) continue;
 				var newrel = new bjs.rel(rel.source, newfield, rel.type);
 					newrels.push(newrel);
 			}
@@ -338,7 +342,7 @@ namespace bjs_data_json{
 
 		if(squash.el_fields != ""){
 			var reg = new RegExp(squash.el_fields, 'i');
-			if (reg.exec(field.fullname) != null) {
+			if (bjs.matchField(squash.el_fields, field, true)) {
 				return true;
 			}
 		}
@@ -367,30 +371,26 @@ namespace bjs_data_json{
 	function isMatch(field:bjs.field, filter:bjs.filter):boolean{
 
 		if (filter.inc != "") {
-			
-			var reg = new RegExp(filter.inc, 'i');
-			if (reg.exec(field.fullname) == null) {
-					return false;
-				}
+			if(!bjs.matchField(filter.inc, field, true))
+				return false;
 			}
 
 		if (filter.exc != "") {
-			reg = new RegExp(filter.exc, 'i');
-			if (reg.exec(field.fullname) != null) {
-					return false;
+			var reg = new RegExp(filter.exc, 'i');
+			if(bjs.matchField(filter.exc, field, true)){
+				return false;
 			}
 		}
 
 		if (filter.inc_rels != "") {
-			reg = new RegExp(filter.inc_rels, 'i');
 			var found = false;
 			for (var ancestorname in field.ancestors) {
-				if (reg.exec(ancestorname) != null) {
+				if (bjs.matchField(filter.inc_rels, field.ancestors[ancestorname].field, true)) {
 					found = true;
 				}
 			}
 			for (var descendantname in field.descendants) {
-				if (reg.exec(descendantname) != null) {
+				if (bjs.matchField(filter.inc_rels, field.descendants[descendantname].field, true)) {
 					found = true;
 				}
 			}
@@ -400,12 +400,12 @@ namespace bjs_data_json{
 		if(filter.exc_rels != ""){
 			reg = new RegExp(filter.exc_rels, 'i');
 			for (var ancestorname in field.ancestors) {
-				if (reg.exec(ancestorname) != null) {
+				if (bjs.matchField(filter.exc_rels, field.ancestors[ancestorname].field, true)) {
 					return false;
 				}
 			}
 			for (var descendantname in field.descendants) {
-				if (reg.exec(descendantname) != null) {
+				if (bjs.matchField(filter.exc_rels, field.descendants[descendantname].field, true)) {
 					return false;
 				}
 			}
@@ -522,7 +522,6 @@ namespace bjs_data_json{
 				latest_src = srcass.effnotbefore;
 			}
 		}
-
 		ass.effnotbefore = latest_src + ass.latency;
 	}
 	
@@ -541,7 +540,7 @@ namespace bjs_data_json{
 			recursiveFieldCalculations(w, src);
 			f.effrisk += src.effrisk;
 			f.effquality *= src.effquality;
-			if(src.hasNoLineage()) f.effnolineage = true;
+			if(src.effnolineage) f.effnolineage = true;
 		}
 	}
 	

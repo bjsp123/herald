@@ -12,7 +12,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
@@ -24,7 +24,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
@@ -36,7 +36,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
@@ -48,7 +48,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
@@ -60,7 +60,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
@@ -72,7 +72,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
              "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
@@ -84,7 +84,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
@@ -96,7 +96,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 3,
+            "importance": 1,
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
@@ -174,7 +174,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 1,
+            "importance": 2,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance",
@@ -190,7 +190,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 1,
+            "importance": 2,
             "usesvalue": [],
             "usesfilter": [
                 "Core.Retail.Balances:DrawnBalance",
@@ -206,7 +206,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 1,
+            "importance": 2,
             "usesvalue": [],
             "usesfilter": [
                 "Customer.ClientData.Individuals:Cust_ID",
@@ -222,7 +222,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 1,
+            "importance": 2,
             "usesvalue": [],
             "usesfilter": [
                 "Customer.Quality.Internal:Entity_Grade",
@@ -237,7 +237,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 1,
+            "importance": 2,
             "usesvalue": ["Customer.ClientData.Individuals:Postcode",
                 "Customer.ClientData.SmallBusiness:Postcode"],
             "usesfilter": [
@@ -251,8 +251,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "quality": 0.8,
-            "importance": 1,
+            "importance": 2,
             "usesvalue": ["Customer.ClientData.Individuals:Name",
                 "Customer.ClientData.SmallBusiness:Name"],
             "usesfilter": [
@@ -288,7 +287,6 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "quality": 0.8,
             "usesvalue": [],
             "usesfilter": []
         },{
@@ -300,7 +298,6 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "quality": 0.8,
             "usesvalue": [],
             "usesfilter": []
         },  {
@@ -345,7 +342,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 2,
+            "importance": 3,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance"
@@ -360,7 +357,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 2,
+            "importance": 3,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance"
@@ -377,7 +374,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 2,
+            "importance": 3,
             "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
                 "Core.Retail.Balances:UndrawnBalance"
@@ -394,7 +391,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 2,
+            "importance": 3,
             "usesvalue": [
                 "Reports.BCBS.CreditRisk:Distressed",
                 "Core.Retail.Balances:Arrears"
@@ -409,7 +406,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "importance": 2,
+            "importance": 3,
             "usesvalue": [
                 "Reports.BCBS.CreditRisk:Distressed",
                 "Reports.BCBS.CreditRisk:Substandard"
@@ -446,13 +443,13 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": ["Core.Retail.Accounts:Limit", "Core.Retail.Accounts:Accrual"],
+            "usesvalue": ["Core.Retail.Accounts:Limit", "Core.Retail.Accounts:MonthlyPayment", "Core.Retail.Calculated:Overdue"],
             "usesfilter": []
         }, {
             "fullname": "Core.Retail.Accounts:Limit",
             "conceptname": "",
             "desc": "Borrowing limit associated with account.",
-            "formula": "",
+            "formula": "Taken from CBS.",
             "type": "Money",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
@@ -461,22 +458,34 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         }, {
-            "fullname": "Core.Retail.Accounts:Accrual",
+            "fullname": "Core.Retail.Accounts:MonthlyPayment",
             "conceptname": "",
             "desc": "Current accrual on account including overdue payments.",
-            "formula": "",
+            "formula": "Taken from CBS.",
             "type": "Money",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.2,
             "usesvalue": [],
             "usesfilter": []
         }, {
             "fullname": "Core.Retail.Accounts:LastPaymentDate",
             "conceptname": "",
             "desc": "Date of last payment.",
-            "formula": "",
+            "formula": "Taken from CBS.",
             "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Retail.Accounts:PaymentSchedule",
+            "conceptname": "",
+            "desc": "Set of flags describing payment calendar.",
+            "formula": "Taken from CBS.",
+            "type": "Enumeration",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
@@ -493,6 +502,17 @@ testdata.raw =
             "flags": "",
             "usesvalue": [],
             "usesfilter": []
+        }, {
+            "fullname": "Core.Retail.Calculated:Overdue",
+            "conceptname": "",
+            "desc": "Overdue amount taking partial payments into account.",
+            "formula": "",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Retail.Accounts:MonthlyPayment"],
+            "usesfilter": ["Core.Retail.Accounts:PaymentSchedule"]
         }, {
             "fullname": "Customer.Quality.Internal:Entity_Grade",
             "conceptname": "",
@@ -514,7 +534,6 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "risk": 1.2,
             "comment": "Subject to manual overrides.",
             "usesvalue": ["Reference.SnP.Ratings:Rating", "Reference.Delphi.Scores:Score"],
             "usesfilter": []
@@ -538,14 +557,58 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": [],
-            "usesfilter": []
+            "usesvalue": ["Reference.Agency.Files:RecordValue"],
+            "usesfilter": ["Reference.Agency.Files:FileID", "Reference.Agency.Files:RecordID", "Reference.Agency.Files:Source"]
         }, {
             "fullname": "Reference.Delphi.Scores:Score",
             "conceptname": "",
             "desc": "Delphi base customer credit score as of previous EOD.",
             "formula": "",
             "type": "Enum",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Reference.Agency.Files:RecordValue"],
+            "usesfilter": ["Reference.Agency.Files:FileID", "Reference.Agency.Files:RecordID", "Reference.Agency.Files:Source"]
+        }, {
+            "fullname": "Reference.Agency.Files:FileID",
+            "conceptname": "",
+            "desc": "ID of an instance of an agency data file.",
+            "formula": "Arrives via FileNet from outside the department.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Reference.Agency.Files:RecordID",
+            "conceptname": "",
+            "desc": "ID of a row in an agency data file.",
+            "formula": "Arrives via FileNet from outside the department.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Reference.Agency.Files:RecordValue",
+            "conceptname": "",
+            "desc": "Value of a row of an agency data file.",
+            "formula": "Arrives via FileNet from outside the department.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Reference.Agency.Files:Source",
+            "conceptname": "",
+            "desc": "Entity code of the sender of an agency file.",
+            "formula": "Arrives via FileNet from outside the department.",
+            "type": "Enumeration",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
@@ -566,7 +629,7 @@ testdata.raw =
             "fullname": "Refinancing.Retail.Restructuring:Restructure_Event",
             "conceptname": "",
             "desc": "Date of last restructuring event.  Sometimes overridden with 'modification event' date for legacy reasons.",
-            "formula": "Unknown",
+            "formula": "",
             "type": "Date",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
@@ -610,7 +673,7 @@ testdata.raw =
             "fullname": "Core.Contracts.History:Modification_Date",
             "conceptname": "",
             "desc": "Date of last contract renegotiation.",
-            "formula": "unknown",
+            "formula": "",
             "type": "Date",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
@@ -653,7 +716,7 @@ testdata.raw =
             "owner": "n/a",
             "dept": "Credit_Risk",
             "calc": "n/a",
-            "risk": 1.4,
+            "risk": 2,
             "notbefore": 6
         }, {
             "fullname": "MIS.BCBS.Dashboard",
@@ -714,8 +777,15 @@ testdata.raw =
             "type": "SAS Dataset",
             "owner": "Madison_Avenue",
             "dept": "Reference_Data",
-            "calc": "/server/folder/scripts/calcStuff",
-            "risk": 1.1
+            "calc": "/server/folder/scripts/calcStuff"
+        }, {
+            "fullname": "Reference.Agency.Files",
+            "desc": "This asset represents a set of files recieved daily or monthly from various external agencies.",
+            "location": "/server/files/mmmyy",
+            "type": "Text File",
+            "owner": "Hudley_Pierce",
+            "dept": "Reference_Data",
+            "calc": "/server/files/shipment/rules"
         }, {
             "fullname": "Refinancing.Retail.Restructuring_Mods",
             "desc": "Restructuring information around account modifications.",
@@ -726,7 +796,6 @@ testdata.raw =
             "calc": "/server/folder/scripts/calcStuff",
             "latency": 1,
             "process": "Proc_Refinancing",
-            "risk": 1.1,
             "comment": "Refinancing data assets are considered risky due to the complex manual processes involved."
         },{
             "fullname": "Refinancing.Retail.Restructuring",
@@ -749,11 +818,11 @@ testdata.raw =
         }, {
             "fullname": "Core.Retail.Accounts",
             "desc": "Account information for retail contracts.",
-            "location": "/server/folder/files/inputDynamic",
-            "type": "SAS Dataset",
+            "location": "CBS01//t_acct",
+            "type": "Oracle table",
             "owner": "Helen_Wheels",
             "dept": "Banking",
-            "calc": "/server2/logic/stuff/"
+            "calc": "CBS01//CBSUSER//p_acct_update"
         },{
             "fullname": "Core.Contracts.History",
             "desc": "Contract terms information for retail contracts.",
@@ -762,6 +831,15 @@ testdata.raw =
             "owner": "Helen_Wheels",
             "dept": "Banking",
             "calc": "/server2/logic/stuff/",
+            "notbefore": 1
+        }, {
+            "fullname": "Core.Retail.Calculated",
+            "desc": "Table in the retail Oracle db that contains calculated values relating to arrears.",
+            "location": "CBS01//t_acct",
+            "type": "Oracle table",
+            "owner": "Helen_Wheels",
+            "dept": "Banking",
+            "calc": "CBS01//CBSUSER//p_overdue_update",
             "notbefore": 1
         }, {
             "fullname": "Customer.Quality.Internal",

@@ -43,5 +43,29 @@ namespace bjs{
         arr.splice( $.inArray(item, arr), 1 );
     }
 
+    export function matchField(s:string, f:bjs.field, extendedMatch:boolean):boolean {
+
+        var reg = new RegExp(s, 'i');
+        if(reg.exec(f.fullname) != null){
+            return true;
+        }
+
+        if(extendedMatch == false)
+            return false;
+
+        if(f.term != null && reg.exec(f.term.name) != null){
+            return true;
+        }
+
+        if(reg.exec(f.asset.type) != null){
+            return true;
+        }
+
+        if(reg.exec(f.asset.owner) != null){
+            return true;
+        }
+        return false;
+    }
+
 
 }

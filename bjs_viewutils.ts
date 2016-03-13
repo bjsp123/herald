@@ -27,7 +27,7 @@ namespace bjs {
 			case bjs.showDetail.risk:
 				return config.detailColor(n.field.effrisk / d3.max(n.mv.world.fielda, function(d) { return d.effrisk; }));
 			case bjs.showDetail.quality:
-				return config.detailColor((1-n.field.effquality) / d3.max(n.mv.world.fielda, function(d) { return (1-d.effquality); }));
+				return config.detailColor((n.field.effquality-1) / d3.max(n.mv.world.fielda, function(d) { return (d.effquality-1); }));
 			case bjs.showDetail.nolineage:
 				return config.detailColor(n.field.effnolineage?1:0);
     	}
@@ -60,6 +60,10 @@ namespace bjs {
     export function getLinkPath(d:bjs.link, offs:number, random:boolean, bundle:boolean){
     	
     	var randy = random?Math.random()*3:0;
+
+    	if(offs > (d.target.x - d.source.x)/3){
+    		offs = (d.target.x - d.source.x)/3;
+    	}
     	
     	if(!bundle){
     		return "M " + d.source.x + " " + (d.source.y + randy) +
@@ -484,28 +488,22 @@ namespace bjs {
 		var s = c.focus;
 		if (s==null || s=="")
 			return false;
-			
-		var reg = new RegExp(s, 'i');
-		
-		if(reg.exec(n.field.fullname) != null)
+
+		if(bjs.matchField(c.focus, n.field, true))
 			return true;
 			
-		if(reg.exec(n.field.asset.type) != null)
-			return true;
-			
-		for(var i in n.field.ancestors){
-			if(reg.exec(n.field.ancestors[i].field.fullname) != null)
+		var found = false;
+		for (var ancestorname in n.field.ancestors) {
+			if (bjs.matchField(c.focus, n.field.ancestors[ancestorname].field, true)) {
 				return true;
-			if(reg.exec(n.field.ancestors[i].field.asset.type) != null)
+			}
+		}
+		for (var descendantname in n.field.descendants) {
+			if (bjs.matchField(c.focus, n.field.descendants[descendantname].field, true)) {
 				return true;
+			}
 		}
 		
-		for(var i in n.field.descendants){
-			if(reg.exec(n.field.descendants[i].field.fullname) != null)
-				return true;
-			if(reg.exec(n.field.descendants[i].field.asset.type) != null)
-				return true;
-		}
 		
 		return false;
 		

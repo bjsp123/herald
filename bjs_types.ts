@@ -376,8 +376,8 @@ namespace bjs {
 		public linkColorplan:number=linkColorplan.bynode;
 		public showDetail:number=showDetail.none;
 		public xorder:number=xorder.shallowness;
-		public color:any=d3.scale.category20();
-		public detailColor: any = d3.scale.category10();
+		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
+        public detailColor = d3.scale.quantile().range(["#0f0","#0f4","#0e7","#0d9","#4bc","#aad","#daa","#e87","#f65","#f32","#f00"]).domain([0,1]);
 		public focus:string="";
 
 	}
