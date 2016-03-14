@@ -170,7 +170,7 @@ namespace bjs {
 
 	}
 
-	private renderLinks(svg, c, linkdata) {
+	private renderLinks(svg:any, c:bjs.config, linkdata:bjs.link[]):void {
 		
 		var config = this.config;
 		var focus = this.focus;
@@ -189,6 +189,7 @@ namespace bjs {
 		var boff = this.BUNDLE_OFFSET;
 
 		links
+			.transition()
 			.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);})
 			.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 
@@ -197,7 +198,7 @@ namespace bjs {
 			.remove();
 	}
 
-	private renderGroups(svg, c, groups) {
+	private renderGroups(svg:any, c:bjs.config, groups:bjs.IMap<bjs.group>):void {
 
 		var datarray = [];
 
@@ -212,12 +213,12 @@ namespace bjs {
 				
 		var gholder = svg.selectAll("#groupholder");
 
-		var groups = gholder.selectAll(".group")
+		var groupfather = gholder.selectAll(".group")
 			.data(datarray, function(d, i) {
 				return d.fullname;
 			});
 
-		var groupsg = groups
+		var groupsg = groupfather
 			.enter()
 			.append("g")
 			.attr("class", "group")
@@ -228,16 +229,16 @@ namespace bjs {
 			.on("mouseout", this.mouseOut)
 			.on("click", this.groupClick);
 			
-		bjs.drawGroupBox(groups, groupsg, this.config, 4);
+		bjs.drawGroupBox(groupfather, groupsg, this.config, 4);
 
 
-		var groupsupdate = groups
+		var groupsupdate = groupfather
 			.transition()
 			.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
 			
-			groups
+			groupfather
 			.call(d3.behavior.drag()
 				.origin(function(d) {
 					return d;
@@ -249,11 +250,11 @@ namespace bjs {
 				.on("dragend", this.dragend));
 		
 
-		var groupexit = groups.exit().remove();
+		var groupexit = groupfather.exit().remove();
 
 	}
 
-	private renderNodes(svg, c, ndata) {
+	private renderNodes(svg:any, c:bjs.config, ndata:bjs.node[]):void {
 
 		var nodes = svg
 			.selectAll(".nodegrp")

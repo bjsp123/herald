@@ -48,7 +48,13 @@
     	clear();
     	refresh();
     }
-    
+
+    function shScatter(){
+        bip = new bjs.scatter_view();
+        clear();
+        refresh();
+    }
+
     function shHive(){
     	bip = new bjs.hive_view();
     	clear();
@@ -193,7 +199,7 @@
 
 
     $(document).ready(function() {
-    	bip = new bjs.bp_view();
+    	bip = new bjs.scatter_view();
     	init();
     });
 
@@ -242,33 +248,37 @@
 
 
     		if (d.itemtype == "node") {
-    			name += "Field: " + d.field.name + "<br/>";
-                name += "ID: " + d.field.fullname;
+                if(d.isLogical()){
+                    name += "A logical node not associated with a field.";
+                }else{
+        			name += "Field: " + d.field.name + "<br/>";
+                    name += "ID: " + d.field.fullname;
 
-    			summary += d.field.desc + "<br/>";
-    			summary += "Type: " + d.field.type + "<br/>";
-    			summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
+        			summary += d.field.desc + "<br/>";
+        			summary += "Type: " + d.field.type + "<br/>";
+        			summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
 
-    			details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
+        			details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
 
-    			details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li>";
-    			details += "<li>Quality/Error: " + (d.field.effquality*100).toFixed(2) + "</li></ul>";
+        			details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li>";
+        			details += "<li>Quality/Error: " + (d.field.effquality*100).toFixed(2) + "</li></ul>";
 
-                details += "<h3>Other:</h3>";
-                if(d.field.effnolineage) details += "Lineage is incomplete.<br/>";
-                details += "Available from day " + d.field.asset.effnotbefore + "<br/>";
-                if(d.field.flags.search("logical") != -1) details += "This field is a placeholder, not a physical field."
+                    details += "<h3>Other:</h3>";
+                    if(d.field.effnolineage) details += "Lineage is incomplete.<br/>";
+                    details += "Available from day " + d.field.asset.effnotbefore + "<br/>";
+                    if(d.field.isLogical()) details += "This field is a placeholder, not a physical field."
 
-    			stats += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
-                stats += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + " (" + d.field.risk + " inherent, " + d.field.asset.risk + " from asset, " + (d.field.effrisk-(d.field.risk + d.field.asset.risk)) + " from upstream)</li>";
-                stats += "<li>Quality: " + (d.field.effquality*100).toFixed(2) + "% (" + (d.field.quality*100).toFixed(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toFixed(2) + " from upstream)</li>";
-                stats += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
+        			stats += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
+                    stats += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + " (" + d.field.risk + " inherent, " + d.field.asset.risk + " from asset, " + (d.field.effrisk-(d.field.risk + d.field.asset.risk)) + " from upstream)</li>";
+                    stats += "<li>Quality: " + (d.field.effquality*100).toFixed(2) + "% (" + (d.field.quality*100).toFixed(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toFixed(2) + " from upstream)</li>";
+                    stats += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
 
-    			if(d.field.term != null){
-    				terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
-    			}else{
-    				terms += "Not associated with any business term";
-    			}
+        			if(d.field.term != null){
+        				terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
+        			}else{
+        				terms += "Not associated with any business term";
+        			}
+                }
 
     		}
 
@@ -324,6 +334,12 @@
                 <a href="#">Visualization</a>
                 <ul>
                     <li>
+                        <a href="#" onclick="shMatrix();">Matrix</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shTree();">Tree</a>
+                    </li>
+                    <li>
                         <a href="#" onclick="shBipart();">Bipartite</a>
                     </li>
                     <li>
@@ -336,10 +352,7 @@
                         <a href="#" onclick="shCola();">Constrained</a>
                     </li>
                     <li>
-                        <a href="#" onclick="shMatrix();">Matrix</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="shTree();">Tree</a>
+                        <a href="#" onclick="shScatter();">Scatter</a>
                     </li>
                 </ul>
             </li>

@@ -180,6 +180,11 @@ namespace bjs {
 		public hasNoLineage():boolean{
 			return this.sources.length == 0 && this.formula.length == 0;
 		}
+
+		public isLogical(){
+			if(this.flags.search("logical") != -1) return true;
+			return false;
+		}
 	}
 	
 	
@@ -245,11 +250,22 @@ namespace bjs {
 		cola_index: number = -1;//or is this really ephemeral state?
 		idx: number = -1; // holds the node's position in an array in some cases
 		
-		constructor(public view:view, public mv: mv, public field: field){
+		constructor(public view:view, public mv: mv, public field: field, public comment:string=""){
 			if (field == null) 
 				bjs.lg_warn("Tried to create node without field");
 			
 			this.fullname = field?field.fullname:"synthetic";
+		}
+
+		public isLogical():boolean{
+			if(this.field==null) return true;
+			return false;
+		}
+
+		public isNFLogical():boolean{
+			if(this.field==null) return true;
+			if(this.field.isLogical()) return true;
+			return false;
 		}
 	}
 
@@ -377,7 +393,7 @@ namespace bjs {
 		public showDetail:number=showDetail.none;
 		public xorder:number=xorder.shallowness;
 		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
-        public detailColor = d3.scale.quantile().range(["#0f0","#0f4","#0e7","#0d9","#4bc","#aad","#daa","#e87","#f65","#f32","#f00"]).domain([0,1]);
+        public detailColor = d3.scale.quantile().range(["#0f2","#0c3","#0a5","#287","#469","#649","#8a7","#a25","#c03","#d02","#f00"]).domain([0,1]);
 
 	}
 

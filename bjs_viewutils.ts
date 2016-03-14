@@ -409,11 +409,13 @@ namespace bjs {
 			.attr("r", r)
 			.attr("cx", x)
 			.style("fill", function(d){return bjs.getNodeColor(config, focus, d);})
+			.style("stroke-dasharray", function(d){return d.isNFLogical()?"3,3":"";})
 			.attr("cy", y);
 
 		nodesel.select("text")
 			.attr("class", "nodelabel")
 			.text(function(d) {
+				if(d.isLogical) return d.fullname;
 				if(longname==true) return d.field.fullname;
 				return d.field.name;
 			})
