@@ -24,7 +24,7 @@ namespace bjs_data_json{
 		for(var i=0; i<world.fielda.length; ++i){
 			var f = world.fielda[i];
 
-			if(isMatch(f, filter)){
+			if(isDirectMatch(f, filter)){
 				bjs.lg_inf("Adding matched field " + f.fullname);
 				addFieldToNewWorld(w, world, f, filter, true);
 			}else{
@@ -368,7 +368,34 @@ namespace bjs_data_json{
 		}
 	}
 
-	function isMatch(field:bjs.field, filter:bjs.filter):boolean{
+	export function isMatch(field:bjs.field, filter:bjs.filter):boolean{
+		if(isDirectMatch(field, filter))
+			return true;
+
+		if(filter.grab_left){
+			for (var ancestorname in field.ancestors) {
+				if (isDirectMatch(field.ancestors[ancestorname].field, filter)) {
+					return true;
+				}
+			}
+		}
+
+		if(filter.grab_right){
+			for (var descendantname in field.descendants) {
+				if (isDirectMatch(field.descendants[descendantname].field, filter)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	export function isDirectMatch(field:bjs.field, filter:bjs.filter):boolean{
+
+		if(filter.noImplicitAny && filter.inc == ""){
+			return false;
+		}
 
 		if (filter.inc != "") {
 			if(!bjs.matchField(filter.inc, field, true))

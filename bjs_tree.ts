@@ -23,23 +23,25 @@ namespace bjs {
 	svg: any = null;
 	mv :bjs.mv = null;
 	config: bjs.config = null;
+	focus: bjs.filter=null;
 
 
 	
 	//most of the render function can be called internally based on a tree node click, so the actual tree_view.render()
 	//just prepares the mv for the first time; the mv will be edited in place as tree nodes change status.
-	public render(svg, w:bjs.world, c:config):void {
+	public render(svg, w:bjs.world, c:config, f:filter):void {
 		this.svg = svg;
 		this.config = c;
+		this.focus = f;
 		
 		var mv = this.prepareData(w);
 
 		this.mv = mv;
 
-		this.doRender(svg, mv, c);
+		this.doRender(svg, mv, c, f);
 	}
 
-	private doRender(svg, mv:bjs.mv, c):void{
+	private doRender(svg, mv:bjs.mv, c:config, f:filter):void{
 
 		var tree = d3.layout.tree().size([this.TOTAL_HEIGHT, this.TOTAL_WIDTH]);
 
@@ -49,6 +51,7 @@ namespace bjs {
 		var duration = 500;
 		
 		var config = this.config;
+		var focus = this.focus;
 
 		nodes = nodes.filter(function(d) {
 			return d.field!=null;
@@ -81,7 +84,7 @@ namespace bjs {
 			.on("mouseover", this.nodeMouseOver)
 			.on("mouseout", this.mouseOut);;
 
-		this.drawNode(nodeEnter, c);
+		this.drawNode(nodeEnter, c, f);
 		
 		var con:any = this.connector_cubic;//sigh
 		var v:any = this; //good grief.
@@ -116,7 +119,7 @@ namespace bjs {
 		tl.enter().insert("path", "g")
 			//.filter(function(d) { return !d.source.issyntharoot && !d.target.issyntharoot;})
 			.attr("class", "link")
-			.attr("stroke", function(d){return bjs.getLinkColor(d, config);})
+			.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);})
 			.style("stroke-opacity", 1e-6)
 			.attr("d", function(d) {
 				var o = {
@@ -196,7 +199,7 @@ namespace bjs {
 	}
 
 	//expects an entry selection with a xlated g appended to it
-	private drawNode(ne, c:bjs.config):void {
+	private drawNode(ne, c:bjs.config, f:bjs.filter):void {
 
 		ne.append("rect")
 			.attr("x", 0)
@@ -211,7 +214,7 @@ namespace bjs {
 			.attr("r", this.NODE_R)
 			.attr("class", "node")
 			.style("fill", function(d) {
-				return bjs.getNodeColor(c, d);
+				return bjs.getNodeColor(c, f, d);
 			});
 
 
@@ -255,7 +258,7 @@ namespace bjs {
 			this.expand(d);
 		}
 
-		this.doRender(this.svg, this.mv, this.config);
+		this.doRender(this.svg, this.mv, this.config, this.focus);
 	}
 
 	private collapse(d) {

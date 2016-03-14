@@ -352,7 +352,7 @@ namespace bjs {
 
 	export class filter{
 		
-		constructor(public inc: string="", public exc: string="", public inc_rels: string="", public exc_rels: string="", public grab_left: boolean=true, public grab_right: boolean=true){
+		constructor(public inc: string, public exc: string, public inc_rels: string, public exc_rels: string, public grab_left: boolean, public grab_right: boolean, public noImplicitAny:boolean){
 			this.inc = this.inc.trim();
 			this.exc = this.exc.trim();
 			this.inc_rels = this.inc_rels.trim();
@@ -363,7 +363,7 @@ namespace bjs {
 	
 	export class squash{
 		
-		constructor(public el_fields:string="", public el_assets: string="", public cr_assets:string="", public el_internals:boolean=false){
+		constructor(public el_fields:string, public el_assets: string, public cr_assets:string, public el_internals:boolean){
 			this.el_fields = this.el_fields.trim();
 			this.el_assets = this.el_assets.trim();
 			this.cr_assets = this.cr_assets.trim();
@@ -378,15 +378,15 @@ namespace bjs {
 		public xorder:number=xorder.shallowness;
 		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
         public detailColor = d3.scale.quantile().range(["#0f0","#0f4","#0e7","#0d9","#4bc","#aad","#daa","#e87","#f65","#f32","#f00"]).domain([0,1]);
-		public focus:string="";
 
 	}
-	
+
 	export interface view{
-		render(svg: any, w: bjs.world, c: bjs.config):void;
+		render(svg: any, w: bjs.world, c: bjs.config, f:bjs.filter):void;
 		svg:any;
 		config:config;
 		mv:mv;
+		focus:filter;
 	}
 
 }

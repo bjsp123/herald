@@ -34,10 +34,11 @@ namespace bjs {
 		svg:any = null;
 		config:bjs.config=null;
 		mv: bjs.mv = null;
+		focus: bjs.filter=null;
 
 
 
-		public render(svg, w:bjs.world, c:bjs.config):void {
+		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
 
 			this.optimize = c.optimize;
 
@@ -46,6 +47,7 @@ namespace bjs {
 			this.mv=mv;
 			this.config = c;
 			this.svg=svg;
+			this.focus=f;
 
 			//have to manually remove everything or again cola gets confused.  no entry / exit animations for us!
 			d3.selectAll("svg > *").remove();
@@ -132,6 +134,7 @@ namespace bjs {
 			.attr("class", "group");
 			
 			var config = this.config;
+			var focus = this.focus;
 
 			bjs.drawGroupBox(gt, gtg, this.config, this.GROUP_ROUNDY);
 
@@ -150,7 +153,7 @@ namespace bjs {
 				.attr("class", "link")
 				.attr("stroke", function(d) {
 					if (powerGraph) return "green";
-					return bjs.getLinkColor(d, config);
+					return bjs.getLinkColor(config, focus, d);
 				});
 
 			lt.exit().remove();
@@ -166,7 +169,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut); //.call(this.coke.drag); 
 
-			bjs.drawNodes(nodes, nodesg, config, this.NODE_R, false, false);
+			bjs.drawNodes(nodes, nodesg, config, focus, this.NODE_R, false, false);
 
 			var nodeexit = nodes.exit().remove();
 			
@@ -190,7 +193,7 @@ namespace bjs {
 				}
 				else {
 					lt.attr("d", connector_cubic)
-					.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
+					.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 				}
 
 				gtr.attr("x", function(d) {

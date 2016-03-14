@@ -27,11 +27,13 @@ namespace bjs {
 	svg: any = null;
 	mv :bjs.mv = null;
 	config: bjs.config = null;
+	focus: bjs.filter=null;
 
 
-	public render(svg, w:bjs.world, c:bjs.config):void {
+	public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
 		this.svg = svg;
 		this.config = c;
+		this.focus = f;
 		
 		var mv = bjs.makeDirect(this, w);
 		
@@ -171,6 +173,7 @@ namespace bjs {
 	private renderLinks(svg, c, linkdata) {
 		
 		var config = this.config;
+		var focus = this.focus;
 
 		var links = svg.selectAll(".link")
 			.data(linkdata, function(d, i) {
@@ -187,7 +190,7 @@ namespace bjs {
 
 		links
 			.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);})
-			.attr("stroke", function(d){return bjs.getLinkColor(d, config);});
+			.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 
 		links
 			.exit()
@@ -268,7 +271,7 @@ namespace bjs {
 			.on("mouseover", this.nodeMouseOver)
 			.on("mouseout", this.mouseOut);
 
-		bjs.drawNodes(nodes, nodesg, this.config, this.NODE_R, false, false);
+		bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.NODE_R, false, false);
 
 		var nodeupdate = nodes
 			.transition()

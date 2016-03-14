@@ -64,6 +64,11 @@ namespace bjs{
         if(reg.exec(f.asset.owner) != null){
             return true;
         }
+
+        if(reg.exec(f.asset.dept) != null){
+            return true;
+        }
+
         return false;
     }
 

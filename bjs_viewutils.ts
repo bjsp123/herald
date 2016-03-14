@@ -13,10 +13,9 @@ namespace bjs {
     }
 
 
-    export function getNodeColor(config:bjs.config, n:bjs.node):string {
-    	if(config.focus != null && config.focus != ""){
-    		if(isFocus(n, config))
-    			return "red";
+    export function getNodeColor(config:bjs.config, focus:bjs.filter, n:bjs.node):string {
+    	if(bjs_data_json.isMatch(n.field, focus)){
+    		return "red";
     	}
     	
     	switch(config.showDetail){
@@ -40,10 +39,9 @@ namespace bjs {
         }
     }
     
-    export function getLinkColor(l:bjs.link, config:bjs.config):string {
+    export function getLinkColor(config:bjs.config, focus:bjs.filter, l:bjs.link):string {
     	
-    	if(config.focus != null && config.focus != ""){
-    		if(isFocus(l.source, config))
+    	if(bjs_data_json.isMatch(l.source.field, focus)){
     			return "red";
     	}
     	
@@ -51,7 +49,7 @@ namespace bjs {
     		case bjs.linkColorplan.bytype:
     			return(l.rel.type=="filter") ? "#575" : "blue";
     		case bjs.linkColorplan.bynode:
-    			return bjs.getNodeColor(config, l.source);
+    			return bjs.getNodeColor(config, focus, l.source);
     		default:
     			return "gray";
     	}
@@ -340,7 +338,7 @@ namespace bjs {
     }
     
     
-    export function drawNodes(nodesel:any, nodesenter:any, config:bjs.config, r:number, invisrect:boolean, longname:boolean):void{
+    export function drawNodes(nodesel:any, nodesenter:any, config:bjs.config, focus:bjs.filter, r:number, invisrect:boolean, longname:boolean):void{
 		nodesenter.append("circle").attr("class", "nodecenter");
 		nodesenter.append("circle").attr("class", "nodepie");
 		nodesenter.append("text");
@@ -410,7 +408,7 @@ namespace bjs {
 			.attr("class", "node")
 			.attr("r", r)
 			.attr("cx", x)
-			.style("fill", function(d){return bjs.getNodeColor(config, d);})
+			.style("fill", function(d){return bjs.getNodeColor(config, focus, d);})
 			.attr("cy", y);
 
 		nodesel.select("text")
@@ -483,31 +481,4 @@ namespace bjs {
 	    return rec;
 	}
 	
-	function isFocus(n:bjs.node, c:bjs.config):boolean {
-		
-		var s = c.focus;
-		if (s==null || s=="")
-			return false;
-
-		if(bjs.matchField(c.focus, n.field, true))
-			return true;
-			
-		var found = false;
-		for (var ancestorname in n.field.ancestors) {
-			if (bjs.matchField(c.focus, n.field.ancestors[ancestorname].field, true)) {
-				return true;
-			}
-		}
-		for (var descendantname in n.field.descendants) {
-			if (bjs.matchField(c.focus, n.field.descendants[descendantname].field, true)) {
-				return true;
-			}
-		}
-		
-		
-		return false;
-		
-	}
-	
-
 }

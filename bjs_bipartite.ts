@@ -23,12 +23,14 @@ namespace bjs {
 		svg:any = null;
 		config:bjs.config=null;
 		mv:bjs.mv=null;
+		focus:bjs.filter=null;
 
 
-		public render(svg, w:bjs.world, c:bjs.config):void {
+		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
 			
 			this.svg = svg;
 			this.config=c;
+			this.focus = f;
 
 			var mv = this.prepareData(w, c);
 			this.mv = mv;
@@ -227,6 +229,7 @@ namespace bjs {
 				});
 				
 			var config = this.config;
+			var focus = this.focus;
 
 
 			links
@@ -239,13 +242,13 @@ namespace bjs {
 				links
 					.transition()
 					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, false);})
-					.attr("stroke",  function(d){return bjs.getLinkColor(d, config);});
+					.attr("stroke",  function(d){return bjs.getLinkColor(config, focus, d);});
 			}
 			else {
 				links
 					.transition()
 					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, true);})
-					.attr("stroke",  function(d){return bjs.getLinkColor(d, config);});
+					.attr("stroke",  function(d){return bjs.getLinkColor(config, focus, d);});
 			}
 
 			links
@@ -321,7 +324,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodes, nodesg, this.config, this.NODE_R, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
+			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.NODE_R, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
 			
 			var nodeupdate = nodes
 				.transition()

@@ -25,13 +25,15 @@ namespace bjs {
 		svg:any = null;
 		config:bjs.config=null;
 		mv:bjs.mv=null;
+		focus:bjs.filter=null;
 
 
-		public render(svg, w:bjs.world, c:bjs.config):void {
+		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
 			var mv = this.prepareData(w, c);
 			this.svg = svg;
 			this.mv = mv;
 			this.config=c;
+			this.focus=f;
 
 			this.renderGroups(svg, "lgroups", mv.lgroupa, bjs.handed.column);
 			this.renderGroups(svg, "rgroups", mv.rgroupa, bjs.handed.row);
@@ -221,12 +223,13 @@ namespace bjs {
 			var trans_fact = this.TRANSITION_FACTOR;
 			var node_r = this.NODE_R;
 			var config = this.config;
+			var focus = this.focus;
 			var matrix_width = this.MATRIX_WIDTH;
 			var matrix_height = this.MATRIX_WIDTH;
 
 			nodes.select("line")
 				.attr("style", function(d, i) {
-					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(config, d);
+					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(config, focus, d);
 				}) // attr rather than style because it needs to override the css style
 				.attr("class", "node")
 				.on("mouseover", null)
@@ -237,7 +240,7 @@ namespace bjs {
 				.attr("y2", function(d){return (d.handed==bjs.handed.row?matrix_height:0);});
 				
 				
-			bjs.drawNodes(nodes, nodesg, config, this.NODE_R, false, false);
+			bjs.drawNodes(nodes, nodesg, config, focus, this.NODE_R, false, false);
 			
 			var nodeupdate = nodes
 				.transition().delay(function(d, i) {

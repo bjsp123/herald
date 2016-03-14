@@ -39,8 +39,9 @@
     var bip = {}; //our reference to the current visualizer, which refers to its modelview(?)
     var w = {}; //the global world (filtered)
     var config= new bjs.config();
-    var theFilter = new bjs.filter();
-    var theSquash = new bjs.squash();
+    var theFilter = new bjs.filter("","","","",true,true,false);
+    var theSquash = new bjs.squash("","","",false);
+    var theFocus = new bjs.filter("","","","",true,true,true);
 
     function shBipart(){
     	bip = new bjs.bp_view();
@@ -98,7 +99,7 @@
     		var grab_left = $("#ctrl_grab_left")[0].checked;
     		var grab_right = $("#ctrl_grab_right")[0].checked;
 
-    		theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, grab_left, grab_right);
+    		theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, grab_left, grab_right, false);
 
     		refresh();
     	});
@@ -117,29 +118,31 @@
 
         d3.select("#ctrl_focus_btn").on("click", function(d) {
 
-            var focus = $("#ctrl_focus").val().trim();
+            var inc = $("#ctrl_inc_focus").val().trim();
+            var exc = $("#ctrl_exc_focus").val().trim();
+            var grab = $("#ctrl_grab_focus")[0].checked;
 
-            config.focus = focus;
+            theFocus = new bjs.filter(inc, exc, "", "", grab, grab, true);
 
-            refresh();
+            redraw();
         });
 
     	d3.select("#ctrl_squash_clear_btn").on("click", function(d) {
-    		theSquash = new bjs.squash();
+    		theSquash = new bjs.squash("","","",false);
 
     		refresh();
     	});
 
     	d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
-    		theFilter = new bjs.filter();
+    		theFilter = new bjs.filter("","","","",true,true,false);
 
     		refresh();
     	});
 
         d3.select("#ctrl_focus_clear_btn").on("click", function(d) {
-            config.focus = "";
+            theFocus = new bjs.filter("","","","",true,true,true);
 
-            refresh();
+            redraw();
         });
 
     	rawJson = testdata.raw;
@@ -181,7 +184,7 @@
 
     function redraw() {
     	mouseOverHandler(null);
-    	bip.render(svg, w, config);
+    	bip.render(svg, w, config, theFocus);
     }
 
     function clear() {
@@ -581,9 +584,17 @@
 				<div title="Focus" class="sidepanel">
 					<table>
 						<tr>
-							<td class="formlabel">Focus on path:</td>
-							<td><input class="easyui-textbox" type="text" name="ctrl_focus" id="ctrl_focus"></input></td>
+							<td class="formlabel">Include:</td>
+							<td><input class="easyui-textbox" type="text" name="ctrl_inc_focus" id="ctrl_inc_focus"></input></td>
 						</tr>
+                        <tr>
+                            <td class="formlabel">Exclude:</td>
+                            <td><input class="easyui-textbox" type="text" name="ctrl_exc_focus" id="ctrl_exc_focus"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="formlabel">Add Relatives:</td>
+                            <td><input id="ctrl_grab_focus" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'"/></td>
+                        </tr>
 						<tr>
 							<td></td>
 							<td>
