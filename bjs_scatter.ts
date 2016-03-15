@@ -11,9 +11,9 @@ namespace bjs {
 	export class scatter_view implements view{
 
 		NODE_R = 8;
-		LEFT_EDGE = 100;
+		LEFT_EDGE = 210;
 		RIGHT_EDGE = 1000;
-		TOP_EDGE = 100;
+		TOP_EDGE = 50;
 		BOTTOM_EDGE = 900;
 		BUNDLE_OFFSET = 150;
 
@@ -39,13 +39,25 @@ namespace bjs {
 			this.xScale = this.makeXScale(this.mv, this.config);
 			this.yScale = this.makeYScale(this.mv, this.config);
 
+			this.xAxis = d3.svg.axis().scale(this.xScale);
+			this.yAxis = d3.svg.axis().scale(this.yScale).orient("left");
+
 			this.positionAndMergeNodes(this.mv.nodea, this.config);
 
 			//we don't draw the groups, but perhaps this will allow bundling?
 			for(var fullname in this.mv.groups){
 				bjs.fitGroupToNodesBox(this.mv.groups[fullname], this.NODE_R*2);
 			}
-
+/*
+		    d3.select("body").append("svg")
+			    .attr("class", "axis")
+			    .attr("width", 1440)
+			    .attr("height", 30)
+				  .append("g")
+				    .attr("transform", "translate(0,30)")
+				    .call(this.yAxis);
+*/
+			this.renderAxes(this.svg);
 			this.renderLinks(this.svg, this.config, this.mv.links);
 			this.renderNodes(this.svg, this.config, this.mv.nodea);
 		}
@@ -58,8 +70,10 @@ namespace bjs {
 			//if two have the same coords, create a logical node for that location.
 			this.mv.nodea.forEach(function(d:bjs.node){
 				d.handed = bjs.handed.leftright;
-				d.x = this.getNodeX(d, c, this.xScale);
-				d.y = this.getNodeY(d, c, this.yScale);
+				d.x = this.getNodePos(d, c.xorder, this.xScale);
+				d.y = this.getNodePos(d, c.yorder, this.yScale);
+				if(isNaN(d.x))d.x = 0;
+				if(isNaN(d.y))d.y = 0;
 				var loc = d.x + ", " + d.y;
 				while(full[loc]){
 					d.y += this.NODE_R;
@@ -67,46 +81,77 @@ namespace bjs {
 				}
 				full[loc] = d;
 			},this);
-
 		}
 
 		private makeXScale(mv:bjs.mv, c:bjs.config):any{
-			var scale = d3.scale.linear().range([this.LEFT_EDGE,this.RIGHT_EDGE]);
-
-			switch(c.xorder){
-				case bjs.xorder.depth:
-				scale.domain([0,d3.max(mv.nodea, function(d:bjs.node){return d.field.ldepth;})]);
-				break;
-				case bjs.xorder.shallowness:
-				scale.domain([d3.max(mv.nodea, function(d:bjs.node){return d.field.rdepth;}),0]);
-				break;
-				case bjs.xorder.timing:
-				scale.domain([0, d3.max(mv.groupa, function(d:bjs.group){return d.asset.effnotbefore;})]);
-				break;
-				default:
-				scale.domain([d3.max(mv.groupa, function(d:bjs.group){return d.asset.rdepth;}),0]);
-				break;
-			}
-			return scale;
+			return this.makeScale(mv, c.xorder, this.LEFT_EDGE, this.RIGHT_EDGE);
 		}
 
 		private makeYScale(mv:bjs.mv, c:bjs.config):any{
-
-			//var scale = d3.scale.ordinal().rangePoints([this.TOP_EDGE, this.BOTTOM_EDGE]);
-			var scale = d3.scale.ordinal().range(d3.range(this.TOP_EDGE, this.BOTTOM_EDGE, 26));
-
-			return scale;
+			return this.makeScale(mv, c.yorder, this.TOP_EDGE, this.BOTTOM_EDGE);
 		}
 
-		private getNodeX(n:bjs.node, c:bjs.config, scale:any):number{
+		private makeScale(mv:bjs.mv, o:bjs.xyorder, min:number, max:number):any{
 
-			switch(c.xorder){
-				case bjs.xorder.depth:
+			switch(o){
+				case bjs.xyorder.depth:
+				return d3.scale.linear().range([min, max]).domain([0,d3.max(mv.nodea, function(d:bjs.node){return d.field.ldepth;})]);
+				case bjs.xyorder.shallowness:
+				return d3.scale.linear().range([min, max]).domain([d3.max(mv.nodea, function(d:bjs.node){return d.field.rdepth;}),0]);
+				case bjs.xyorder.timing:
+				return d3.scale.linear().range([min, max]).domain([0, d3.max(mv.groupa, function(d:bjs.group){return d.asset.effnotbefore;})]);
+				case bjs.xyorder.quality:
+				return d3.scale.linear().range([min, max]).domain([0, d3.max(mv.nodea, function(d:bjs.node){return d.field.effquality-1;})]);
+				case bjs.xyorder.risk:
+				return d3.scale.linear().range([min, max]).domain([0, d3.max(mv.nodea, function(d:bjs.node){return d.field.effrisk;})]);
+				case bjs.xyorder.importance:
+				return d3.scale.linear().range([min, max]).domain([0, d3.max(mv.nodea, function(d:bjs.node){return d.field.effimportance;})]);
+				case bjs.xyorder.complexity:
+				return d3.scale.linear().range([min, max]).domain([0, d3.max(mv.nodea, function(d:bjs.node){return d.field.getComplexity();})]);
+				case bjs.xyorder.term:
+				return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(mv.nodea, function(d:bjs.node){return d.field.term?d.field.term.code:"na";}));
+				case bjs.xyorder.type:
+				return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(mv.nodea, function(d:bjs.node){return d.field.asset?d.field.asset.type:"na";}));
+				case bjs.xyorder.owner:
+				return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(mv.nodea, function(d:bjs.node){return d.field.asset?d.field.asset.owner:"na";}));
+				case bjs.xyorder.asset:
+				return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(mv.nodea, function(d:bjs.node){return d.field.asset?d.field.asset.fullname:"na";}));
+				case bjs.xyorder.dept:
+				return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(mv.nodea, function(d:bjs.node){return d.field.asset?d.field.asset.dept:"na";}));
+				
+				default:
+				return d3.scale.linear().range([min, max]).domain([d3.max(mv.nodea, function(d:bjs.node){return d.field.rdepth;}),0]);
+			}
+		}
+
+		private getNodePos(n:bjs.node, o:bjs.xyorder, scale:any):number{
+
+			switch(o){
+				case bjs.xyorder.depth:
 				return scale(n.field.ldepth);
-				case bjs.xorder.shallowness:
+				case bjs.xyorder.shallowness:
 				return scale(n.field.rdepth);
-				case bjs.xorder.timing:
+				case bjs.xyorder.timing:
 				return scale(n.field.asset.effnotbefore);
+				case bjs.xyorder.quality:
+				return scale(n.field.effquality-1);
+				case bjs.xyorder.risk:
+				return scale(n.field.effrisk);
+				case bjs.xyorder.importance:
+				return scale(n.field.effimportance);
+				case bjs.xyorder.complexity:
+				var v= scale(n.field.getComplexity());
+				return v;
+				case bjs.xyorder.term:
+				return scale(n.field.term?n.field.term.code:"na");
+				case bjs.xyorder.type:
+				return scale(n.field.asset?n.field.asset.type:"na");
+				case bjs.xyorder.owner:
+				return scale(n.field.asset?n.field.asset.owner:"na");
+				case bjs.xyorder.asset:
+				return scale(n.field.asset?n.field.asset.fullname:"na");
+				case bjs.xyorder.dept:
+				return scale(n.field.asset?n.field.asset.dept:"na");
 				default:
 				return scale(n.field.asset.rdepth);
 			}
@@ -116,6 +161,30 @@ namespace bjs {
 		private getNodeY(n:bjs.node, c:bjs.config, scale:any):number{
 			var y= scale(n.field.asset.fullname);
 			return y;
+		}
+
+		private renderAxes(svg:any):void{
+			var xax = svg.selectAll(".xaxis").data([1]);
+
+			xax	
+				.enter()
+				.append("g");
+
+			xax
+				.attr("class", "xaxis")
+			    .attr("transform", "translate("+0+"," + (this.BOTTOM_EDGE + 40) + ")")
+			    .call(this.xAxis);
+
+			var yax = svg.selectAll(".yaxis").data([1]);
+
+			yax	
+				.enter()
+				.append("g");
+
+			yax
+				.attr("class", "yaxis")
+			    .attr("transform", "translate("+ (this.LEFT_EDGE - 90) + "," + 0 + ")")
+			    .call(this.yAxis);
 		}
 
 		private renderLinks(svg:any, c:bjs.config, linkdata:bjs.link[]):void {
@@ -149,8 +218,7 @@ namespace bjs {
 
 		private renderNodes(svg:any, c:bjs.config, ndata:bjs.node[]):void {
 
-			var getNodeX = this.getNodeX;
-			var getNodeY = this.getNodeY;
+			//var getNodePos = this.getNodePos;
 			var xScale = this.xScale;
 			var yScale = this.yScale;
 

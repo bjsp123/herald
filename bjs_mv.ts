@@ -64,7 +64,7 @@ namespace bjs {
     }
     
     // in-place, add points to represent individual dependecies in a matrix
-    export function addPts(view:bjs.view, mv:bjs.mv):void{
+    export function addPts(view:bjs.view, mv:bjs.mv, c:bjs.config):void{
         
         //we want one visual element per relationship -- where a relationship may be an actual link but may be an ancestor
 		//or usource or whatever.
@@ -73,19 +73,26 @@ namespace bjs {
 			var f = mv.world.fielda[i];
 
 			for (var ancestorfullname in f.ancestors) {
-			    var pt = new bjs.pt(
-			        view,
-			        f.fullname + "-" + ancestorfullname,
-			        f.ancestors[ancestorfullname].filt,
-					f.ancestors[ancestorfullname].ult,
-					f.ancestors[ancestorfullname].depth,
-					mv.lnodes[ancestorfullname],
-					mv.rnodes[f.fullname],
-					mv.lnodes[ancestorfullname].group.fullname,
-					mv.rnodes[f.fullname].group.fullname
-			    );
+                var inf = f.ancestors[ancestorfullname];
+
+                if(c.infFlag == bjs.infFlag.all ||
+                    (c.infFlag == bjs.infFlag.immediate && inf.depth==1) ||
+                    (c.infFlag == bjs.infFlag.ultimate && inf.ult==true)) {
+
+    			    var pt = new bjs.pt(
+    			        view,
+    			        f.fullname + "-" + ancestorfullname,
+    			        f.ancestors[ancestorfullname].filt,
+    					f.ancestors[ancestorfullname].ult,
+    					f.ancestors[ancestorfullname].depth,
+    					mv.lnodes[ancestorfullname],
+    					mv.rnodes[f.fullname],
+    					mv.lnodes[ancestorfullname].group.fullname,
+    					mv.rnodes[f.fullname].group.fullname
+    			    );
 				
-				mv.pts.push(pt);
+				    mv.pts.push(pt);
+                }
 			}
 		}
 		

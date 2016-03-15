@@ -60,14 +60,14 @@ namespace bjs {
 	private makeScale(mv:bjs.mv, c:bjs.config):any{
 		var scale = d3.scale.linear().range([this.LEFT_EDGE,this.RIGHT_EDGE]);
 		
-		switch(c.xorder){
-			case bjs.xorder.depth:
+		switch(c.floworder){
+			case bjs.floworder.depth:
 				scale.domain([0,d3.max(mv.groupa, function(d){return d.asset.ldepth;})]);
 				break;
-			case bjs.xorder.shallowness:
+			case bjs.floworder.shallowness:
 				scale.domain([d3.max(mv.groupa, function(d){return d.asset.rdepth;}),0]);
 				break;
-			case bjs.xorder.timing:
+			case bjs.floworder.timing:
 				scale.domain([0, d3.max(mv.groupa, function(d){return d.asset.effnotbefore;})]);
 				break;
 			default:
@@ -78,12 +78,12 @@ namespace bjs {
 	}
 	
 	private  xValue(g:bjs.group, c:bjs.config):number{
-		switch(c.xorder){
-			case bjs.xorder.depth:
+		switch(c.floworder){
+			case bjs.floworder.depth:
 				return g.asset.ldepth;
-			case bjs.xorder.shallowness:
+			case bjs.floworder.shallowness:
 				return g.asset.rdepth;
-			case bjs.xorder.timing:
+			case bjs.floworder.timing:
 				return g.asset.effnotbefore;
 			default:
 				return g.asset.ldepth;
@@ -195,6 +195,7 @@ namespace bjs {
 
 		links
 			.exit()
+			.transition(800).style("opacity", 0)
 			.remove();
 	}
 

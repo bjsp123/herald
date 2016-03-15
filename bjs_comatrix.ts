@@ -11,7 +11,7 @@ namespace bjs {
 
 	export class cm_view implements view {
 
-		NODE_R = 8;
+		NODE_R = 5.5;
 		GROUPBAR_WIDTH = 20;
 		GROUP_OFFSET = 100;
 		MATRIX_WIDTH = 800;
@@ -29,11 +29,12 @@ namespace bjs {
 
 
 		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
-			var mv = this.prepareData(w, c);
+			
 			this.svg = svg;
-			this.mv = mv;
 			this.config=c;
 			this.focus=f;
+			var mv = this.prepareData(w, c);
+			this.mv = mv;
 
 			this.renderGroups(svg, "lgroups", mv.lgroupa, bjs.handed.column);
 			this.renderGroups(svg, "rgroups", mv.rgroupa, bjs.handed.row);
@@ -48,7 +49,7 @@ namespace bjs {
 			//create l and r sets -- we'll use l for the y axis.
 			var mv = bjs.makeBipartite(this, w);
 			
-			bjs.addPts(this, mv);
+			bjs.addPts(this, mv, this.config);
 
 			this.layout(mv);
 
@@ -226,18 +227,18 @@ namespace bjs {
 			var focus = this.focus;
 			var matrix_width = this.MATRIX_WIDTH;
 			var matrix_height = this.MATRIX_WIDTH;
+			var left_axis_x = this.LEFT_AXIS_X;
+			var top_axis_y = this.TOP_AXIS_Y;
 
 			nodes.select("line")
-				.attr("style", function(d, i) {
-					return "stroke-width:0.5;stroke:" + bjs.getNodeColor(config, focus, d);
-				}) // attr rather than style because it needs to override the css style
-				.attr("class", "node")
+				.attr("class", "nodehairline")
+				.attr("stroke", function(d){return bjs.getNodeColor(config, focus, d);})
 				.on("mouseover", null)
 				.on("mouseout", null)
 				.attr("x1", 0)
 				.attr("y1", 0)
-				.attr("x2", function(d){return (d.handed==bjs.handed.row?0:matrix_width);})
-				.attr("y2", function(d){return (d.handed==bjs.handed.row?matrix_height:0);});
+				.attr("x2", function(d){return (d.handed==bjs.handed.row?0:matrix_width-left_axis_x/2);})
+				.attr("y2", function(d){return (d.handed==bjs.handed.row?matrix_height-top_axis_y/2:0);});
 				
 				
 			bjs.drawNodes(nodes, nodesg, config, focus, this.NODE_R, false, false);
@@ -255,15 +256,17 @@ namespace bjs {
 
 		}
 
-		private renderPts(svg, data) {
+		private renderPts(svg:any, data:bjs.pt[]):void {
+
+			var config = this.config;
+			var focus = this.focus;
+			var noder = this.NODE_R;
 
 			var pts = svg.selectAll(".pt")
 				.data(data, function(d, i) {
 					return d.key;
 				});
 				
-			var getpc = this.getPtColor;
-			var getpr = this.getPtRadius;
 			var trans_fact = this.TRANSITION_FACTOR;
 
 			var ptsg = pts
@@ -275,19 +278,21 @@ namespace bjs {
 					return "translate(" + d.target.x + "," + d.source.y + ")";
 				});
 
-			ptsg.append("circle");
+			ptsg.append("rect");
 
 			
-			pts.select("circle")
+			pts.select("rect")
 				.style("fill", function(d) {
-					return getpc(d);
+					return bjs.getPtColor(config, focus, d);
 				})
-				
-				.attr("cx", 0)
-				.attr("r", function(d) {
-					return getpr(d);
-				})
-				.attr("cy", 0);
+				.attr("class", "pt")
+				.attr("x", -noder)
+				.attr("y", -noder)
+				.attr("rx", 2)
+				.attr("ry", 2)
+				.attr("width", noder*2)
+				.attr("height", noder*2)
+				.on("mouseover", this.ptMouseOver);
 
 			pts
 				.transition().delay(function(d, i) {
@@ -301,27 +306,6 @@ namespace bjs {
 			pts.exit().transition(800).style("opacity", 0).remove();
 		}
 
-		private getPtRadius(pt) {
-			if (pt.depth == 0) {
-				return pt.view.NODE_R * 0.8;
-			}
-
-			if (pt.depth == 1) {
-				return pt.view.NODE_R * 0.66;
-			}
-			return pt.view.NODE_R * 0.45;
-		}
-
-		private getPtColor(pt) {
-			if (pt.depth == 0) {
-				return "#31a354";
-			}
-
-			if (pt.depth == 1) {
-				return "#78c679";
-			}
-			return "#addd8e";
-		}
 
 		private groupClick(d) {
 		}
@@ -344,6 +328,8 @@ namespace bjs {
 				.classed("passive", function(p) {
 					return !(p.source.fullname == d.source.fullname || p.target.fullname == d.target.fullname);
 				});
+
+			bjs.hover(d);
 		}
 
 		private groupMouseOver(d) {
@@ -381,10 +367,12 @@ namespace bjs {
 
 			d.view.svg.selectAll(".node,.nodelabel")
 				.classed("active", function(p) {
-					return bjs.areNodesRelated(p, d);
+					//return bjs.areNodesRelated(p, d);
+					return p.fullname == d.fullname;
 				})
 				.classed("passive", function(p) {
-					return !bjs.areNodesRelated(p, d);
+					//return !bjs.areNodesRelated(p, d);
+					return p.fullname != d.fullname;
 				});
 
 			d.view.svg.selectAll(".pt")

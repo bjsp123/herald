@@ -47,6 +47,10 @@
 
 	
 	/*bipartite view*/
+
+	.nodehairline{
+		stroke-width:0.5px;
+	}
 	
 	.nodelabel {
 		stroke: none;
@@ -105,6 +109,14 @@
 		opacity: 0.3;
 		fill: none;
 	}
+
+	.pt{
+	}
+
+	.pt.active {
+		stroke: #000;
+		stroke-width:0.5px;
+	}
 	
 	.node.active {
 		opacity: 1;
@@ -128,18 +140,14 @@
 		filter: drop-shadow(-0px -0px 3px #123);
 		-webkit-filter: drop-shadow(-0px -0px 3px #123);
 	}
+
+	.node.active .nodehairline{
+		stroke-width:2px;
+	}
 	
 	.glink.active {
 		opacity: .6;
 		font-weight: bold;
-	}
-	
-	path.passive {
-		/*opacity: 0.05;*/
-	}
-	
-	.passive {
-		/*opacity: 0.3;*/
 	}
 	
 	.cartouche {
@@ -160,5 +168,17 @@
 		stroke: #7d8;
 		fill-opacity: 0.3;
 		stroke-width: 2px;
+	}
+
+	.tick {
+		font-size: 10px;
+	}
+
+	.tick line {
+		stroke: #007696;
+	}
+
+	.domain {
+		fill: #007696;
 	}
 	

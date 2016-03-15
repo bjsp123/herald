@@ -54,6 +54,23 @@ namespace bjs {
     			return "gray";
     	}
     }
+
+    export function getPtColor(config:bjs.config, focus:bjs.filter, pt:bjs.pt):string{
+    	if(bjs_data_json.isMatch(pt.source.field, focus)){
+    		return "red";
+    	}
+
+    	switch(config.linkColorplan){
+    		case bjs.linkColorplan.bytype:
+    			return(pt.isFilter) ? "#575" : "blue";
+    		case bjs.linkColorplan.bynode:
+    			return bjs.getNodeColor(config, focus, pt.source);
+    		default:
+    			return "gray";
+    	}
+
+
+    }
     
     export function getLinkPath(d:bjs.link, offs:number, random:boolean, bundle:boolean){
     	
@@ -358,7 +375,7 @@ namespace bjs {
 			   case bjs.handed.row:
 			   		return 10;
 			   case bjs.handed.column:
-			   		return -20;
+			   		return -15;
 			   	case bjs.handed.leftright:
 			   		return d.x<400?-20:20;
 			   default:
@@ -372,6 +389,8 @@ namespace bjs {
 			   case bjs.handed.low:
 			       return 15;
 			   case bjs.handed.row:
+			   		return -15;
+			   	case bjs.handed.column:
 			   		return -15;
 			   default:
 			   		return 0;
@@ -415,7 +434,7 @@ namespace bjs {
 		nodesel.select("text")
 			.attr("class", "nodelabel")
 			.text(function(d) {
-				if(d.isLogical) return d.fullname;
+				if(d.isLogical()) return d.fullname;
 				if(longname==true) return d.field.fullname;
 				return d.field.name;
 			})

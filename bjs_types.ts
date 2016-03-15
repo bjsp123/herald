@@ -20,6 +20,12 @@ namespace bjs {
         leftright
     }
 
+    export const enum infFlag{
+    	all,
+    	immediate,
+    	ultimate
+    }
+
     export const enum colorplan {
     	flat,
     	cat,
@@ -31,10 +37,25 @@ namespace bjs {
     	bynode
     }
 
-    export const enum xorder {
+    export const enum floworder {
     	depth,
     	shallowness,
     	timing
+    }
+
+    export const enum xyorder {
+    	depth,
+    	shallowness,
+    	timing,
+    	quality,
+    	risk,
+    	type,
+    	owner,
+    	dept,
+    	asset,
+    	importance,
+    	term,
+    	complexity
     }
 
     export const enum showDetail {
@@ -181,9 +202,13 @@ namespace bjs {
 			return this.sources.length == 0 && this.formula.length == 0;
 		}
 
-		public isLogical(){
+		public isLogical():boolean{
 			if(this.flags.search("logical") != -1) return true;
 			return false;
+		}
+
+		public getComplexity():number {
+			return Object.keys(this.ancestors).length;
 		}
 	}
 	
@@ -388,10 +413,13 @@ namespace bjs {
 	
 	export class config{
 		public optimize:boolean=false;
+		public infFlag:bjs.infFlag=bjs.infFlag.all;
 		public nodeColorplan:number=colorplan.cat;
 		public linkColorplan:number=linkColorplan.bynode;
 		public showDetail:number=showDetail.none;
-		public xorder:number=xorder.shallowness;
+		public floworder:number=floworder.shallowness;
+		public xorder:number=xyorder.shallowness;
+		public yorder:number=xyorder.asset;
 		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
         public detailColor = d3.scale.quantile().range(["#0f2","#0c3","#0a5","#287","#469","#649","#8a7","#a25","#c03","#d02","#f00"]).domain([0,1]);
 

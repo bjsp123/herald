@@ -45,50 +45,104 @@
 
     function shBipart(){
     	bip = new bjs.bp_view();
+        $("#opt_adjust_links").show();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();      
     	clear();
     	refresh();
     }
 
     function shScatter(){
         bip = new bjs.scatter_view();
+        $("#opt_adjust_links").hide();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").show();
+        $("#opt_yaxis").show();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();
         clear();
         refresh();
     }
 
     function shHive(){
     	bip = new bjs.hive_view();
+        $("#opt_adjust_links").hide();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();
     	clear();
     	refresh();
     }
 
     function shMatrix(){
     	bip = new bjs.cm_view();
+        $("#opt_adjust_links").hide();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").show();
     	clear();
     	refresh();
     }
     
     function shFlow(){
     	bip = new bjs.flow_view();
+        $("#opt_adjust_links").hide();  
+        $("#opt_floworder").show();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();
     	clear();
     	refresh();
     }
     
     function shCola(){
     	bip = new bjs.cola_view();
+        $("#opt_adjust_links").show();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();
     	clear();
     	refresh();
     }
     
     function shTree(){
     	bip = new bjs.tree_view();
+        $("#opt_adjust_links").hide();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").show();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();
     	clear();
     	refresh();
     }
 
 
     function init() {
-
-    	$('.palette').draggable().resize();
 
     	svg = d3.select("svg");
 
@@ -152,7 +206,6 @@
         });
 
     	rawJson = testdata.raw;
-    	refresh();
     }
 
     function onOptChanged(chk){
@@ -160,8 +213,23 @@
         redraw();
     }
 
+    function onFOChanged(r){
+        config.floworder=bjs.floworder[r.value];
+        redraw();
+    }
+
     function onXOChanged(r){
-        config.xorder=bjs.xorder[r.value];
+        config.xorder=bjs.xyorder[r.value];
+        redraw();
+    }
+
+    function onYOChanged(r){
+        config.yorder=bjs.xyorder[r.value];
+        redraw();
+    }
+
+    function onInfChanged(r){
+        config.infFlag=bjs.infFlag[r.value];
         redraw();
     }
 
@@ -199,8 +267,8 @@
 
 
     $(document).ready(function() {
-    	bip = new bjs.scatter_view();
     	init();
+        shScatter();
     });
 
     function updateDataSummary(w) {
@@ -261,7 +329,7 @@
         			details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
 
         			details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li>";
-        			details += "<li>Quality/Error: " + (d.field.effquality*100).toFixed(2) + "</li></ul>";
+        			details += "<li>Quality/Error: " + (d.field.effquality).toFixed(2) + "</li></ul>";
 
                     details += "<h3>Other:</h3>";
                     if(d.field.effnolineage) details += "Lineage is incomplete.<br/>";
@@ -269,9 +337,42 @@
                     if(d.field.isLogical()) details += "This field is a placeholder, not a physical field."
 
         			stats += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
-                    stats += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + " (" + d.field.risk + " inherent, " + d.field.asset.risk + " from asset, " + (d.field.effrisk-(d.field.risk + d.field.asset.risk)) + " from upstream)</li>";
-                    stats += "<li>Quality: " + (d.field.effquality*100).toFixed(2) + "% (" + (d.field.quality*100).toFixed(2) + "% inherent, " + ((d.field.effquality-d.field.quality)*100).toFixed(2) + " from upstream)</li>";
-                    stats += "<li>Importance: " + d.field.effimportance + " (" + d.field.importance + " inherent, " + (d.field.effimportance-d.field.importance) + " from downstream)</li></ul>";
+                    stats += "<h3>Risk:</h3><ul><li>Total Risk: " + d.field.effrisk + " </li>";
+                    if(d.field.risk > 0){
+                        stats += "<li>Inherent risk: " + d.field.risk + "</li>";
+                    }
+                    if(d.field.asset.risk > 0){
+                        stats += "<li>From asset risk: " + d.field.asset.risk + "</li>";
+                    }
+                    for(var i=0;i<d.field.sources.length;++i){
+                        if(d.field.sources[i].effrisk > 0){
+                            stats += "<li>From " + d.field.sources[i].fullname + ": " + d.field.sources[i].effrisk + "</li>";
+                        }
+                    }
+                    stats += "</ul>";
+
+                    stats += "<h3>Quality/Error:</h3><ul><li>Total Error: " + d.field.effquality.toFixed(2) + " </li>";
+                    if(d.field.quality > 1){
+                        stats += "<li>Inherent error: " + d.field.quality.toFixed(2) + "</li>";
+                    }
+                    for(var i=0;i<d.field.sources.length;++i){
+                        if(d.field.sources[i].effquality > 1){
+                            stats += "<li>From " + d.field.sources[i].fullname + ": " + d.field.sources[i].effquality.toFixed(2) + "</li>";
+                        }
+                    }
+                    stats += "</ul>";
+
+                    stats += "<h3>Importance:</h3><ul><li>Total Importance: " + d.field.effimportance + " </li>";
+                    if(d.field.importance > 0){
+                        stats += "<li>Inherent importance: " + d.field.effimportance + "</li>";
+                    }
+                    for(var i=0;i<d.field.targets.length;++i){
+                        if(d.field.targets[i].effimportance > 0){
+                            stats += "<li>From " + d.field.targets[i].fullname + ": " + d.field.targets[i].effimportance + "</li>";
+                        }
+                    }
+                    stats += "</ul>";
+
 
         			if(d.field.term != null){
         				terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
@@ -283,7 +384,8 @@
     		}
 
     		if (d.itemtype == "group") {
-    			name = "Group " + d.fullname;
+    			name += "Group: " + d.fullname;
+                name += "Asset: " + d.asset?d.asset.fullname:"n/a";
 
     			summary += d.asset.desc + "<br/>";
     			summary += "Type: " + d.asset.type + "<br/><br/>";
@@ -307,6 +409,16 @@
     			}
 
     		}
+
+            if(d.itemtype == "pt") {
+                name += "Relationship source: " + d.source.fullname + "<br/>";
+                name += "Relationship target: " + d.target.fullname + "<br/>";
+
+                details += "Relationship distance: " + d.depth + "<br/>";
+                details += "Relationship type: " + (d.isFilter?"filter":"measure") + "<br/>";
+
+            }
+
     	} else {
     		name = "<br/><br/>";
     		summary = "<br/><br/><br/>";
@@ -619,19 +731,54 @@
 				</div>
 				<div title="View Options" class="sidepanel">
 					<table>
-						<tr>
+						<tr id="opt_adjust_links">
 							<td class="formlabel">Adjust Links:</td>
 							<td><input id="ctrl_opt" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onOptChanged"/></td>
 						</tr>
-						<tr>
+                        <tr id="opt_floworder">
+                            <td class="formlabel">X Axis:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_fo" name="ctrl_fo" data-options="onSelect: onFOChanged">
+                                <option value="shallowness">Output Order</option>
+                                <option value="depth">Source Order</option>
+                                <option value="timing">Timing</option>
+                            </select></td>
+                         </tr>  
+                        
+						<tr id="opt_xaxis">
 							<td class="formlabel">X Axis:</td>
 							<td><select class="easyui-combobox" style="width:140px" id="ctrl_xo" name="ctrl_xo" data-options="onSelect: onXOChanged">
                                 <option value="shallowness">Output Order</option>
 						        <option value="depth">Source Order</option>
 						        <option value="timing">Timing</option>
+                                <option value="quality">Quality/Error Factor</option>
+                                <option value="risk">Risk Level</option>
+                                <option value="importance">Importance</option>
+                                <option value="term">Business Term</option>
+                                <option value="complexity">Complexity</option>
+                                <option value="asset">Asset Name</option>
+                                <option value="type">Asset Type</option>
+                                <option value="owner">Asset Owner</option>
+                                <option value="dept">Asset Department</option>
 						    </select></td>
 						 </tr>	
-                         <tr>
+                         <tr id="opt_yaxis">
+                            <td class="formlabel">Y Axis:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_yo" name="ctrl_yo" data-options="onSelect: onYOChanged">
+                                <option value="asset">Asset Name</option>   
+                                <option value="shallowness">Output Order</option>
+                                <option value="depth">Source Order</option>
+                                <option value="timing">Timing</option>
+                                <option value="quality">Quality/Error Factor</option>
+                                <option value="risk">Risk Level</option>
+                                <option value="importance">Importance</option>
+                                <option value="term">Business Term</option>
+                                <option value="complexity">Complexity</option>
+                                <option value="type">Asset Type</option>
+                                <option value="owner">Asset Owner</option>
+                                <option value="dept">Asset Department</option>
+                            </select></td>
+                         </tr>  
+                         <tr id="opt_node_cp">
                             <td class="formlabel">Node color plan:</td>
                             <td><select class="easyui-combobox" style="width:140px" id="ctrl_node_cp" name="ctrl_node_cp" data-options="onSelect: onNCPChanged">
                                 <option value="cat">Asset Group</option>
@@ -639,14 +786,14 @@
                                 <option value="asset">Asset</option>
                             </select></td>
                          </tr>  
-                         <tr>
+                         <tr id="opt_link_cp">
                             <td class="formlabel">Link color plan:</td>
                             <td><select class="easyui-combobox" style="width:140px" id="ctrl_link_cp" name="ctrl_link_cp" data-options="onSelect: onLCPChanged" selected="bynode">
                                 <option value="bynode">Node Color</option>
                                 <option value="bytype">Link Type</option>
                             </select></td>
                          </tr>  
-                         <tr>
+                         <tr id="opt_highlight">
                             <td class="formlabel">Highlight:</td>
                             <td><select class="easyui-combobox" style="width:140px" id="ctrl_hilite" name="ctrl_hilite" data-options="onSelect: onHLChanged" selected="none">
                                 <option value="none">None</option>
@@ -655,6 +802,14 @@
                                 <option value="importance">Importance</option>
                                 <option value="nolineage">Lineage Break</option>
                                 <option value="timing">Timing</option>
+                            </select></td>
+                         </tr>  
+                         <tr id="opt_influence">
+                            <td class="formlabel">Show Intersections:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_influence" name="ctrl_influence" data-options="onSelect: onInfChanged" selected="none">
+                                <option value="all">All</option>
+                                <option value="immediate">Immediate</option>
+                                <option value="ultimate">Ultimate</option>
                             </select></td>
                          </tr>  
 					</table>

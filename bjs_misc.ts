@@ -43,6 +43,20 @@ namespace bjs{
         arr.splice( $.inArray(item, arr), 1 );
     }
 
+    export function distinct<T>(arr:T[], f:(x:T)=>string):string[]{
+        var r:string[] = [];
+        var u:any = {};
+
+        for(var i=0;i<arr.length;++i){
+            var v = f(arr[i]);
+            if(!u[v]){
+                u[v] = true;
+                r.push(v);
+            }
+        }
+        return r;
+    }
+
     export function matchField(s:string, f:bjs.field, extendedMatch:boolean):boolean {
 
         var reg = new RegExp(s, 'i');

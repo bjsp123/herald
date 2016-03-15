@@ -287,6 +287,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.1,
             "usesvalue": [],
             "usesfilter": []
         },{
@@ -298,6 +299,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.1,
             "usesvalue": [],
             "usesfilter": []
         },  {
@@ -309,6 +311,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.1,
             "usesvalue": [],
             "usesfilter": []
         },{
@@ -320,6 +323,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.1,
             "usesvalue": [],
             "usesfilter": []
         }, {
@@ -454,6 +458,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.05,
             "adjustment": "Adjust_Limits",
             "usesvalue": [],
             "usesfilter": []
@@ -466,7 +471,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "quality": 1.2,
+            "quality": 1.15,
             "usesvalue": [],
             "usesfilter": []
         }, {
@@ -500,6 +505,7 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "quality": 1.05,
             "usesvalue": [],
             "usesfilter": []
         }, {
@@ -523,10 +529,10 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "adjustment": "Adjust_Grade",
-            "usesvalue": ["Customer.Quality.Internal:Provisional_Entity_Grade"],
+            "usesvalue": ["Customer.Quality.Internal:Provisional_Grade"],
             "usesfilter": []
         }, {
-            "fullname": "Customer.Quality.Internal:Provisional_Entity_Grade",
+            "fullname": "Customer.Quality.Internal:Provisional_Grade",
             "conceptname": "",
             "desc": "Provisional internal entity grade derived from ratings and bureau scores.",
             "formula": "Corp rating where present; else bureau score.  Sometimes a manually entered value is used.",
