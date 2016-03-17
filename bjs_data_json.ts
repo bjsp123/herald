@@ -461,6 +461,13 @@ namespace bjs_data_json{
 			var srcfield = rel.source;
 			var tgtfield = rel.target;
 
+			if(srcfield == null){
+				bjs.lg_err("Bad rel, no src: " + tgtfield.fullname);
+			}
+			if(tgtfield == null){
+				bjs.lg_err("Bad rel, no tgt: " + srcfield.fullname);
+			}
+
 			srcfield.rels.push(rel);
 			tgtfield.rels.push(rel);
 			srcfield.peers.push(tgtfield);

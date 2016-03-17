@@ -159,6 +159,7 @@ namespace bjs {
 				return d.width;
 			})
 			.style("fill", function(d) {
+				if(d.groups.length>0) return "none";
 				return bjs.getColorFromName(config, d.fullname);
 			})
 			.attr("y", 0)
@@ -451,6 +452,11 @@ namespace bjs {
 		g.y = rec.top;
 		g.width = rec.width();
 		g.height = rec.height();
+	}
+
+	export function drawAxisLabel(sel:any, enter:any, s:string):void{
+		
+
 	}
 	
 	export function fitGroupToNodesBar(g:bjs.group, r:number, offs:number):void {

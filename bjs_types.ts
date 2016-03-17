@@ -315,11 +315,13 @@ namespace bjs {
 		fullname: string="";
 		id: string="";//because cola likes to have a property called this.
 		leaves: number[]=[];//because cola ditto ditto
+		groups: number[]=[];//annd again.
 		children: node[]=[];
 		x: number = -1;
 		y: number = -1;
 		height: number = -1;
 		width: number = -1;
+		cola_index:number = -1;
 		handed: bjs.handed=bjs.handed.low;
 		padding = -1;//used by cola
 		pts:pt[] = null; //points represent a dependency seen as a point rather than a link
@@ -425,12 +427,25 @@ namespace bjs {
 
 	}
 
+	export class dimensions{
+		public node_r=8;
+		public left_edge=100;
+		public right_edge=1200;
+		public top_edge=100;
+		public bottom_edge=1200;
+		public groupbar_width=20;
+		public group_spacing=20;
+		public bundle_offs=150;
+		public groupbar_offs=100;
+	}
+
 	export interface view{
-		render(svg: any, w: bjs.world, c: bjs.config, f:bjs.filter):void;
+		render(svg: any, w: bjs.world, c: bjs.config, f:bjs.filter, d:bjs.dimensions):void;
 		svg:any;
 		config:config;
 		mv:mv;
 		focus:filter;
+		dims:dimensions;
 	}
 
 }

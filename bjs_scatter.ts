@@ -1,4 +1,4 @@
-// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_viewutils.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 /// <reference path="bjs_mv.ts"/>
 
@@ -27,12 +27,14 @@ namespace bjs {
 		mv :bjs.mv = null;
 		config: bjs.config = null;
 		focus: bjs.filter=null;
+		dims:bjs.dimensions=null;
 
 
-		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
+		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter, d:bjs.dimensions):void {
 			this.svg = svg;
 			this.config = c;
 			this.focus = f;
+			this.dims=d;
 
 			this.mv = bjs.makeDirect(this, w);
 
@@ -45,6 +47,7 @@ namespace bjs {
 			this.positionAndMergeNodes(this.mv.nodea, this.config);
 
 			//we don't draw the groups, but perhaps this will allow bundling?
+			//works sometimes, not other times, depending on layout... not bundling 
 			for(var fullname in this.mv.groups){
 				bjs.fitGroupToNodesBox(this.mv.groups[fullname], this.NODE_R*2);
 			}
@@ -88,7 +91,7 @@ namespace bjs {
 		}
 
 		private makeYScale(mv:bjs.mv, c:bjs.config):any{
-			return this.makeScale(mv, c.yorder, this.TOP_EDGE, this.BOTTOM_EDGE);
+			return this.makeScale(mv, c.yorder, this.BOTTOM_EDGE, this.TOP_EDGE);
 		}
 
 		private makeScale(mv:bjs.mv, o:bjs.xyorder, min:number, max:number):any{
@@ -140,8 +143,7 @@ namespace bjs {
 				case bjs.xyorder.importance:
 				return scale(n.field.effimportance);
 				case bjs.xyorder.complexity:
-				var v= scale(n.field.getComplexity());
-				return v;
+				return scale(n.field.getComplexity());
 				case bjs.xyorder.term:
 				return scale(n.field.term?n.field.term.code:"na");
 				case bjs.xyorder.type:
@@ -163,28 +165,80 @@ namespace bjs {
 			return y;
 		}
 
+		private getAxisLabel(o:bjs.xyorder):string{
+			switch(o){
+				case bjs.xyorder.depth:
+				return "Steps from Source";
+				case bjs.xyorder.shallowness:
+				return "Steps from Output";
+				case bjs.xyorder.timing:
+				return "Ready on Working Day";
+				case bjs.xyorder.quality:
+				return "Error Factor";
+				case bjs.xyorder.risk:
+				return "Risk Level";
+				case bjs.xyorder.importance:
+				return "Importance";
+				case bjs.xyorder.complexity:
+				return "Complexity";
+				case bjs.xyorder.term:
+				return "Business Term";
+				case bjs.xyorder.type:
+				return "Asset Type";
+				case bjs.xyorder.owner:
+				return "Asset Owner";
+				case bjs.xyorder.asset:
+				return "Asset Name";
+				case bjs.xyorder.dept:
+				return "Asset Department";
+				default:
+				return "Invalid Axis";
+			}
+
+		}
+
 		private renderAxes(svg:any):void{
 			var xax = svg.selectAll(".xaxis").data([1]);
 
 			xax	
 				.enter()
-				.append("g");
+				.append("g")
+				.append("text")
+					.attr("class", "biglabel")
+					.attr("x", this.LEFT_EDGE)
+					.attr("y", 40);
 
 			xax
 				.attr("class", "xaxis")
 			    .attr("transform", "translate("+0+"," + (this.BOTTOM_EDGE + 40) + ")")
 			    .call(this.xAxis);
 
+			xax
+				.select(".biglabel")
+				.text(this.getAxisLabel(this.config.xorder));
+
+
 			var yax = svg.selectAll(".yaxis").data([1]);
 
 			yax	
 				.enter()
-				.append("g");
+				.append("g")
+				.append("text")
+					.attr("class", "biglabel")
+					.attr("x", -50)
+					.attr("y", 32);
 
 			yax
 				.attr("class", "yaxis")
 			    .attr("transform", "translate("+ (this.LEFT_EDGE - 90) + "," + 0 + ")")
 			    .call(this.yAxis);
+
+			yax
+				.select(".biglabel")
+				.text(this.getAxisLabel(this.config.yorder));
+
+
+
 		}
 
 		private renderLinks(svg:any, c:bjs.config, linkdata:bjs.link[]):void {
@@ -207,7 +261,7 @@ namespace bjs {
 
 			links
 				.transition()
-				.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);})
+				.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, false);})
 				.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 
 			links

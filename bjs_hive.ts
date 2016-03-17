@@ -11,36 +11,38 @@ namespace bjs {
 
 	export class hive_view implements view {
 
-		NODE_R = 8;
-		LEFT_AXIS_X = 200;
-		MIDDLE_AXIS_X = 550;
-		RIGHT_AXIS_X = 900;
-		BUNDLE_OFFSET = 100;
-		ROUP_OFFSET = 140;
-		AXIS_HEIGHT = 950;
-		TOP_MARGIN = 50;
-		GROUPBAR_WIDTH = 20;
-		GROUP_OFFSET = 120;
 		
 		svg:any = null;
 		config:bjs.config=null;
 		mv:bjs.mv=null;
 		focus:bjs.filter=null;
+		dims:bjs.dimensions=null;
 
 
-		public render(svg, w:bjs.world, c:config, f:filter):void {
-			var mv = this.prepareData(w, c);
+		left_axis_x:number;
+		middle_axis_x:number;
+		right_axis_x:number;
+
+
+		public render(svg, w:bjs.world, c:config, f:filter, d:dimensions):void {
+			this.dims=d;
+			this.left_axis_x = this.dims.left_edge + 100;
+			this.middle_axis_x = (this.dims.left_edge + this.dims.right_edge) / 2;
+			this.right_axis_x = this.dims.right_edge - 100;
+			
 			this.svg = svg;
 			this.config=c;
-			this.mv=mv;
 			this.focus=f;
 
+			var mv = this.prepareData(w, c);
+			this.mv=mv;
+			
 			this.renderLinks(svg, mv);
 
-			this.renderChain(svg, c, "lnodes", mv.lnodea, bjs.handed.left, this.LEFT_AXIS_X);
-			this.renderChain(svg, c, "rnodes", mv.rnodea, bjs.handed.right, this.RIGHT_AXIS_X);
-			this.renderChain(svg, c, "m1nodes", mv.m1nodea, bjs.handed.left, this.MIDDLE_AXIS_X - this.GROUP_OFFSET / 2);
-			this.renderChain(svg, c, "m2nodes", mv.m2nodea, bjs.handed.right, this.MIDDLE_AXIS_X + this.GROUP_OFFSET / 2);
+			this.renderChain(svg, c, "lnodes", mv.lnodea, bjs.handed.left, this.left_axis_x);
+			this.renderChain(svg, c, "rnodes", mv.rnodea, bjs.handed.right, this.right_axis_x);
+			this.renderChain(svg, c, "m1nodes", mv.m1nodea, bjs.handed.left, this.middle_axis_x - this.dims.groupbar_offs / 2);
+			this.renderChain(svg, c, "m2nodes", mv.m2nodea, bjs.handed.right, this.middle_axis_x + this.dims.groupbar_offs / 2);
 
 			this.renderGroups(svg, c, "lgroups", mv.lgroupa);
 			this.renderGroups(svg, c, "rgroups", mv.rgroupa);
@@ -54,37 +56,37 @@ namespace bjs {
 			var mv = bjs.makeTripartite(this, w, true);
 			
 			for (var i = 0; i < mv.lgroupa.length; ++i) {
-				mv.lgroupa[i].x = this.LEFT_AXIS_X - this.GROUP_OFFSET;
+				mv.lgroupa[i].x = this.left_axis_x - this.dims.groupbar_offs;
 				mv.lgroupa[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rgroupa.length; ++i) {
-				mv.rgroupa[i].x = this.RIGHT_AXIS_X + this.GROUP_OFFSET;
+				mv.rgroupa[i].x = this.right_axis_x + this.dims.groupbar_offs;
 				mv.rgroupa[i].handed = bjs.handed.right;
 			}
 
 			for (var i = 0; i < mv.mgroupa.length; ++i) {
-				mv.mgroupa[i].x = this.MIDDLE_AXIS_X;
+				mv.mgroupa[i].x = this.middle_axis_x;
 				mv.mgroupa[i].handed = bjs.handed.low;
 			}
 
 			for (var i = 0; i < mv.lnodea.length; ++i) {
-				mv.lnodea[i].x = this.LEFT_AXIS_X;
+				mv.lnodea[i].x = this.left_axis_x;
 				mv.lnodea[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rnodea.length; ++i) {
-				mv.rnodea[i].x = this.RIGHT_AXIS_X;
+				mv.rnodea[i].x = this.right_axis_x;
 				mv.rnodea[i].handed = bjs.handed.right;
 			}
 
 			for (var i = 0; i < mv.m1nodea.length; ++i) {
-				mv.m1nodea[i].x = this.MIDDLE_AXIS_X - this.GROUP_OFFSET / 2;
+				mv.m1nodea[i].x = this.middle_axis_x - this.dims.groupbar_offs / 2;
 				mv.m1nodea[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.m2nodea.length; ++i) {
-				mv.m2nodea[i].x = this.MIDDLE_AXIS_X + this.GROUP_OFFSET / 2;
+				mv.m2nodea[i].x = this.middle_axis_x + this.dims.groupbar_offs / 2;
 				mv.m2nodea[i].handed = bjs.handed.right;
 			}
 
@@ -93,7 +95,7 @@ namespace bjs {
 			return mv;
 		}
 
-		private updateYValues(mv) {
+		private updateYValues(mv:mv):void {
 			this.setYValues(mv.rnodea, mv.rgroupa, "");
 			this.setYValues(mv.lnodea, mv.lgroupa, "");
 			this.setYValues(mv.m1nodea, mv.mgroupa, "");
@@ -123,9 +125,9 @@ namespace bjs {
 				}
 			}
 
-			var interval = (this.AXIS_HEIGHT - this.TOP_MARGIN) / (numRegularNodes + (numBreaks * 2) + (numFGNodes * 4));
+			var interval = (this.dims.bottom_edge - this.dims.top_edge) / (numRegularNodes + (numBreaks * 2) + (numFGNodes * 4));
 
-			var y = this.TOP_MARGIN - interval / 2;
+			var y = this.dims.top_edge - interval / 2;
 			var prevgroup = nodes[0].group.fullname;
 			for (var i = 0; i < nodes.length; i++) {
 
@@ -144,7 +146,7 @@ namespace bjs {
 			}
 
 			for (var j = 0; j < groups.length; ++j) {
-				bjs.fitGroupToNodesBar(groups[j], this.NODE_R, this.GROUP_OFFSET);
+				bjs.fitGroupToNodesBar(groups[j], this.dims.node_r, this.dims.groupbar_offs);
 			}
 		}
 
@@ -154,7 +156,7 @@ namespace bjs {
 			var config = this.config;
 			var focus = this.focus;
 			
-			var bundle_offs = this.BUNDLE_OFFSET;
+			var bundle_offs = this.dims.bundle_offs;
 
 			var links = svg.selectAll(".link")
 				.data(dat.links, function(d, i) {
@@ -222,9 +224,9 @@ namespace bjs {
 				.append("line")
 				.attr("class", "axis " + tag)
 				.attr("x1", x)
-				.attr("y1", 0)
+				.attr("y1", this.dims.top_edge)
 				.attr("x2", x)
-				.attr("y2", this.AXIS_HEIGHT);
+				.attr("y2", this.dims.bottom_edge);
 
 			var nodes = svg
 				.selectAll(".nodegrp." + tag)
@@ -243,7 +245,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.NODE_R, true, false);
+			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, true, false);
 			
 			var nodeupdate = nodes
 				.transition()

@@ -1,3 +1,4 @@
+/// <reference path="bjs_types.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 
 namespace bjs {
@@ -82,9 +83,9 @@ namespace bjs {
     			    var pt = new bjs.pt(
     			        view,
     			        f.fullname + "-" + ancestorfullname,
-    			        f.ancestors[ancestorfullname].filt,
-    					f.ancestors[ancestorfullname].ult,
-    					f.ancestors[ancestorfullname].depth,
+    			        inf.filt,
+    					inf.ult,
+    					inf.depth,
     					mv.lnodes[ancestorfullname],
     					mv.rnodes[f.fullname],
     					mv.lnodes[ancestorfullname].group.fullname,
@@ -97,6 +98,79 @@ namespace bjs {
 		}
 		
 		bjs.lg_sum("addPts: " + mv.pts.length);
+    }
+
+    //
+    // prepare a 4 column alluvial-like plot.  col 1 is focus, col 2 and 3 are x and y axis, and col 4 is same as for bipartite
+    // this view does not use rels.
+    //
+    export function makeStats(view:bjs.view, w:bjs.world):bjs.mv{
+        var mv = new bjs.mv(w);
+
+        bjs.lg_inf("starting makeStats");
+
+        //4 sets of nodes, every node appears in each set.
+        for(var i=0; i<w.fielda.length; ++i){
+            var f = w.fielda[i];
+
+            var n;
+            n = new bjs.node(view, mv, f);
+            mv.rnodea.push(n);
+            mv.rnodes[n.fullname] = n;
+
+            n = new bjs.node(view, mv, f);
+            mv.lnodea.push(n);
+            mv.lnodes[n.fullname] = n;
+
+            n = new bjs.node(view, mv, f);
+            mv.m1nodea.push(n);
+            mv.m1nodes[n.fullname] = n;
+
+            n = new bjs.node(view, mv, f);
+            mv.m2nodea.push(n);
+            mv.m2nodes[n.fullname] = n;
+        }
+
+        for (var fullname in w.assets) {
+            var ass = w.assets[fullname];
+
+            var g = new bjs.group(view, ass);
+            mv.groupa.push(g);
+            mv.groups[fullname] = g;
+
+            for (var i = 0; i < ass.children.length; ++i) {
+                if (mv.lnodes[ass.children[i].fullname] != null) {
+                    g.children.push(mv.lnodes[ass.children[i].fullname]);
+                    mv.lnodes[ass.children[i].fullname].group = g;
+                }
+                if (mv.rnodes[ass.children[i].fullname] != null) {
+                    g.children.push(mv.rnodes[ass.children[i].fullname]);
+                    mv.rnodes[ass.children[i].fullname].group = g;
+                }
+                if (mv.m1nodes[ass.children[i].fullname] != null) {
+                    g.children.push(mv.m1nodes[ass.children[i].fullname]);
+                    mv.m1nodes[ass.children[i].fullname].group = g;
+                }
+                if (mv.m2nodes[ass.children[i].fullname] != null) {
+                    g.children.push(mv.m2nodes[ass.children[i].fullname]);
+                    mv.m2nodes[ass.children[i].fullname].group = g;
+                }
+            }
+
+            bjs.lg_inf("group: " + g.fullname);
+        }
+
+        //now, we add synthetic links between the nodes
+        for(var i=0;i<mv.lnodea.length;++i){
+            var fn = mv.lnodea[i].fullname;
+
+            mv.links.push(new bjs.link(mv.lnodes[fn], mv.m1nodes[fn], null));
+            mv.links.push(new bjs.link(mv.m1nodes[fn], mv.m2nodes[fn], null));
+            mv.links.push(new bjs.link(mv.m2nodes[fn], mv.rnodes[fn], null));
+        }
+
+        return mv;
+
     }
 
     //
@@ -373,7 +447,26 @@ namespace bjs {
             if (g.leaves.length > 0) {
                 mv.groupa.push(g);
                 mv.groups[g.fullname] = g;
+                g.cola_index = mv.groupa.length-1;
             }
+        }
+
+        var found = {};
+        for (var fullname in w.assets) {
+            var ass = w.assets[fullname];
+            var g:bjs.group;
+            if(found[ass.type]){
+                g = found[ass.type];
+            }else{
+                g = new bjs.group(view, null);
+                g.fullname = "Grouping for type " + ass.type;
+                found[ass.type] = g;
+                mv.groupa.push(g);
+                mv.groups[g.fullname]=g;
+                g.cola_index = mv.groupa.length-1;
+            }
+
+            g.groups.push(mv.groups[ass.fullname].cola_index);
         }
         
 

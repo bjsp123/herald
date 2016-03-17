@@ -4,7 +4,7 @@ testdata.raw =
 
     {
         raw: [{
-            "fullname": "MIS.BCBS.Dashboard:Retail_UpToDate",
+            "fullname": "MIS.Mart.ExecDashboard:Retail_UpToDate",
             "conceptname": "",
             "desc": "Sum of balances not in arrears.",
             "formula": "Balance filtered by arrears amount.",
@@ -16,7 +16,7 @@ testdata.raw =
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:Retail_Arrears_1M",
+            "fullname": "MIS.Mart.ExecDashboard:Retail_Arrears_1M",
             "conceptname": "",
             "desc": "Sum of balances <1 month in arrears.",
             "formula": "Balance filtered by arrears amount.",
@@ -28,7 +28,7 @@ testdata.raw =
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:Retail_Arrears_2M",
+            "fullname": "MIS.Mart.ExecDashboard:Retail_Arrears_2M",
             "conceptname": "",
             "desc": "Sum of balances 1-2 months in arrears.",
             "formula": "Balance filtered by arrears amount.",
@@ -40,7 +40,7 @@ testdata.raw =
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:Retail_Arrears_3M",
+            "fullname": "MIS.Mart.ExecDashboard:Retail_Arrears_3M",
             "conceptname": "",
             "desc": "Sum of balances 3+ months in arrears.",
             "formula": "Balance filtered by arrears amount.",
@@ -52,7 +52,7 @@ testdata.raw =
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:All_UpToDate",
+            "fullname": "MIS.Mart.ExecDashboard:All_UpToDate",
             "conceptname": "",
             "desc": "Sum of balances not in arrears, retail and BB.",
             "formula": "Balance filtered by arrears amount.",
@@ -64,7 +64,7 @@ testdata.raw =
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:All_Arrears_1M",
+            "fullname": "MIS.Mart.ExecDashboard:All_Arrears_1M",
             "conceptname": "",
             "desc": "Sum of balances <1 month in arrears, retail and BB.",
             "formula": "Balance filtered by arrears amount.",
@@ -76,7 +76,7 @@ testdata.raw =
              "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:All_Arrears_2M",
+            "fullname": "MIS.Mart.ExecDashboard:All_Arrears_2M",
             "conceptname": "",
             "desc": "Sum of balances 1-2 months in arrears, retail and BB.",
             "formula": "Balance filtered by arrears amount.",
@@ -88,7 +88,7 @@ testdata.raw =
             "usesvalue": ["MIS.Staging.Retail:DrawnBalance","MIS.Staging.SmallBusiness:DrawnBalance"],
             "usesfilter": ["MIS.Staging.Retail:DaysPastDue", "MIS.Staging.SmallBusiness:DaysPastDue"]
         }, {
-            "fullname": "MIS.BCBS.Dashboard:All_Arrears_3M",
+            "fullname": "MIS.Mart.ExecDashboard:All_Arrears_3M",
             "conceptname": "",
             "desc": "Sum of balances 3+ months in arrears, retail and BB.",
             "formula": "Balance filtered by arrears amount.",
@@ -166,7 +166,7 @@ testdata.raw =
             "usesvalue": ["Core.Retail.Accounts:LastPaymentDate"],
             "usesfilter": []
         }, {
-            "fullname": "MIS.BCBS.CreditRisk:Exposure",
+            "fullname": "MIS.Mart.CustomerReport:Exposure",
             "conceptname": "",
             "desc": "Measure: exposure amount.",
             "formula": "Any exposure in Balances is copied to the datamart.",
@@ -182,7 +182,7 @@ testdata.raw =
             ],
             "usesfilter": []
         }, {
-            "fullname": "MIS.BCBS.CreditRisk:Drawn",
+            "fullname": "MIS.Mart.CustomerReport:Drawn",
             "conceptname": "",
             "desc": "Dimension: drawn/undrawn flag.",
             "formula": "Depends on which Balances field the balance was taken from.",
@@ -198,7 +198,7 @@ testdata.raw =
                 "Core.Retail.Balances:BalanceID"
                 ]
         }, {
-            "fullname": "MIS.BCBS.CreditRisk:ClientType",
+            "fullname": "MIS.Mart.CustomerReport:ClientType",
             "conceptname": "",
             "desc": "Dimension: individual/business flag.",
             "formula": "Keyed by balance ID.  Depends on which customer data source the  ID is found in.",
@@ -214,7 +214,7 @@ testdata.raw =
                 "Core.Retail.Balances:BalanceID"
                 ]
         }, {
-            "fullname": "MIS.BCBS.CreditRisk:ClientQuality",
+            "fullname": "MIS.Mart.CustomerReport:ClientQuality",
             "conceptname": "",
             "desc": "Dimension: internal quality level.",
             "formula": "Internal Quality taken from refernce data.  For small businesses, ultimate parent entity is used.",
@@ -229,7 +229,7 @@ testdata.raw =
                 "Core.Retail.Balances:BalanceID"
                 ]
         }, {
-            "fullname": "MIS.BCBS.CreditRisk:Region",
+            "fullname": "MIS.Mart.CustomerReport:Region",
             "conceptname": "",
             "desc": "Dimension: region that contains customer's address.",
             "formula": "Regions are based on postcodes.",
@@ -243,7 +243,7 @@ testdata.raw =
             "usesfilter": [
                 ]
         },{
-            "fullname": "MIS.BCBS.CreditRisk:Name",
+            "fullname": "MIS.Mart.CustomerReport:Name",
             "conceptname": "",
             "desc": "Attribute: name of the account holder.",
             "formula": "Taken directly from ref data systems.",
@@ -338,7 +338,7 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         },  {
-            "fullname": "Reports.BCBS.CreditRisk:TotalAssets",
+            "fullname": "MIS.Mart.AssetBreakdown:TotalAssets",
             "conceptname": "TotalAssets",
             "desc": "Total assets including drawn and undrawn.",
             "formula": "Total of DrawnBalance and UndrawnBalance",
@@ -353,7 +353,7 @@ testdata.raw =
             ],
             "usesfilter": []
         }, {
-            "fullname": "Reports.BCBS.CreditRisk:Substandard",
+            "fullname": "MIS.Mart.AssetBreakdown:Substandard",
             "conceptname": "Substandard",
             "desc": "Total substandard assets, where internal entity grade is used to determine substandardness.",
             "formula": "DrawnBalance + UndrawnBalance where Entity_Grade == 'SUB'",
@@ -370,7 +370,7 @@ testdata.raw =
                 "Customer.Quality.Internal:Entity_Grade"
             ]
         }, {
-            "fullname": "Reports.BCBS.CreditRisk:Distressed",
+            "fullname": "MIS.Mart.AssetBreakdown:Distressed",
             "conceptname": "Distressed",
             "desc": "Total distressed assets, where 'distress' is determined from restructuring process output.",
             "formula": "drawn + undrawn where restructure_flag is present",
@@ -387,7 +387,7 @@ testdata.raw =
                 "Customer.Quality.Internal:Restructure_Flag"
             ]
         }, {
-            "fullname": "Reports.BCBS.CreditRisk:AtRisk",
+            "fullname": "MIS.Mart.AssetBreakdown:AtRisk",
             "conceptname": "WeightedRisk",
             "desc": "Total assets considered 'at risk' in FDF3 terms, including balances and arrears.",
             "formula": "fdf3(distressed assets, arrears owing).",
@@ -397,12 +397,12 @@ testdata.raw =
             "flags": "",
             "importance": 3,
             "usesvalue": [
-                "Reports.BCBS.CreditRisk:Distressed",
+                "MIS.Mart.AssetBreakdown:Distressed",
                 "Core.Retail.Balances:Arrears"
             ],
             "usesfilter": []
         }, {
-            "fullname": "Reports.BCBS.CreditRisk:NonPerforming",
+            "fullname": "MIS.Mart.AssetBreakdown:NonPerforming",
             "conceptname": "WeightedRisk",
             "desc": "Sum of substandard and distressed exposures after deduplication.",
             "formula": "Distressed assets + substandard assets - (distressed && substandard).",
@@ -412,8 +412,8 @@ testdata.raw =
             "flags": "",
             "importance": 3,
             "usesvalue": [
-                "Reports.BCBS.CreditRisk:Distressed",
-                "Reports.BCBS.CreditRisk:Substandard"
+                "MIS.Mart.AssetBreakdown:Distressed",
+                "MIS.Mart.AssetBreakdown:Substandard"
             ],
             "usesfilter": []
         }, {
@@ -472,8 +472,8 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "quality": 1.15,
-            "usesvalue": [],
-            "usesfilter": []
+            "usesvalue": ["Core.Systems.Records:Coupon"],
+            "usesfilter": ["Core.Systems.Transactions:CustID", "Core.Systems.Transactions:Flags", "Core.Systems.Transactions:ProductID"]
         }, {
             "fullname": "Core.Retail.Accounts:LastPaymentDate",
             "conceptname": "",
@@ -483,8 +483,8 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": [],
-            "usesfilter": []
+            "usesvalue": ["Core.Systems.Transactions:Event", "Core.Systems.Transactions:Timestamp"],
+            "usesfilter": ["Core.Systems.Transactions:CustID", "Core.Systems.Transactions:Flags", "Core.Systems.Transactions:ProductID", "Core.Systems.Transactions:EventType"]
         }, {
             "fullname": "Core.Retail.Accounts:PaymentSchedule",
             "conceptname": "",
@@ -494,8 +494,8 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": [],
-            "usesfilter": []
+            "usesvalue": ["Core.Systems.Records:Schedule"],
+            "usesfilter": ["Core.Systems.Records:CustID", "Core.Systems.Records:AcctID","Core.Systems.Transactions:CustID", "Core.Systems.Transactions:Flags", "Core.Systems.Transactions:ProductID"]
         }, {
             "fullname": "Core.Retail.Accounts:Funded",
             "conceptname": "",
@@ -506,8 +506,8 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "quality": 1.05,
-            "usesvalue": [],
-            "usesfilter": []
+            "usesvalue": ["Core.Systems.Transactions:Amt"],
+            "usesfilter": ["Core.Systems.Transactions:CustID", "Core.Systems.Transactions:Flags", "Core.Systems.Transactions:ProductID"]
         }, {
             "fullname": "Core.Retail.Calculated:Overdue",
             "conceptname": "",
@@ -624,7 +624,7 @@ testdata.raw =
             "fullname": "Refinancing.Retail.Restructuring_Mods:Modification_Event",
             "conceptname": "",
             "desc": "Date of last modification to contract terms.",
-            "formula": "uses modification_date but novation_reason for legacy reasons. ",
+            "formula": "uses not modification_date but novation_reason for legacy reasons. ",
             "type": "Date",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
@@ -662,7 +662,55 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": [],
+            "usesvalue": ["Core.Systems.Records:Comments"],
+            "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:Version"]
+        }, {
+            "fullname": "Compliance.BCBS.CreditRisk:TotalNonPerforming",
+            "conceptname": "TotalNonPerforming",
+            "desc": "Total non-performing assets.",
+            "formula": "Passed through directly.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 5,
+            "usesvalue": ["MIS.Mart.AssetBreakdown:NonPerforming"],
+            "usesfilter": []
+        }, {
+            "fullname": "Compliance.BCBS.CreditRisk:TotalAssets",
+            "conceptname": "TotalAssets",
+            "desc": "Total assets.",
+            "formula": "Passed through directly.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 5,
+            "usesvalue": ["MIS.Mart.AssetBreakdown:TotalAssets"],
+            "usesfilter": []
+        }, {
+            "fullname": "Compliance.BCBS.CreditRisk:TotalUpToDate",
+            "conceptname": "TotalUpToDate",
+            "desc": "Total up-to-date assets.",
+            "formula": "Taken from dashboard directly.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 5,
+            "usesvalue": ["MIS.Mart.ExecDashboard:All_UpToDate"],
+            "usesfilter": []
+        }, {
+            "fullname": "Compliance.BCBS.CreditRisk:TotalArrears",
+            "conceptname": "TotalArrears",
+            "desc": "Total assets that are in arrears.",
+            "formula": "Sum of arrears fields from the dashboard.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "importance": 5,
+            "usesvalue": ["MIS.Mart.ExecDashboard:All_Arrears_1M","MIS.Mart.ExecDashboard:All_Arrears_2M","MIS.Mart.ExecDashboard:All_Arrears_3M"],
             "usesfilter": []
         }, {
             "fullname": "Core.Contracts.History:Novation_Date",
@@ -673,14 +721,180 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": [],
-            "usesfilter": []
+            "usesvalue": ["Core.Systems.Records:Event"],
+            "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:EventType"]
         }, {
             "fullname": "Core.Contracts.History:Modification_Date",
             "conceptname": "",
             "desc": "Date of last contract renegotiation.",
             "formula": "",
             "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": ["Core.Systems.Records:Event"],
+            "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:EventType"]
+        }, {
+            "fullname": "Core.Systems.Transactions:CustID",
+            "conceptname": "",
+            "desc": "Customer id.",
+            "formula": "Mainframe processes.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Transactions:ProductID",
+            "conceptname": "",
+            "desc": "Product id used to relate transaction to contract.",
+            "formula": "Mainframe processes.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Transactions:Flags",
+            "conceptname": "",
+            "desc": "Poorly-understood set of bits associated with each transation.  Needs to be documented.",
+            "formula": "Mainframe processes.",
+            "type": "bitfield",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "risk":0.5,
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Transactions:Event",
+            "conceptname": "",
+            "desc": "Transaction details encoded into a string.",
+            "formula": "Mainframe processes.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Transactions:EventType",
+            "conceptname": "",
+            "desc": "Bitfield describing contents of Event string.",
+            "formula": "Mainframe processes.",
+            "type": "bitfield",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Transactions:Timestamp",
+            "conceptname": "",
+            "desc": "Timestamp as 32bit value.",
+            "formula": "Mainframe processes.",
+            "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Transactions:Amt",
+            "conceptname": "",
+            "desc": "Money amount of transaction in EUR.",
+            "formula": "Mainframe processes.",
+            "type": "Money",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:Event",
+            "conceptname": "",
+            "desc": "Event details encoded as a string.",
+            "formula": "Mainframe processes.",
+            "type": "Enum",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:Coupon",
+            "conceptname": "",
+            "desc": "Coupon of a generalized debt.",
+            "formula": "Mainframe processes.",
+            "type": "Number",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:Comments",
+            "conceptname": "",
+            "desc": "Comment field containing relationship manager's remarks.",
+            "formula": "Mainframe processes.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:Version",
+            "conceptname": "",
+            "desc": "Version identified for documents.",
+            "formula": "Mainframe processes.",
+            "type": "Number",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:CustID",
+            "conceptname": "",
+            "desc": "Customer ID.",
+            "formula": "Mainframe processes.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:AcctID",
+            "conceptname": "",
+            "desc": "Account ID.",
+            "formula": "Mainframe processes.",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:EventType",
+            "conceptname": "",
+            "desc": "Event type bitfield used to interpret event string.",
+            "formula": "Mainframe processes.",
+            "type": "Bitfield",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:Schedule",
+            "conceptname": "",
+            "desc": "Payment schedule details encoded into a string.",
+            "formula": "Mainframe processes.",
+            "type": "String",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
@@ -725,7 +939,7 @@ testdata.raw =
             "risk": 2,
             "notbefore": 6
         }, {
-            "fullname": "MIS.BCBS.Dashboard",
+            "fullname": "MIS.Mart.ExecDashboard",
             "desc": "Senior management dashboard.",
             "location": "/va_server/hdfs_export/datamarts/cr",
             "type": "SAS VA",
@@ -734,7 +948,7 @@ testdata.raw =
             "calc": "/server2/code/bi_code",
             "latency": 1
         }, {
-            "fullname": "MIS.BCBS.CreditRisk",
+            "fullname": "MIS.Mart.CustomerReport",
             "desc": "Data mart for ad-hoc queries as part of BCBS 239 response.",
             "location": "/va_server/hdfs_export/datamarts/cr",
             "type": "SAS VA",
@@ -742,6 +956,22 @@ testdata.raw =
             "dept": "Credit_Risk",
             "calc": "/server2/code/bi_code",
             "latency": 1
+        }, {
+            "fullname": "Core.Systems.Transactions",
+            "desc": "Core mainframe banking system for UK retail.",
+            "location": "%%EBC01%AC1",
+            "type": "DB2 Table",
+            "owner": "Rick_Mansworth",
+            "dept": "Banking",
+            "calc": "mainframe"
+        }, {
+            "fullname": "Core.Systems.Records",
+            "desc": "Books and records mainframe storage.",
+            "location": "5%EBC01%AC2",
+            "type": "DB2 Table",
+            "owner": "Rick_Mansworth",
+            "dept": "Banking",
+            "calc": "mainframe"
         }, {
             "fullname": "Customer.ClientData.Individuals",
             "desc": "Customer personal data.",
@@ -791,7 +1021,8 @@ testdata.raw =
             "type": "Text File",
             "owner": "Hudley_Pierce",
             "dept": "Reference_Data",
-            "calc": "/server/files/shipment/rules"
+            "calc": "/server/files/shipment/rules",
+            "notbefore": 2
         }, {
             "fullname": "Refinancing.Retail.Restructuring_Mods",
             "desc": "Restructuring information around account modifications.",
@@ -820,7 +1051,8 @@ testdata.raw =
             "type": "SAS Dataset",
             "owner": "Madison_Avenue",
             "dept": "Banking",
-            "calc": "/server/folder/scripts/calcStuff"
+            "calc": "/server/folder/scripts/calcStuff",
+            "latency": 1
         }, {
             "fullname": "Core.Retail.Accounts",
             "desc": "Account information for retail contracts.",
@@ -828,7 +1060,17 @@ testdata.raw =
             "type": "Oracle table",
             "owner": "Helen_Wheels",
             "dept": "Banking",
-            "calc": "CBS01//CBSUSER//p_acct_update"
+            "calc": "CBS01//CBSUSER//p_acct_update",
+            "latency": 1
+        },{
+            "fullname": "Compliance.BCBS.CreditRisk",
+            "desc": "Final summary output for BCBS RDA compliance.",
+            "location": "//reports/shipment/outbound",
+            "type": "PDF",
+            "owner": "Isabel_Pon",
+            "dept": "Compliance",
+            "calc": "//reports/compliance",
+            "latency":1
         },{
             "fullname": "Core.Contracts.History",
             "desc": "Contract terms information for retail contracts.",
@@ -856,10 +1098,10 @@ testdata.raw =
             "dept": "Customer_Mgmt",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
-            "fullname": "Reports.BCBS.CreditRisk",
+            "fullname": "MIS.Mart.AssetBreakdown",
             "desc": "A report that is sent to auditors, governed as part of BCBS, containing retail credit risk summary information",
             "location": "/server/folder/reports/MR",
-            "type": "SAS VA Dataset",
+            "type": "SAS VA",
             "owner": "Len_Miatena",
             "dept": "Credit_Risk",
             "calc": "/server/folder/scripts/calcStuff",
@@ -885,74 +1127,20 @@ testdata.raw =
             "name": "Total Weighted Risk",
             "desc": "Total assets weighted by risk classification.",
             "flags": "critical"
-        }],
-        /*this system is unused*/
-        tings: [{
-            "type": "Process",
-            "fullname": "Proc_BCBS_DW",
-            "name": "BCBS 239 DW Update",
-            "desc": "Update BCBS239 data warehouse via EOD batch run by Credit Risk",
-            "owner": "Len_Miatena",
-            "dept": "Credit_Risk"
         }, {
-            "type": "Process",
-            "fullname": "Proc_Refinancing",
-            "name": "Refinancing Process",
-            "desc": "Refinancing Process run monthly on WD5",
-            "owner": "Madison_Avenue",
-            "dept": "Banking",
-            "risk": 1.1
+            "code": "TotalArrears",
+            "name": "Total Assets in Arrears",
+            "desc": "Total assets that are currently in arrears.",
+            "flags": "critical"
         }, {
-            "type": "Staff",
-            "fullname": "Len_Miatena",
-            "name": "Leonard Miatena"
+            "code": "TotalUpToDate",
+            "name": "Total Up-to-Date",
+            "desc": "Total assets that are not currently in arrears.",
+            "flags": "critical"
         }, {
-            "type": "Staff",
-            "fullname": "Mandy_Harpoons",
-            "name": "Amanda Harpoons"
-        }, {
-            "type": "Staff",
-            "fullname": "Amos_Quito",
-            "name": "Amos Q Quito"
-        }, {
-            "type": "Staff",
-            "fullname": "Madison_Avenue",
-            "name": "Madison Eurgh Avenue"
-        }, {
-            "type": "Adjustment",
-            "fullname": "Adjust_Grade",
-            "name": "Entity Grade Override",
-            "desc": "Manual overrides to internal entity grade applied by RMs",
-            "owner": "Mandy_Harpoons",
-            "dept": "Customer_Mgmt",
-            "risk": 1.2
-        }, {
-            "type": "Adjustment",
-            "fullname": "Adjust_Limits",
-            "name": "Credit Limit Adjustment",
-            "desc": "Credit Limit is adjusted manually in some cases",
-            "owner": "Mandy_Harpoons",
-            "dept": "Customer_Mgmt",
-            "risk": 1.1
-        }, {
-            "type": "Unit",
-            "fullname": "Banking",
-            "name": "Banking Team",
-            "desc": "Team responsible for core banking operations"
-        },  {
-            "type": "Unit",
-            "fullname": "Customer_Mgmt",
-            "name": "Customer Management Team",
-            "desc": "Team responsible for customer data and relationships"
-        },  {
-            "type": "Unit",
-            "fullname": "Credit_Risk",
-            "name": "Credit Risk data owner",
-            "desc": "Owner of credit risk reporting throughout the UK bank"
-        },  {
-            "type": "Unit",
-            "fullname": "Reference_Data",
-            "name": "Reference Data Dept",
-            "desc": "Responsible for import and stewardship of externally sourced reference data such as bureau and agency data"
+            "code": "TotalNonPerforming",
+            "name": "Total Non-Performing",
+            "desc": "Total assets that are deemed non-performing.",
+            "flags": "critical"
         }]
     }

@@ -83,6 +83,10 @@ namespace bjs{
             return true;
         }
 
+        if(reg.exec(f.flags) != null){
+            return true;
+        }
+
         return false;
     }
 

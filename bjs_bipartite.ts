@@ -10,35 +10,36 @@ declare var ownerSVGElement:any;
 namespace bjs {
 
 	export class bp_view implements view {
-
-		NODE_R = 8;
-		LEFT_AXIS_X = 300;
-		RIGHT_AXIS_X = 700;
-		BUNDLE_OFFSET = 150;
-		GROUP_OFFSET = 150;
-		AXIS_HEIGHT = 950;
-		TOP_MARGIN = 50;
-		GROUPBAR_WIDTH = 20;
 		
 		svg:any = null;
 		config:bjs.config=null;
 		mv:bjs.mv=null;
 		focus:bjs.filter=null;
+		dims:bjs.dimensions=null;
+
+		left_axis_x:number;
+		right_axis_x:number;
 
 
-		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
+		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter, d:bjs.dimensions):void {
 			
 			this.svg = svg;
 			this.config=c;
 			this.focus = f;
+			this.dims = d;
+
+			this.left_axis_x = this.dims.left_edge + 100;
+			this.right_axis_x = this.dims.right_edge - 100;
 
 			var mv = this.prepareData(w, c);
 			this.mv = mv;
 
+			
+
 			this.renderLinks(svg, mv);
 
-			this.renderChain(svg, c, "lnodes", mv.lnodea, this.LEFT_AXIS_X);
-			this.renderChain(svg, c, "rnodes", mv.rnodea, this.RIGHT_AXIS_X);
+			this.renderChain(svg, c, "lnodes", mv.lnodea, this.left_axis_x);
+			this.renderChain(svg, c, "rnodes", mv.rnodea, this.right_axis_x);
 
 			if (this.config.optimize) {
 				this.renderGroups(svg, c, "lgroups", {});
@@ -59,22 +60,22 @@ namespace bjs {
 			}
 
 			for (var i = 0; i < mv.lgroupa.length; ++i) {
-				mv.lgroupa[i].x = this.LEFT_AXIS_X - this.GROUP_OFFSET;
+				mv.lgroupa[i].x = this.left_axis_x - this.dims.groupbar_offs;
 				mv.lgroupa[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rgroupa.length; ++i) {
-				mv.rgroupa[i].x = this.RIGHT_AXIS_X + this.GROUP_OFFSET;
+				mv.rgroupa[i].x = this.right_axis_x + this.dims.groupbar_offs;
 				mv.rgroupa[i].handed = bjs.handed.right;
 			}
 
 			for (var i = 0; i < mv.lnodea.length; ++i) {
-				mv.lnodea[i].x = this.LEFT_AXIS_X;
+				mv.lnodea[i].x = this.left_axis_x;
 				mv.lnodea[i].handed = bjs.handed.left;
 			}
 
 			for (var i = 0; i < mv.rnodea.length; ++i) {
-				mv.rnodea[i].x = this.RIGHT_AXIS_X;
+				mv.rnodea[i].x = this.right_axis_x;
 				mv.rnodea[i].handed = bjs.handed.right;
 			}
 
@@ -84,12 +85,12 @@ namespace bjs {
 		}
 
 		private updateYValues(mv:bjs.mv, c):void {
-			this.setYValues(mv.lnodea, mv.lgroupa, "", !this.config.optimize);
-			this.setYValues(mv.rnodea, mv.rgroupa, "", true);
+			this.setYValues(mv.lnodea, mv.lgroupa, !this.config.optimize);
+			this.setYValues(mv.rnodea, mv.rgroupa, true);
 		}
 
 
-		private setYValues(nodes:bjs.node[], groups:bjs.group[], focusGroup:string, bSeparateGroups:boolean):void {
+		private setYValues(nodes:bjs.node[], groups:bjs.group[], bSeparateGroups:boolean):void {
 
 			if (nodes.length == 0) return;
 
@@ -103,17 +104,14 @@ namespace bjs {
 					if (bSeparateGroups) numBreaks += 1;
 					prevgroupname = nodes[i].group.fullname;
 				}
-				if (nodes[i].group.fullname == focusGroup) {
-					numFGNodes++;
-				}
 				else {
 					numRegularNodes++;
 				}
 			}
 
-			var interval = (this.AXIS_HEIGHT - this.TOP_MARGIN) / (numRegularNodes + (numBreaks) + (numFGNodes * 4));
+			var interval = (this.dims.bottom_edge-this.dims.top_edge) / (numRegularNodes + (numBreaks) + (numFGNodes * 4));
 
-			var y = this.TOP_MARGIN - interval / 2;
+			var y = this.dims.top_edge - interval / 2;
 			var prevgroupname = nodes[0].group.fullname;
 			for (var i = 0; i < nodes.length; i++) {
 
@@ -124,10 +122,6 @@ namespace bjs {
 						y += interval;
 						prevgroupname = nodes[i].group.fullname;
 					}
-
-					if (nodes[i].group.fullname == focusGroup) {
-						y += interval * 3;
-					}
 				}
 
 				nodes[i].y = y;
@@ -135,7 +129,7 @@ namespace bjs {
 
 			for (var j = 0; j < groups.length; ++j) {
 				var p = groups[j];
-				fitGroupToNodesBar(p, this.NODE_R, this.GROUP_OFFSET);
+				fitGroupToNodesBar(p, this.dims.node_r, this.dims.groupbar_offs);
 			}
 		}
 
@@ -218,7 +212,7 @@ namespace bjs {
 
 		private renderLinks(svg, dat:bjs.mv):void {
 			
-			var bundle_offs = this.BUNDLE_OFFSET;
+			var bundle_offs = this.dims.bundle_offs;
 
 			var links = svg.selectAll(".link")
 				.data(dat.links, function(d, i) {
@@ -303,9 +297,9 @@ namespace bjs {
 				.append("line")
 				.attr("class", "axis " + tag)
 				.attr("x1", x)
-				.attr("y1", 0)
+				.attr("y1", this.dims.top_edge)
 				.attr("x2", x)
-				.attr("y2", this.AXIS_HEIGHT);
+				.attr("y2", this.dims.bottom_edge);
 
 			var nodes = svg
 				.selectAll(".nodegrp." + tag)
@@ -324,7 +318,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut);
 				
-			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.NODE_R, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
+			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
 			
 			var nodeupdate = nodes
 				.transition()

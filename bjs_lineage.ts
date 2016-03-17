@@ -11,16 +11,6 @@ namespace bjs {
 
 	export class flow_view implements view{
 
-	NODE_R = 8;
-	LEFT_EDGE = 100;
-	RIGHT_EDGE = 1000;
-	UNDLE_OFFSET = 120;
-	AXIS_HEIGHT = 1000;
-	TOP_MARGIN = 200;
-	GROUPBAR_WIDTH = 20;
-	GROUP_PADDING = 20;
-	BUNDLE_OFFSET = 150;
-	INVALID_DEPTH = 999; ///remember programming like this?
 	xScale = d3.scale.linear();
 
 
@@ -28,12 +18,14 @@ namespace bjs {
 	mv :bjs.mv = null;
 	config: bjs.config = null;
 	focus: bjs.filter=null;
+	dims: bjs.dimensions=null;
 
 
-	public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
+	public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter, d:bjs.dimensions):void {
 		this.svg = svg;
 		this.config = c;
 		this.focus = f;
+		this.dims=d;
 		
 		var mv = bjs.makeDirect(this, w);
 		
@@ -58,7 +50,7 @@ namespace bjs {
 	}
 	
 	private makeScale(mv:bjs.mv, c:bjs.config):any{
-		var scale = d3.scale.linear().range([this.LEFT_EDGE,this.RIGHT_EDGE]);
+		var scale = d3.scale.linear().range([this.dims.left_edge,this.dims.right_edge]);
 		
 		switch(c.floworder){
 			case bjs.floworder.depth:
@@ -93,21 +85,21 @@ namespace bjs {
 
 	private layout(mv:bjs.mv):void {
 		
-		var spacing = this.NODE_R*2;
+		var spacing = this.dims.node_r*2;
 
 		var stax = {};
 		for (var fullname in mv.groups) {
 			var g = mv.groups[fullname];
 			g.x = this.xScale(this.xValue(g, this.config));
-			g.height = g.children.length * spacing + this.GROUP_PADDING;
-			g.width = this.GROUPBAR_WIDTH;
+			g.height = g.children.length * spacing + this.dims.group_spacing;
+			g.width = this.dims.groupbar_width;
 			if (stax[g.x] == null) {
-				stax[g.x] = this.TOP_MARGIN + g.height + this.GROUP_PADDING;
-				g.y = this.TOP_MARGIN;
+				stax[g.x] = this.dims.top_edge + g.height + this.dims.group_spacing;
+				g.y = this.dims.top_edge;
 			}
 			else {
 				g.y = stax[g.x];
-				stax[g.x] += g.height + this.GROUP_PADDING;
+				stax[g.x] += g.height + this.dims.group_spacing;
 			}
 		}
 		
@@ -121,8 +113,8 @@ namespace bjs {
 			var g = mv.groups[fullname];
 			for (var i = 0; i < g.children.length; ++i) {
 				var node = g.children[i];
-				node.y = g.y + i * spacing + this.NODE_R / 2 + this.GROUP_PADDING / 2;
-				node.x = g.x + this.GROUPBAR_WIDTH / 2;
+				node.y = g.y + i * spacing + this.dims.node_r / 2 + this.dims.group_spacing / 2;
+				node.x = g.x + this.dims.groupbar_width / 2;
 			}
 		}
 		
@@ -132,7 +124,7 @@ namespace bjs {
 
 		//despite having just positioned groups manually, we now fit them to their nodes... needs sorting out really
 		for(var fullname in mv.groups){
-			bjs.fitGroupToNodesBox(mv.groups[fullname], this.NODE_R*2);
+			bjs.fitGroupToNodesBox(mv.groups[fullname], this.dims.node_r*2);
 		}
 	}
 
@@ -154,7 +146,7 @@ namespace bjs {
 				return d.size / 2 + 1;
 			});
 
-		var boff = this.BUNDLE_OFFSET;
+		var boff = this.dims.bundle_offs;
 
 		links
 			.attr("d", function(d) {
@@ -186,7 +178,7 @@ namespace bjs {
 			.append("path")
 			.attr("class", "link");
 
-		var boff = this.BUNDLE_OFFSET;
+		var boff = this.dims.bundle_offs;
 
 		links
 			.transition()
@@ -273,7 +265,7 @@ namespace bjs {
 			.on("mouseover", this.nodeMouseOver)
 			.on("mouseout", this.mouseOut);
 
-		bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.NODE_R, false, false);
+		bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, false, false);
 
 		var nodeupdate = nodes
 			.transition()
@@ -337,7 +329,7 @@ namespace bjs {
 		d.x += d3.event.dx;
 		d.y += d3.event.dy;
 
-		bjs.fitGroupToNodesBox(d.group, this.NODE_R*2);
+		bjs.fitGroupToNodesBox(d.group, this.dims.node_r*2);
 
 		this.renderNodes(this.svg, this.config, this.mv.nodea);
 	}

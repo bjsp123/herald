@@ -11,15 +11,11 @@ namespace bjs {
 
 	export class cola_view implements view {
 
-		NODE_R = 8;
-		TOTAL_WIDTH = 1600;
-		TOTAL_HEIGHT = 1600;
-		X_CENTER = 550;
-		Y_CENTER = 450;
 		GROUP_PADDING = 20;
 		GROUP_ROUNDY = 16;
-		NODE_W = this.NODE_R * 8;
-		NODE_H = this.NODE_R * 3.5;
+		
+		node_w:number;
+		node_h:number;
 
 
 		optimize = false;
@@ -35,19 +31,26 @@ namespace bjs {
 		config:bjs.config=null;
 		mv: bjs.mv = null;
 		focus: bjs.filter=null;
+		dims:bjs.dimensions=null;
 
 
 
-		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter):void {
+		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter, d:bjs.dimensions):void {
 
 			this.optimize = c.optimize;
+
+			this.config = c;
+			this.svg=svg;
+			this.focus=f;
+			this.dims = d;
 
 			var mv = bjs.makeColaGraph(this, w);
 			
 			this.mv=mv;
-			this.config = c;
-			this.svg=svg;
-			this.focus=f;
+			
+
+			this.node_w = this.dims.node_r * 8;
+			this.node_h = this.dims.node_r * 3.5;
 
 			//have to manually remove everything or again cola gets confused.  no entry / exit animations for us!
 			d3.selectAll("svg > *").remove();
@@ -76,7 +79,7 @@ namespace bjs {
 				//.linkDistance(200)
 				.avoidOverlaps(true)
 				.handleDisconnected(false)
-				.size([this.TOTAL_WIDTH, this.TOTAL_HEIGHT]);
+				.size([this.dims.right_edge-this.dims.left_edge, this.dims.bottom_edge-this.dims.top_edge]);
 
 			if (this.optimize) {
 				this.coke
@@ -100,8 +103,8 @@ namespace bjs {
 			}
 
 			mv.nodea.forEach(function(v) {
-				v.width = this.NODE_W; //CART_WIDTH+NODE_R/2;
-				v.height = this.NODE_H; //CART_HEIGHT;
+				v.width = this.node_w; //CART_WIDTH+dims.node_r/2;
+				v.height = this.node_h; //CART_HEIGHT;
 			}, this);
 
 			mv.groupa.forEach(function(g) {
@@ -122,7 +125,7 @@ namespace bjs {
 				.enter()
 				.append("g")
 				.attr("id", "colacontainer")
-				.attr("transform", "translate(" + this.X_CENTER + ", " + this.Y_CENTER + ")");
+				.attr("transform", "translate(" + this.dims.right_edge/2 + ", " + this.dims.bottom_edge/2 + ")");
 
 			var gt = xformbox.selectAll(".colagroup")
 				.data(powerGraph ? powerGraph.groups : mv.groupa, function(d) {
@@ -169,7 +172,7 @@ namespace bjs {
 				.on("mouseover", this.nodeMouseOver)
 				.on("mouseout", this.mouseOut); //.call(this.coke.drag); 
 
-			bjs.drawNodes(nodes, nodesg, config, focus, this.NODE_R, false, false);
+			bjs.drawNodes(nodes, nodesg, config, focus, this.dims.node_r, false, false);
 
 			var nodeexit = nodes.exit().remove();
 			
@@ -177,7 +180,7 @@ namespace bjs {
 			var connector_cubic = this.connector_cubic;
 			var group_pad = this.GROUP_PADDING;
 			var optimize = this.optimize;
-			var node_r = this.NODE_R;
+			var node_r = this.dims.node_r;
 			
 			this.coke.on("tick", function() {
 
@@ -276,8 +279,8 @@ namespace bjs {
 				return d.view.svg.append('circle')
 					.attr({
 						class: 'ghost',
-						cx: d.x+d.view.X_CENTER,
-						cy: d.y+d.view.Y_CENTER,
+						cx: d.x+d.view.dims.right_edge/2,
+						cy: d.y+d.view.dims.bottom_edge/2,
 						r: d.width / 3
 					});
 			});
@@ -295,8 +298,8 @@ namespace bjs {
 
 		private drag(d) {
 			var p = d.view.getDragPos(d);
-			p.cx += d.view.X_CENTER;
-			p.cy += d.view.Y_CENTER;
+			p.cx += d.view.dims.right_edge/2;
+			p.cy += d.view.dims.bottom_edge/2;
 			d.view.ghosts[1].attr(p);
 		}
 

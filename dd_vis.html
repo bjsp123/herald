@@ -42,6 +42,7 @@
     var theFilter = new bjs.filter("","","","",true,true,false);
     var theSquash = new bjs.squash("","","",false);
     var theFocus = new bjs.filter("","","","",true,true,true);
+    var theDims = new bjs.dimensions();
 
     function shBipart(){
     	bip = new bjs.bp_view();
@@ -55,6 +56,20 @@
         $("#opt_influence").hide();      
     	clear();
     	refresh();
+    }
+
+    function shStats(){
+        bip = new bjs.bp_stats();
+        $("#opt_adjust_links").hide();  
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").show();
+        $("#opt_yaxis").show();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").hide();
+        $("#opt_highlight").show();
+        $("#opt_influence").hide();      
+        clear();
+        refresh();
     }
 
     function shScatter(){
@@ -149,6 +164,8 @@
     	bjs.hover = mouseOverHandler;
 
     	config = new bjs.config();
+
+        $("#jsondlg").hide();
 
     	d3.select("#ctrl_filter_btn").on("click", function(d) {
 
@@ -251,14 +268,13 @@
 
     function refresh() {
     	w = bjs_data_json.fromJson(rawJson, theFilter, theSquash);
-    	updateDataSummary(w);
     	redraw();
     }
 
 
     function redraw() {
     	mouseOverHandler(null);
-    	bip.render(svg, w, config, theFocus);
+    	bip.render(svg, w, config, theFocus, theDims);
     }
 
     function clear() {
@@ -268,40 +284,38 @@
 
     $(document).ready(function() {
     	init();
-        shScatter();
+        shStats();
     });
 
-    function updateDataSummary(w) {
 
-    	var txt = "";
+    function importJson(){
+        $("#jsondlg").show();
+        $("#jsondlg").dialog({
+            minimizable:true,
+            maximizable:true,
+            resizable:true,
+            buttons:[{
+                text:"Load Json",
+                iconCls:"icon-herald-load",
+                handler:loadActualJson
+            },{
+                text:"Cancel",
+                iconCls:"icon-herald-clear",
+                handler:function(){$("#jsondlg").hide();}
+            }]
+        });
+    }
 
-    	var fields = 0,
-    	outs = 0,
-    	ins = 0,
-    	mids = 0,
-    	orphs = 0;
+    function loadActualJson(){
 
-    	for (var i in w.fields) {
-    		var f = w.fields[i];
-    		if (f.hasSources) {
-    			f.hasTargets ? mids++ : outs++;
-    		}
-    		else {
-    			f.hasTargets ? ins++ : orphs++;
-    		}
-    		fields++;
-    	}
+        var jsonstring = $("#ctrl_json").val();
+        try{
+            refreshawJson = $.parseJSON(jsonstring);
+        }catch(e){
 
-    	txt += fields + " fields.<br/>";
-    	txt += w.rels.length + " links.<br/><br/>";
+        }
+        refresh();
 
-    	txt += "Output fields: " + outs + "<br/>";
-    	txt += "Input fields: " + ins + "<br/>";
-    	txt += "Intermediate fields: " + mids + "<br/>";
-    	txt += "Orphan fields: " + orphs + "<br/>";
-
-
-    	d3.select("#data_summary").html(txt);
     }
 
     function mouseOverHandler(d) {
@@ -384,8 +398,8 @@
     		}
 
     		if (d.itemtype == "group") {
-    			name += "Group: " + d.fullname;
-                name += "Asset: " + d.asset?d.asset.fullname:"n/a";
+    			name += "Group: " + d.fullname + " <br/>;"
+                name += "Asset: " + (d.asset?d.asset.fullname:"n/a");
 
     			summary += d.asset.desc + "<br/>";
     			summary += "Type: " + d.asset.type + "<br/><br/>";
@@ -452,6 +466,9 @@
                         <a href="#" onclick="shTree();">Tree</a>
                     </li>
                     <li>
+                        <a href="#" onclick="shStats();">Stats</a>
+                    </li>
+                    <li>
                         <a href="#" onclick="shBipart();">Bipartite</a>
                     </li>
                     <li>
@@ -512,9 +529,8 @@
 						<a href="#">Import Data Sets</a>
 						<ul>
 							<li>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Base</a>
 								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Json</a>
+								<a href="#" onclick="importJson();">Import Json</a>
 							</li>
 						</ul>
 					</li>
@@ -823,6 +839,12 @@
 		</div>
 	</div>
 
+
+
+</div>
+
+<div id="jsondlg" title="Import JSON">
+    <textarea class="jsonbox"  rows="60" name="ctrl_json" id="ctrl_json"></textarea>
 
 
 </div>

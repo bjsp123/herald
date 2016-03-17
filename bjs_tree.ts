@@ -11,11 +11,8 @@ namespace bjs {
 
 	export class tree_view implements view {
 
-	NODE_R = 8;
-	TOTAL_HEIGHT = 1000; //x and y are flipped for trees.
-	X_OFFSET = 320; //to account for hidden leftmost node
-	TOTAL_WIDTH = 1000 + this.X_OFFSET;
-	TOP_MARGIN = 20;
+	
+	X_OFFSET = -120; //to account for hidden leftmost node
 	CART_WIDTH = 160;
 	CART_HEIGHT = 34;
 	CART_FLAT_HEIGHT = this.CART_HEIGHT - 10;
@@ -24,15 +21,17 @@ namespace bjs {
 	mv :bjs.mv = null;
 	config: bjs.config = null;
 	focus: bjs.filter=null;
+	dims:bjs.dimensions=null;
 
 
 	
 	//most of the render function can be called internally based on a tree node click, so the actual tree_view.render()
 	//just prepares the mv for the first time; the mv will be edited in place as tree nodes change status.
-	public render(svg, w:bjs.world, c:config, f:filter):void {
+	public render(svg, w:bjs.world, c:config, f:filter, d:dimensions):void {
 		this.svg = svg;
 		this.config = c;
 		this.focus = f;
+		this.dims=d;
 		
 		var mv = this.prepareData(w);
 
@@ -43,7 +42,7 @@ namespace bjs {
 
 	private doRender(svg, mv:bjs.mv, c:config, f:filter):void{
 
-		var tree = d3.layout.tree().size([this.TOTAL_HEIGHT, this.TOTAL_WIDTH]);
+		var tree = d3.layout.tree().size([this.dims.right_edge-this.dims.left_edge, this.dims.bottom_edge-this.dims.top_edge]);
 
 		var nodes = tree.nodes(mv.syntharoot);
 		var links = tree.links(nodes);
@@ -170,7 +169,7 @@ namespace bjs {
 		var mv = bjs.makeTree(this, w);
 
 		mv.syntharoot.x0 = 0; //these values only exist to give a point from which new nodes will appear / old nodes will disappear
-		mv.syntharoot.y0 = this.TOTAL_HEIGHT / 2;
+		mv.syntharoot.y0 = this.dims.bottom_edge / 2;
 
 		mv.syntharoot.children.forEach(this.collapse, this);
 		
@@ -211,7 +210,7 @@ namespace bjs {
 			.attr("height", this.CART_HEIGHT);
 
 		ne.append("circle")
-			.attr("r", this.NODE_R)
+			.attr("r", this.dims.node_r)
 			.attr("class", "node")
 			.style("fill", function(d) {
 				return bjs.getNodeColor(c, f, d);
@@ -221,7 +220,7 @@ namespace bjs {
 		ne.append("text").filter(function(d) {
 				return (d._children != null && d._children.length > 0) || (d.children != null && d.children.length > 0);
 			})
-			.attr("x", this.CART_WIDTH - this.NODE_R * 2)
+			.attr("x", this.CART_WIDTH - this.dims.node_r * 2)
 			.attr("y", 28 - this.CART_HEIGHT / 2)
 			.attr("class", "nodelabel")
 			.text(">>");
