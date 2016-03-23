@@ -159,7 +159,7 @@ namespace bjs {
 				return d.width;
 			})
 			.style("fill", function(d) {
-				if(d.groups.length>0) return "none";
+				if(d.groups && d.groups.length>0) return "none";
 				return bjs.getColorFromName(config, d.fullname);
 			})
 			.attr("y", 0)
@@ -358,7 +358,7 @@ namespace bjs {
     
     export function drawNodes(nodesel:any, nodesenter:any, config:bjs.config, focus:bjs.filter, r:number, invisrect:boolean, longname:boolean):void{
 		nodesenter.append("circle").attr("class", "nodecenter");
-		nodesenter.append("circle").attr("class", "nodepie");
+		//nodesenter.append("circle").attr("class", "nodepie");
 		nodesenter.append("text");
 		
 		var labelx=0,labely=0,labeltheta=0;
@@ -425,7 +425,7 @@ namespace bjs {
 		}
 
 		nodesel.select("circle")
-			.attr("class", "node")
+			.attr("class", "nodecircle node")
 			.attr("r", r)
 			.attr("cx", x)
 			.style("fill", function(d){return bjs.getNodeColor(config, focus, d);})
@@ -433,8 +433,9 @@ namespace bjs {
 			.attr("cy", y);
 
 		nodesel.select("text")
-			.attr("class", "nodelabel")
+			.attr("class", "nodelabel node")
 			.text(function(d) {
+				if(d.handed == bjs.handed.none) return "";
 				if(d.isLogical()) return d.fullname;
 				if(longname==true) return d.field.fullname;
 				return d.field.name;
@@ -445,67 +446,5 @@ namespace bjs {
 			.attr("y",function(d){return getlabely(d);});
     }
     
-    export function fitGroupToNodesBox(g:bjs.group, r:number):void {
-
-		var rec = extents(g.children).expand(r);
-		g.x = rec.left;
-		g.y = rec.top;
-		g.width = rec.width();
-		g.height = rec.height();
-	}
-
-	export function drawAxisLabel(sel:any, enter:any, s:string):void{
-		
-
-	}
-	
-	export function fitGroupToNodesBar(g:bjs.group, r:number, offs:number):void {
-	    
-	    var rec = extents(g.children);
-	    var GROUPBAR_WIDTH = 20;
-	    
-	    switch(g.handed){
-	    	case bjs.handed.left:
-	    	case bjs.handed.column:
-	    		g.x=rec.left-offs;
-	    		g.y=rec.top-r;
-	    		g.width=GROUPBAR_WIDTH;
-	    		g.height = rec.height() + r*2;
-	    		break;
-	    	case bjs.handed.right:
-	    		g.x=rec.right+offs;
-	    		g.y=rec.top-r;
-	    		g.width=GROUPBAR_WIDTH;
-	    		g.height = rec.height() + r*2;
-	    		break;
-	    	case bjs.handed.row:
-	    		g.x=rec.left-r;
-	    		g.y=rec.top-offs;
-	    		g.height=GROUPBAR_WIDTH;
-	    		g.width = rec.width() + r*2;
-	    		break;
-	    	case bjs.handed.low:
-	    		g.x=rec.centerx()-GROUPBAR_WIDTH/2;
-	    		g.y=rec.top-r;
-	    		g.width=GROUPBAR_WIDTH;
-	    		g.height = rec.height() + r*2;
-	    		break;
-	    }
-	}
-	
-	function extents(nodes:bjs.node[]):bjs.rect{
-		
-		var rec = new bjs.rect(1000000,1000000,0,0);
-	    
-	    for(var i=0;i<nodes.length;++i){
-	        var n = nodes[i];
-	        if(n.y < rec.top) rec.top = n.y;
-	        if(n.y > rec.bottom) rec.bottom = n.y;
-	        if(n.x < rec.left) rec.left = n.x;
-	        if(n.x > rec.right) rec.right = n.x;
-	    }
-	    
-	    return rec;
-	}
 	
 }

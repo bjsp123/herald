@@ -17,7 +17,8 @@ namespace bjs {
         low,
         row,
         column,
-        leftright
+        leftright,
+        none
     }
 
     export const enum infFlag{
@@ -422,6 +423,7 @@ namespace bjs {
 		public floworder:number=floworder.shallowness;
 		public xorder:number=xyorder.shallowness;
 		public yorder:number=xyorder.asset;
+		public zorder:number=xyorder.type;
 		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
         public detailColor = d3.scale.quantile().range(["#0f2","#0c3","#0a5","#287","#469","#649","#8a7","#a25","#c03","#d02","#f00"]).domain([0,1]);
 

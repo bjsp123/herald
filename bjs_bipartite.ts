@@ -1,5 +1,5 @@
 /// <reference path="bjs_types.ts"/>
-/// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_layout.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 /// <reference path="bjs_mv.ts"/>
 
@@ -28,8 +28,8 @@ namespace bjs {
 			this.focus = f;
 			this.dims = d;
 
-			this.left_axis_x = this.dims.left_edge + 100;
-			this.right_axis_x = this.dims.right_edge - 100;
+			this.left_axis_x = this.dims.left_edge + 250;
+			this.right_axis_x = this.dims.right_edge - 250;
 
 			var mv = this.prepareData(w, c);
 			this.mv = mv;
@@ -59,80 +59,11 @@ namespace bjs {
 				this.unilateralBipartiteSort(mv);
 			}
 
-			for (var i = 0; i < mv.lgroupa.length; ++i) {
-				mv.lgroupa[i].x = this.left_axis_x - this.dims.groupbar_offs;
-				mv.lgroupa[i].handed = bjs.handed.left;
-			}
-
-			for (var i = 0; i < mv.rgroupa.length; ++i) {
-				mv.rgroupa[i].x = this.right_axis_x + this.dims.groupbar_offs;
-				mv.rgroupa[i].handed = bjs.handed.right;
-			}
-
-			for (var i = 0; i < mv.lnodea.length; ++i) {
-				mv.lnodea[i].x = this.left_axis_x;
-				mv.lnodea[i].handed = bjs.handed.left;
-			}
-
-			for (var i = 0; i < mv.rnodea.length; ++i) {
-				mv.rnodea[i].x = this.right_axis_x;
-				mv.rnodea[i].handed = bjs.handed.right;
-			}
-
-			this.updateYValues(mv, c);
+			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, !this.config.optimize, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
+			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
 
 			return mv;
 		}
-
-		private updateYValues(mv:bjs.mv, c):void {
-			this.setYValues(mv.lnodea, mv.lgroupa, !this.config.optimize);
-			this.setYValues(mv.rnodea, mv.rgroupa, true);
-		}
-
-
-		private setYValues(nodes:bjs.node[], groups:bjs.group[], bSeparateGroups:boolean):void {
-
-			if (nodes.length == 0) return;
-
-			var numRegularNodes = 0,
-				numFGNodes = 0,
-				numBreaks = 0;
-
-			var prevgroupname = nodes[0].group.fullname;
-			for (var i = 0; i < nodes.length; i++) {
-				if (nodes[i].group.fullname != prevgroupname) {
-					if (bSeparateGroups) numBreaks += 1;
-					prevgroupname = nodes[i].group.fullname;
-				}
-				else {
-					numRegularNodes++;
-				}
-			}
-
-			var interval = (this.dims.bottom_edge-this.dims.top_edge) / (numRegularNodes + (numBreaks) + (numFGNodes * 4));
-
-			var y = this.dims.top_edge - interval / 2;
-			var prevgroupname = nodes[0].group.fullname;
-			for (var i = 0; i < nodes.length; i++) {
-
-				y += interval;
-
-				if (bSeparateGroups) {
-					if (nodes[i].group.fullname != prevgroupname) {
-						y += interval;
-						prevgroupname = nodes[i].group.fullname;
-					}
-				}
-
-				nodes[i].y = y;
-			}
-
-			for (var j = 0; j < groups.length; ++j) {
-				var p = groups[j];
-				fitGroupToNodesBar(p, this.dims.node_r, this.dims.groupbar_offs);
-			}
-		}
-
 
 
 		//expects a mv that has lnodes and rnodes

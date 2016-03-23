@@ -1,5 +1,5 @@
 /// <reference path="bjs_types.ts"/>
-/// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_layout.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 /// <reference path="bjs_mv.ts"/>
 
@@ -26,9 +26,9 @@ namespace bjs {
 
 		public render(svg, w:bjs.world, c:config, f:filter, d:dimensions):void {
 			this.dims=d;
-			this.left_axis_x = this.dims.left_edge + 100;
+			this.left_axis_x = this.dims.left_edge + 160;
 			this.middle_axis_x = (this.dims.left_edge + this.dims.right_edge) / 2;
-			this.right_axis_x = this.dims.right_edge - 100;
+			this.right_axis_x = this.dims.right_edge - 160;
 			
 			this.svg = svg;
 			this.config=c;
@@ -52,104 +52,17 @@ namespace bjs {
 
 		private prepareData(w:bjs.world, c):bjs.mv {
 
-
 			var mv = bjs.makeTripartite(this, w, true);
 			
-			for (var i = 0; i < mv.lgroupa.length; ++i) {
-				mv.lgroupa[i].x = this.left_axis_x - this.dims.groupbar_offs;
-				mv.lgroupa[i].handed = bjs.handed.left;
-			}
-
-			for (var i = 0; i < mv.rgroupa.length; ++i) {
-				mv.rgroupa[i].x = this.right_axis_x + this.dims.groupbar_offs;
-				mv.rgroupa[i].handed = bjs.handed.right;
-			}
-
-			for (var i = 0; i < mv.mgroupa.length; ++i) {
-				mv.mgroupa[i].x = this.middle_axis_x;
-				mv.mgroupa[i].handed = bjs.handed.low;
-			}
-
-			for (var i = 0; i < mv.lnodea.length; ++i) {
-				mv.lnodea[i].x = this.left_axis_x;
-				mv.lnodea[i].handed = bjs.handed.left;
-			}
-
-			for (var i = 0; i < mv.rnodea.length; ++i) {
-				mv.rnodea[i].x = this.right_axis_x;
-				mv.rnodea[i].handed = bjs.handed.right;
-			}
-
-			for (var i = 0; i < mv.m1nodea.length; ++i) {
-				mv.m1nodea[i].x = this.middle_axis_x - this.dims.groupbar_offs / 2;
-				mv.m1nodea[i].handed = bjs.handed.left;
-			}
-
-			for (var i = 0; i < mv.m2nodea.length; ++i) {
-				mv.m2nodea[i].x = this.middle_axis_x + this.dims.groupbar_offs / 2;
-				mv.m2nodea[i].handed = bjs.handed.right;
-			}
-
-			this.updateYValues(mv);
+			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
+			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
+			bjs.chainLayout(mv.m1nodea, mv.mgroupa, this.middle_axis_x - this.dims.groupbar_offs/2, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
+			bjs.chainLayout(mv.m2nodea, mv.mgroupa, this.middle_axis_x + this.dims.groupbar_offs/2, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
 
 			return mv;
 		}
 
-		private updateYValues(mv:mv):void {
-			this.setYValues(mv.rnodea, mv.rgroupa, "");
-			this.setYValues(mv.lnodea, mv.lgroupa, "");
-			this.setYValues(mv.m1nodea, mv.mgroupa, "");
-			this.setYValues(mv.m2nodea, mv.mgroupa, "");
-		}
-
-
-		private setYValues(nodes:bjs.node[], groups:bjs.group[], focusGroup:string) {
-
-			if (nodes.length == 0) return;
-
-			var numRegularNodes = 0,
-				numFGNodes = 0,
-				numBreaks = 0;
-
-			var prevgroup = nodes[0].group.fullname;
-			for (var i = 0; i < nodes.length; i++) {
-				if (nodes[i].group.fullname != prevgroup) {
-					numBreaks += 1;
-					prevgroup = nodes[i].group.fullname;
-				}
-				if (nodes[i].group.fullname == focusGroup) {
-					numFGNodes++;
-				}
-				else {
-					numRegularNodes++;
-				}
-			}
-
-			var interval = (this.dims.bottom_edge - this.dims.top_edge) / (numRegularNodes + (numBreaks * 2) + (numFGNodes * 4));
-
-			var y = this.dims.top_edge - interval / 2;
-			var prevgroup = nodes[0].group.fullname;
-			for (var i = 0; i < nodes.length; i++) {
-
-				y += interval;
-
-				if (nodes[i].group.fullname != prevgroup) {
-					y += interval;
-					prevgroup = nodes[i].group.fullname;
-				}
-
-				if (nodes[i].group.fullname == focusGroup) {
-					y += interval * 3;
-				}
-
-				nodes[i].y = y;
-			}
-
-			for (var j = 0; j < groups.length; ++j) {
-				bjs.fitGroupToNodesBar(groups[j], this.dims.node_r, this.dims.groupbar_offs);
-			}
-		}
-
+		
 			
 		private renderLinks(svg, dat:bjs.mv):void {
 			

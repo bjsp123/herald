@@ -1,5 +1,6 @@
 /// <reference path="bjs_types.ts"/>
 /// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_layout.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 /// <reference path="bjs_mv.ts"/>
 
@@ -18,6 +19,10 @@ namespace bjs {
     dims:bjs.dimensions=null;
 
     axis_x:number[] = [];
+    axis:any[]=[];
+    scale:any[]=[];
+
+    scales:any[]=[];
 
 
     public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter, d:bjs.dimensions):void {
@@ -35,14 +40,20 @@ namespace bjs {
       var mv = this.prepareData(w, c);
       this.mv = mv;
 
-      this.renderChain(this.svg, this.config, "left", mv.lnodea, this.axis_x[0]);
-      this.renderChain(this.svg, this.config, "m1", mv.m1nodea, this.axis_x[1]);
-      this.renderChain(this.svg, this.config, "m2", mv.m2nodea, this.axis_x[2]);
-      this.renderChain(this.svg, this.config, "right", mv.rnodea, this.axis_x[3]);
+      this.axis[0] = d3.svg.axis().scale(this.scale[0]).orient("left").innerTickSize(20);
+      this.axis[1] = d3.svg.axis().scale(this.scale[1]).orient("left").innerTickSize(20);
+      this.axis[2] = d3.svg.axis().scale(this.scale[2]).orient("left").innerTickSize(20);
+
+      this.renderAxes(svg);
+
+      this.renderChain(this.svg, this.config, "left", mv.lnodea, this.axis_x[0], true);
+      this.renderChain(this.svg, this.config, "m1", mv.m1nodea, this.axis_x[1], true);
+      this.renderChain(this.svg, this.config, "m2", mv.m2nodea, this.axis_x[2], true);
+      this.renderChain(this.svg, this.config, "right", mv.rnodea, this.axis_x[3], true);
+
+      this.renderGroups(svg, c, "groups", mv.groups);
 
       this.renderLinks(this.svg, mv);
-
-
     }
 
     private prepareData(w:bjs.world, c:bjs.config):bjs.mv{
@@ -50,27 +61,161 @@ namespace bjs {
       var mv = bjs.makeStats(this, w);
       var focus = this.focus;
 
-      //now we'd better sort the 4 columns.
+      //now we'd better sort the 4 columns so they are stable when arranged into categories.
 
       mv.rnodea.sort(firstBy("fullname"));
+      mv.lnodea.sort(firstBy("fullname"));
+      mv.m1nodea.sort(firstBy("fullname"));
+      mv.m2nodea.sort(firstBy("fullname"));
 
-      mv.lnodea.sort(firstBy(function(a,b){return (bjs_data_json.isMatch(a.field, focus)?1:-1) -  (bjs_data_json.isMatch(b.field, focus)?1:-1);}).thenBy("fullname"));
-      mv.m1nodea.sort(firstBy(function(a,b){return a.field.effquality - b.field.effquality;}).thenBy("fullname"));
-      mv.m2nodea.sort(firstBy(function(a,b){return a.field.effrisk - b.field.effquality;}).thenBy("fullname"));
+      
+      this.scale[0] = bjs.makeScale(mv.lnodea, c.xorder, this.dims.top_edge, this.dims.bottom_edge);
+      this.scale[1] = bjs.makeScale(mv.m1nodea, c.yorder, this.dims.top_edge, this.dims.bottom_edge);
+      this.scale[2] = bjs.makeScale(mv.m2nodea, c.zorder, this.dims.top_edge, this.dims.bottom_edge);
 
-      for(var i=0;i<mv.lnodea.length;++i) {mv.lnodea[i].x=this.axis_x[0]; mv.lnodea[i].handed = bjs.handed.left; mv.lnodea[i].fullname += " l";}
-      for(var i=0;i<mv.m1nodea.length;++i) {mv.m1nodea[i].x=this.axis_x[1]; mv.m1nodea[i].handed = bjs.handed.left; mv.m1nodea[i].fullname += " m1";}
-      for(var i=0;i<mv.m2nodea.length;++i) {mv.m2nodea[i].x=this.axis_x[2]; mv.m2nodea[i].handed = bjs.handed.right; mv.m2nodea[i].fullname += " m2";}
-      for(var i=0;i<mv.rnodea.length;++i) {mv.rnodea[i].x=this.axis_x[3]; mv.rnodea[i].handed = bjs.handed.right; mv.rnodea[i].fullname += " r";}
+      mv.rnodea.sort(firstBy("fullname"));
+      this.positionAndMergeNodes(mv.lnodea, "l", this.axis_x[0], bjs.handed.left, c.xorder, this.scale[0]);
+      this.positionAndMergeNodes(mv.m1nodea, "m1", this.axis_x[1], bjs.handed.none, c.yorder, this.scale[1]);
+      this.positionAndMergeNodes(mv.m2nodea, "m2", this.axis_x[2], bjs.handed.none, c.zorder, this.scale[2]);
 
-      this.updateOffsValues(mv.lnodea, null, false, this.dims.top_edge, this.dims.bottom_edge);
-      this.updateOffsValues(mv.m1nodea, null, false, this.dims.top_edge, this.dims.bottom_edge);
-      this.updateOffsValues(mv.m2nodea, null, false, this.dims.top_edge, this.dims.bottom_edge);
-      this.updateOffsValues(mv.rnodea, mv.groupa, true, this.dims.top_edge, this.dims.bottom_edge);
+
+      bjs.chainLayout(mv.rnodea, mv.groupa, this.axis_x[3], bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
 
       return mv;
 
     }
+
+    private positionAndMergeNodes(nodes:bjs.node[], tag:string, x:number, h:bjs.handed, o:bjs.xyorder, scale:any):void{
+
+      var full = {};
+
+      //give them all x and y coords
+      //if two have the same coords, create a logical node for that location.
+      for(var i=0;i<nodes.length; ++i){
+        var d = nodes[i];
+        d.handed = h;
+        d.x = x;
+        d.fullname += " " + tag;
+        d.y = bjs.getNodePos(d, o, scale);
+        if(isNaN(d.x))d.x = 0;
+        if(isNaN(d.y))d.y = 0;
+        var loc = d.x + ", " + d.y;
+        while(full[loc]){
+          d.y += this.dims.node_r*0.5;
+          loc = d.x + ", " + d.y;
+        }
+        full[loc] = d;
+      }
+    }
+
+
+    private renderGroups(svg, conf, tag:string, data:bjs.IMap<group>) {
+
+      var datarray = [];
+
+      for (var y in data) {
+        datarray.push(data[y]);
+      }
+
+      var groups = svg.selectAll(".group." + tag)
+        .data(datarray, function(d, i) {
+          return d.fullname;
+        });
+
+      var groupsg = groups
+        .enter()
+        .append("g")
+        .style("opacity", 0)
+        .attr("class", "group " + tag)
+          .attr("transform", function(d) {
+          return "translate(" + d.x + "," + d.y + ")";
+        })
+        .on("mouseover", this.groupMouseOver)
+        .on("mouseout", this.mouseOut);
+        
+      bjs.drawGroupBar(groups, groupsg, this.config);
+      
+      var groupupdate = groups
+        .transition()
+        .style("opacity", 1)
+        .attr("transform", function(d) {
+          return "translate(" + d.x + "," + d.y + ")";
+        });
+        
+
+      var groupexit = groups.exit().transition(800).style("opacity", 0).remove();
+
+    }
+
+
+    private renderAxes(svg:any):void{
+      var xax = svg.selectAll(".laxis").data([1]);
+      var axis_x = this.axis_x;
+
+      xax  
+        .enter()
+        .append("g")
+        .append("text")
+          .attr("class", "biglabel")
+          .attr("x", 0)
+          .attr("y", 44)
+          .attr("text-anchor", "middle");
+
+      xax
+        .attr("class", "laxis")
+          .attr("transform", "translate("+ (axis_x[0] - 90) + "," + 0 + ")")
+          .call(this.axis[0]);
+
+      xax
+        .select(".biglabel")
+        .text(bjs.getAxisLabel(this.config.xorder));
+
+
+      var yax = svg.selectAll(".m1axis").data([1]);
+
+      yax  
+        .enter()
+        .append("g")
+        .append("text")
+          .attr("class", "biglabel")
+          .attr("x", 0)
+          .attr("y", 44)
+          .attr("text-anchor", "middle");
+
+      yax
+        .attr("class", "m1axis")
+          .attr("transform", "translate("+ (axis_x[1] - 0) + "," + 0 + ")")
+          .call(this.axis[1]);
+
+      yax
+        .select(".biglabel")
+        .text(bjs.getAxisLabel(this.config.yorder));
+
+     var zax = svg.selectAll(".m2axis").data([1]);
+
+      zax  
+        .enter()
+        .append("g")
+        .append("text")
+          .attr("class", "biglabel")
+          .attr("x", 0)
+          .attr("y", 44)
+          .attr("text-anchor", "middle");
+
+      zax
+        .attr("class", "m2axis")
+          .attr("transform", "translate("+ (axis_x[2] - 0) + "," + 0 + ")")
+          .call(this.axis[2]);
+
+      zax
+        .select(".biglabel")
+        .text(bjs.getAxisLabel(this.config.zorder));
+
+
+
+    }
+
+
 
 
     private renderLinks(svg:any, dat:bjs.mv):void {
@@ -84,7 +229,7 @@ namespace bjs {
           return d.source.fullname + d.target.fullname;
 
         });
-        
+
       var config = this.config;
       var focus = this.focus;
 
@@ -109,17 +254,19 @@ namespace bjs {
 
 
 
-    private renderChain(svg, conf:bjs.config, tag:string, data:bjs.node[], x:number):void {
+    private renderChain(svg, conf:bjs.config, tag:string, data:bjs.node[], x:number, drawAxis:boolean):void {
     
 
-      var axis = svg.selectAll(".axis." + tag)
-        .data([1]).enter()
-        .append("line")
-        .attr("class", "axis " + tag)
-        .attr("x1", x)
-        .attr("y1", this.dims.top_edge)
-        .attr("x2", x)
-        .attr("y2", this.dims.bottom_edge);
+      if(drawAxis){
+        var axis = svg.selectAll(".axis." + tag)
+          .data([1]).enter()
+          .append("line")
+          .attr("class", "axis " + tag)
+          .attr("x1", x)
+          .attr("y1", this.dims.top_edge)
+          .attr("x2", x)
+          .attr("y2", this.dims.bottom_edge);
+        }
 
       var nodes = svg
         .selectAll(".nodegrp." + tag)
@@ -153,47 +300,6 @@ namespace bjs {
 
 
 
-    private updateOffsValues(nodes:bjs.node[], groups:bjs.group[], separateGroups:boolean, min:number, max:number):void {
-
-      if (nodes.length == 0) return;
-
-      var numRegularNodes = 0,
-        numBreaks = 0;
-
-      var prevgroup = nodes[0].group.fullname;
-      for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i].group.fullname != prevgroup && separateGroups) {
-          numBreaks += 1;
-          prevgroup = nodes[i].group.fullname;
-        }
-
-        numRegularNodes++;
-      }
-
-      var interval = (max-min) / (numRegularNodes + (numBreaks));
-
-      var offs = min - interval / 2;
-      var prevgroup = nodes[0].group.fullname;
-      for (var i = 0; i < nodes.length; i++) {
-
-        offs += interval;
-
-        if (nodes[i].group.fullname != prevgroup && separateGroups) {
-          offs += interval;
-          prevgroup = nodes[i].group.fullname;
-        }
-        nodes[i].y = offs;
-      }
-
-      if(groups != null){
-        for (var j = 0; j < groups.length; ++j) {
-          var p = groups[j];
-          bjs.fitGroupToNodesBar(p, this.dims.node_r, this.dims.groupbar_offs);
-        }
-    }
-
-    }
-
 
     private groupMouseOver(d) {
       d.view.svg.selectAll(".link")
@@ -206,10 +312,10 @@ namespace bjs {
 
       d.view.svg.selectAll(".node")
         .classed("active", function(p) {
-          return bjs.isNodeRelatedToGroup(p, d);
+          return p.group.fullname == d.fullname;
         })
         .classed("passive", function(p) {
-          return !bjs.isNodeRelatedToGroup(p, d);
+          return p.group.fullname != d.fullname;
         });
 
       d.view.svg.selectAll(".group")

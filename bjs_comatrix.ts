@@ -1,5 +1,5 @@
 /// <reference path="bjs_types.ts"/>
-/// <reference path="bjs_viewutils.ts"/>
+/// <reference path="bjs_layout.ts"/>
 /// <reference path="bjs_data_json.ts"/>
 /// <reference path="bjs_mv.ts"/>
 
@@ -53,77 +53,13 @@ namespace bjs {
 			
 			bjs.addPts(this, mv, this.config);
 
-			this.layout(mv);
+			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.column, true, this.top_axis_y + this.CORNER_SPACE, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
+			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.top_axis_y, bjs.handed.row, true, this.left_axis_x + this.CORNER_SPACE, this.dims.right_edge, this.dims.node_r, this.dims.groupbar_offs);
 
 			return mv;
 
 		}
 
-		private layout(mv:bjs.mv):void {
-			for(var i =0; i < mv.lgroupa.length;++i){
-				mv.lgroupa[i].handed = bjs.handed.column;
-			}
-			for(var i =0; i < mv.rgroupa.length;++i){
-				mv.rgroupa[i].handed = bjs.handed.row;
-			}
-			for(var i =0; i < mv.lnodea.length;++i){
-				mv.lnodea[i].handed = bjs.handed.column;
-			}
-			for(var i =0; i < mv.rnodea.length;++i){
-				mv.rnodea[i].handed = bjs.handed.row;
-			}
-			this.updateOffsValues(mv.lnodea, mv.lgroupa, this.top_axis_y + this.CORNER_SPACE, this.dims.bottom_edge);
-			this.updateOffsValues(mv.rnodea, mv.rgroupa, this.left_axis_x + this.CORNER_SPACE, this.dims.right_edge);
-		}
-
-		private updateOffsValues(nodes:bjs.node[], groups:bjs.group[], min:number, max:number):void {
-
-			if (nodes.length == 0) return;
-
-			var numRegularNodes = 0,
-				numFGNodes = 0,
-				numBreaks = 0;
-
-			var prevgroup = nodes[0].group.fullname;
-			for (var i = 0; i < nodes.length; i++) {
-				if (nodes[i].group.fullname != prevgroup) {
-					numBreaks += 1;
-					prevgroup = nodes[i].group.fullname;
-				}
-
-				numRegularNodes++;
-			}
-
-			var interval = (max-min) / (numRegularNodes + (numBreaks * 2) + (numFGNodes * 4));
-
-			var offs = min - interval / 2;
-			var prevgroup = nodes[0].group.fullname;
-			for (var i = 0; i < nodes.length; i++) {
-
-				offs += interval;
-
-				if (nodes[i].group.fullname != prevgroup) {
-					offs += interval*2;
-					prevgroup = nodes[i].group.fullname;
-				}
-
-
-				if(nodes[i].handed == bjs.handed.row) {
-					nodes[i].x = offs;
-					nodes[i].y = this.top_axis_y;
-				}else{
-					nodes[i].y = offs;
-					nodes[i].x = this.left_axis_x;
-				}
-			}
-
-			for (var j = 0; j < groups.length; ++j) {
-				var p = groups[j];
-				bjs.fitGroupToNodesBar(p, this.dims.node_r, this.dims.groupbar_offs);
-			}
-
-
-		}
 
 		private renderGroups(svg, tag, data:bjs.group[], handed:bjs.handed):void {
 

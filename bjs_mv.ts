@@ -138,9 +138,10 @@ namespace bjs {
             mv.groupa.push(g);
             mv.groups[fullname] = g;
 
+            //all nodes know what group they belong to, but groups only have rnodes as children... bit of a minefield that.
+
             for (var i = 0; i < ass.children.length; ++i) {
                 if (mv.lnodes[ass.children[i].fullname] != null) {
-                    g.children.push(mv.lnodes[ass.children[i].fullname]);
                     mv.lnodes[ass.children[i].fullname].group = g;
                 }
                 if (mv.rnodes[ass.children[i].fullname] != null) {
@@ -148,11 +149,9 @@ namespace bjs {
                     mv.rnodes[ass.children[i].fullname].group = g;
                 }
                 if (mv.m1nodes[ass.children[i].fullname] != null) {
-                    g.children.push(mv.m1nodes[ass.children[i].fullname]);
                     mv.m1nodes[ass.children[i].fullname].group = g;
                 }
                 if (mv.m2nodes[ass.children[i].fullname] != null) {
-                    g.children.push(mv.m2nodes[ass.children[i].fullname]);
                     mv.m2nodes[ass.children[i].fullname].group = g;
                 }
             }
