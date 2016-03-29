@@ -74,9 +74,9 @@ namespace bjs {
       this.scale[2] = bjs.makeScale(mv.m2nodea, c.zorder, this.dims.top_edge, this.dims.bottom_edge);
 
       mv.rnodea.sort(firstBy("fullname"));
-      this.positionAndMergeNodes(mv.lnodea, "l", this.axis_x[0], bjs.handed.left, c.xorder, this.scale[0]);
-      this.positionAndMergeNodes(mv.m1nodea, "m1", this.axis_x[1], bjs.handed.none, c.yorder, this.scale[1]);
-      this.positionAndMergeNodes(mv.m2nodea, "m2", this.axis_x[2], bjs.handed.none, c.zorder, this.scale[2]);
+      this.positionAndMergeNodes(mv.lnodea, "axis_l", this.axis_x[0], bjs.handed.none, c.xorder, this.scale[0]);
+      this.positionAndMergeNodes(mv.m1nodea, "axis_m1", this.axis_x[1], bjs.handed.none, c.yorder, this.scale[1]);
+      this.positionAndMergeNodes(mv.m2nodea, "axis_m2", this.axis_x[2], bjs.handed.none, c.zorder, this.scale[2]);
 
 
       bjs.chainLayout(mv.rnodea, mv.groupa, this.axis_x[3], bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
@@ -332,21 +332,29 @@ namespace bjs {
 
 
     private nodeMouseOver(d) {
+    
+      var config = d.view.config;
+      var o:bjs.xyorder = bjs.xyorder.asset;
+      
+      if(d.fullname.endsWith("axis_l")) o = config.xorder;
+      if(d.fullname.endsWith("axis_m1")) o = config.yorder;
+      if(d.fullname.endsWith("axis_m2")) o = config.zorder;
+      
       
       d.view.svg.selectAll(".link")
         .classed("active", function(p) {
-          return p.source.field.fullname == d.field.fullname;
+          return bjs.sortFunction(o, d, p.source) ==0;
         })
         .classed("passive", function(p) {
-          return p.source.field.fullname != d.field.fullname ;
+          return bjs.sortFunction(o, d, p.source) !=0;
         });
 
       d.view.svg.selectAll(".node")
         .classed("active", function(p) {
-          return p.field.fullname == d.field.fullname;
+          return bjs.sortFunction(o, d, p) ==0;
         })
         .classed("passive", function(p) {
-          return p.field.fullname != d.field.fullname;
+          return bjs.sortFunction(o, d, p) !=0;
         });
 
       bjs.hover(d);

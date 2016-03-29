@@ -776,24 +776,27 @@
 						<tr id="opt_xaxis">
 							<td class="formlabel">X Axis:</td>
 							<td><select class="easyui-combobox" style="width:140px" id="ctrl_xo" name="ctrl_xo" data-options="onSelect: onXOChanged">
+                                <option value="owner">Asset Owner</option>
                                 <option value="shallowness">Output Order</option>
-						        <option value="depth">Source Order</option>
-						        <option value="timing">Timing</option>
+            						        <option value="depth">Source Order</option>
+            						        <option value="timing">Timing</option>
                                 <option value="quality">Quality/Error Factor</option>
                                 <option value="risk">Risk Level</option>
                                 <option value="importance">Importance</option>
                                 <option value="term">Business Term</option>
                                 <option value="complexity">Complexity</option>
+                                <option value="influence">Influence</option>
+                                <option value="filters">Filters</option>
+                                <option value="dependencies">Dependencies</option>
                                 <option value="asset">Asset Name</option>
                                 <option value="type">Asset Type</option>
-                                <option value="owner">Asset Owner</option>
                                 <option value="dept">Asset Department</option>
 						    </select></td>
 						 </tr>	
                          <tr id="opt_yaxis">
                             <td class="formlabel">Y Axis:</td>
                             <td><select class="easyui-combobox" style="width:140px" id="ctrl_yo" name="ctrl_yo" data-options="onSelect: onYOChanged">
-                                <option value="asset">Asset Name</option>   
+                                <option value="asset">Asset Department</option>   
                                 <option value="shallowness">Output Order</option>
                                 <option value="depth">Source Order</option>
                                 <option value="timing">Timing</option>
@@ -802,9 +805,12 @@
                                 <option value="importance">Importance</option>
                                 <option value="term">Business Term</option>
                                 <option value="complexity">Complexity</option>
+                                <option value="influence">Influence</option>
+                                <option value="filters">Filters</option>
+                                <option value="dependencies">Dependencies</option>
+                                <option value="dept">Asset Name</option>
                                 <option value="type">Asset Type</option>
                                 <option value="owner">Asset Owner</option>
-                                <option value="dept">Asset Department</option>
                             </select></td>
                          </tr>  
                          <tr id="opt_zaxis">
@@ -819,6 +825,9 @@
                                 <option value="importance">Importance</option>
                                 <option value="term">Business Term</option>
                                 <option value="complexity">Complexity</option>
+                                <option value="influence">Influence</option>
+                                <option value="filters">Filters</option>
+                                <option value="dependencies">Dependencies</option>
                                 <option value="type">Asset Name</option>
                                 <option value="owner">Asset Owner</option>
                                 <option value="dept">Asset Department</option>

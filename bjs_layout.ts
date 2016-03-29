@@ -24,6 +24,12 @@ namespace bjs {
         return d3.scale.linear().range([min, max]).domain([0, d3.max(nodea, function(d:bjs.node){return d.field.effimportance;})]);
         case bjs.xyorder.complexity:
         return d3.scale.linear().range([min, max]).domain([0, d3.max(nodea, function(d:bjs.node){return d.field.getComplexity();})]);
+        case bjs.xyorder.influence:
+        return d3.scale.linear().range([min, max]).domain([0, d3.max(nodea, function(d:bjs.node){return d.field.getInfluence();})]);
+        case bjs.xyorder.filters:
+        return d3.scale.linear().range([min, max]).domain([0, d3.max(nodea, function(d:bjs.node){return d.field.getFilters();})]);
+        case bjs.xyorder.dependencies:
+        return d3.scale.linear().range([min, max]).domain([0, d3.max(nodea, function(d:bjs.node){return d.field.getDependencies();})]);
         case bjs.xyorder.term:
         return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(nodea, function(d:bjs.node){return d.field.term?d.field.term.code:"na";}));
         case bjs.xyorder.type:
@@ -57,6 +63,12 @@ namespace bjs {
         return scale(n.field.effimportance);
         case bjs.xyorder.complexity:
         return scale(n.field.getComplexity());
+        case bjs.xyorder.influence:
+        return scale(n.field.getInfluence());
+        case bjs.xyorder.filters:
+        return scale(n.field.getFilters());
+        case bjs.xyorder.dependencies:
+        return scale(n.field.getDependencies());
         case bjs.xyorder.term:
         return scale(n.field.term?n.field.term.code:"na");
         case bjs.xyorder.type:
@@ -89,6 +101,12 @@ namespace bjs {
         return "Importance";
         case bjs.xyorder.complexity:
         return "Complexity";
+        case bjs.xyorder.influence:
+        return "Influence";
+        case bjs.xyorder.filters:
+        return "Filters";
+        case bjs.xyorder.dependencies:
+        return "Dependencies";
         case bjs.xyorder.term:
         return "Business Term";
         case bjs.xyorder.type:
@@ -101,6 +119,52 @@ namespace bjs {
         return "Asset Department";
         default:
         return "Invalid Axis";
+      }
+
+    }
+    
+    export function sortFunction(o:bjs.xyorder, a:bjs.node, b:bjs.node):number{
+      
+      if(a.field == null || b.field == null) return 0;
+
+      switch(o){
+        case bjs.xyorder.depth:
+        return a.field.ldepth - b.field.ldepth;
+        case bjs.xyorder.shallowness:
+        return a.field.rdepth - b.field.rdepth;
+        case bjs.xyorder.timing:
+        return a.field.asset.effnotbefore - b.field.asset.effnotbefore;
+        case bjs.xyorder.quality:
+        return a.field.effquality - b.field.effquality;
+        case bjs.xyorder.risk:
+        return a.field.effrisk - b.field.effrisk;
+        case bjs.xyorder.importance:
+        return a.field.effimportance - b.field.effimportance;
+        case bjs.xyorder.complexity:
+        return a.field.getComplexity() - b.field.getComplexity();
+        case bjs.xyorder.influence:
+        return a.field.getInfluence() - b.field.getInfluence();
+        case bjs.xyorder.filters:
+        return a.field.getFilters() - b.field.getFilters();
+        case bjs.xyorder.dependencies:
+        return a.field.getDependencies() - b.field.getDependencies();
+        case bjs.xyorder.term:
+          if(a.field.term==null || b.field.term == null) return 0;
+          return bjs.strcmp(a.field.term.code, b.field.term.code);
+        case bjs.xyorder.type:
+          if(a.field.asset==null || b.field.asset == null) return 0;
+          return bjs.strcmp(a.field.asset.type, b.field.asset.type);
+        case bjs.xyorder.owner:
+          if(a.field.asset==null || b.field.asset == null) return 0;
+          return bjs.strcmp(a.field.asset.owner, b.field.asset.owner);
+        case bjs.xyorder.asset:
+          if(a.field.asset==null || b.field.asset == null) return 0;
+          return bjs.strcmp(a.field.asset.fullname, b.field.asset.fullname);
+        case bjs.xyorder.dept:
+          if(a.field.asset==null || b.field.asset == null) return 0;
+          return bjs.strcmp(a.field.asset.dept, b.field.asset.dept);
+        default:
+        return 0;
       }
 
     }

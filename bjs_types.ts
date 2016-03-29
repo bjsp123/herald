@@ -56,7 +56,10 @@ namespace bjs {
     	asset,
     	importance,
     	term,
-    	complexity
+    	complexity,
+    	influence,
+    	filters,
+    	dependencies
     }
 
     export const enum showDetail {
@@ -209,7 +212,19 @@ namespace bjs {
 		}
 
 		public getComplexity():number {
-			return Object.keys(this.ancestors).length;
+			return bjs.getComplexity(this);
+		}
+		
+		public getInfluence():number {
+			return bjs.getInfluence(this);
+		}
+		
+		public getFilters():number {
+			return bjs.getFilters(this);
+		}
+		
+		public getDependencies():number {
+			return bjs.getDependencies(this);
 		}
 	}
 	
@@ -421,16 +436,16 @@ namespace bjs {
 		public linkColorplan:number=linkColorplan.bynode;
 		public showDetail:number=showDetail.none;
 		public floworder:number=floworder.shallowness;
-		public xorder:number=xyorder.shallowness;
-		public yorder:number=xyorder.asset;
+		public xorder:number=xyorder.owner;
+		public yorder:number=xyorder.dept;
 		public zorder:number=xyorder.type;
 		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
-        public detailColor = d3.scale.quantile().range(["#0f2","#0c3","#0a5","#287","#469","#649","#8a7","#a25","#c03","#d02","#f00"]).domain([0,1]);
+        public detailColor = d3.scale.quantile().range(["#0d2","#0c3","#0a5","#287","#469","#649","#8a7","#a25","#c03","#d02","#e01"]).domain([0,1]);
 
 	}
 
 	export class dimensions{
-		public node_r=8;
+		public node_r=9;
 		public left_edge=100;
 		public right_edge=1200;
 		public top_edge=100;
@@ -438,7 +453,7 @@ namespace bjs {
 		public groupbar_width=20;
 		public group_spacing=20;
 		public bundle_offs=150;
-		public groupbar_offs=100;
+		public groupbar_offs=110;
 	}
 
 	export interface view{

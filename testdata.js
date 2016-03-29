@@ -191,12 +191,11 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "importance": 2,
-            "usesvalue": [],
-            "usesfilter": [
+            "usesvalue": [
                 "Core.Retail.Balances:DrawnBalance",
-                "Core.Retail.Balances:UndrawnBalance",
                 "Core.Retail.Balances:BalanceID"
-                ]
+            ],
+            "usesfilter": []
         }, {
             "fullname": "MIS.Mart.CustomerReport:ClientType",
             "conceptname": "",
@@ -207,10 +206,13 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "importance": 2,
-            "usesvalue": [],
+            "usesvalue": [
+                "ClientData.Individuals:Segment",
+                "ClientData.SmallBusiness:Segment",
+                ],
             "usesfilter": [
-                "Customer.ClientData.Individuals:Cust_ID",
-                "Customer.ClientData.SmallBusiness:Client_ID",
+                "ClientData.Individuals:Cust_ID",
+                "ClientData.SmallBusiness:Client_ID",
                 "Core.Retail.Balances:BalanceID"
                 ]
         }, {
@@ -223,9 +225,10 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "importance": 2,
-            "usesvalue": [],
+            "usesvalue": ["CustQuality.Internal:Entity_Grade"],
             "usesfilter": [
-                "Customer.Quality.Internal:Entity_Grade",
+                "ClientData.Individuals:Cust_ID",
+                "ClientData.SmallBusiness:Client_ID",
                 "Core.Retail.Balances:BalanceID"
                 ]
         }, {
@@ -238,8 +241,8 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "importance": 2,
-            "usesvalue": ["Customer.ClientData.Individuals:Postcode",
-                "Customer.ClientData.SmallBusiness:Postcode"],
+            "usesvalue": ["ClientData.Individuals:Postcode",
+                "ClientData.SmallBusiness:Postcode"],
             "usesfilter": [
                 ]
         },{
@@ -252,12 +255,12 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "importance": 2,
-            "usesvalue": ["Customer.ClientData.Individuals:Name",
-                "Customer.ClientData.SmallBusiness:Name"],
+            "usesvalue": ["ClientData.Individuals:Name",
+                "ClientData.SmallBusiness:Name"],
             "usesfilter": [
                 ]
         },{
-            "fullname": "Customer.ClientData.Individuals:Cust_ID",
+            "fullname": "ClientData.Individuals:Cust_ID",
             "conceptname": "",
             "desc": "Primary key in client data system.",
             "formula": "from upstream systems",
@@ -268,7 +271,7 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         },{
-            "fullname": "Customer.ClientData.SmallBusiness:Client_ID",
+            "fullname": "ClientData.SmallBusiness:Client_ID",
             "conceptname": "",
             "desc": "Primary key in business client data system.",
             "formula": "from upstream systems",
@@ -279,7 +282,7 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         }, {
-            "fullname": "Customer.ClientData.Individuals:Postcode",
+            "fullname": "ClientData.Individuals:Postcode",
             "conceptname": "",
             "desc": "Postcode of the individual.",
             "formula": "from upstream systems",
@@ -291,7 +294,7 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         },{
-            "fullname": "Customer.ClientData.SmallBusiness:Postcode",
+            "fullname": "ClientData.SmallBusiness:Postcode",
             "conceptname": "",
             "desc": "Postcode of the business.",
             "formula": "from upstream systems",
@@ -303,7 +306,31 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         },  {
-            "fullname": "Customer.ClientData.Individuals:Name",
+            "fullname": "ClientData.Individuals:Segment",
+            "conceptname": "",
+            "desc": "Segment (Mass/affluent/semi).",
+            "formula": "from upstream systems",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "quality": 1.1,
+            "usesvalue": [],
+            "usesfilter": []
+        },{
+            "fullname": "ClientData.SmallBusiness:Segment",
+            "conceptname": "",
+            "desc": "Segment (soleTrader/micro/small).",
+            "formula": "from upstream systems",
+            "type": "String",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "quality": 1.1,
+            "usesvalue": [],
+            "usesfilter": []
+        },  {
+            "fullname": "ClientData.Individuals:Name",
             "conceptname": "",
             "desc": "Name of the individual.",
             "formula": "from upstream systems",
@@ -315,7 +342,7 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         },{
-            "fullname": "Customer.ClientData.SmallBusiness:Name",
+            "fullname": "ClientData.SmallBusiness:Name",
             "conceptname": "",
             "desc": "Name of the business.",
             "formula": "from upstream systems",
@@ -367,13 +394,13 @@ testdata.raw =
                 "Core.Retail.Balances:UndrawnBalance"
             ],
             "usesfilter": [
-                "Customer.Quality.Internal:Entity_Grade"
+                "CustQuality.Internal:Entity_Grade"
             ]
         }, {
             "fullname": "MIS.Mart.AssetBreakdown:Distressed",
             "conceptname": "Distressed",
-            "desc": "Total distressed assets, where 'distress' is determined from restructuring process output.",
-            "formula": "drawn + undrawn where restructure_flag is present",
+            "desc": "Total distressed assets, where 'distress' is determined from Restruct process output.",
+            "formula": "drawn + undrawn where Restruct_flag is present",
             "type": "Money",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
@@ -384,7 +411,7 @@ testdata.raw =
                 "Core.Retail.Balances:UndrawnBalance"
             ],
             "usesfilter": [
-                "Customer.Quality.Internal:Restructure_Flag"
+                "CustQuality.Internal:Restruct_Flag"
             ]
         }, {
             "fullname": "MIS.Mart.AssetBreakdown:AtRisk",
@@ -402,7 +429,7 @@ testdata.raw =
             ],
             "usesfilter": []
         }, {
-            "fullname": "MIS.Mart.AssetBreakdown:NonPerforming",
+            "fullname": "MIS.Mart.AssetBreakdown:NonPerf",
             "conceptname": "WeightedRisk",
             "desc": "Sum of substandard and distressed exposures after deduplication.",
             "formula": "Distressed assets + substandard assets - (distressed && substandard).",
@@ -520,7 +547,7 @@ testdata.raw =
             "usesvalue": ["Core.Retail.Accounts:MonthlyPayment"],
             "usesfilter": ["Core.Retail.Accounts:PaymentSchedule"]
         }, {
-            "fullname": "Customer.Quality.Internal:Entity_Grade",
+            "fullname": "CustQuality.Internal:Entity_Grade",
             "conceptname": "",
             "desc": "Internal entity grade derived from ratings and bureau scores.",
             "formula": "Taken from provisional grade after manual adjustment.",
@@ -529,10 +556,10 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "adjustment": "Adjust_Grade",
-            "usesvalue": ["Customer.Quality.Internal:Provisional_Grade"],
+            "usesvalue": ["CustQuality.Internal:Provisional_Grade"],
             "usesfilter": []
         }, {
-            "fullname": "Customer.Quality.Internal:Provisional_Grade",
+            "fullname": "CustQuality.Internal:Provisional_Grade",
             "conceptname": "",
             "desc": "Provisional internal entity grade derived from ratings and bureau scores.",
             "formula": "Corp rating where present; else bureau score.  Sometimes a manually entered value is used.",
@@ -544,16 +571,16 @@ testdata.raw =
             "usesvalue": ["Reference.SnP.Ratings:Rating", "Reference.Delphi.Scores:Score"],
             "usesfilter": []
         }, {
-            "fullname": "Customer.Quality.Internal:Restructure_Flag",
+            "fullname": "CustQuality.Internal:Restruct_Flag",
             "conceptname": "",
             "desc": "True if .",
-            "formula": "count (restructure_event) > 0 and restructure_type =~ 'R'.",
+            "formula": "count (Restruct_event) > 0 and Restruct_type =~ 'R'.",
             "type": "Enum",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": ["Refinancing.Retail.Restructuring:Restructure_Event"],
-            "usesfilter": ["Refinancing.Retail.Restructuring:Restructure_Type"]
+            "usesvalue": ["Refin.Retail.Restruct:Restruct_Event"],
+            "usesfilter": ["Refin.Retail.Restruct:Restruct_Type"]
         }, {
             "fullname": "Reference.SnP.Ratings:Rating",
             "conceptname": "",
@@ -621,31 +648,31 @@ testdata.raw =
             "usesvalue": [],
             "usesfilter": []
         }, {
-            "fullname": "Refinancing.Retail.Restructuring_Mods:Modification_Event",
+            "fullname": "Refin.Retail.Restruct_Mods:Modif_Event",
             "conceptname": "",
             "desc": "Date of last modification to contract terms.",
-            "formula": "uses not modification_date but novation_reason for legacy reasons. ",
+            "formula": "uses not Modif_date but novation_reason for legacy reasons. ",
             "type": "Date",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": ["Core.Contracts.History:Modification_Date"],
+            "usesvalue": ["Core.Contracts.History:Modif_Date"],
             "usesfilter": ["Core.Contracts.History:Novation_Reason"]
         }, {
-            "fullname": "Refinancing.Retail.Restructuring:Restructure_Event",
+            "fullname": "Refin.Retail.Restruct:Restruct_Event",
             "conceptname": "",
-            "desc": "Date of last restructuring event.  Sometimes overridden with 'modification event' date for legacy reasons.",
+            "desc": "Date of last Restruct event.  Sometimes overridden with 'modification event' date for legacy reasons.",
             "formula": "",
             "type": "Date",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
-            "usesvalue": ["Core.Contracts.History:Novation_Date","Refinancing.Retail.Restructuring_Mods:Modification_Event"],
+            "usesvalue": ["Core.Contracts.History:Novation_Date","Refin.Retail.Restruct_Mods:Modif_Event"],
             "usesfilter": ["Core.Contracts.History:Novation_Reason"]
         }, {
-            "fullname": "Refinancing.Retail.Restructuring:Restructure_Type",
+            "fullname": "Refin.Retail.Restruct:Restruct_Type",
             "conceptname": "",
-            "desc": "Flag indicating type of restructuring.",
+            "desc": "Flag indicating type of Restruct.",
             "formula": "case when novation_reason = RST then RST when novation_reason = RNR then FORB default OTHER end",
             "type": "Enum",
             "updatedby": "Ben",
@@ -665,8 +692,8 @@ testdata.raw =
             "usesvalue": ["Core.Systems.Records:Comments"],
             "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:Version"]
         }, {
-            "fullname": "Compliance.BCBS.CreditRisk:TotalNonPerforming",
-            "conceptname": "TotalNonPerforming",
+            "fullname": "Compliance.BCBS.CreditRisk:TotalNonPerf",
+            "conceptname": "TotalNonPerf",
             "desc": "Total non-performing assets.",
             "formula": "Passed through directly.",
             "type": "Money",
@@ -674,7 +701,7 @@ testdata.raw =
             "updatedon": "22/06/2015",
             "flags": "",
             "importance": 5,
-            "usesvalue": ["MIS.Mart.AssetBreakdown:NonPerforming"],
+            "usesvalue": ["MIS.Mart.AssetBreakdown:NonPerf"],
             "usesfilter": []
         }, {
             "fullname": "Compliance.BCBS.CreditRisk:TotalAssets",
@@ -724,7 +751,7 @@ testdata.raw =
             "usesvalue": ["Core.Systems.Records:Event"],
             "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:EventType"]
         }, {
-            "fullname": "Core.Contracts.History:Modification_Date",
+            "fullname": "Core.Contracts.History:Modif_Date",
             "conceptname": "",
             "desc": "Date of last contract renegotiation.",
             "formula": "",
@@ -973,7 +1000,7 @@ testdata.raw =
             "dept": "Banking",
             "calc": "mainframe"
         }, {
-            "fullname": "Customer.ClientData.Individuals",
+            "fullname": "ClientData.Individuals",
             "desc": "Customer personal data.",
             "location": "/server2/customer_data",
             "type": "SAS Dataset",
@@ -982,7 +1009,7 @@ testdata.raw =
             "calc": "/server2/code/etl_stuff",
             "notbefore": 1
         }, {
-            "fullname": "Customer.ClientData.SmallBusiness",
+            "fullname": "ClientData.SmallBusiness",
             "desc": "Small business data.",
             "location": "/server2/customer_data",
             "type": "SAS Dataset",
@@ -1024,8 +1051,8 @@ testdata.raw =
             "calc": "/server/files/shipment/rules",
             "notbefore": 2
         }, {
-            "fullname": "Refinancing.Retail.Restructuring_Mods",
-            "desc": "Restructuring information around account modifications.",
+            "fullname": "Refin.Retail.Restruct_Mods",
+            "desc": "Restruct information around account modifications.",
             "location": "/server/staging/retail/restr/mods",
             "type": "SAS Dataset",
             "owner": "Madison_Avenue",
@@ -1035,7 +1062,7 @@ testdata.raw =
             "process": "Proc_Refinancing",
             "comment": "Refinancing data assets are considered risky due to the complex manual processes involved."
         },{
-            "fullname": "Refinancing.Retail.Restructuring",
+            "fullname": "Refin.Retail.Restruct",
             "desc": "Extract from payments system.",
             "location": "/server/staging/retail/restr/snapshots",
             "type": "SAS Dataset",
@@ -1090,7 +1117,7 @@ testdata.raw =
             "calc": "CBS01//CBSUSER//p_overdue_update",
             "notbefore": 1
         }, {
-            "fullname": "Customer.Quality.Internal",
+            "fullname": "CustQuality.Internal",
             "desc": "Internal customer quality measures.",
             "location": "/server/folder/files/dims",
             "type": "SAS Dataset",
@@ -1138,7 +1165,7 @@ testdata.raw =
             "desc": "Total assets that are not currently in arrears.",
             "flags": "critical"
         }, {
-            "code": "TotalNonPerforming",
+            "code": "TotalNonPerf",
             "name": "Total Non-Performing",
             "desc": "Total assets that are deemed non-performing.",
             "flags": "critical"

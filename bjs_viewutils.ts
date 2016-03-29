@@ -20,13 +20,13 @@ namespace bjs {
     	
     	switch(config.showDetail){
 			case bjs.showDetail.timing:
-				return config.detailColor(n.field.asset.effnotbefore / d3.max(n.mv.world.fielda, function(d) { return d.asset.effnotbefore;}));
+				return config.detailColor(n.field.asset.effnotbefore / Math.max(0.001,d3.max(n.mv.world.fielda, function(d) { return d.asset.effnotbefore;})));
 			case bjs.showDetail.importance:
-				return config.detailColor(n.field.effimportance / d3.max(n.mv.world.fielda, function(d) { return d.effimportance; }));
+				return config.detailColor(n.field.effimportance / Math.max(0.001,d3.max(n.mv.world.fielda, function(d) { return d.effimportance; })));
 			case bjs.showDetail.risk:
-				return config.detailColor(n.field.effrisk / d3.max(n.mv.world.fielda, function(d) { return d.effrisk; }));
+				return config.detailColor(n.field.effrisk / Math.max(0.001,d3.max(n.mv.world.fielda, function(d) { return d.effrisk; })));
 			case bjs.showDetail.quality:
-				return config.detailColor((n.field.effquality-1) / d3.max(n.mv.world.fielda, function(d) { return (d.effquality-1); }));
+				return config.detailColor((n.field.effquality-1) / Math.max(0.001,d3.max(n.mv.world.fielda, function(d) { return (d.effquality-1); })));
 			case bjs.showDetail.nolineage:
 				return config.detailColor(n.field.effnolineage?1:0);
     	}
@@ -47,7 +47,8 @@ namespace bjs {
     	
     	switch(config.linkColorplan){
     		case bjs.linkColorplan.bytype:
-    			return(l.rel.type=="filter") ? "#575" : "blue";
+    			if(l.rel==null) return "#gray";
+    			return(l.rel.type=="filter") ? "#475" : "blue";
     		case bjs.linkColorplan.bynode:
     			return bjs.getNodeColor(config, focus, l.source);
     		default:

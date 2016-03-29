@@ -78,7 +78,7 @@ namespace bjs {
 				if(isNaN(d.y))d.y = 0;
 				var loc = d.x + ", " + d.y;
 				while(full[loc]){
-					d.y += this.dims.node_r;
+					d.y -= this.dims.node_r*.8;
 					loc = d.x + ", " + d.y;
 				}
 				full[loc] = d;

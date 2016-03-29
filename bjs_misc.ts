@@ -39,8 +39,14 @@ namespace bjs{
     	}
     }
     
-    export function removeItem(arr, item) {
+    export function removeItem(arr, item):void {
         arr.splice( $.inArray(item, arr), 1 );
+    }
+    
+    export function strcmp(a:string, b:string):number{
+        if(a==b) return 0;
+        if(a>b) return 1;
+        return -1;
     }
 
     export function distinct<T>(arr:T[], f:(x:T)=>string):string[]{
@@ -90,5 +96,38 @@ namespace bjs{
         return false;
     }
 
+    export function getComplexity(f:bjs.field):number{
+        return Object.keys(f.ancestors).length;
+    }
+    
+    export function getInfluence(f:bjs.field):number{
+        return Object.keys(f.descendants).length;
+    }
+    
+    export function getFilters(f:bjs.field):number{
+        
+        var total=0;
+        
+        for(var afn in f.ancestors){
+            if(f.ancestors[afn].filt==true) 
+                total++;
+        }
+        
+        return total;
+    }
+    
+    export function getDependencies(f:bjs.field):number{
+        
+        var total=0;
+        var utotal=0;
+        
+        for(var afn in f.ancestors){
+            total++;
+            if(f.ancestors[afn].ult) 
+                utotal++;
+        }
+        
+        return utotal;
+    }
 
 }

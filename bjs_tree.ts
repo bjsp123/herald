@@ -46,6 +46,17 @@ namespace bjs {
 
 		var nodes = tree.nodes(mv.syntharoot);
 		var links = tree.links(nodes);
+		
+		//each link ought to be associated with the underlying rel
+		for(var i=0; i < links.length; ++i){
+			var l = links[i];
+			for(var j=0; j < this.mv.world.rels.length; ++j){
+				var r = this.mv.world.rels[j];
+				if(r.target.fullname == l.source.fullname && r.source.fullname == l.target.fullname){
+					l.rel = r;
+				}
+			}
+		}
 
 		var duration = 500;
 		
