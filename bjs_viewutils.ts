@@ -107,7 +107,6 @@ namespace bjs {
 			case bjs.colorplan.asset:
 				return config.color(fullname);
         }
-
         return config.color(fullname);
     }
 

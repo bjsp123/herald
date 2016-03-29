@@ -40,13 +40,15 @@ namespace bjs {
         return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(nodea, function(d:bjs.node){return d.field.asset?d.field.asset.fullname:"na";}));
         case bjs.xyorder.dept:
         return d3.scale.ordinal().rangePoints([min, max]).domain(bjs.distinct(nodea, function(d:bjs.node){return d.field.asset?d.field.asset.dept:"na";}));
+        case bjs.xyorder.focus:
+        return d3.scale.ordinal().rangePoints([min, max]).domain(["N", "Y", ""]);
         
         default:
         return d3.scale.linear().range([min, max]).domain([d3.max(nodea, function(d:bjs.node){return d.field.rdepth;}),0]);
       }
     }
 
-    export function getNodePos(n:bjs.node, o:bjs.xyorder, scale:any):number{
+    export function getNodePos(n:bjs.node, o:bjs.xyorder, focus:bjs.filter, scale:any):number{
 
       switch(o){
         case bjs.xyorder.depth:
@@ -79,6 +81,8 @@ namespace bjs {
         return scale(n.field.asset?n.field.asset.fullname:"na");
         case bjs.xyorder.dept:
         return scale(n.field.asset?n.field.asset.dept:"na");
+        case bjs.xyorder.focus:
+        return scale(bjs_data_json.isMatch(n.field, focus)?"Y": "N");
         default:
         return scale(n.field.asset.rdepth);
       }
@@ -117,13 +121,15 @@ namespace bjs {
         return "Asset Name";
         case bjs.xyorder.dept:
         return "Asset Department";
+        case bjs.xyorder.focus:
+        return "Focus";
         default:
         return "Invalid Axis";
       }
 
     }
     
-    export function sortFunction(o:bjs.xyorder, a:bjs.node, b:bjs.node):number{
+    export function sortFunction(o:bjs.xyorder, focus:bjs.filter, a:bjs.node, b:bjs.node):number{
       
       if(a.field == null || b.field == null) return 0;
 
@@ -163,6 +169,8 @@ namespace bjs {
         case bjs.xyorder.dept:
           if(a.field.asset==null || b.field.asset == null) return 0;
           return bjs.strcmp(a.field.asset.dept, b.field.asset.dept);
+        case bjs.xyorder.focus:
+          return (bjs_data_json.isMatch(a.field, focus)?1:0) - (bjs_data_json.isMatch(b.field, focus)?1:0);
         default:
         return 0;
       }

@@ -54,7 +54,8 @@
         $("#opt_node_cp").show();
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
-        $("#opt_influence").hide();      
+        $("#opt_influence").hide();
+        $("#opt_block").hide();      
     	clear();
     	refresh();
     }
@@ -69,7 +70,8 @@
         $("#opt_node_cp").show();
         $("#opt_link_cp").hide();
         $("#opt_highlight").show();
-        $("#opt_influence").hide();      
+        $("#opt_influence").hide();
+        $("#opt_block").hide();      
         clear();
         refresh();
     }
@@ -85,6 +87,7 @@
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
         $("#opt_influence").hide();
+        $("#opt_block").hide();
         clear();
         refresh();
     }
@@ -100,6 +103,7 @@
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
         $("#opt_influence").hide();
+        $("#opt_block").hide();
     	clear();
     	refresh();
     }
@@ -115,6 +119,7 @@
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
         $("#opt_influence").show();
+        $("#opt_block").hide();
     	clear();
     	refresh();
     }
@@ -130,6 +135,7 @@
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
         $("#opt_influence").hide();
+        $("#opt_block").hide();
     	clear();
     	refresh();
     }
@@ -145,6 +151,7 @@
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
         $("#opt_influence").hide();
+        $("#opt_block").show();
     	clear();
     	refresh();
     }
@@ -160,6 +167,7 @@
         $("#opt_link_cp").show();
         $("#opt_highlight").show();
         $("#opt_influence").hide();
+        $("#opt_block").hide();
     	clear();
     	refresh();
     }
@@ -276,6 +284,11 @@
     function onHLChanged(r){
         config.showDetail=bjs.showDetail[r.value];
         redraw();    
+    }
+
+    function onBlockChanged(r){
+        config.blockplan=bjs.blockplan[r.value];
+        redraw();
     }
 
 
@@ -778,8 +791,8 @@
 							<td><select class="easyui-combobox" style="width:140px" id="ctrl_xo" name="ctrl_xo" data-options="onSelect: onXOChanged">
                                 <option value="owner">Asset Owner</option>
                                 <option value="shallowness">Output Order</option>
-            						        <option value="depth">Source Order</option>
-            						        <option value="timing">Timing</option>
+						        <option value="depth">Source Order</option>
+						        <option value="timing">Timing</option>
                                 <option value="quality">Quality/Error Factor</option>
                                 <option value="risk">Risk Level</option>
                                 <option value="importance">Importance</option>
@@ -791,6 +804,7 @@
                                 <option value="asset">Asset Name</option>
                                 <option value="type">Asset Type</option>
                                 <option value="dept">Asset Department</option>
+                                <option value="focus">Focus</option>
 						    </select></td>
 						 </tr>	
                          <tr id="opt_yaxis">
@@ -811,6 +825,7 @@
                                 <option value="dept">Asset Name</option>
                                 <option value="type">Asset Type</option>
                                 <option value="owner">Asset Owner</option>
+                                <option value="focus">Focus</option>
                             </select></td>
                          </tr>  
                          <tr id="opt_zaxis">
@@ -831,6 +846,7 @@
                                 <option value="type">Asset Name</option>
                                 <option value="owner">Asset Owner</option>
                                 <option value="dept">Asset Department</option>
+                                <option value="focus">Focus</option>
                             </select></td>
                          </tr>  
                          <tr id="opt_node_cp">
@@ -865,6 +881,16 @@
                                 <option value="all">All</option>
                                 <option value="immediate">Immediate</option>
                                 <option value="ultimate">Ultimate</option>
+                            </select></td>
+                         </tr>  
+                         <tr id="opt_block">
+                            <td class="formlabel">Block plan:</td>
+                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_block" name="ctrl_block" data-options="onSelect: onBlockChanged">
+                                <option value="none">None</option>
+                                <option value="type">Asset Type</option>
+                                <option value="owner">Asset Owner</option>
+                                <option value="dept">Asset Department</option>
+                                <option value="cat">Asset Group</option>
                             </select></td>
                          </tr>  
 					</table>

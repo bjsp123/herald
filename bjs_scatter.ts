@@ -43,7 +43,7 @@ namespace bjs {
 			this.xAxis = d3.svg.axis().scale(this.xScale);
 			this.yAxis = d3.svg.axis().scale(this.yScale).orient("left");
 
-			this.positionAndMergeNodes(this.mv.nodea, this.config);
+			this.positionAndMergeNodes(this.mv.nodea, this.config, this.focus);
 
 			//we don't draw the groups, but perhaps this will allow bundling?
 			//works sometimes, not other times, depending on layout... not bundling 
@@ -64,7 +64,7 @@ namespace bjs {
 			this.renderNodes(this.svg, this.config, this.mv.nodea);
 		}
 
-		private positionAndMergeNodes(nodes:bjs.node[], c:bjs.config):void{
+		private positionAndMergeNodes(nodes:bjs.node[], c:bjs.config, focus:bjs.filter):void{
 
 			var full = {};
 
@@ -72,8 +72,8 @@ namespace bjs {
 			//if two have the same coords, create a logical node for that location.
 			this.mv.nodea.forEach(function(d:bjs.node){
 				d.handed = bjs.handed.leftright;
-				d.x = bjs.getNodePos(d, c.xorder, this.xScale);
-				d.y = bjs.getNodePos(d, c.yorder, this.yScale);
+				d.x = bjs.getNodePos(d, c.xorder, focus, this.xScale);
+				d.y = bjs.getNodePos(d, c.yorder, focus, this.yScale);
 				if(isNaN(d.x))d.x = 0;
 				if(isNaN(d.y))d.y = 0;
 				var loc = d.x + ", " + d.y;

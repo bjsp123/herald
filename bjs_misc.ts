@@ -130,4 +130,23 @@ namespace bjs{
         return utotal;
     }
 
+    export function getBlock(a:bjs.asset, o:bjs.blockplan):string {
+
+        switch(o){
+            case bjs.blockplan.none:
+            return "";
+            case bjs.blockplan.dept:
+            return a.dept;
+            case bjs.blockplan.cat:
+            return a.fullname.substring(0, 7);
+            case bjs.blockplan.owner:
+            return a.owner;
+            case bjs.blockplan.type:
+            return a.type;
+            default:
+            return "";
+        }
+
+    }
+
 }

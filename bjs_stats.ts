@@ -96,7 +96,7 @@ namespace bjs {
         d.handed = h;
         d.x = x;
         d.fullname += " " + tag;
-        d.y = bjs.getNodePos(d, o, scale);
+        d.y = bjs.getNodePos(d, o, this.focus, scale);
         if(isNaN(d.x))d.x = 0;
         if(isNaN(d.y))d.y = 0;
         var loc = d.x + ", " + d.y;
@@ -343,18 +343,18 @@ namespace bjs {
       
       d.view.svg.selectAll(".link")
         .classed("active", function(p) {
-          return bjs.sortFunction(o, d, p.source) ==0;
+          return bjs.sortFunction(o, d.view.focus, d, p.source) ==0;
         })
         .classed("passive", function(p) {
-          return bjs.sortFunction(o, d, p.source) !=0;
+          return bjs.sortFunction(o, d.view.focus, d, p.source) !=0;
         });
 
       d.view.svg.selectAll(".node")
         .classed("active", function(p) {
-          return bjs.sortFunction(o, d, p) ==0;
+          return bjs.sortFunction(o, d.view.focus, d, p) ==0;
         })
         .classed("passive", function(p) {
-          return bjs.sortFunction(o, d, p) !=0;
+          return bjs.sortFunction(o, d.view.focus, d, p) !=0;
         });
 
       bjs.hover(d);

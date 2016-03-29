@@ -388,7 +388,7 @@ namespace bjs {
       Nodes are given index numbers.
       A set of group data suitable for cola is also added to dat.
       */
-    export function makeColaGraph(view:bjs.view, w:bjs.world):bjs.mv {
+    export function makeColaGraph(view:bjs.view, w:bjs.world, c:bjs.config):bjs.mv {
 
         var mv = new bjs.mv(w);
 
@@ -414,19 +414,6 @@ namespace bjs {
             };
             
             mv.colalinks.push(colalink);
-            
-            /*
-            var link = new bjs.link(src, tgt, rel);
-
-            link.id = link.source.fullname + link.target.fullname + i;
-            link.realsource = link.source;
-            link.realtarget = link.target;
-            link.source = link.source.cola_index; // replace references with numbers to please cola
-            link.target = link.target.cola_index;
-
-            mv.links.push(link);
-            */
-            
         }
 
 
@@ -450,22 +437,28 @@ namespace bjs {
             }
         }
 
-        var found = {};
-        for (var fullname in w.assets) {
-            var ass = w.assets[fullname];
-            var g:bjs.group;
-            if(found[ass.type]){
-                g = found[ass.type];
-            }else{
-                g = new bjs.group(view, null);
-                g.fullname = "Grouping for type " + ass.type;
-                found[ass.type] = g;
-                mv.groupa.push(g);
-                mv.groups[g.fullname]=g;
-                g.cola_index = mv.groupa.length-1;
-            }
+        //add higher level groupings
+        if(c.blockplan != bjs.blockplan.none){
+            var found = {};
+            for (var fullname in w.assets) {
+                var ass = w.assets[fullname];
+                var g:bjs.group;
+                var block = bjs.getBlock(ass, c.blockplan);
 
-            g.groups.push(mv.groups[ass.fullname].cola_index);
+                if(found[block]){
+                    g = found[block];
+                }else{
+                    g = new bjs.group(view, null);
+
+                    g.fullname = "Block: " + block;
+                    found[block] = g;
+                    mv.groupa.push(g);
+                    mv.groups[g.fullname]=g;
+                    g.cola_index = mv.groupa.length-1;
+                }
+
+                g.groups.push(mv.groups[ass.fullname].cola_index);
+            }
         }
         
 

@@ -44,7 +44,7 @@ namespace bjs {
 			this.focus=f;
 			this.dims = d;
 
-			var mv = bjs.makeColaGraph(this, w);
+			var mv = bjs.makeColaGraph(this, w, this.config);
 			
 			this.mv=mv;
 			
