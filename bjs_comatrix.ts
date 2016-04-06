@@ -14,7 +14,6 @@ namespace bjs {
 		GROUP_PADDING = 20;
 		CORNER_SPACE = 20;
 		TRANSITION_FACTOR = 2;
-		TRANSITION_DURATION = 500;
 
 		svg:any = null;
 		config:bjs.config=null;
@@ -29,8 +28,8 @@ namespace bjs {
 		public render(svg, w:bjs.world, c:bjs.config, f:bjs.filter, d:bjs.dimensions):void {
 			
 			this.dims = d;
-			this.left_axis_x = this.dims.left_edge + this.dims.groupbar_offs;
-			this.top_axis_y = this.dims.top_edge + this.dims.groupbar_offs;
+			this.left_axis_x = this.dims.left_edge + this.dims.groupbar_offs * 1.5;
+			this.top_axis_y = this.dims.top_edge + this.dims.groupbar_offs * 1.5;
 
 			this.svg = svg;
 			this.config=c;
@@ -51,11 +50,25 @@ namespace bjs {
 			//create l and r sets -- we'll use l for the y axis.
 			var mv = bjs.makeBipartite(this, w);
 			
+			if(this.config.reorder){
+				mv.lnodea.sort(firstBy("cookie"));
+				mv.rnodea.sort(firstBy("cookie"));
+			}
+			
 			bjs.addPts(this, mv, this.config);
 
-			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.column, true, this.top_axis_y + this.CORNER_SPACE, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
-			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.top_axis_y, bjs.handed.row, true, this.left_axis_x + this.CORNER_SPACE, this.dims.right_edge, this.dims.node_r, this.dims.groupbar_offs);
+			var tooDarnBig:boolean = w.fielda.length > this.dims.big_limit;
 
+			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.column, true, this.top_axis_y + this.CORNER_SPACE, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.top_axis_y, bjs.handed.row, true, this.left_axis_x + this.CORNER_SPACE, this.dims.right_edge, this.dims.node_r, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			
+			if(tooDarnBig){
+				for(var i=0;i<mv.lnodea.length;++i)
+					mv.lnodea[i].handed = bjs.handed.none;
+				for(var i=0;i<mv.rnodea.length;++i)
+					mv.rnodea[i].handed = bjs.handed.none;
+			}
+			
 			return mv;
 
 		}
@@ -95,7 +108,7 @@ namespace bjs {
 			var groupupdate = groups
 				.transition().delay(function(d, i) {
 					return Math.max(d.x,d.y) / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
+				}).duration(this.dims.duration)
 				.style("opacity", 1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
@@ -177,7 +190,7 @@ namespace bjs {
 			var nodeupdate = nodes
 				.transition().delay(function(d, i) {
 					return Math.max(d.x,d.y) / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
+				}).duration(this.dims.duration)
 				.style("opacity", 1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
@@ -228,7 +241,7 @@ namespace bjs {
 			pts
 				.transition().delay(function(d, i) {
 					return (Math.max(d.target.x,d.source.y)) / trans_fact;
-				}).duration(this.TRANSITION_DURATION)
+				}).duration(this.dims.duration)
 				.style("opacity",1)
 				.attr("transform", function(d) {
 					return "translate(" + d.target.x + "," + d.source.y + ")";

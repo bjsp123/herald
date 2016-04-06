@@ -100,6 +100,7 @@ namespace bjs {
 	}
 	
 	export class asset implements cloneable{
+		
 		arels: arel[] = [];
 		peers: asset[] = [];
 		sources: asset[] = [];
@@ -150,6 +151,8 @@ namespace bjs {
 	}
 	
 	export class field implements cloneable{
+	
+		cookie: string = "";
 		
 		rels: rel[] = [];
 		peers: field[] = [];
@@ -179,8 +182,12 @@ namespace bjs {
 				this.risk = 0;
 			if(quality == null || quality == undefined || quality == 0)
 				this.quality = 1;
+			if(flags == null || flags == undefined)
+				this.flags = "";
 			if(importance == null || importance == undefined)
 				this.importance = 0;
+				
+			this.cookie = this.fullname;
 		}
 		
 		public resetvolatile(){
@@ -287,6 +294,7 @@ namespace bjs {
 	export class node{
 		itemtype="node";
 		fullname: string="";
+		cookie: string="";
 		group: group = null;
 		x: number = -1;
 		y: number = -1;
@@ -306,6 +314,7 @@ namespace bjs {
 				bjs.lg_warn("Tried to create node without field");
 			
 			this.fullname = field?field.fullname:"synthetic";
+			this.cookie = field?field.cookie:"synthetic";
 		}
 
 		public isLogical():boolean{
@@ -325,8 +334,8 @@ namespace bjs {
 		id: string;
 		
 		constructor (public source: node, public target: node, public rel: rel){
-			if(rel == null)
-				bjs.lg_err("Tried to create link with no rel.");
+			//if(rel == null)
+			//	bjs.lg_err("Tried to create link with no rel.");
 			if (source == null) 
 				bjs.lg_err("Tried to create link with null source.  Target is " + target.field.fullname);
 			if (target == null) 
@@ -441,6 +450,7 @@ namespace bjs {
 	
 	export class config{
 		public optimize:boolean=false;
+		public reorder:boolean=false;
 		public infFlag:bjs.infFlag=bjs.infFlag.all;
 		public nodeColorplan:bjs.colorplan=colorplan.cat;
 		public linkColorplan:bjs.linkColorplan=linkColorplan.bynode;
@@ -465,6 +475,8 @@ namespace bjs {
 		public group_spacing=20;
 		public bundle_offs=150;
 		public groupbar_offs=110;
+		public big_limit=100;
+		public duration=500;
 	}
 
 	export interface view{

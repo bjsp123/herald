@@ -4,17 +4,58 @@ declare var firstBy:any;
 namespace bjs_data_json{
 
 
-	export function fromJson(json, f, sq) {
+	export function fromJson(json, date, f, sq) {
 
 		var world;
 
-		world = loadJson(json);
+		world = loadJson(json, date);
 
 		world = filter(world, f);
 
 		world = squash(world, sq);
-
+		
+		world = applyRules(world);
+		
 		return world;
+	}
+	
+	// Placeholder for proper rules functionality.
+	// edits the world in-place to apply hardcoded rules.
+	function applyRules(world:bjs.world):bjs.world {
+		
+		for(var i=0; i < world.fielda.length; ++i){
+			var f = world.fielda[i];
+			
+			if(f.fullname.indexOf("ClientData")==0)
+				f.cookie = "MIS.Aaa.clientdatacookie" + f.fullname;
+			
+			if(f.fullname.indexOf("Refin")==0)
+				f.cookie = "Aaa" + f.fullname;
+				
+			if(f.fullname.indexOf("Core.Contracts.Hist")==0)
+				f.cookie = "Cust.zzcontractscookie" + f.fullname;
+				
+			if(f.fullname.indexOf("Compliance.BCBS")==0)
+				f.cookie = "MIS.Mart.aacompliancecookie" + f.fullname;
+				
+			if(f.fullname.indexOf("Core.Syst")==0)
+				f.cookie = "Core.Retail.Aaacookie" + f.fullname;
+				
+			if(f.fullname.indexOf("Core.Cont")==0)
+				f.cookie = "Core.AAaacookie" + f.fullname;
+				
+			if(f.fullname.indexOf("Reference")==0)
+				f.cookie = "CustQuality.ZZcookie" + f.fullname;
+				
+			if(f.fullname.indexOf("MIS.Staging")==0)
+				f.cookie = "MIS.Mart.Dddcookie" + f.fullname;
+				
+			if(f.fullname.indexOf("Core.Retail.Bal")==0)
+				f.cookie = "MIS.Mart.Aaacookie" + f.fullname;
+		}
+		
+		return world;
+		
 	}
 
 	function filter(world:bjs.world, filter:bjs.filter):bjs.world {
@@ -530,15 +571,19 @@ namespace bjs_data_json{
 		//fixes up the rhs of the time critical path
 		for (assetfullname in w.assets){
 			var ass = w.assets[assetfullname];
+			var latest_src = ass.notbefore;
+			var limiter:bjs.asset = null;
 			for(var influencename in ass.ancestors){
 				var inf = ass.ancestors[influencename];
-				if(inf.tcritpath){
-					inf.asset.descendants[ass.fullname].tcritpath=true;
+				if(inf.asset.effnotbefore > latest_src){
+					latest_src = inf.asset.effnotbefore;
+					limiter = inf.asset;
 				}
 			}
+			if(limiter){
+				ass.ancestors[limiter.fullname].tcritpath = true;
+			}
 		}
-
-
 	}
 
 	function recursiveAssetCalculations(w:bjs.world, ass:bjs.asset):void{
@@ -564,7 +609,7 @@ namespace bjs_data_json{
 		if(f.effrisk != null){
 			return;
 		}
-		
+
 		f.effrisk = f.risk + f.asset.risk;
 		f.effquality = f.quality;
 		f.effnolineage = f.hasNoLineage();
@@ -578,16 +623,21 @@ namespace bjs_data_json{
 		}
 	}
 	
-	function recursiveLeftwardFieldCalculations(w:bjs.world, f:bjs.field):void{
+	function recursiveLeftwardFieldCalculations(w:bjs.world, f:bjs.field, depth:number=0):void{
 
 		if(f.effimportance != null){
+			return;
+		}
+		
+		if(depth > 100){
+			bjs.lg_err("Recursion problem: " + f.fullname);
 			return;
 		}
 		
 		var most_imp_target = f.importance;
 		for(var i=0;i<f.targets.length;++i){
 			var tgt = f.targets[i];
-			recursiveLeftwardFieldCalculations(w, tgt);
+			recursiveLeftwardFieldCalculations(w, tgt,depth+1);
 			if(tgt.effimportance > most_imp_target){
 				most_imp_target = tgt.effimportance;
 			}
@@ -599,6 +649,11 @@ namespace bjs_data_json{
 
 	function recursiveARelatives(w:bjs.world, root:bjs.asset, a:bjs.asset, depth:number, bFilterEncountered:boolean, bSource:boolean):void {
 
+		if(depth > 100){
+			bjs.lg_err("Recursion problem: " + a.fullname);
+			return;
+		}
+		
 		for (var i = 0; i < a.arels.length; ++i) {
 			var isFilter = bFilterEncountered;
 			if (a.arels[i].type == "filter")
@@ -678,7 +733,7 @@ namespace bjs_data_json{
 		}
 	}
 
-	function loadJson(json:any):bjs.world {
+	function loadJson(json:any, theDate:Date):bjs.world {
 
 		var w = new bjs.world();
 
@@ -710,6 +765,14 @@ namespace bjs_data_json{
 
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
+			
+			if(row.from && row.to){
+				if(new Date(row.from) > theDate || new Date(row.to) < theDate){
+					bjs.lg_inf("Skipping out-of-date field " + row.fullname);
+					continue;
+				}
+			}
+			
 			bjs.lg_inf("Reading field " + row.fullname);
 			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.quality, row.risk, row.importance, row.comment);
 			w.fields[field.fullname] = field;
@@ -727,13 +790,29 @@ namespace bjs_data_json{
 
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
+			
+			if(row.from && row.to){
+				if(new Date(row.from) > theDate || new Date(row.to) < theDate){
+					bjs.lg_inf("Skipping out-of-date field " + row.fullname);
+					continue;
+				}
+			}
+			
 			for (var j = 0; j < row.usesvalue.length; j++) {
-				var rel = new bjs.rel(w.fields[row.usesvalue[j]], w.fields[row.fullname], "measure");
-				w.rels.push(rel);
+				if(!w.fields[row.usesvalue[j]]){
+					bjs.lg_err("No source found for rel " + row.usesvalue[j] + " in " + row.fullname);
+				}else{
+					var rel = new bjs.rel(w.fields[row.usesvalue[j]], w.fields[row.fullname], "measure");
+					w.rels.push(rel);
+				}
 			}
 			for (var j = 0; j < row.usesfilter.length; j++) {
-				var rel = new bjs.rel(w.fields[row.usesfilter[j]], w.fields[row.fullname], "filter");
-				w.rels.push(rel);
+				if(!w.fields[row.usesfilter[j]]){
+					bjs.lg_err("No source found for rel " + row.usesfilter[j] + " in " + row.fullname);
+				}else{
+					var rel = new bjs.rel(w.fields[row.usesfilter[j]], w.fields[row.fullname], "filter");
+					w.rels.push(rel);
+				}
 			}
 		}
 

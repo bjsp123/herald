@@ -67,18 +67,19 @@ namespace bjs {
 		private positionAndMergeNodes(nodes:bjs.node[], c:bjs.config, focus:bjs.filter):void{
 
 			var full = {};
+			var tooDarnBig = (nodes.length > this.dims.big_limit);
 
 			//give them all x and y coords
 			//if two have the same coords, create a logical node for that location.
 			this.mv.nodea.forEach(function(d:bjs.node){
-				d.handed = bjs.handed.leftright;
+				d.handed = tooDarnBig?bjs.handed.none:bjs.handed.leftright;
 				d.x = bjs.getNodePos(d, c.xorder, focus, this.xScale);
 				d.y = bjs.getNodePos(d, c.yorder, focus, this.yScale);
 				if(isNaN(d.x))d.x = 0;
 				if(isNaN(d.y))d.y = 0;
 				var loc = d.x + ", " + d.y;
 				while(full[loc]){
-					d.y -= this.dims.node_r*.8;
+					d.y -= this.dims.node_r*(tooDarnBig?.1:.8);
 					loc = d.x + ", " + d.y;
 				}
 				full[loc] = d;
@@ -162,13 +163,13 @@ namespace bjs {
 			var boff = this.BUNDLE_OFFSET;
 
 			links
-				.transition()
+				.transition().duration(this.dims.duration)
 				.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, false);})
 				.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 
 			links
 				.exit()
-				.transition(800).style("opacity", 0)
+				.transition().duration(this.dims.duration).style("opacity", 0)
 				.remove();
 		}
 
@@ -197,7 +198,7 @@ namespace bjs {
 			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, false, false);
 
 			var nodeupdate = nodes
-			.transition()
+			.transition().duration(this.dims.duration)
 			.attr("transform", function(d) {
 				var foo = "translate(" + d.x + "," + d.y + ")";
 				return foo;
@@ -230,7 +231,7 @@ namespace bjs {
 
 		groupfather
 				.exit()
-				.transition(800).style("opacity", 0)
+				.transition().duration(this.dims.duration).style("opacity", 0)
 				.remove();
 		
 

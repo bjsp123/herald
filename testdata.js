@@ -656,6 +656,8 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "from": "1/2/2016",
+            "to": "1/1/2999",
             "usesvalue": ["Core.Contracts.History:Modif_Date"],
             "usesfilter": ["Core.Contracts.History:Novation_Reason"]
         }, {
@@ -666,6 +668,22 @@ testdata.raw =
             "type": "Date",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
+            "from": "1/1/1999",
+            "to": "1/1/2016",
+            "flags": "",
+            "risk":0.5,
+            "usesvalue": ["Core.Contracts.History:Novation_Date","Core.Contracts.History:Modif_Date"],
+            "usesfilter": ["Core.Contracts.History:Novation_Reason"]
+        }, {
+            "fullname": "Refin.Retail.Restruct:Restruct_Event",
+            "conceptname": "",
+            "desc": "Date of last Restruct event.  Sometimes overridden with 'modification event' date for legacy reasons.",
+            "formula": "",
+            "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "from": "1/2/2016",
+            "to": "1/1/2999",
             "flags": "",
             "usesvalue": ["Core.Contracts.History:Novation_Date","Refin.Retail.Restruct_Mods:Modif_Event"],
             "usesfilter": ["Core.Contracts.History:Novation_Reason"]
@@ -759,8 +777,37 @@ testdata.raw =
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
             "flags": "",
+            "from": "1/1/1999",
+            "to": "1/1/2016",
+            "usesvalue": ["Core.Systems.Records:Event", "Core.Contracts.Adjustments:Last_Adjust_Date"],
+            "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:EventType"]
+        },{
+            "fullname": "Core.Contracts.History:Modif_Date",
+            "conceptname": "",
+            "desc": "Date of last contract renegotiation.",
+            "formula": "",
+            "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "from": "1/2/2016",
+            "to": "1/1/2999",
             "usesvalue": ["Core.Systems.Records:Event"],
             "usesfilter": ["Core.Systems.Records:AcctID", "Core.Systems.Records:CustID", "Core.Systems.Records:EventType"]
+        },{
+            "fullname": "Core.Contracts.Adjustments:Last_Adjust_Date",
+            "conceptname": "",
+            "desc": "Date of last contract renegotiation, manually entered outside contract system.",
+            "formula": "",
+            "type": "Date",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "flags": "",
+            "risk": 1,
+            "from": "1/1/1999",
+            "to": "1/1/2016",
+            "usesvalue": [],
+            "usesfilter": []
         }, {
             "fullname": "Core.Systems.Transactions:CustID",
             "conceptname": "",
@@ -847,7 +894,24 @@ testdata.raw =
             "type": "Enum",
             "updatedby": "Ben",
             "updatedon": "22/06/2015",
+            "from": "1/2/2016",
+            "to": "1/1/2999",
             "flags": "",
+            "risk": 0.2,
+            "usesvalue": [],
+            "usesfilter": []
+        }, {
+            "fullname": "Core.Systems.Records:Event",
+            "conceptname": "",
+            "desc": "Event details encoded as a string.",
+            "formula": "Mainframe processes.",
+            "type": "Enum",
+            "updatedby": "Ben",
+            "updatedon": "22/06/2015",
+            "from": "1/1/1999",
+            "to": "1/1/2016",
+            "flags": "",
+            "risk": 0.5,
             "usesvalue": [],
             "usesfilter": []
         }, {
@@ -1108,6 +1172,15 @@ testdata.raw =
             "calc": "/server2/logic/stuff/",
             "notbefore": 1
         }, {
+            "fullname": "Core.Contracts.Adjustments",
+            "desc": "Manual additions to contract history, collected outside the contract system.",
+            "location": "/server/folder/additional/files",
+            "type": "Excel",
+            "owner": "Helen_Wheels",
+            "dept": "Banking",
+            "calc": "n/a",
+            "notbefore": 1
+        }, {
             "fullname": "Core.Retail.Calculated",
             "desc": "Table in the retail Oracle db that contains calculated values relating to arrears.",
             "location": "CBS01//t_acct",
@@ -1138,36 +1211,36 @@ testdata.raw =
             "code": "TotalAssets",
             "name": "Total Assets",
             "desc": "Total assets, on and off balance sheet, regardless of risk weighting.",
-            "flags": ""
+            "flags": "critical"
         }, {
             "code": "Substandard",
             "desc": "Total assets deemed substandard by risk managers.",
             "name": "Substandard Assets",
-            "flags": ""
+            "flags": "critical"
         }, {
             "code": "Distressed",
             "name": "Distressed Assets",
             "desc": "Total assets deemed distressed based on relationship manager class and payment history.",
-            "flags": "critical"
+            "flags": ""
         }, {
             "code": "WeightedRisk",
             "name": "Total Weighted Risk",
             "desc": "Total assets weighted by risk classification.",
-            "flags": "critical"
+            "flags": ""
         }, {
             "code": "TotalArrears",
             "name": "Total Assets in Arrears",
             "desc": "Total assets that are currently in arrears.",
-            "flags": "critical"
+            "flags": ""
         }, {
             "code": "TotalUpToDate",
             "name": "Total Up-to-Date",
             "desc": "Total assets that are not currently in arrears.",
-            "flags": "critical"
+            "flags": ""
         }, {
             "code": "TotalNonPerf",
             "name": "Total Non-Performing",
             "desc": "Total assets that are deemed non-performing.",
-            "flags": "critical"
+            "flags": ""
         }]
     }

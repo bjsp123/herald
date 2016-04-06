@@ -67,6 +67,10 @@ namespace bjs {
       mv.lnodea.sort(firstBy("fullname"));
       mv.m1nodea.sort(firstBy("fullname"));
       mv.m2nodea.sort(firstBy("fullname"));
+      
+      if(this.config.reorder){
+  			mv.rnodea.sort(firstBy("cookie"));
+			}
 
       
       this.scale[0] = bjs.makeScale(mv.lnodea, c.xorder, this.dims.top_edge, this.dims.bottom_edge);
@@ -78,8 +82,15 @@ namespace bjs {
       this.positionAndMergeNodes(mv.m1nodea, "axis_m1", this.axis_x[1], bjs.handed.none, c.yorder, this.scale[1]);
       this.positionAndMergeNodes(mv.m2nodea, "axis_m2", this.axis_x[2], bjs.handed.none, c.zorder, this.scale[2]);
 
+    
+		  var tooDarnBig=(w.fielda.length > this.dims.big_limit);
 
-      bjs.chainLayout(mv.rnodea, mv.groupa, this.axis_x[3], bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
+      bjs.chainLayout(mv.rnodea, mv.groupa, this.axis_x[3], bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+      
+			if(tooDarnBig){
+				for(var i=0;i<mv.rnodea.length;++i)
+					mv.rnodea[i].handed = bjs.handed.none;
+			}
 
       return mv;
 
@@ -88,6 +99,9 @@ namespace bjs {
     private positionAndMergeNodes(nodes:bjs.node[], tag:string, x:number, h:bjs.handed, o:bjs.xyorder, scale:any):void{
 
       var full = {};
+      
+      
+		  var tooDarnBig=(nodes.length > this.dims.big_limit);
 
       //give them all x and y coords
       //if two have the same coords, create a logical node for that location.
@@ -101,7 +115,7 @@ namespace bjs {
         if(isNaN(d.y))d.y = 0;
         var loc = d.x + ", " + d.y;
         while(full[loc]){
-          d.y += this.dims.node_r*0.5;
+          d.y += this.dims.node_r*(tooDarnBig?0.1:0.5);
           loc = d.x + ", " + d.y;
         }
         full[loc] = d;
@@ -136,14 +150,14 @@ namespace bjs {
       bjs.drawGroupBar(groups, groupsg, this.config);
       
       var groupupdate = groups
-        .transition()
+        .transition().duration(this.dims.duration)
         .style("opacity", 1)
         .attr("transform", function(d) {
           return "translate(" + d.x + "," + d.y + ")";
         });
         
 
-      var groupexit = groups.exit().transition(800).style("opacity", 0).remove();
+      var groupexit = groups.exit().transition().duration(this.dims.duration).style("opacity", 0).remove();
 
     }
 
@@ -241,14 +255,14 @@ namespace bjs {
 
 
       links
-          .transition()
+          .transition().duration(this.dims.duration)
           .attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, false, false);})
           .attr("stroke",  function(d){return bjs.getLinkColor(config, focus, d);});
       
 
       links
         .exit()
-        .transition(800).style("opacity", 0)
+        .transition().duration(this.dims.duration).style("opacity", 0)
         .remove();
     }
 
@@ -288,13 +302,13 @@ namespace bjs {
       bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
       
       var nodeupdate = nodes
-        .transition()
+        .transition().duration(this.dims.duration)
         .style("opacity",1)
         .attr("transform", function(d) {
           return "translate(" + d.x + "," + d.y + ")";
         });
 
-      var nodeexit = nodes.exit().transition(800).style("opacity", 0).remove();
+      var nodeexit = nodes.exit().transition().duration(this.dims.duration).style("opacity", 0).remove();
 
     }
 

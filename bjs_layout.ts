@@ -181,7 +181,7 @@ namespace bjs {
     //points on a line, grouped by asset, with little gaps between assets.
 
 
-    export function chainLayout(nodes:bjs.node[], groups:bjs.group[], fixedoffs:number, o:bjs.handed, separateGroups:boolean, min:number, max:number, node_r:number, groupbar_offs:number):void {
+    export function chainLayout(nodes:bjs.node[], groups:bjs.group[], fixedoffs:number, o:bjs.handed, separateGroups:boolean, min:number, max:number, node_r:number, groupbar_offs:number, group_overlap:number):void {
 
       if (nodes.length == 0) return;
 
@@ -226,7 +226,7 @@ namespace bjs {
         for (var j = 0; j < groups.length; ++j) {
           var p = groups[j];
           p.handed = o;
-          bjs.fitGroupToNodesBar(p, node_r, groupbar_offs);
+          bjs.fitGroupToNodesBar(p, group_overlap, groupbar_offs);
         }
     }
 
@@ -249,6 +249,7 @@ namespace bjs {
 	    
 	    var rec = extents(g.children);
 	    var GROUPBAR_WIDTH = 20;
+
 	    
 	    switch(g.handed){
 	    	case bjs.handed.left:

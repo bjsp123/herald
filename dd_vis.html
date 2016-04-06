@@ -43,10 +43,12 @@
     var theSquash = new bjs.squash("","","",false);
     var theFocus = new bjs.filter("","","","",true,true,true);
     var theDims = new bjs.dimensions();
+    var theDate = new Date("1/3/2016");
 
     function shBipart(){
     	bip = new bjs.bp_view();
         $("#opt_adjust_links").show();  
+        $("#opt_adjust_order").show();  
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -63,6 +65,7 @@
     function shStats(){
         bip = new bjs.bp_stats();
         $("#opt_adjust_links").hide();  
+         $("#opt_adjust_order").hide(); 
         $("#opt_floworder").hide();
         $("#opt_xaxis").show();
         $("#opt_yaxis").show();
@@ -79,6 +82,7 @@
     function shScatter(){
         bip = new bjs.scatter_view();
         $("#opt_adjust_links").hide();  
+         $("#opt_adjust_order").hide(); 
         $("#opt_floworder").hide();
         $("#opt_xaxis").show();
         $("#opt_yaxis").show();
@@ -95,6 +99,7 @@
     function shHive(){
     	bip = new bjs.hive_view();
         $("#opt_adjust_links").hide();  
+         $("#opt_adjust_order").show(); 
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -111,6 +116,7 @@
     function shMatrix(){
     	bip = new bjs.cm_view();
         $("#opt_adjust_links").hide();  
+         $("#opt_adjust_order").show(); 
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -127,6 +133,7 @@
     function shFlow(){
     	bip = new bjs.flow_view();
         $("#opt_adjust_links").hide();  
+         $("#opt_adjust_order").hide(); 
         $("#opt_floworder").show();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -143,6 +150,7 @@
     function shCola(){
     	bip = new bjs.cola_view();
         $("#opt_adjust_links").show();  
+        $("#opt_adjust_order").hide(); 
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -159,6 +167,7 @@
     function shTree(){
     	bip = new bjs.tree_view();
         $("#opt_adjust_links").hide();  
+        $("#opt_adjust_order").hide(); 
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -182,6 +191,8 @@
     	config = new bjs.config();
 
         $("#jsondlg").hide();
+        
+        $('#ctrl_thedate').datebox('setValue', '1/3/2016');
 
     	d3.select("#ctrl_filter_btn").on("click", function(d) {
 
@@ -237,12 +248,21 @@
 
             redraw();
         });
+        
+        d3.select("#ctrl_load_btn").on("click", function(d) {
+            refresh();
+        });
 
     	rawJson = testdata.raw;
     }
 
     function onOptChanged(chk){
         config.optimize = chk;
+        redraw();
+    }
+    
+    function onReOrdChanged(chk){
+        config.reorder = chk;
         redraw();
     }
 
@@ -290,10 +310,14 @@
         config.blockplan=bjs.blockplan[r.value];
         redraw();
     }
+    
+    function onDateChanged(date){
+        theDate =date;
+    }
 
 
     function refresh() {
-    	w = bjs_data_json.fromJson(rawJson, theFilter, theSquash);
+    	w = bjs_data_json.fromJson(rawJson, theDate, theFilter, theSquash);
     	redraw();
     }
 
@@ -336,9 +360,9 @@
 
         var jsonstring = $("#ctrl_json").val();
         try{
-            refreshawJson = $.parseJSON(jsonstring);
+            rawJson = $.parseJSON(jsonstring);
         }catch(e){
-
+            bjs.lg_err("Unable to parse JSON: " + e);
         }
         refresh();
 
@@ -374,9 +398,16 @@
                     details += "<h3>Other:</h3>";
                     if(d.field.effnolineage) details += "Lineage is incomplete.<br/>";
                     details += "Available from day " + d.field.asset.effnotbefore + "<br/>";
-                    if(d.field.isLogical()) details += "This field is a placeholder, not a physical field."
+                    if(d.field.isLogical()) details += "This field is a placeholder, not a physical field.</br>"
+                    if(d.field.flags != "") details += "Features: " + d.field.flags + "<br/>";
 
-        			stats += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.field.ldepth + "</li><li>Rdepth: " + d.field.rdepth + "</li></ul>";
+        			stats += "<h3>Role:</h3><ul><li>Distance from source: " + d.field.ldepth + "</li>";
+        			stats += "<li>Distance from output: " + d.field.rdepth + "</li>";
+        			stats += "<li>Complexity: " + d.field.getComplexity() + "</li>";
+        			stats += "<li>Influence: " + d.field.getInfluence() + "</li>";
+        			stats += "<li>Dependencies: " + d.field.getDependencies() + "</li>";
+        			stats += "<li>Filters: " + d.field.getFilters() + "</li></ul>";
+        			
                     stats += "<h3>Risk:</h3><ul><li>Total Risk: " + d.field.effrisk + " </li>";
                     if(d.field.risk > 0){
                         stats += "<li>Inherent risk: " + d.field.risk + "</li>";
@@ -416,6 +447,7 @@
 
         			if(d.field.term != null){
         				terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
+        				if(d.field.term.flags != "") terms += "<br/>Term features: " + d.field.term.flags;
         			}else{
         				terms += "Not associated with any business term";
         			}
@@ -440,7 +472,18 @@
 
     				details += "<h3>Timing Characteristics:</h3><ul><li>Available From:  Day " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + " Days </li><li>Theoretical Earliest: Day " + d.asset.notbefore + "</li></ul>";
 
-    				stats += "<h3>Debugging:</h3><ul><li>Ldepth: " + d.asset.ldepth + "</li><li>Rdepth: " + d.asset.rdepth + "</li></ul>";
+    				stats += "<h3>Role:</h3><ul><li>Distance from source: " + d.asset.ldepth + "</li><li>Distance from output: " + d.asset.rdepth + "</li></ul>";
+    				
+    				stats += "<h3>Timing:</h3>Available from WD " + d.asset.effnotbefore + "<br/>";
+
+                    for(var afn in d.asset.ancestors){
+                        var anc = d.asset.ancestors[afn];
+                        if(anc.tcritpath){
+                            stats += "Limited by: " + anc.asset.fullname + " WD " + anc.asset.effnotbefore + "<br/>";
+                        }
+                    }
+
+
     			}
 
     			else {
@@ -676,7 +719,7 @@
                         </tr>
                         <tr>
                             <td class="formlabel">As of date:</td>
-                            <td><input class="easyui-datebox" id="ctrl_thedate"></input></td>
+                            <td><input class="easyui-datebox" id="ctrl_thedate" data-options="onSelect: onDateChanged"></input></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -774,8 +817,12 @@
 				<div title="View Options" class="sidepanel">
 					<table>
 						<tr id="opt_adjust_links">
-							<td class="formlabel">Adjust Links:</td>
+							<td class="formlabel">Comb Links:</td>
 							<td><input id="ctrl_opt" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onOptChanged"/></td>
+						</tr>
+						<tr id="opt_adjust_order">
+							<td class="formlabel">Adjust Order:</td>
+							<td><input id="ctrl_reord" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onReOrdChanged"/></td>
 						</tr>
                         <tr id="opt_floworder">
                             <td class="formlabel">X Axis:</td>

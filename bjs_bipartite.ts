@@ -52,16 +52,31 @@ namespace bjs {
 
 
 		private prepareData(w:bjs.world, c):bjs.mv {
-
+			
 			var mv = bjs.makeBipartite(this, w);
+			
 
 			if (this.config.optimize) {
 				this.unilateralBipartiteSort(mv);
+			} else {
+				if(this.config.reorder){
+					mv.lnodea.sort(firstBy("cookie"));
+					mv.rnodea.sort(firstBy("cookie"));
+				}
 			}
+			
+			var tooDarnBig = w.fielda.length > this.dims.big_limit;
 
-			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, !this.config.optimize, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
-			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs);
-
+			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, !this.config.optimize, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge, this.dims.bottom_edge, this.dims.node_r, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			
+			if(tooDarnBig){
+				for(var i=0;i<mv.lnodea.length;++i)
+					mv.lnodea[i].handed = bjs.handed.none;
+				for(var i=0;i<mv.rnodea.length;++i)
+					mv.rnodea[i].handed = bjs.handed.none;
+			}
+					
 			return mv;
 		}
 
@@ -165,20 +180,20 @@ namespace bjs {
 
 			if (this.config.optimize) {
 				links
-					.transition()
+					.transition().duration(this.dims.duration)
 					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, false);})
 					.attr("stroke",  function(d){return bjs.getLinkColor(config, focus, d);});
 			}
 			else {
 				links
-					.transition()
+					.transition().duration(this.dims.duration)
 					.attr("d", function(d) { return bjs.getLinkPath(d, bundle_offs, true, true);})
 					.attr("stroke",  function(d){return bjs.getLinkColor(config, focus, d);});
 			}
 
 			links
 				.exit()
-				.transition(800).style("opacity", 0)
+				.transition().duration(this.dims.duration).style("opacity", 0)
 				.remove();
 		}
 
@@ -209,14 +224,14 @@ namespace bjs {
 			bjs.drawGroupBar(groups, groupsg, this.config);
 			
 			var groupupdate = groups
-				.transition()
+				.transition().duration(this.dims.duration)
 				.style("opacity", 1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
 				});
 				
 
-			var groupexit = groups.exit().transition(800).style("opacity", 0).remove();
+			var groupexit = groups.exit().transition().duration(this.dims.duration).style("opacity", 0).remove();
 
 		}
 
@@ -252,13 +267,13 @@ namespace bjs {
 			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, true, (this.config.optimize && (x<400)));//approx way to decide whether to draw full name
 			
 			var nodeupdate = nodes
-				.transition()
+				.transition().duration(this.dims.duration)
 				.style("opacity",1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
 				});
 
-			var nodeexit = nodes.exit().transition(800).style("opacity", 0).remove();
+			var nodeexit = nodes.exit().transition().duration(this.dims.duration).style("opacity", 0).remove();
 
 		}
 

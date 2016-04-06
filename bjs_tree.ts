@@ -58,7 +58,7 @@ namespace bjs {
 			}
 		}
 
-		var duration = 500;
+		var duration = this.dims.duration;
 		
 		var config = this.config;
 		var focus = this.focus;

@@ -54,11 +54,37 @@ namespace bjs {
 
 			var mv = bjs.makeTripartite(this, w, true);
 			
-			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
-			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
-			bjs.chainLayout(mv.m1nodea, mv.mgroupa, this.middle_axis_x - this.dims.groupbar_offs/2, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
-			bjs.chainLayout(mv.m2nodea, mv.mgroupa, this.middle_axis_x + this.dims.groupbar_offs/2, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs);
+			if(this.config.reorder){
+				mv.lnodea.sort(firstBy("cookie"));
+				mv.rnodea.sort(firstBy("cookie"));
+				mv.m1nodea.sort(firstBy("cookie"));
+				mv.m2nodea.sort(firstBy("cookie"));
+			}
+			
+			var tooDarnBig:boolean = w.fielda.length > this.dims.big_limit;
+			
+			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.m1nodea, mv.mgroupa, this.middle_axis_x - this.dims.groupbar_offs/2, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.m2nodea, mv.mgroupa, this.middle_axis_x + this.dims.groupbar_offs/2, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
 
+			//manually move the middle group chain back into place.
+			for(var i=0;i<mv.mgroupa.length; ++i){
+				mv.mgroupa[i].handed = bjs.handed.none;
+				mv.mgroupa[i].x = this.middle_axis_x - this.dims.groupbar_width/2;
+			}
+			
+			if(tooDarnBig){
+				for(var i=0;i<mv.lnodea.length;++i)
+					mv.lnodea[i].handed = bjs.handed.none;
+				for(var i=0;i<mv.rnodea.length;++i)
+					mv.rnodea[i].handed = bjs.handed.none;
+				for(var i=0;i<mv.m1nodea.length;++i)
+					mv.m1nodea[i].handed = bjs.handed.none;
+				for(var i=0;i<mv.m2nodea.length;++i)
+					mv.m2nodea[i].handed = bjs.handed.none;
+			}
+			
 			return mv;
 		}
 
@@ -84,7 +110,7 @@ namespace bjs {
 
 
 			links
-				.transition()
+				.transition(800)
 				.attr("d", function(d) {return bjs.getLinkPath(d, bundle_offs, true, false);})
 				.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 
@@ -119,7 +145,7 @@ namespace bjs {
 			bjs.drawGroupBar(groups, groupsg, this.config);
 			
 			var groupupdate = groups
-				.transition()
+				.transition(800)
 				.style("opacity",1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
@@ -161,7 +187,7 @@ namespace bjs {
 			bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, true, false);
 			
 			var nodeupdate = nodes
-				.transition()
+				.transition(800)
 				.style("opacity",1)
 				.attr("transform", function(d) {
 					return "translate(" + d.x + "," + d.y + ")";
@@ -175,16 +201,15 @@ namespace bjs {
 		private linkMouseOver(d) {}
 
 		private groupMouseOver(d) {
-			var svg = d3.select("svg");
-			svg.selectAll(".link")
+			d.view.svg.selectAll(".link")
 				.classed("active", function(p) {
-					return p.source.pkgname == d.fullname || p.target.pkgname == d.fullname;
+					return p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname;
 				})
 				.classed("passive", function(p) {
-					return !(p.source.pkgname == d.fullname || p.target.pkgname == d.fullname);
+					return !(p.source.group.fullname == d.fullname || p.target.group.fullname == d.fullname);
 				});
 
-			svg.selectAll(".node")
+			d.view.svg.selectAll(".node")
 				.classed("active", function(p) {
 					return bjs.isNodeRelatedToGroup(p, d);
 				})
@@ -192,7 +217,7 @@ namespace bjs {
 					return !bjs.isNodeRelatedToGroup(p, d);
 				});
 
-			svg.selectAll(".group")
+			d.view.svg.selectAll(".group")
 				.classed("active", function(p) {
 					return p.fullname == d.fullname;
 				})
@@ -203,11 +228,13 @@ namespace bjs {
 
 			bjs.hover(d);
 		}
+		
+		
 
 
 		private nodeMouseOver(d) {
-			var svg = d3.select("svg");
-			svg.selectAll(".link")
+			
+			d.view.svg.selectAll(".link")
 				.classed("active", function(p) {
 					return bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d);
 				})
@@ -215,7 +242,7 @@ namespace bjs {
 					return !(bjs.areNodesRelated(p.source, d) && bjs.areNodesRelated(p.target, d));
 				});
 
-			svg.selectAll(".node")
+			d.view.svg.selectAll(".node")
 				.classed("active", function(p) {
 					return bjs.areNodesRelated(p, d);
 				})

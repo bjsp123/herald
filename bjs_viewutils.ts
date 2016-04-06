@@ -333,7 +333,8 @@ namespace bjs {
 		groupsel.select("text")
 			.attr("class", "grouplabel")
 			.text(function(d) {
-				return bjs.shortenString(d.fullname, 24);
+				if(d.handed == bjs.handed.none) return "";
+				return bjs.shortenString(d.fullname, 22);
 			})
 			.attr("x", function(d){return getlabelx(d);})
 			.attr("text-anchor", function(d){return gettextanchor(d);})

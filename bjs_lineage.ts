@@ -85,7 +85,9 @@ namespace bjs {
 
 	private layout(mv:bjs.mv):void {
 		
-		var spacing = this.dims.node_r*2;
+		var tooDarnBig=(mv.nodea.length > this.dims.big_limit);
+		
+		var spacing = tooDarnBig?this.dims.node_r*.4:this.dims.node_r*2;
 
 		var stax = {};
 		for (var fullname in mv.groups) {
@@ -118,8 +120,9 @@ namespace bjs {
 			}
 		}
 		
+		
 		for(var i=0;i<mv.nodea.length;++i){
-			mv.nodea[i].handed = bjs.handed.leftright;
+			mv.nodea[i].handed = tooDarnBig?bjs.handed.none:bjs.handed.leftright;
 		}
 
 		//despite having just positioned groups manually, we now fit them to their nodes... needs sorting out really
@@ -181,13 +184,13 @@ namespace bjs {
 		var boff = this.dims.bundle_offs;
 
 		links
-			.transition()
+			.transition().duration(this.dims.duration)
 			.attr("d", function(d) {return bjs.getLinkPath(d, boff, true, true);})
 			.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
 
 		links
 			.exit()
-			.transition(800).style("opacity", 0)
+			.transition().duration(this.dims.duration).style("opacity", 0)
 			.remove();
 	}
 
@@ -226,7 +229,7 @@ namespace bjs {
 
 
 		var groupsupdate = groupfather
-			.transition()
+			.transition().duration(this.dims.duration)
 			.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
@@ -268,7 +271,7 @@ namespace bjs {
 		bjs.drawNodes(nodes, nodesg, this.config, this.focus, this.dims.node_r, false, false);
 
 		var nodeupdate = nodes
-			.transition()
+			.transition().duration(this.dims.duration)
 			.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
