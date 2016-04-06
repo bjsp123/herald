@@ -41,8 +41,8 @@ namespace bjs {
 
 			this.renderChain(svg, c, "lnodes", mv.lnodea, bjs.handed.left, this.left_axis_x);
 			this.renderChain(svg, c, "rnodes", mv.rnodea, bjs.handed.right, this.right_axis_x);
-			this.renderChain(svg, c, "m1nodes", mv.m1nodea, bjs.handed.left, this.middle_axis_x - this.dims.groupbar_offs / 2);
-			this.renderChain(svg, c, "m2nodes", mv.m2nodea, bjs.handed.right, this.middle_axis_x + this.dims.groupbar_offs / 2);
+			this.renderChain(svg, c, "m1nodes", mv.m1nodea, bjs.handed.left, this.middle_axis_x - this.dims.groupbar_offs * .8);
+			this.renderChain(svg, c, "m2nodes", mv.m2nodea, bjs.handed.right, this.middle_axis_x + this.dims.groupbar_offs * .8);
 
 			this.renderGroups(svg, c, "lgroups", mv.lgroupa);
 			this.renderGroups(svg, c, "rgroups", mv.rgroupa);
@@ -65,8 +65,8 @@ namespace bjs {
 			
 			bjs.chainLayout(mv.rnodea, mv.rgroupa, this.right_axis_x, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
 			bjs.chainLayout(mv.lnodea, mv.lgroupa, this.left_axis_x, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
-			bjs.chainLayout(mv.m1nodea, mv.mgroupa, this.middle_axis_x - this.dims.groupbar_offs/2, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
-			bjs.chainLayout(mv.m2nodea, mv.mgroupa, this.middle_axis_x + this.dims.groupbar_offs/2, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.m1nodea, mv.mgroupa, this.middle_axis_x - this.dims.groupbar_offs*.8, bjs.handed.left, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
+			bjs.chainLayout(mv.m2nodea, mv.mgroupa, this.middle_axis_x + this.dims.groupbar_offs*.8, bjs.handed.right, true, this.dims.top_edge	, this.dims.bottom_edge	, this.dims.node_r	, this.dims.groupbar_offs, tooDarnBig?0:this.dims.node_r);
 
 			//manually move the middle group chain back into place.
 			for(var i=0;i<mv.mgroupa.length; ++i){

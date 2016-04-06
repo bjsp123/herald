@@ -87,21 +87,22 @@ namespace bjs {
 		
 		var tooDarnBig=(mv.nodea.length > this.dims.big_limit);
 		
-		var spacing = tooDarnBig?this.dims.node_r*.4:this.dims.node_r*2;
+		var spacing = tooDarnBig?this.dims.node_r*.3:this.dims.node_r*2;
+		var group_spacing = tooDarnBig?this.dims.group_spacing*1.8:this.dims.group_spacing;
 
 		var stax = {};
 		for (var fullname in mv.groups) {
 			var g = mv.groups[fullname];
 			g.x = this.xScale(this.xValue(g, this.config));
-			g.height = g.children.length * spacing + this.dims.group_spacing;
+			g.height = g.children.length * spacing + group_spacing;
 			g.width = this.dims.groupbar_width;
 			if (stax[g.x] == null) {
-				stax[g.x] = this.dims.top_edge + g.height + this.dims.group_spacing;
+				stax[g.x] = this.dims.top_edge + g.height + group_spacing;
 				g.y = this.dims.top_edge;
 			}
 			else {
 				g.y = stax[g.x];
-				stax[g.x] += g.height + this.dims.group_spacing;
+				stax[g.x] += g.height + group_spacing;
 			}
 		}
 		
@@ -115,7 +116,7 @@ namespace bjs {
 			var g = mv.groups[fullname];
 			for (var i = 0; i < g.children.length; ++i) {
 				var node = g.children[i];
-				node.y = g.y + i * spacing + this.dims.node_r / 2 + this.dims.group_spacing / 2;
+				node.y = g.y + i * spacing + this.dims.node_r / 2 + group_spacing / 2;
 				node.x = g.x + this.dims.groupbar_width / 2;
 			}
 		}

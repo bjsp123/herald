@@ -1,0 +1,76 @@
+/*---------------------------*/
+/* Flow Visualization Layout */
+/*---------------------------*/
+
+.svg_canvas
+{
+	height: 770px;
+}
+
+.dimension_header
+{
+	font-size: 10px;
+	font-family: Arial;
+	font-weight: bold;
+	text-anchor: middle;
+}
+
+.aggregate_label
+{
+	font-family: Arial;
+	text-anchor: start;
+	dominant-baseline: middle;
+}
+
+.value_label
+{
+	font-family: Arial;
+	text-anchor: end;
+	dominant-baseline: middle;
+}
+
+.dimension_group
+{
+	
+}
+
+.dimension_line
+{
+	fill: none;
+	stroke: #000000;
+	stroke-width: 1px;
+	stroke-linecap: square;
+	stroke-linejoin: miter;
+	stroke-opacity: 1;
+}
+
+.interaction_shape
+{
+	fill: #008000;
+	fill-opacity: 0.0;
+}
+
+.flow_line
+{
+	fill: #ff9955;
+	fill-opacity: 0.6;
+	stroke: none;
+}
+
+.flow_line_highlighted
+{
+	fill: #fd3301;
+	fill-opacity: 0.8;
+	stroke: none;
+}
+
+.flow_line_hide
+{
+	fill: #ff9955;
+	fill-opacity: 0.2;
+	stroke: none;
+}
+
+
+
+

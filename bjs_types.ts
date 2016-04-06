@@ -475,7 +475,7 @@ namespace bjs {
 		public group_spacing=20;
 		public bundle_offs=150;
 		public groupbar_offs=110;
-		public big_limit=100;
+		public big_limit=120;
 		public duration=500;
 	}
 

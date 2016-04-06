@@ -46,6 +46,8 @@ namespace bjs {
 
       this.renderAxes(svg);
 
+      this.renderLinks(this.svg, mv);
+
       this.renderChain(this.svg, this.config, "left", mv.lnodea, this.axis_x[0], true);
       this.renderChain(this.svg, this.config, "m1", mv.m1nodea, this.axis_x[1], true);
       this.renderChain(this.svg, this.config, "m2", mv.m2nodea, this.axis_x[2], true);
@@ -53,7 +55,7 @@ namespace bjs {
 
       this.renderGroups(svg, c, "groups", mv.groups);
 
-      this.renderLinks(this.svg, mv);
+      
     }
 
     private prepareData(w:bjs.world, c:bjs.config):bjs.mv{
@@ -236,7 +238,15 @@ namespace bjs {
       
       var bundle_offs = this.dims.bundle_offs;
 
-      var links = svg.selectAll(".link")
+      svg.selectAll("#linkholder")
+        .data([1]).enter()
+        .append("g")
+        .attr("id", "linkholder");
+        
+      var holder = svg.selectAll("#linkholder");
+
+
+      var links = holder.selectAll(".link")
         .data(dat.links, function(d, i) {
           if (d.target == null || d.source == null)
             return "";

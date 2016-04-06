@@ -1,0 +1,80 @@
+
+{
+"dimensions":["source", "dataset", "report", "field_status"],
+
+"aggregates":[
+
+			[{"dimension":"BaselDB","value":"50"},{"dimension":"SCCBB MIS","value":"45"},
+			{"dimension":"Mortgages MIS","value":"40"},{"dimension":"Finance MIS","value":"60"},{"dimension":"Other","value":"60"}],
+
+				[{"dimension":"SCCBB Dataset","value":"281224"},{"dimension":"Mortgages Dataset","value":"100"}, {"dimension":"Unused","value":"100"}],
+
+				[{"dimension":"BCBS 239 Report","value":"100"},{"dimension":"Visual Analytics","value":"150"}, {"dimension":"DQ Report","value":"100"}],
+
+				[{"dimension":"OK","value":"190614"},{"dimension":"Problem","value":"409717"},{"dimension":"Unknown","value":"409717"}]
+
+			],
+
+"facts":[
+{"source":"BaselDB","dataset":"Unused","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"BaselDB","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"BaselDB","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"BaselDB","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"Problem","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"DQ Report","field_status":"Problem","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"Unused","report":"DQ Report","field_status":"Problem","value":"1"},
+{"source":"Other","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Other","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"Other","dataset":"Mortgages Dataset","report":"BCBS 239 Report","field_status":"OK","value":"1"},
+{"source":"BaselDB","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"BaselDB","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"BaselDB","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"Mortgages MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"Unknown","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"SCCBB MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"SCCBB Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"Mortgages Dataset","report":"Visual Analytics","field_status":"OK","value":"1"},
+{"source":"Finance MIS","dataset":"Unused","report":"DQ Report","field_status":"Problem","value":"1"},
+{"source":"Other","dataset":"Mortgages Dataset","report":"DQ Report","field_status":"Problem","value":"1"},
+{"source":"Other","dataset":"Mortgages Dataset","report":"DQ Report","field_status":"Problem","value":"1"}
+
+
+
+]
+}

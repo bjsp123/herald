@@ -1,0 +1,529 @@
+ <html>                                                                  
+ <head>      
+	<title>Data Lineage</title>
+	<meta charset="utf-8"> 
+
+
+	<script type="text/javascript" src="lib/jeasy/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/d3.js"></script>
+	<script type="text/javascript" src="flowShape.js"></script>
+	<script type="text/javascript" src="string-operations.js"></script>
+
+	<link rel="stylesheet" href="flow_layout.css">
+	<link rel="stylesheet" href="flow_vis_layout.css">
+
+
+	<script type="application/javascript">    
+			
+		var DIMENSION_GAP = 5.0;
+		var DIMENSION_LABEL_MARGIN = 30.0;
+		var AGGREGATE_LABEL_MARGIN = 5.0;
+		var AGGREGATE_LABEL_MIN_SIZE = 6.0;
+		var AGGREGATE_LABEL_MAX_SIZE = 10.0;
+		var AGGREGATE_SCALE_FACTOR = 600.0;
+		var CURRENT_DIM_POS_X = 50.0;
+		var FLOW_GAP = 2.0;
+		var width_per_dimension = 350;
+		var INTERACTION_WIDTH = 50;
+		var MARGIN_TOP = 40.0;
+
+
+		var currDimPosX = CURRENT_DIM_POS_X;
+		var current_dimension = 0;
+		var load_finished;
+		var bUseColor = false;
+
+
+		var data = {
+			"dimensions":["source", "proto", "recon", "trace"],
+
+			"aggregates":[
+
+						[{"dimension":"Ovr","value":"50"},{"dimension":"CCB","value":"45"},{"dimension":"Mtg","value":"60"}],
+
+							[{"dimension":"Done","value":"281224"},{"dimension":"Not Done","value":"100"}, {"dimension":"NA","value":"100"}],
+
+							[{"dimension":"Done1","value":"281224"},{"dimension":"Not Done1","value":"100"}, {"dimension":"NA1","value":"100"}],
+
+							[{"dimension":"Done2","value":"281224"},{"dimension":"Not Done2","value":"100"}, {"dimension":"NA2","value":"100"}]
+
+						],
+
+			"facts":[
+			{"source":"Ovr","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+			{"source":"Ovr","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+			{"source":"Ovr","proto":"Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+			{"source":"Ovr","proto":"Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+			{"source":"CCB","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+			{"source":"Mtg","proto":"Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+			{"source":"Mtg","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+			{"source":"Ovr","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+			{"source":"Ovr","proto":"Done","recon":"Done1","trace":"Not Done2","value":"1"},
+			{"source":"Ovr","proto":"Done","recon":"Done1","trace":"Done2","value":"1"},
+			{"source":"CCB","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+			{"source":"CCB","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+			{"source":"CCB","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+			{"source":"Mtg","proto":"Done","recon":"Done1","trace":"Done2","value":"1"},
+			{"source":"Mtg","proto":"Done","recon":"Done1","trace":"Done2","value":"1"},
+			{"source":"Mtg","proto":"Done","recon":"Done1","trace":"Not Done2","value":"1"},
+			{"source":"Mtg","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"}
+			]
+			}
+		
+
+		var dimtotals={};
+		$.each(data["facts"], function(i,v){
+			$.each(data["dimensions"], function(j,w){
+				if(w != "value") {
+					if(!dimtotals.hasOwnProperty(w)) dimtotals[w]={};
+					if(!dimtotals[w].hasOwnProperty(v[w])) dimtotals[w][v[w]] =0;
+					dimtotals[w][v[w]] += parseFloat(v["value"]); 
+				}
+			});
+
+		});
+
+		//adjust the given aggregates
+		$.each(data["aggregates"], function(dimIdx){
+			$.each(data["aggregates"][dimIdx], function(catIdx){
+				data["aggregates"][dimIdx][catIdx]["value"] = dimtotals[data["dimensions"][dimIdx]] [data["aggregates"][dimIdx][catIdx]["dimension"]];
+			});
+
+		});
+
+		var color = d3.scale.category10()
+		
+
+		$(document).ready(function(){
+			//initialize user interface components, e.g. slider
+			initializeUI();
+			
+			initializeFlow();
+			
+			//Load aggregated data per year
+			loadAggregate();
+		});  
+	   
+		function refresh()
+		{
+			if(load_finished)
+			{
+				loadingFinished(false);
+				clearSVGCanvas();
+				loadAggregate();
+			}
+		}
+	   
+		function drawDimension(aggregated_data, dimension) {
+			"use strict";
+		
+			var sumValue = sumDimension(aggregated_data);
+						
+			var currPosY = MARGIN_TOP;
+			var currPosLabelY = MARGIN_TOP;
+						
+			d3.select('.svg_canvas')
+				.append('g')
+				.attr('class', 'dimension_group')
+				.selectAll('.dimension_line')
+				.data(aggregated_data)
+				.enter()
+				.append('path')
+				.attr('class', 'dimension_line')
+				.attr('dim_axis', dimension)
+				.attr('x', currDimPosX)
+				.attr('height', function(aggregate){
+					return (parseFloat(aggregate.value)/sumValue) * AGGREGATE_SCALE_FACTOR;
+				})
+				.attr('id', function(aggregate){
+					return StringOperations.buildID(aggregate.dimension); 
+				})
+				.attr('d', function(aggregate)
+				{
+					var posY = (parseFloat(aggregate.value)/sumValue) * AGGREGATE_SCALE_FACTOR;
+										
+					var path_data = "M " + currDimPosX + " " + currPosY + " L " + currDimPosX + " " + (currPosY + posY);
+					
+					d3.select(this).attr('y', currPosY);
+					d3.select(this).attr('dimValue', aggregate.value);
+					currPosY += posY + DIMENSION_GAP;
+										
+					return path_data;
+				})
+				.style('stroke-opacity', 0.0)
+				//.style("stroke", function(d) { return color(d.dimension); })
+				.transition()
+				.duration(500)
+				.style('stroke-opacity', 1.0);
+						
+			addDimensionLabels(dimension, currDimPosX);
+			
+			currDimPosX += width_per_dimension;
+			
+			current_dimension += 1;
+			
+			if(current_dimension < data["dimensions"].length)
+			{			
+				loadAggregate();
+			}
+			else
+			{
+				current_dimension = 0;
+				currDimPosX = CURRENT_DIM_POS_X;
+				loadFlows();
+			}
+		}
+	   
+		function loadAggregate()
+		{
+			drawDimension(data["aggregates"][current_dimension], data["dimensions"][current_dimension]);
+		}
+		
+		function addDimensionLabels(dimension, currDimPosX)
+		{
+			d3.select('.svg_canvas')
+				.append('text')
+				.text(StringOperations.capitaliseFirstLetter(dimension))
+				.attr('class', 'dimension_header')
+				.attr('x', function()
+				{
+					return currDimPosX;
+				})
+				.attr('y', DIMENSION_LABEL_MARGIN)
+				.style('fill-opacity', 0.0)
+				.transition()
+				.duration(500)
+				.style('fill-opacity', 1.0);
+		}
+		
+		function addAggregateLabels()
+		{
+			var svg_canvas = d3.select('.svg_canvas');
+			d3.selectAll('.dimension_line').each(function(aggregate)
+			{
+				var dim_line = d3.select(this);
+				
+				svg_canvas.append('text')
+				.text(aggregate.dimension)
+				.attr('class', 'aggregate_label')
+				.attr('x', parseFloat(dim_line.attr('x')) + AGGREGATE_LABEL_MARGIN)
+				.attr('y', parseFloat(dim_line.attr('y')) + (parseFloat(dim_line.attr('height')) / 2.0))
+				.style('font-size', function()
+				{				
+					if(parseFloat(dim_line.attr('height')) < 10.0)
+					{
+						return Math.max(AGGREGATE_LABEL_MIN_SIZE, parseFloat(dim_line.attr('height')));
+					}
+					else
+					{
+						return AGGREGATE_LABEL_MAX_SIZE;
+					}
+				})
+				.style('fill-opacity', 0.0)
+				.transition()
+				.duration(500)
+				.style('fill-opacity', 1.0);
+			});				
+		}
+		
+		function loadFlows()
+		{
+
+			drawFlows(data.facts);
+			
+		}
+				
+		function initializeFlow()
+		{
+			var svg_width = $('body').width() - $('#navigation').width() - (CURRENT_DIM_POS_X * 2.0);
+			
+			d3.select('#content')
+				.append('svg')
+				.attr('class', 'svg_canvas')
+				.attr('width', svg_width);
+			
+			width_per_dimension = (svg_width / (data["dimensions"].length - 1)) - CURRENT_DIM_POS_X;
+		}
+	   
+		function drawFlows(raw_flow_data)
+		{
+			d3.select('.svg_canvas')
+				.selectAll('.flow_line')
+				.data(raw_flow_data)
+				.enter()
+				.append('path')
+				.attr('class', 'flow_line')
+				.style("fill", function(d) { return bUseColor?color(d["source"]):"#339966"; })
+				.attr('d', function(flow_line)
+				{	
+					var value = parseFloat(flow_line.value);
+				
+					if(value > 0.0)
+					{
+						var path_data = "";
+						
+						for(var i = 0; i < data["dimensions"].length - 1; i++)
+						{
+							var dimAxisFrom = d3.select("#" + StringOperations.buildID(flow_line[data["dimensions"][i]]));
+							var dimAxisTo = d3.select("#" + StringOperations.buildID(flow_line[data["dimensions"][i + 1]]));
+							
+							var startHeight = (value / parseFloat(dimAxisFrom.attr('dimValue'))) * parseFloat(dimAxisFrom.attr('height'));
+							var endHeight = (value / parseFloat(dimAxisTo.attr('dimValue'))) * parseFloat(dimAxisTo.attr('height'));
+														
+							var startX = parseFloat(dimAxisFrom.attr('x'));
+							
+							var startY;
+							
+							if(dimAxisFrom.attr('currPosY') == null)
+								startY = parseFloat(dimAxisFrom.attr('y'));
+							else
+								startY = parseFloat(dimAxisFrom.attr('currPosY'));
+							
+							dimAxisFrom.attr('currPosY', startY + startHeight);
+							
+							
+							var endX = parseFloat(dimAxisTo.attr('x'));
+							
+							var endY;
+							
+							if(dimAxisTo.attr('currPosY') == null)
+								endY = parseFloat(dimAxisTo.attr('y'));
+							else
+								endY = parseFloat(dimAxisTo.attr('currPosY'));
+							
+							
+							if(i == data["dimensions"].length - 2)
+								dimAxisTo.attr('currPosY', endY + endHeight);
+							
+							var flowShape = new FlowShape(startX + FLOW_GAP, startY, endX - FLOW_GAP, endY, startHeight, endHeight);
+							path_data += " " + flowShape.getPathData();
+						}
+						
+						return path_data; 
+					}
+					else
+					{
+						return "";
+					}
+						
+				});
+			
+			addAggregateLabels();
+			drawInteractionShapes();
+			loadingFinished(true);
+		}
+				
+		function drawInteractionShapes()
+		{
+			var svg_canvas = d3.select('.svg_canvas');
+			d3.selectAll(".dimension_line").each(function()
+			{
+				svg_canvas.append('rect')
+				.data(d3.select(this).data())
+				.attr('dim_axis', d3.select(this).attr('dim_axis'))
+				.attr('x', d3.select(this).attr('x') - (INTERACTION_WIDTH / 2.0))
+				.attr('y', d3.select(this).attr('y'))
+				.attr('width', INTERACTION_WIDTH)
+				.attr('height', d3.select(this).attr('height'))
+				.attr('class', 'interaction_shape')
+				.on('click', highlightFlows);
+			});
+		}	
+		
+		function clearSVGCanvas()
+		{
+			d3.selectAll('.flow_line_highlighted').remove();
+			d3.selectAll('.flow_line').remove();
+			d3.selectAll('.flow_line_hide').remove();
+			d3.selectAll('.dimension_group').remove();
+			d3.selectAll('.dimension_line').remove();
+			d3.selectAll('.interaction_shape').remove();
+			d3.selectAll('.aggregate_label').remove();
+			d3.selectAll('.value_label').remove();
+			d3.selectAll('.dimension_header').remove();
+		}
+		
+		/*-------------*/
+		/* Interaction */
+		/*-------------*/
+		
+		function highlightFlows()
+		{
+			var dim = d3.select(this).data()[0].dimension;
+			var dim_axis = d3.select(this).attr('dim_axis');
+			
+			deselectFlows();
+				
+			d3.selectAll('.flow_line')
+			.attr('class', function(flow_data)
+			{
+				if(flow_data[dim_axis] == dim)
+					return 'flow_line_highlighted';	
+				else
+					return 'flow_line_hide';
+			});	
+
+			showValues();
+		}
+		
+		function deselectFlows()
+		{
+			d3.selectAll('.flow_line_highlighted')		
+			.attr('class', 'flow_line');
+			
+			d3.selectAll('.flow_line_hide')		
+			.attr('class', 'flow_line');
+			d3.selectAll('.value_label').remove();
+		}
+		
+		function showValues()
+		{
+
+			var bShowNumbers = true;
+
+			if(bShowNumbers)
+			{
+				var highlighted_flows = d3.selectAll('.flow_line_highlighted');
+				
+				var sum_values = new Array();
+				for(var i = 0; i < data["dimensions"].length; i++)
+				{
+					sum_values[i] = new Object();
+				}
+				
+				if(!highlighted_flows.empty())
+				{					
+					highlighted_flows.each(function(flow_data){
+						for(var i = 0; i < data["dimensions"].length; i++)
+						{
+							var dim = flow_data[data["dimensions"][i]];
+							
+							if(sum_values[i][dim] == undefined)
+							{
+								sum_values[i][dim] = parseFloat(flow_data.value);
+							}
+							else
+							{
+								sum_values[i][dim] += parseFloat(flow_data.value);
+							}
+						}			
+					});
+				}
+				else
+				{
+					d3.selectAll('.flow_line').each(function(flow_data){
+						for(var i = 0; i < data["dimensions"].length; i++)
+						{
+							var dim = flow_data[data["dimensions"][i]];
+							
+							if(sum_values[i][dim] == undefined)
+							{
+								sum_values[i][dim] = parseFloat(flow_data.value);
+							}
+							else
+							{
+								sum_values[i][dim] += parseFloat(flow_data.value);
+							}
+						}			
+					});
+				}
+					
+				var svg_canvas = d3.select('.svg_canvas');
+				
+				d3.selectAll('.dimension_line').each(function(aggregate)
+				{
+					var dim_line = d3.select(this);
+					
+					svg_canvas.append('text')
+					.text(function()
+					{
+						var value = sum_values[jQuery.inArray(dim_line.attr('dim_axis'), data["dimensions"])][aggregate.dimension];
+						
+						if(value == undefined)
+							return "";
+						else
+							//return $.formatNumber(value, {format:"#,###", locale:"us"});
+							return value.toString();
+					})
+					.attr('class', 'value_label')
+					.attr('x', parseFloat(dim_line.attr('x')) - AGGREGATE_LABEL_MARGIN)
+					.attr('y', parseFloat(dim_line.attr('y')) + (parseFloat(dim_line.attr('height')) / 2.0))
+					.style('font-size', function()
+					{				
+						if(parseFloat(dim_line.attr('height')) < 10.0)
+						{
+							return Math.max(AGGREGATE_LABEL_MIN_SIZE, parseFloat(dim_line.attr('height')));
+						}
+						else
+						{
+							return AGGREGATE_LABEL_MAX_SIZE;
+						}
+					})
+					.style('fill-opacity', 0.0)
+					.transition()
+					.duration(500)
+					.style('fill-opacity', 1.0);
+				});				
+			}
+			else			
+			{
+				d3.selectAll('.value_label').remove();
+			}
+		}
+		
+		function sumDimension(dimension)
+		{
+			var totalValue = 0.0;
+			
+			$.each(dimension, function(index, property)
+			{
+				totalValue += parseFloat(property.value);
+			});
+		
+			return totalValue;
+		}
+		
+
+		
+		function initializeUI()
+		{
+
+		}
+		
+		function refreshValueSlider()
+		{
+
+		}
+		
+		function loadingFinished(ready)
+		{
+			load_finished = ready;
+		}
+				
+		function getOverview()
+		{
+			deselectFlows();
+			showValues();
+		}
+		
+		
+		function onColorCBClick(cb){
+			bUseColor = cb.checked;
+			refresh();
+		}
+
+
+	</script>                                                               
+ </head>                                                                 
+ <body>
+<div style="margin: 20px">
+    <label>
+        <input type="checkbox" onClick="onColorCBClick(this);" class="checkboxExample1" id="cbcolors"  />Use colors to show source of flow
+ 
+    </label>
+</div>
+		
+	<div id="content" ></div>
+ </body>                                                                 
+ </html>
+ 

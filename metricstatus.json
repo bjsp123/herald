@@ -1,0 +1,39 @@
+
+{
+"dimensions":["source", "proto", "recon", "trace"],
+
+"aggregates":[
+
+			[{"dimension":"Ovr","value":"50"},{"dimension":"CCB","value":"45"},{"dimension":"Mtg","value":"60"}],
+
+				[{"dimension":"Done","value":"281224"},{"dimension":"Not Done","value":"100"}, {"dimension":"NA","value":"100"}],
+
+				[{"dimension":"Done1","value":"281224"},{"dimension":"Not Done1","value":"100"}, {"dimension":"NA1","value":"100"}],
+
+				[{"dimension":"Done2","value":"281224"},{"dimension":"Not Done2","value":"100"}, {"dimension":"NA2","value":"100"}]
+
+			],
+
+"facts":[
+{"source":"Ovr","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+{"source":"Ovr","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+{"source":"Ovr","proto":"Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+{"source":"Ovr","proto":"Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+{"source":"CCB","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+{"source":"Mtg","proto":"Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+{"source":"Mtg","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"},
+{"source":"Ovr","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+{"source":"Ovr","proto":"Done","recon":"Done1","trace":"Not Done2","value":"1"},
+{"source":"Ovr","proto":"Done","recon":"Done1","trace":"Done2","value":"1"},
+{"source":"CCB","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+{"source":"CCB","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+{"source":"CCB","proto":"NA","recon":"NA1","trace":"NA2","value":"1"},
+{"source":"Mtg","proto":"Done","recon":"Done1","trace":"Done2","value":"1"},
+{"source":"Mtg","proto":"Done","recon":"Done1","trace":"Done2","value":"1"},
+{"source":"Mtg","proto":"Done","recon":"Done1","trace":"Not Done2","value":"1"},
+{"source":"Mtg","proto":"Not Done","recon":"Not Done1","trace":"Not Done2","value":"1"}
+
+
+
+]
+}
