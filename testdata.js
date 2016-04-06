@@ -1088,7 +1088,8 @@ testdata.raw =
             "type": "Excel",
             "owner": "Mandy_Harpoons",
             "dept": "Reference_Data",
-            "calc": "/server2/code/etl_stuff"
+            "calc": "/server2/code/etl_stuff",
+            "notbefore": 1
         }, {
             "fullname": "Reference.SnP.Ratings",
             "desc": "Reference data from external source (SnP).",
@@ -1179,7 +1180,7 @@ testdata.raw =
             "owner": "Helen_Wheels",
             "dept": "Banking",
             "calc": "n/a",
-            "notbefore": 1
+            "notbefore": 3
         }, {
             "fullname": "Core.Retail.Calculated",
             "desc": "Table in the retail Oracle db that contains calculated values relating to arrears.",

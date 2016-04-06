@@ -89,6 +89,7 @@ namespace bjs {
 		
 		var spacing = tooDarnBig?this.dims.node_r*.3:this.dims.node_r*2;
 		var group_spacing = tooDarnBig?this.dims.group_spacing*1.8:this.dims.group_spacing;
+		var upper_edge = tooDarnBig?this.dims.top_edge:this.dims.top_edge+100;
 
 		var stax = {};
 		for (var fullname in mv.groups) {
@@ -97,8 +98,8 @@ namespace bjs {
 			g.height = g.children.length * spacing + group_spacing;
 			g.width = this.dims.groupbar_width;
 			if (stax[g.x] == null) {
-				stax[g.x] = this.dims.top_edge + g.height + group_spacing;
-				g.y = this.dims.top_edge;
+				stax[g.x] = upper_edge + g.height + group_spacing; 
+				g.y = upper_edge;
 			}
 			else {
 				g.y = stax[g.x];
@@ -126,10 +127,28 @@ namespace bjs {
 			mv.nodea[i].handed = tooDarnBig?bjs.handed.none:bjs.handed.leftright;
 		}
 
+
+		//hack -- do what the position module would do if it were here (roughly)
+		for(var i=0; i< mv.nodea.length; ++i){
+			var n = mv.nodea[i];
+			if(n.fullname.indexOf("Reference.Agency.Files")!=-1)
+				n.y += 200;
+			if(n.fullname.indexOf("Restruct_Mods")!=-1)
+				n.y += 120;
+			if(n.fullname.indexOf("CustQuality")!=-1)
+				n.y += 200;
+			if(n.fullname.indexOf("Compliance")!=-1)
+				n.y += 200;
+			
+			
+		}
+
 		//despite having just positioned groups manually, we now fit them to their nodes... needs sorting out really
 		for(var fullname in mv.groups){
 			bjs.fitGroupToNodesBox(mv.groups[fullname], this.dims.node_r*2);
 		}
+
+
 	}
 
 

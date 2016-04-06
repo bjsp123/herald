@@ -97,20 +97,26 @@ namespace bjs{
     }
 
     export function getComplexity(f:bjs.field):number{
-        return Object.keys(f.ancestors).length;
+        return Object.keys(f.ancestors).length + f.sources.length;
     }
     
     export function getInfluence(f:bjs.field):number{
-        return Object.keys(f.descendants).length;
+        var total=0;
+        
+        for(var afn in f.descendants){
+            total+=(1/f.descendants[afn].depth);
+        }
+        
+        return total;
     }
     
     export function getFilters(f:bjs.field):number{
         
         var total=0;
         
-        for(var afn in f.ancestors){
-            if(f.ancestors[afn].filt==true) 
-                total++;
+        for(var afn in f.descendants){
+            if(f.descendants[afn].filt==true) 
+                total+=(1/f.descendants[afn].depth);
         }
         
         return total;

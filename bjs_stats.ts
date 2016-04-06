@@ -360,9 +360,9 @@ namespace bjs {
       var config = d.view.config;
       var o:bjs.xyorder = bjs.xyorder.asset;
       
-      if(d.fullname.endsWith("axis_l")) o = config.xorder;
-      if(d.fullname.endsWith("axis_m1")) o = config.yorder;
-      if(d.fullname.endsWith("axis_m2")) o = config.zorder;
+      if(d.fullname.indexOf("axis_l")!=-1) o = config.xorder;
+      if(d.fullname.indexOf("axis_m1")!=-1) o = config.yorder;
+      if(d.fullname.indexOf("axis_m2")!=-1) o = config.zorder;
       
       
       d.view.svg.selectAll(".link")

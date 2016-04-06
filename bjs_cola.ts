@@ -59,6 +59,10 @@ namespace bjs {
 
 			var constraints = [];
 
+			for(var i=0;i<mv.nodea.length;++i){
+				mv.nodea[i].x = mv.nodea[i].field.ldepth * 150;
+			}
+
 			for (var i = 0; i < mv.groupa.length; ++i){
 				var con:any = { type: "alignment", axis: "x", offsets: [] };
 				for (var j = 0; j < mv.groupa[i].children.length; ++j){
@@ -69,7 +73,7 @@ namespace bjs {
 
 			for (var i = 0; i < mv.colalinks.length; ++i){
 				var l = mv.colalinks[i];
-				var con:any = { axis: "x", left: l.source, right: l.target, gap: 140 };
+				var con:any = { axis: "x", left: l.source, right: l.target, gap: 150 };
 				constraints.push(con);
 			}
 
