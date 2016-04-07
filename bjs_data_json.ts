@@ -10,6 +10,8 @@ namespace bjs_data_json{
 
 		world = loadJson(json, date);
 
+		world = applyRules(world);
+
 		world = filter(world, f);
 
 		world = squash(world, sq);
@@ -19,7 +21,7 @@ namespace bjs_data_json{
 		return world;
 	}
 	
-	// Placeholder for proper rules functionality.
+	// Placeholder for disconnected rules functionality.
 	// edits the world in-place to apply hardcoded rules.
 	function applyRules(world:bjs.world):bjs.world {
 		
@@ -52,6 +54,15 @@ namespace bjs_data_json{
 				
 			if(f.fullname.indexOf("Core.Retail.Bal")==0)
 				f.cookie = "MIS.Mart.Aaacookie" + f.fullname;
+
+			if(f.asset.owner.indexOf("known")!=-1)
+				f.risk += 0.2;
+
+			if(f.asset.type.indexOf("xcel")!=-1)
+				f.risk += 0.2;
+
+			if(f.asset.type.indexOf("mdb")!=-1)
+				f.quality *= 1.1;
 		}
 		
 		return world;
