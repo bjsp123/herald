@@ -163,6 +163,23 @@
     	clear();
     	refresh();
     }
+
+    function shBlocks(){
+        bip = new bjs.block_view();
+        $("#opt_adjust_links").hide();  
+        $("#opt_adjust_order").hide(); 
+        $("#opt_floworder").hide();
+        $("#opt_xaxis").hide();
+        $("#opt_yaxis").hide();
+        $("#opt_zaxis").hide();
+        $("#opt_node_cp").show();
+        $("#opt_link_cp").hide();
+        $("#opt_highlight").show();
+        $("#opt_influence").show();
+        $("#opt_block").show();
+        clear();
+        refresh();
+    }
     
     function shTree(){
     	bip = new bjs.tree_view();
@@ -334,7 +351,7 @@
 
     $(document).ready(function() {
     	init();
-        shBipart();
+        shBlocks();
     });
 
 
@@ -378,6 +395,12 @@
 
     	if (d != null) {
 
+            if(d.itemtype == "block"){
+                name += d.name;
+                summary += d.kind + " " + d.name + "</br>";
+                summary += d.asset_count + " assets.</br>";
+                summary += d.field_count + " fields.</br>";
+            }
 
     		if (d.itemtype == "node") {
                 if(d.isLogical()){
@@ -548,6 +571,9 @@
                     </li>
                     <li>
                         <a href="#" onclick="shCola();">Constrained</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="shBlocks();">High Level</a>
                     </li>
                     <li>
                         <a href="#" onclick="shScatter();">Scatter</a>

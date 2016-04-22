@@ -466,6 +466,89 @@ namespace bjs {
     }
 
 
+    /*
+      Creates a cola-compatible graph in which nodes represent blocks -- i.e. asset groupings.
+      */
+    export function makeColaBlockGraph(view:bjs.view, w:bjs.world, c:bjs.config):bjs.mv {
+
+        var mv = new bjs.mv(w);
+
+        var blockplan = c.blockplan;
+        if(blockplan == bjs.blockplan.none){
+            blockplan = bjs.blockplan.cat;
+        }
+
+        //find blocks and create a node for each block
+        var found = {};
+        for (var fullname in w.assets) {
+            var ass = w.assets[fullname];
+            var b:bjs.block;
+            var block = bjs.getBlock(ass, blockplan);
+
+            if(found[block]){
+                b = found[block];
+                b.asset_count++;
+                b.field_count += ass.children.length;
+            }else{
+                b = new bjs.block(view, this, block, block, blockplan);
+                b.asset_count = 1;
+                b.field_count = ass.children.length;
+                found[block] = b;
+                mv.blocks[block]=b;
+                mv.blocka.push(b);
+                b.cola_index = mv.blocka.length-1;
+            }
+        }
+
+        //find links between blocks, much as one might for groups
+        found = {};
+        for(var i=0;i<w.arela.length;++i){
+            var ar = w.arela[i];
+            var lblock = bjs.getBlock(ar.source, blockplan);
+            var rblock = bjs.getBlock(ar.target, blockplan);
+
+            if(lblock == rblock)
+                continue;
+            
+            var key = lblock + " - " + rblock;
+            var lidx = mv.blocks[lblock].cola_index;
+            var ridx = mv.blocks[rblock].cola_index;
+
+            if(found[key]){
+                found[key].count += ar.count;
+            }else{
+                var colalink = {
+                    id: key+i,
+                    source: lidx,
+                    target: ridx,
+                    realsource: mv.blocks[lblock],
+                    realtarget: mv.blocks[rblock],
+                    count: ar.count
+                }
+                found[key] = colalink;
+                mv.colalinks.push(colalink);
+            }
+
+            mv.blocks[rblock].sources[lblock] = mv.blocks[lblock];
+            mv.blocks[lblock].targets[rblock] = mv.blocks[rblock];
+        }
+
+        for(var i=0;i<mv.blocka.length;++i){
+            var b = mv.blocka[i];
+            for(var bn in b.sources){
+                b.sourcea.push(mv.blocks[bn]);
+            }
+            for(var bn in b.targets){
+                b.targeta.push(mv.blocks[bn]);
+            }
+        }
+ 
+
+        return mv;
+    }
+
+
+
 
     export function makeTree(view:bjs.view, w:bjs.world):bjs.mv {
 

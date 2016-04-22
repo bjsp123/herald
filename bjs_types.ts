@@ -309,7 +309,7 @@ namespace bjs {
 		cola_index: number = -1;//or is this really ephemeral state?
 		idx: number = -1; // holds the node's position in an array in some cases
 		
-		constructor(public view:view, public mv: mv, public field: field, public comment:string=""){
+		constructor(public view:view, public mv: mv, public field: field){
 			if (field == null) 
 				bjs.lg_warn("Tried to create node without field");
 			
@@ -327,6 +327,28 @@ namespace bjs {
 			if(this.field.isLogical()) return true;
 			return false;
 		}
+	}
+
+	export class block{
+		itemtype = "block"
+		field_count:number = 0;
+		asset_count:number = 0;
+		sources:IMap<block>={};
+		targets:IMap<block>={};
+		sourcea:block[]=[];
+		targeta:block[]=[];
+		x:number=0;
+		y:number=0;//cola would add them in anyway
+
+		width: number = -1;
+		height: number = -1;//for cola
+		cola_index: number = -1;//or is this really ephemeral state?
+		padding: number = 0;//for cooooola
+
+		constructor(public view:view, public mv:mv, public fullname, public name, public kind){
+
+		}
+
 	}
 
 	export class link{
@@ -417,6 +439,8 @@ namespace bjs {
 		m2nodes: IMap<node>={};
 		
 		colalinks: any[]=[];
+		blocks: IMap<block>={};
+		blocka: block[]=[];
 		
 		pts: pt[]=[];
 		

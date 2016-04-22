@@ -421,6 +421,10 @@ namespace bjs_data_json{
 	}
 
 	export function isMatch(field:bjs.field, filter:bjs.filter):boolean{
+
+		if(field == null)
+			return false;
+		
 		if(isDirectMatch(field, filter))
 			return true;
 

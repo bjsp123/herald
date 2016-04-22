@@ -34,8 +34,10 @@ namespace bjs {
         if (n.group) {
             return getColorFromName(config, n.group.fullname);
         }
-        else {
+        else if(n.field) {
             return getColorFromName(config, n.field.asset.fullname);
+        } else {
+        	return getColorFromName(config, n.fullname);
         }
     }
     
@@ -111,8 +113,13 @@ namespace bjs {
     }
 
     export function areNodesRelated(a:bjs.node, b:bjs.node):boolean {
-        if(a.itemtype != "node" || b.itemtype != "node") return false;
+
         if (a.fullname == b.fullname) return true;
+
+        if(a.field == null || b.field == null) {
+        	return false;
+        }
+
         for (var fullname in a.field.ancestors) {
             if (fullname == b.fullname) return true;
         }
@@ -123,8 +130,11 @@ namespace bjs {
     }
 
     export function isNodeRelatedToGroup(n:bjs.node, g:bjs.group):boolean {
-        if(n.itemtype != "node" || g.itemtype != "group") return false;
         if (n.group.fullname == g.fullname) return true;
+
+        if(n.field == null)
+        	return false;
+
         for (var fullname in n.field.ancestors) {
             if (n.mv.world.fields[fullname].asset.fullname == g.fullname) return true;
         }
@@ -446,6 +456,44 @@ namespace bjs {
 			.attr("text-anchor", function(d){return gettextanchor(d);})
 			.attr("y",function(d){return getlabely(d);});
     }
-    
-	
+
+	export function drawBlocks(blocksel:any, blockenter:any, config:bjs.config, corners:number){
+    	
+    	blockenter.append("rect");
+		blockenter.append("text");
+
+		blocksel.select("rect")
+			.attr("x",0)
+			.attr("width", function(d) {
+				return d.width;
+			})
+			.style("fill", function(d) {
+				if(d.groups && d.groups.length>0) return "none";
+				return bjs.getColorFromName(config, d.fullname);
+			})
+			.attr("y", 0)
+			.attr("rx", corners)
+			.attr("ry", corners)
+			.attr("height", function(d) {
+				return d.height;
+			});
+			
+
+		blocksel.select("text")
+			.attr("class", "grouplabel")
+			.text(function(d) {
+				return bjs.shortenString(d.fullname, 30);
+			})
+			.style("fill", function(d) {
+				return bjs.getColorFromName(config, d.fullname);
+			})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d) {
+				return d.width / 2;
+			})
+			.attr("y", function(d, i) {
+				return d.height + 15;
+			});
+    	
+    }
 }

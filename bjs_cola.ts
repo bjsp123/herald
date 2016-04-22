@@ -20,8 +20,6 @@ namespace bjs {
 
 		optimize = false;
 
-		data = {};
-
 		//cola vars
 		coke = null;
 		ghosts = null;
