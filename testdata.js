@@ -1052,7 +1052,7 @@ testdata.raw =
             "desc": "Core mainframe banking system for UK retail.",
             "location": "%%EBC01%AC1",
             "type": "DB2 Table",
-            "owner": "Rick_Mansworth",
+            "owner": "H_E_Moon",
             "dept": "Banking",
             "calc": "mainframe"
         }, {
@@ -1060,7 +1060,7 @@ testdata.raw =
             "desc": "Books and records mainframe storage.",
             "location": "5%EBC01%AC2",
             "type": "DB2 Table",
-            "owner": "Rick_Mansworth",
+            "owner": "H_E_Moon",
             "dept": "Banking",
             "calc": "mainframe"
         }, {
@@ -1068,7 +1068,7 @@ testdata.raw =
             "desc": "Customer personal data.",
             "location": "/server2/customer_data",
             "type": "SAS Dataset",
-            "owner": "Mandy_Harpoons",
+            "owner": "Esther_Lo",
             "dept": "Customer_Mgmt",
             "calc": "/server2/code/etl_stuff",
             "notbefore": 1
@@ -1077,7 +1077,7 @@ testdata.raw =
             "desc": "Small business data.",
             "location": "/server2/customer_data",
             "type": "SAS Dataset",
-            "owner": "Mandy_Harpoons",
+            "owner": "Esther_Lo",
             "dept": "Customer_Mgmt",
             "calc": "/server2/code/etl_stuff",
             "notbefore": 2
@@ -1086,7 +1086,7 @@ testdata.raw =
             "desc": "Business hierarchy for small corp clients, taken from bureau files.",
             "location": "/server/customer/ref/spreadsheets",
             "type": "Excel",
-            "owner": "Mandy_Harpoons",
+            "owner": "Esther_Lo",
             "dept": "Reference_Data",
             "calc": "/server2/code/etl_stuff",
             "notbefore": 1
@@ -1095,7 +1095,7 @@ testdata.raw =
             "desc": "Reference data from external source (SnP).",
             "location": "/server/folder/files/ref/snp",
             "type": "Text File",
-            "owner": "Madison_Avenue",
+            "owner": "Lucy_Choi",
             "dept": "Reference_Data",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
@@ -1103,7 +1103,7 @@ testdata.raw =
             "desc": "Reference data from external source (Delphi).",
             "location": "/server/delphi/yyymm/scores",
             "type": "SAS Dataset",
-            "owner": "Madison_Avenue",
+            "owner": "Lucy_Choi",
             "dept": "Reference_Data",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
@@ -1111,7 +1111,7 @@ testdata.raw =
             "desc": "This asset represents a set of files recieved daily or monthly from various external agencies.",
             "location": "/server/files/mmmyy",
             "type": "Text File",
-            "owner": "Hudley_Pierce",
+            "owner": "Colm_Cusak",
             "dept": "Reference_Data",
             "calc": "/server/files/shipment/rules",
             "notbefore": 2
@@ -1120,7 +1120,7 @@ testdata.raw =
             "desc": "Restruct information around account modifications.",
             "location": "/server/staging/retail/restr/mods",
             "type": "SAS Dataset",
-            "owner": "Madison_Avenue",
+            "owner": "Lucy_Choi",
             "dept": "Banking",
             "calc": "/server/folder/scripts/calcStuff",
             "latency": 1,
@@ -1131,7 +1131,7 @@ testdata.raw =
             "desc": "Extract from payments system.",
             "location": "/server/staging/retail/restr/snapshots",
             "type": "SAS Dataset",
-            "owner": "Madison_Avenue",
+            "owner": "Lucy_Choi",
             "dept": "Banking",
             "calc": "/server/folder/scripts/calcStuff",
             "latency": 1,
@@ -1141,7 +1141,7 @@ testdata.raw =
             "desc": "Account balances from retail core banking systems",
             "location": "/server/folder/files/inputDynamic",
             "type": "SAS Dataset",
-            "owner": "Madison_Avenue",
+            "owner": "Lucy_Choi",
             "dept": "Banking",
             "calc": "/server/folder/scripts/calcStuff",
             "latency": 1
@@ -1195,7 +1195,7 @@ testdata.raw =
             "desc": "Internal customer quality measures.",
             "location": "/server/folder/files/dims",
             "type": "SAS Dataset",
-            "owner": "Madison_Avenue",
+            "owner": "Lucy_Choi",
             "dept": "Customer_Mgmt",
             "calc": "/server/folder/scripts/calcStuff"
         }, {
@@ -1203,7 +1203,7 @@ testdata.raw =
             "desc": "A report that is sent to auditors, governed as part of BCBS, containing retail credit risk summary information",
             "location": "/server/folder/reports/MR",
             "type": "SAS VA",
-            "owner": "Len_Miatena",
+            "owner": "Len_Chang",
             "dept": "Credit_Risk",
             "calc": "/server/folder/scripts/calcStuff",
             "latency": 1

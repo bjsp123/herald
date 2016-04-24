@@ -54,7 +54,7 @@ namespace bjs {
 			  .enter().append("svg:marker")    // This section adds in the arrows
 			    .attr("id", String)
 			    .attr("viewBox", "0 -5 10 10")
-			    .attr("refX", 10)
+			    .attr("refX", 8)
 			    .attr("refY", 0)
 			    .attr("markerWidth", 6)
 			    .attr("markerHeight", 6)
@@ -69,7 +69,7 @@ namespace bjs {
 
 			mv.blocka.forEach(function(b) {
 				b.width = d.node_r * this.BLOCK_W;
-				b.height = d.node_r * 5 * Math.sqrt(b.field_count);
+				b.height = d.node_r * (b.field_count + 10) / 2;
 				b.padding = this.BLOCK_PADDING;
 			}, this);
 
@@ -84,9 +84,9 @@ namespace bjs {
 			//line up blocks that have a simple relationship
 			for(var i=0;i<mv.colalinks.length; ++i){
 				var l = mv.colalinks[i];
-				if(Object.keys(l.realtarget.sources).length == 1){
+				if(Object.keys(l.realtarget.sources).length == 1 && Object.keys(l.realsource.targets).length == 1){
 					var con:any = { axis: "y", left: l.source, right: l.target, gap: (l.realsource.height-l.realtarget.height)/2, equality: true};
-					//constraints.push(con);
+					constraints.push(con);
 				}
 			}
 
@@ -134,9 +134,8 @@ namespace bjs {
 				.attr("class", "blocklink")
 				.attr("stroke-width", function(d){return Math.min(16,Math.sqrt(d.count+6));})
 				.attr("marker-end", "url(#end)")
-				.attr("stroke", function(d) {
-					return bjs.getLinkColor(config, focus, d);
-				});
+				.attr("stroke", "black");
+
 
 			lt.exit().remove();
 
@@ -163,8 +162,7 @@ namespace bjs {
 			
 			this.coke.on("tick", function() {
 
-				lt.attr("d", block_connector)
-					.attr("stroke", function(d){return bjs.getLinkColor(config, focus, d);});
+				lt.attr("d", block_connector);
 
 				blocks.attr("transform", function(d) {
 					return "translate(" + (d.x) + "," + (d.y) + ")";
@@ -203,8 +201,8 @@ namespace bjs {
 				return d.view.svg.append('circle')
 					.attr({
 						class: 'ghost',
-						cx: d.x+d.view.dims.right_edge/2,
-						cy: d.y+d.view.dims.bottom_edge/2,
+						cx: d.x+d.view.dims.right_edge/2+d.width/2,
+						cy: d.y+d.view.dims.bottom_edge/2+d.height/2,
 						r: d.width / 3
 					});
 			});
@@ -284,7 +282,7 @@ namespace bjs {
 			ry = rblock.y;
 			ry += rblock.height/(rcount+1)*rrank;
 
-			var offs = Math.abs(rx - lx) / 3;
+			var offs = Math.abs(rx - lx) / 2;
 
 			return "M " + (lx) + " " + (ly) +
 			"C " + (lx + offs) + " " + (ly) +

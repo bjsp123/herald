@@ -492,7 +492,7 @@ namespace bjs {
 	export class dimensions{
 		public node_r=9;
 		public left_edge=100;
-		public right_edge=1200;
+		public right_edge=1600;
 		public top_edge=100;
 		public bottom_edge=1200;
 		public groupbar_width=20;

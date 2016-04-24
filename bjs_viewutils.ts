@@ -460,7 +460,9 @@ namespace bjs {
 	export function drawBlocks(blocksel:any, blockenter:any, config:bjs.config, corners:number){
     	
     	blockenter.append("rect");
-		blockenter.append("text");
+		blockenter.append("text").attr("id", "textline1");
+		blockenter.append("text").attr("id", "textline2");
+		blockenter.append("text").attr("id", "textline3");
 
 		blocksel.select("rect")
 			.attr("x",0)
@@ -479,20 +481,46 @@ namespace bjs {
 			});
 			
 
-		blocksel.select("text")
-			.attr("class", "grouplabel")
+		blocksel.select("#textline1")
+			.attr("class", "blocktitle")
 			.text(function(d) {
 				return bjs.shortenString(d.fullname, 30);
 			})
-			.style("fill", function(d) {
-				return bjs.getColorFromName(config, d.fullname);
-			})
+			.style("fill", "black")
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
 				return d.width / 2;
 			})
 			.attr("y", function(d, i) {
-				return d.height + 15;
+				return d.height /2-6;
+			});
+
+		blocksel.select("#textline2")
+			.attr("class", "blocklabel")
+			.text(function(d) {
+				return "" + d.asset_count + " assets";
+			})
+			.style("fill", "black")
+			.attr("text-anchor", "middle")
+			.attr("x", function(d) {
+				return d.width / 2;
+			})
+			.attr("y", function(d, i) {
+				return d.height /2 + 8;
+			});
+
+		blocksel.select("#textline3")
+			.attr("class", "blocklabel")
+			.text(function(d) {
+				return "" + d.field_count + " fields";
+			})
+			.style("fill", "black")
+			.attr("text-anchor", "middle")
+			.attr("x", function(d) {
+				return d.width / 2;
+			})
+			.attr("y", function(d, i) {
+				return d.height /2 + 22;
 			});
     	
     }

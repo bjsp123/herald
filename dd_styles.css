@@ -129,6 +129,19 @@
 		filter: drop-shadow(-0px -0px 3px #123);
 		-webkit-filter: drop-shadow(-0px -0px 3px #123);
 	}
+
+	.blocktitle {
+		stroke-width: 0px;
+		font-size: 14px;
+		font-family: sans-serif;
+		font-weight: bold;
+	}
+
+	.blocklabel {
+		stroke-width: 0px;
+		font-size: 12px;
+		font-family: sans-serif;
+	}
 	
 	/*drawing axes etc*/
 
