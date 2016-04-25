@@ -299,17 +299,17 @@ namespace bjs {
 
 			var rsx = rx - arrow_width * 1.5;
 
-			var ribboncorrect = arrow_width*-1;
+			var ribboncorrect = arrow_width*-.8;
 			if(ry > ly) ribboncorrect *= -1;
 
 			var s = "";
 			s += "M " + lx + " " + (ly-arrow_width);
-			s += "C " + (lx+offs) + " "  + (ly-arrow_width) + " " + (rsx-offs+ribboncorrect) + " " + (ry-arrow_width) + " " + rsx + " " + (ry-arrow_width);
+			s += "C " + (lx+offs+ribboncorrect) + " "  + (ly-arrow_width) + " " + (rsx-offs+ribboncorrect) + " " + (ry-arrow_width) + " " + rsx + " " + (ry-arrow_width);
 			s += "L " + rsx + " " + (ry-head_width);
 			s += "L " + rx + " " + ry;
 			s += "L " + rsx + " " + (ry+head_width);
 			s += "L " + rsx + " " + (ry+arrow_width);
-			s += "C " + (rsx-offs) + " " + (ry+arrow_width) + " " + (lx+offs-ribboncorrect) + " " + (ly+arrow_width) + " " + lx + " " + (ly+arrow_width); 
+			s += "C " + (rsx-offs-ribboncorrect) + " " + (ry+arrow_width) + " " + (lx+offs-ribboncorrect) + " " + (ly+arrow_width) + " " + lx + " " + (ly+arrow_width); 
 			s += " Z ";
 
 			return s;
