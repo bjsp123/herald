@@ -1242,6 +1242,6 @@ testdata.raw =
             "code": "TotalNonPerf",
             "name": "Total Non-Performing",
             "desc": "Total assets that are deemed non-performing.",
-            "flags": ""
+            "flags": "critical"
         }]
     }

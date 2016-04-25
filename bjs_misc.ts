@@ -63,7 +63,26 @@ namespace bjs{
         return r;
     }
 
+    //interprets the string as a space-separated list to be anded together
     export function matchField(s:string, f:bjs.field, extendedMatch:boolean):boolean {
+
+        if(s.length < 1)
+            return false;
+
+        var terms = s.split(" ");
+
+        for(var i=0;i<terms.length;++i){
+            if(!matchSingleTerm(terms[i], f, extendedMatch))
+                return false;
+        }
+
+        return true;
+    }
+
+    function matchSingleTerm(s:string, f:bjs.field, extendedMatch:boolean):boolean{
+
+        if(s.length < 1)
+            return false;
 
         var reg = new RegExp(s, 'i');
         if(reg.exec(f.fullname) != null){
@@ -144,7 +163,7 @@ namespace bjs{
             case bjs.blockplan.dept:
             return a.dept;
             case bjs.blockplan.cat:
-            return a.fullname.substring(0, 7);
+            return a.fullname.split(".")[0];
             case bjs.blockplan.owner:
             return a.owner;
             case bjs.blockplan.type:

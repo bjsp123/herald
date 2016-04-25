@@ -15,9 +15,9 @@ namespace bjs {
 		BLOCK_ROUNDY = 16;
 		ARROW_WIDTH = 10;
 
-		BLOCK_W = 10;
+		BLOCK_W = 14;
 		BLOCK_SPACING = 28;
-		LINK_LEN = 20;
+		LINK_LEN = 30;
 
 		//cola vars
 		coke = null;
@@ -71,6 +71,7 @@ namespace bjs {
 				b.width = d.node_r * this.BLOCK_W;
 				b.height = d.node_r * (b.field_count + 10) / 2;
 				b.padding = this.BLOCK_PADDING;
+				b.x = Math.random() * 1000 - 500;
 			}, this);
 
 
@@ -130,12 +131,16 @@ namespace bjs {
 					return d.id;
 				});
 
+			/*
 			lt.enter().append("path")
 				.attr("class", "blocklink")
 				.attr("stroke-width", function(d){return Math.min(16,Math.sqrt(d.count+6));})
 				.attr("marker-end", "url(#end)")
 				.attr("stroke", "black");
-
+			*/
+			lt.enter().append("path")
+				.attr("class", "blocklink")
+				.attr("stroke", "gray");
 
 			lt.exit().remove();
 
@@ -156,13 +161,13 @@ namespace bjs {
 
 			var nodeexit = blocks.exit().remove();
 			
-			var block_connector = this.block_connector;
+			var fatarrow = this.fatarrow;
 			var group_pad = this.BLOCK_PADDING;
 			var node_r = this.dims.node_r;
 			
 			this.coke.on("tick", function() {
 
-				lt.attr("d", block_connector);
+				lt.attr("d", fatarrow);
 
 				blocks.attr("transform", function(d) {
 					return "translate(" + (d.x) + "," + (d.y) + ")";
@@ -242,10 +247,9 @@ namespace bjs {
 		}
 
 
-
-		//there isn't time to properly rank nodes and evaluate which 'connection point' a connector should use at either end,
-		//so instead we approximate with something that'll probably work for the current data.
-		private block_connector(d, j):string {
+		//nodes are ranked so as to understand which 'attachment point' on a block to draw from.
+		//getting markers etc to line up in svg is hard so we draw a whole arrow.
+		private fatarrow(d, j):string {
 
 			var lblock = d.realsource;
 			var rblock = d.realtarget;
@@ -284,10 +288,31 @@ namespace bjs {
 
 			var offs = Math.abs(rx - lx) / 2;
 
+			/*
 			return "M " + (lx) + " " + (ly) +
 			"C " + (lx + offs) + " " + (ly) +
 			" " + (rx - offs) + " " + (ry) +
 			" " + (rx) + " " + (ry);
+			*/
+			var arrow_width = .5 * (d.count + 6);
+			var head_width = arrow_width * 1.5;
+
+			var rsx = rx - arrow_width * 1.5;
+
+			var ribboncorrect = arrow_width*-1;
+			if(ry > ly) ribboncorrect *= -1;
+
+			var s = "";
+			s += "M " + lx + " " + (ly-arrow_width);
+			s += "C " + (lx+offs) + " "  + (ly-arrow_width) + " " + (rsx-offs+ribboncorrect) + " " + (ry-arrow_width) + " " + rsx + " " + (ry-arrow_width);
+			s += "L " + rsx + " " + (ry-head_width);
+			s += "L " + rx + " " + ry;
+			s += "L " + rsx + " " + (ry+head_width);
+			s += "L " + rsx + " " + (ry+arrow_width);
+			s += "C " + (rsx-offs) + " " + (ry+arrow_width) + " " + (lx+offs-ribboncorrect) + " " + (ly+arrow_width) + " " + lx + " " + (ly+arrow_width); 
+			s += " Z ";
+
+			return s;
 		}
 
 		private groupMouseOver(d) {

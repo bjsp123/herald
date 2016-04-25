@@ -105,7 +105,7 @@ namespace bjs {
 			case bjs.colorplan.flat:
 				return "gray";
 			case bjs.colorplan.cat:
-				return config.color(fullname.substring(0, 7));
+				return config.color(fullname.split(".")[0]);
 			case bjs.colorplan.asset:
 				return config.color(fullname);
         }
@@ -489,7 +489,7 @@ namespace bjs {
 			.style("fill", "black")
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
-				return d.width / 2;
+				return d.width / 2 + 2;
 			})
 			.attr("y", function(d, i) {
 				return d.height /2-6;
@@ -503,7 +503,7 @@ namespace bjs {
 			.style("fill", "black")
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
-				return d.width / 2;
+				return d.width / 2 + 2;
 			})
 			.attr("y", function(d, i) {
 				return d.height /2 + 8;
@@ -517,7 +517,7 @@ namespace bjs {
 			.style("fill", "black")
 			.attr("text-anchor", "middle")
 			.attr("x", function(d) {
-				return d.width / 2;
+				return d.width / 2 + 2;
 			})
 			.attr("y", function(d, i) {
 				return d.height /2 + 22;
