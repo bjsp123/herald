@@ -154,6 +154,23 @@ namespace bjs{
         
         return utotal;
     }
+    
+    export function getNameFirstPart(s:string):string{
+        var a = s.split(".");
+        if(a.length < 2){
+            if(s.length > 7){
+                return s.substr(0,7);
+            } else {
+                return s;
+            }
+        }
+        
+        if(a.length == 2){
+            return a[0];
+        }
+        
+        return a[0] + "." + a[1];
+    }
 
     export function getBlock(a:bjs.asset, o:bjs.blockplan):string {
 
@@ -163,7 +180,7 @@ namespace bjs{
             case bjs.blockplan.dept:
             return a.dept;
             case bjs.blockplan.cat:
-            return a.fullname.split(".")[0];
+            return getNameFirstPart(a.fullname);
             case bjs.blockplan.owner:
             return a.owner;
             case bjs.blockplan.type:

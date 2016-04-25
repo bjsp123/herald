@@ -105,7 +105,7 @@ namespace bjs {
 			case bjs.colorplan.flat:
 				return "gray";
 			case bjs.colorplan.cat:
-				return config.color(fullname.split(".")[0]);
+				return config.color(bjs.getNameFirstPart(fullname));
 			case bjs.colorplan.asset:
 				return config.color(fullname);
         }
