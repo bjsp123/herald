@@ -209,7 +209,7 @@
 
         $("#jsondlg").hide();
         
-        $('#ctrl_thedate').datebox('setValue', '1/3/2016');
+        //$('#ctrl_thedate').datebox('setValue', '1/3/2016');
 
     	d3.select("#ctrl_filter_btn").on("click", function(d) {
 
@@ -265,11 +265,11 @@
 
             redraw();
         });
-        
+        /*
         d3.select("#ctrl_load_btn").on("click", function(d) {
             refresh();
         });
-
+*/
     	rawJson = testdata.raw;
     }
 
@@ -354,6 +354,20 @@
         shBlocks();
     });
 
+    function showHelp(){
+        $("#helpdlg").show();
+        $("#helpdlg").dialog({
+            minimizable:true,
+            maximizable:true,
+            resizable:true,
+            buttons:[{
+                text:"Close",
+                iconCls:"icon-herald-clear",
+                handler:function(){$("#helpdlg").dialog('close');}
+            }]
+        });
+    }
+
 
     function importJson(){
         $("#jsondlg").show();
@@ -368,7 +382,7 @@
             },{
                 text:"Cancel",
                 iconCls:"icon-herald-clear",
-                handler:function(){$("#jsondlg").hide();}
+                handler:function(){$("#jsondlg").dialog('close');}
             }]
         });
     }
@@ -547,7 +561,7 @@
 
 	<nav id="menu-wrap">    
 		<ul id="menu">
-			<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
+			<li id="menu-special"><img src="santlogo.png" style="margin-left: 10px;margin-right:10px;height:35px;margin-top:0px;margin-bottom:0px"/>  </li>
             <li>
                 <a href="#">Visualization</a>
                 <ul>
@@ -581,132 +595,17 @@
                 </ul>
             </li>
 			<li>
-				<a href="#">Reporting</a>
-				<ul>
-					<li>
-						<a href="#" onclick="shBipart();">Export Images</a>
-						<ul>
-							<li>
-								<a href="#" onclick="$('dialog_noconnection').dialog();">One per Hit</a>
-								<a href="#" onclick="$('dialog_noconnection').dialog();">One Image</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#" onclick="shHive();">Metadata Health</a>
-					</li>
-					<li>
-						<a href="#" onclick="shFlow();">Data Cost Metrics</a>
-						<ul>
-							<li>
-								<a href="#" onclick="$('dialog_noconnection').dialog();">Analyse Metadata</a>
-								<a href="#" onclick="$('dialog_noconnection').dialog();">Time Analysis</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</li>
-			<li>
 				<a href="#">Import</a>
 				<ul>
 
 					<li>
-						<a href="#">Connect to SAS</a>
-						<ul>
-							<li>
-								<a href="#" onclick="$('dialog_noconnection').dialog();">Connect base SAS</a>
-								<a href="#" onclick="$('dialog_noconnection').dialog();">Connect DI</a>
-							</li>
-						</ul>
-					</li>
-					
-					<li>
-						<a href="#">Import Data Sets</a>
-						<ul>
-							<li>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
-								<a href="#" onclick="importJson();">Import Json</a>
-							</li>
-						</ul>
-					</li>
-					
-					<li>
-						<a href="#">Manage Data Sets</a>
-						<ul>
-							<li>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">Data Set List</a>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">Refresh All</a>
-							</li>
-						</ul>
-					</li>
-					
-					<li>
-						<a href="#">Apply Values</a>
-						<ul>
-							<li>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">From SAS</a>
-								<a href="#" onclick="$('dialog_nopermission').dialog();">From Json</a>
-							</li>
-						</ul>
+						<a href="#" onclick="importJson();">Import Json</a>
 					</li>
 					
 				</ul>
 			</li>
 
-			<li>
-				<a href="#">Data</a>
-				<ul>
-					<li>
-						<a href="#" onclick="">Edit Terms</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Edit Assets</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Edit Fields</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Edit Objects</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Edit Owners</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Asset Manager</a>
-					</li>
-				</ul>
-			</li>
-
-			<li>
-				<a href="#">Favorites</a>
-				<ul>
-					<li>
-						<a href="#" onclick="">Visualizations</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Filters</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Reports</a>
-					</li>
-				</ul>
-			</li>
-
-
-			<li>
-				<a href="">Admin</a>
-				<ul>
-					<li>
-						<a href="#" onclick="">Users</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Connections</a>
-					</li>
-					<li>
-						<a href="#" onclick="">Console Window</a>
-					</li>
-				</li>
-				<li><a href="">Help</a></li>
+			<li><a href="#" onclick="showHelp();">Help</a></li>
 			</ul>
 		</nav>
 
@@ -735,26 +634,7 @@
 		<div data-options="region:'west',split:true,hideCollapsedContent:false" title="Controls" style="width:340px;">
 
 			<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
-            <div title="Data Set" class="sidepanel">
-                    <table>
-                        <tr>
-                            <td class="formlabel">Data source:</td>
-                            <td><select class="easyui-combobox" style="width:140px" id="ctrl_node_cp" name="ctrl_node_cp">
-                                <option value="flat">Demo</option>
-                            </select></td>
-                        </tr>
-                        <tr>
-                            <td class="formlabel">As of date:</td>
-                            <td><input class="easyui-datebox" id="ctrl_thedate" data-options="onSelect: onDateChanged"></input></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a href="#" name="ctrl_load_btn" id="ctrl_load_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Load Data</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            
 				<div title="Filter" class="sidepanel">
 					<table cellpadding="5">
 						<tr>
@@ -983,8 +863,13 @@
 
 <div id="jsondlg" title="Import JSON">
     <textarea class="jsonbox"  rows="60" name="ctrl_json" id="ctrl_json"></textarea>
+</div>
 
-
+<div id="helpdlg" title="Help" style="padding:20px">
+    <h3>Usage</h3>
+    To import metadata for visualization, use Import/Json and paste in the json string produced by the Landing plan data dictionary.  See the Landing data dictionary help sheet for details of dictionary usage.
+    <h3>About</h3>
+    This version of Kinaesis Clarity Metadata is provided specifically for local client-side deployment in Santander as part of the CR MIS Landing Plan.
 </div>
 
 

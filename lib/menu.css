@@ -9,12 +9,12 @@
 		/*margin: 60px auto;*/
 		xborder: 1px solid #222;
 		background-color: #111;
-		background-image: -moz-linear-gradient(#00708e, #00a79f); 
-		background-image: -webkit-gradient(linear, left top, left bottom, from(#00708e), to(#00a79f));	
-		background-image: -webkit-linear-gradient(#00708e, #00a79f);	
-		background-image: -o-linear-gradient(#00708e, #00a79f);
-		background-image: -ms-linear-gradient(#00708e, #00a79f);
-		background-image: linear-gradient(#00708e, #00a79f);
+		background-image: -moz-linear-gradient(#ff0000, #997777); 
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#ff0000), to(#997777));	
+		background-image: -webkit-linear-gradient(#ff0000, #997777);	
+		background-image: -o-linear-gradient(#ff0000, #997777);
+		background-image: -ms-linear-gradient(#ff0000, #997777);
+		background-image: linear-gradient(#ff0000, #997777);
 		x-moz-border-radius: 6px;
 		x-webkit-border-radius: 6px;
 		xborder-radius: 6px;
@@ -57,7 +57,7 @@
 	}
 	
 	#menu li:hover > a {
-		color: #9db;
+		color: #f77;
 	}
 	
 	*html #menu li a:hover { /* IE6 only */
@@ -136,13 +136,13 @@
 	}
 	
 	#menu ul a:hover {
-		background-color: #0186ba;
-		background-image: -moz-linear-gradient(#04acec,  #0186ba);	
-		background-image: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
-		background-image: -webkit-linear-gradient(#04acec, #0186ba);
-		background-image: -o-linear-gradient(#04acec, #0186ba);
-		background-image: -ms-linear-gradient(#04acec, #0186ba);
-		background-image: linear-gradient(#04acec, #0186ba);
+		background-color: #997777;
+		background-image: -moz-linear-gradient(#ff0000,  #997777);	
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#ff0000), to(#997777));
+		background-image: -webkit-linear-gradient(#ff0000, #997777);
+		background-image: -o-linear-gradient(#ff0000, #997777);
+		background-image: -ms-linear-gradient(#ff0000, #997777);
+		background-image: linear-gradient(#ff0000, #997777);
 	}
 	
 	#menu ul li:first-child > a {

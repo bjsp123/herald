@@ -176,7 +176,7 @@
   filter: none;
 }
 .accordion .accordion-header-selected {
-  background: #00a79f;
+  background: #ff5555;
 }
 .accordion .accordion-header-selected .panel-title {
   color: #fff;
@@ -2507,7 +2507,7 @@
   border-radius: 5px 5px 5px 5px;
 }
 .switchbutton-on {
-  background: #00a79f;
+  background: #ff5555;
   color: #fff;
 }
 .switchbutton-off {
