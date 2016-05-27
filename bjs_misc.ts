@@ -31,12 +31,20 @@ namespace bjs{
     		}
     	}
     	
-    	next(n:number){
+    	next(n:number):number{
     		this.idx++;
     		if(this.idx >= this.cache.length) this.idx=0;
     		
     		return Math.floor(this.cache[this.idx] * n);
     	}
+
+        element(p:any[]):any{
+            if(!p){
+                return null;
+            }
+            var n=this.next(p.length);
+            return p[n];
+        }
     }
     
     export function removeItem(arr, item):void {

@@ -270,6 +270,12 @@
             refresh();
         });
 
+        d3.select("#ctrl_gen_btn").on("click", function(d) {
+            w=bjs_data_json.fromEther(6, 10, 6, 8, 4);
+            redraw();
+        });
+
+
     	rawJson = testdata.raw;
     }
 
@@ -751,6 +757,12 @@
                             <td></td>
                             <td>
                                 <a href="#" name="ctrl_load_btn" id="ctrl_load_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Load Data</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a href="#" name="ctrl_gen_btn" id="ctrl_gen_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Generate</a>
                             </td>
                         </tr>
                     </table>

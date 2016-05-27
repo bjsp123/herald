@@ -15,7 +15,8 @@
 	"bjs_lineage.ts",
 	"bjs_tree.ts",
     "bjs_scatter.ts",
-    "bjs_stats.ts"
+    "bjs_stats.ts",
+    "bjs_data_gen.ts"
     ]
 
 }

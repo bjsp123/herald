@@ -1,4 +1,5 @@
 /// <reference path="bjs_types.ts"/>
+/// <reference path="bjs_data_gen.ts"/>
 declare var firstBy:any;
 
 namespace bjs_data_json{
@@ -17,6 +18,19 @@ namespace bjs_data_json{
 		world = squash(world, sq);
 		
 		world = applyRules(world);
+		
+		return world;
+	}
+
+	export function fromEther(src, sink, calc, atts, density) {
+
+		var world;
+
+		world = bjs_data_gen.generate(src, sink, calc, atts, density);
+
+		world.fielda.sort(firstBy("fullname"));
+
+		enrich(world);
 		
 		return world;
 	}
@@ -665,7 +679,7 @@ namespace bjs_data_json{
 	function recursiveARelatives(w:bjs.world, root:bjs.asset, a:bjs.asset, depth:number, bFilterEncountered:boolean, bSource:boolean):void {
 
 		if(depth > 100){
-			bjs.lg_err("Recursion problem: " + a.fullname);
+			bjs.lg_err("Recursion problem: root " + root.fullname + " " + a.fullname);
 			return;
 		}
 		
@@ -690,6 +704,7 @@ namespace bjs_data_json{
 				}
 				else {
 					root.ancestors[p.fullname] = new bjs.ainfluence(p, depth, isFilter, false, p.effnotbefore == lastReady);
+					//bjs.lg_err("R: " + root.fullname + " " + p.fullname + " " + depth);
 					recursiveARelatives(w, root, p, depth + 1, isFilter, bSource);
 				}
 			}
@@ -702,6 +717,7 @@ namespace bjs_data_json{
 				}
 				else {
 					root.descendants[p.fullname] = new bjs.ainfluence(p, depth, isFilter, false, false);
+					//bjs.lg_err("R: " + root.fullname + " " + p.fullname + " " + depth);
 					recursiveARelatives(w, root, p, depth + 1, isFilter, bSource);
 				}
 			}
