@@ -35,7 +35,7 @@
 
     //global selections
     var svg = {};
-    var rawJson = {}; // the last json string we processed
+    var rawWorld = {}; // unfiltered world
     var bip = {}; //our reference to the current visualizer, which refers to its modelview(?)
     var w = {}; //the global world (filtered)
     var config= new bjs.config();
@@ -271,12 +271,12 @@
         });
 
         d3.select("#ctrl_gen_btn").on("click", function(d) {
-            w=bjs_data_json.fromEther(6, 10, 6, 8, 4);
-            redraw();
+            rawWorld=bjs_data_gen.generateWorld(5, 7, 9, 8, 2);
+            refresh();
         });
 
 
-    	rawJson = testdata.raw;
+    	rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
     }
 
     function onOptChanged(chk){
@@ -340,7 +340,7 @@
 
 
     function refresh() {
-    	w = bjs_data_json.fromJson(rawJson, theDate, theFilter, theSquash);
+    	w = bjs_data_json.processWorld(rawWorld, theFilter, theSquash);
     	redraw();
     }
 
@@ -383,7 +383,8 @@
 
         var jsonstring = $("#ctrl_json").val();
         try{
-            rawJson = $.parseJSON(jsonstring);
+            var jsonObj = $.parseJSON(jsonstring);
+            rawWorld = bjs_data_json.loadJson(jsonObj);
         }catch(e){
             bjs.lg_err("Unable to parse JSON: " + e);
         }

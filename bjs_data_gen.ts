@@ -5,26 +5,51 @@ namespace bjs_data_gen{
 	var r:bjs.fastrandom;
 
 
-	export function generate(sourcenum:number, sinknum:number, calcnum:number, att_per_asset:number, density:number) : bjs.world {
+	export function generateWorld(sourcenum:number, sinknum:number, calcnum:number, att_per_asset:number, density:number) : bjs.world {
 
 		var w = new bjs.world();
-
 		r = new bjs.fastrandom();
 
-		var sources:bjs.asset[] = [];
+		var sources:bjs.asset[]=[];
+		var calcs:bjs.asset[]=[];
+		var superfield:bjs.field[]=[];
 
-		for(var i=0;i<sourcenum; ++i){
-			var s = genRandomAsset(0, w, att_per_asset, 0, null, null, null);
-			sources.push(s);
+		var prefixes = [[],[],[]];
+
+		for(var i=0; i < Math.ceil(sourcenum/3);++i){
+			var p = genPrefix(0) + "." + genItem(0);
+			prefixes[0].push(p);
 		}
 
-		for(var i=0;i<calcnum; ++i){
-			var s = genRandomAsset(1, w, att_per_asset, density, r.element(sources), r.element(sources), r.element(sources));
-			sources.push(s);
+		for(var i=0; i < Math.ceil(calcnum/3);++i){
+			var p = genPrefix(1) + "." + genItem(1);
+			prefixes[1].push(p);
 		}
 
-		for(var i=0;i<sinknum; ++i){
-			var s = genRandomAsset(2, w, att_per_asset, density, r.element(sources), r.element(sources), r.element(sources));
+		for(var i=0; i < Math.ceil(sinknum/3);++i){
+			var p = genPrefix(2) + "." + genItem(2);
+			prefixes[2].push(p);
+		}
+
+		for(var i=0;i < sourcenum; ++i){
+			var a = genRandomAsset(0, w, prefixes[0], att_per_asset, density, null, null);
+			sources.push(a);
+			if(r.roll(30)){
+				superfield.push(r.element(a.children));
+			}
+		}
+
+		for(var i=0;i < calcnum; ++i){
+			var a = genRandomAsset(1, w, prefixes[1], att_per_asset, density, sources, superfield);
+			sources.push(a);
+			calcs.push(a);
+			if(r.roll(30)){
+				superfield.push(r.element(a.children));
+			}
+		}
+
+		for(var i=0;i < sinknum; ++i){
+			var a = genRandomAsset(2, w, prefixes[2], att_per_asset, density, calcs, superfield);
 		}
 		
 		return w;
@@ -84,63 +109,92 @@ namespace bjs_data_gen{
 		return r.next(1000).toString();
 	}
 
-	function genRandomAsset(xfactor:number, w:bjs.world, attrs:number, density:number, src1:bjs.asset, src2:bjs.asset, src3:bjs.asset):bjs.asset{
-		var name = genPrefix(xfactor) + "." + genItem(xfactor) + "." + genTLA(xfactor);
+	function genRandomAsset(xfactor:number, w:bjs.world, prefix:string[], attrs:number, density:number, srcs:bjs.asset[], superfields:bjs.field[]):bjs.asset{
+
+		var name;
+
+		if(r.roll(2)){
+			name = genPrefix(xfactor) + "." + genItem(xfactor) + "." + genTLA(xfactor);
+		}else{
+			name = r.element(prefix) + "." + genTLA(xfactor);
+		}
+
 		var ass = new bjs.asset(name, name, "", genType(xfactor), genOwner(xfactor), genDept(xfactor), "", "", 0, 0, 0, "");
 		ass.notbefore = r.next(6);
 		ass.latency = 1;
-		w.assets[name] = ass
+		w.assets[name] = ass;
 
 		attrs += r.next(5)-2;
-		if(r.next(10)==1) attrs *=2;
+		attrs += xfactor * 2;
+		if(r.roll(2)) attrs *=2;
+		if(r.roll(2)) attrs *=2;
+		if(r.roll(2)) attrs *=2;
 
-		var dens = density;
-		if(dens>0)dens += r.next(2);
+		if(xfactor==0)
+			if(r.roll(5)) attrs = 1;
 
-		var fanfield = src1?r.element(src1.children):null;
+		var dolinks:boolean = srcs && srcs.length > 0;
+	
+		var dens = density + r.next(3) - 1;
+
+		var fanfield = dolinks?r.element(r.element(srcs).children):null;
+		var keysrc = dolinks?r.element(srcs):null;
+		var secondsrc = dolinks?r.element(srcs):null;
+		var importance = r.next(5);
 
 
 		var fnamebase = genFieldBase(xfactor)+genFieldMiddle(xfactor);
 
+		var dofan =r.roll(5);
+		var dodirect=r.roll(3);
+		var dosuperfield=r.roll(5) && superfields && superfields.length > 0;
+
+
 		for(var i=0; i < attrs; ++i){
-			if(r.next(10)==1){
+			if(r.roll(10)){
 				fnamebase = genFieldBase(xfactor)+genFieldMiddle(xfactor);
 			}
-			var fname = name + ":" + fnamebase + genFieldSuffix(xfactor);
-			var f = new bjs.field(fname, fname, "", ass, null, "", "", "", 0, 0, 0, "");
-			w.fields[fname] = f;
+			var fname = fnamebase + genFieldSuffix(xfactor);
+			var f = new bjs.field(name + ":" + fname, fname, "", ass, null, "", "", "", 0, 0, 0, "");
+			if(xfactor==2)f.importance = importance;
+			w.fields[f.fullname] = f;
 			w.fielda.push(f);
 			ass.children.push(f);
 			f.asset = ass;
 
-			if(dens==0)
+			if(!dolinks)
 				continue;
 
-			if(r.next(10)==1){
-
+			if(dofan){
 				var rel = new bjs.rel(fanfield, f, "filter");
 				w.rels.push(rel);
-			}else if(r.next(10)==1){
-				var rel = new bjs.rel(src1.children[i%src1.children.length], f, "measure");
+			}
+
+			if(dosuperfield){
+				var rel = new bjs.rel(r.element(superfields), f, "measure");
+				w.rels.push(rel);
+			}
+
+			if(dodirect){
+				var rel = new bjs.rel(keysrc.children[i%keysrc.children.length], f, "measure");
 				w.rels.push(rel);
 			}else{
 
 				for(var j=0;j<dens;++j){
-					var srcfield = r.element(src1.children);
-					if (r.next(3)==1 && src2 != null) srcfield = r.element(src2.children);
-					if (r.next(9)==1 && src3 != null) srcfield = r.element(src3.children);
-					var rel = new bjs.rel(srcfield, f, r.next(2)?"measure":"filter");
+					var srcfield = r.element(keysrc.children);
+					if (r.roll(3)) srcfield = r.element(secondsrc.children);
+					var rel = new bjs.rel(srcfield, f, r.roll(2)?"measure":"filter");
 					w.rels.push(rel);
 				}
 			}
 
 			
 
-			if(r.next(8)==1){
-				f.quality = 1 + r.next(10)/10;
+			if(r.roll(3)){
+				f.quality = 1 + r.next(10)/5;
 			}
 
-			if(r.next(16)==1){
+			if(r.roll(6)){
 				f.risk = 1;
 			}
 		}

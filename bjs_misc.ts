@@ -38,6 +38,10 @@ namespace bjs{
     		return Math.floor(this.cache[this.idx] * n);
     	}
 
+        roll(n:number):boolean{
+            return this.next(n)==0;
+        }
+
         element(p:any[]):any{
             if(!p){
                 return null;
