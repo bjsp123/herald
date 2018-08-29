@@ -83,6 +83,7 @@ namespace bjs {
     
 /////////// core data model
 	
+	
 	export class term implements cloneable{
 		children: field[]=[];
 		fullname:string;

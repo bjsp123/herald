@@ -1,12 +1,14 @@
 <html>
 
 <head>
-	<title>Lucid Lineage</title>
+	<title>Clarity Metadata</title>
 
 
 	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/herald/easyui.css">
 	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/icon.css">
-	
+
+	<script type="text/javascript" src="lib/papaparse.min.js"></script>
+
 	<script type="text/javascript" src="lib/jeasy/jquery.min.js"></script>
 	<script type="text/javascript" src="lib/jeasy/jquery.easyui.min.js"></script>
 
@@ -208,6 +210,7 @@
     	config = new bjs.config();
 
         $("#jsondlg").hide();
+        $("#csvdlg").hide();
         
         $('#ctrl_thedate').datebox('setValue', '1/3/2016');
 
@@ -267,6 +270,7 @@
         });
         
         d3.select("#ctrl_load_btn").on("click", function(d) {
+            rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
             refresh();
         });
 
@@ -275,6 +279,7 @@
             refresh();
         });
 
+        bjs.lg_inf("date " + theDate);
 
     	rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
     }
@@ -379,6 +384,24 @@
         });
     }
 
+        function importCsv(){
+            $("#csvdlg").show();
+            $("#csvdlg").dialog({
+                minimizable:true,
+                maximizable:true,
+                resizable:true,
+                buttons:[{
+                    text:"Load CSV",
+                    iconCls:"icon-herald-load",
+                    handler:loadActualCsv
+                },{
+                    text:"Cancel",
+                    iconCls:"icon-herald-clear",
+                    handler:function(){$("#csvdlg").hide();}
+                }]
+            });
+        }
+
     function loadActualJson(){
 
         var jsonstring = $("#ctrl_json").val();
@@ -391,6 +414,18 @@
         refresh();
 
     }
+
+        function loadActualCsv(){
+
+            var csvstring = $("#ctrl_csv").val();
+            try{
+                var 
+            }catch(e){
+                bjs.lg_err("Unable to parse CSV: " + e);
+            }
+            refresh();
+
+        }
 
     function mouseOverHandler(d) {
 
@@ -633,6 +668,7 @@
 							<li>
 								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
 								<a href="#" onclick="importJson();">Import Json</a>
+								<a href="#" onclick="importCsv();">Import Csv</a>
 							</li>
 						</ul>
 					</li>
@@ -999,6 +1035,13 @@
 
 
 </div>
+
+
+	<div id="csvdlg" title="Import JSON">
+		<textarea class="csvbox"  rows="80" name="ctrl_csv" id="ctrl_csv"></textarea>
+
+
+	</div>
 
 
 
