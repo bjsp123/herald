@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>Lucid Lineage</title>
+	<title>Clarity Metadata</title>
 
 
 	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/herald/easyui.css">
@@ -267,6 +267,7 @@
         });
         
         d3.select("#ctrl_load_btn").on("click", function(d) {
+            rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
             refresh();
         });
 
@@ -275,6 +276,7 @@
             refresh();
         });
 
+        bjs.lg_inf("date " + theDate);
 
     	rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
     }
