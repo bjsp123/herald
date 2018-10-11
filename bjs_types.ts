@@ -221,7 +221,7 @@ namespace bjs {
 		}
 		
 		public hasNoLineage():boolean{
-			return this.sources.length == 0 && this.formula.length == 0;
+			return this.sources.length == 0 && !this.formula;
 		}
 
 		public isLogical():boolean{
@@ -383,9 +383,11 @@ namespace bjs {
 		handed: bjs.handed=bjs.handed.low;
 		padding = -1;//used by cola
 		pts:pt[] = null; //points represent a dependency seen as a point rather than a link
+		name: string = "";
 		
 		constructor(public view:view, public asset: asset){
 			this.fullname=asset?asset.fullname:"anon";
+			this.name = asset?(asset.name||asset.fullname):"anon";
 			this.id=this.fullname+Math.random();
 		}
 	}

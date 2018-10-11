@@ -1,0 +1,1058 @@
+<html>
+
+<head>
+	<title>Clarity Metadata for Solidatus</title>
+
+	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/herald/easyui.css">
+	<link rel="stylesheet" type="text/css" href="lib/jeasy/themes/icon.css">
+
+
+	<script type="text/javascript" src="lib/jeasy/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/jeasy/jquery.easyui.min.js"></script>
+
+	<link rel="stylesheet" href="dd_styles.css">
+	<link rel="stylesheet" href="lib/menu.css">
+
+	<script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
+	<script type="text/javascript" src="lib/cola.js"></script>
+	<script type="text/javascript" src="lib/thenBy.js"></script>
+
+	<script type="text/javascript" src="lucid.js"></script>
+
+	<script>
+
+        //solidatus auth token
+        var token;
+        //solidatus available model info
+		var solidatusModels=[];
+		var theModelId;//nothin's easy with jeasyui!
+
+        //global selections
+        var svg = {};
+        var rawWorld = null; // unfiltered world
+        var bip = {}; //our reference to the current visualizer, which refers to its modelview(?)
+        var w = {}; //the global world (filtered)
+        var config= new bjs.config();
+        var theFilter = new bjs.filter("","","","",true,true,false);
+        var theSquash = new bjs.squash("","","",false);
+        var theFocus = new bjs.filter("","","","",true,true,true);
+        var theDims = new bjs.dimensions();
+        var theDate = new Date("1/3/2016");
+
+        function shBipart(){
+            bip = new bjs.bp_view();
+            $("#opt_adjust_links").show();
+            $("#opt_adjust_order").show();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+        function shStats(){
+            bip = new bjs.bp_stats();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").hide();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").show();
+            $("#opt_yaxis").show();
+            $("#opt_zaxis").show();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").hide();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+        function shScatter(){
+            bip = new bjs.scatter_view();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").hide();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").show();
+            $("#opt_yaxis").show();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+        function shHive(){
+            bip = new bjs.hive_view();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").show();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+        function shMatrix(){
+            bip = new bjs.cm_view();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").show();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").show();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+        function shFlow(){
+            bip = new bjs.flow_view();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").hide();
+            $("#opt_floworder").show();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+        function shCola(){
+            bip = new bjs.cola_view();
+            $("#opt_adjust_links").show();
+            $("#opt_adjust_order").hide();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").show();
+            clear();
+            refresh();
+        }
+
+        function shBlocks(){
+            bip = new bjs.block_view();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").hide();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").hide();
+            $("#opt_highlight").show();
+            $("#opt_influence").show();
+            $("#opt_block").show();
+            clear();
+            refresh();
+        }
+
+        function shTree(){
+            bip = new bjs.tree_view();
+            $("#opt_adjust_links").hide();
+            $("#opt_adjust_order").hide();
+            $("#opt_floworder").hide();
+            $("#opt_xaxis").hide();
+            $("#opt_yaxis").hide();
+            $("#opt_zaxis").hide();
+            $("#opt_node_cp").show();
+            $("#opt_link_cp").show();
+            $("#opt_highlight").show();
+            $("#opt_influence").hide();
+            $("#opt_block").hide();
+            clear();
+            refresh();
+        }
+
+
+        function init() {
+
+            svg = d3.select("svg");
+
+            bjs.hover = mouseOverHandler;
+
+            config = new bjs.config();
+
+            $("#solidatusdlg").hide();
+            $("#requestdlg").hide();
+
+            $('#ctrl_thedate').datebox('setValue', '1/3/2016');
+
+            d3.select("#ctrl_filter_btn").on("click", function(d) {
+
+                var inc = $("#ctrl_inc").val().trim();
+                var exc = $("#ctrl_exc").val().trim();
+                var inc_rels = $("#ctrl_inc_left").val().trim();
+                var exc_rels = $("#ctrl_exc_left").val().trim();
+                var grab_left = $("#ctrl_grab_left")[0].checked;
+                var grab_right = $("#ctrl_grab_right")[0].checked;
+
+                theFilter = new bjs.filter(inc, exc, inc_rels, exc_rels, grab_left, grab_right, false);
+
+                refresh();
+            });
+
+            d3.select("#ctrl_squash_btn").on("click", function(d) {
+
+                var el_fields = $("#ctrl_el_fields").val().trim();
+                var el_assets = $("#ctrl_el_assets").val().trim();
+                var el_internal = $("#ctrl_el_internal")[0].checked;
+                var cr_assets = $("#ctrl_cr_assets").val().trim();
+
+                theSquash = new bjs.squash(el_fields, el_assets, cr_assets, el_internal);
+
+                refresh();
+            });
+
+            d3.select("#ctrl_focus_btn").on("click", function(d) {
+
+                var inc = $("#ctrl_inc_focus").val().trim();
+                var exc = $("#ctrl_exc_focus").val().trim();
+                var grab = $("#ctrl_grab_focus")[0].checked;
+
+                theFocus = new bjs.filter(inc, exc, "", "", grab, grab, true);
+
+                redraw();
+            });
+
+            d3.select("#ctrl_squash_clear_btn").on("click", function(d) {
+                theSquash = new bjs.squash("","","",false);
+
+                refresh();
+            });
+
+            d3.select("#ctrl_filter_clear_btn").on("click", function(d) {
+                theFilter = new bjs.filter("","","","",true,true,false);
+
+                refresh();
+            });
+
+            d3.select("#ctrl_focus_clear_btn").on("click", function(d) {
+                theFocus = new bjs.filter("","","","",true,true,true);
+
+                redraw();
+            });
+
+            d3.select("#ctrl_connect_btn").on("click", function(d) {
+
+                connectSolidatus(
+                    $("#ctrl_url").val().trim(),
+                    $("#ctrl_user").val().trim(),
+                    $("#ctrl_pwd").val().trim(),
+                    true);
+            });
+
+            d3.select("#ctrl_load_btn").on("click", function(d) {
+                fetchSolidatusWorld("5bbb67fcf0898800011ebe01");
+            });
+
+            d3.select("#ctrl_import_btn").on("click", function(d) {
+                importSolidatus();
+            });
+
+            d3.select("#ctrl_gen_btn").on("click", function(d) {
+                rawWorld=bjs_data_gen.generateWorld(5, 7, 9, 8, 2);
+                bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
+                refresh();
+            });
+
+            bjs.lg_inf("date " + theDate);
+        }
+
+        function connectSolidatus(url, user, pwd, fetchModelList){
+
+            $("#span_connection_status").text("Connecting...");
+
+            fetch(url + "/connect/token", {
+                mode:"cors",
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "username=" + user + "&password=" + pwd + "&client_id=ro.client&client_secret=ro.client&grant_type=password&scope=api1"
+            })
+                .then(resp => resp.json())
+                .then(function(data) {
+
+                    token = data["access_token"];
+                    console.log("Obtained Solidatus token " + token);
+
+                    $("#span_connection_status").text("Connected");
+
+                    if(fetchModelList){
+                        fetchSolidatusModelList();
+                    }
+                })
+                .catch(function(error) {
+                    console.log('Unable to connect to Solidatus server: ', error);
+                    alert("Unable to connect to Solidatus server:\n" + error);
+
+                    $("#span_connection_status").text("Connection Failed");
+                });
+        }
+
+        function fetchSolidatusModelList(){
+
+            var url = $("#ctrl_url").val().trim();
+
+            fetch(url +  "/api/v1/models", {
+                headers:{
+                    "Authorization": "Bearer " + token
+                }
+            })
+                .then(function(resp){
+                    if(!resp.ok){
+                        console.log("Error downloading model list: " + resp.error + " " + resp.status);
+                        alert("Unable to download Solidatus model list:\n" + resp.error + " " + resp.status);
+                    }
+                    return resp.json();
+                })
+                .then(function(data){
+                    if(!data){
+                        console.log("No model list retrieved");
+                        return;
+                    }else{
+                        console.log("Retrieved model list");
+                    }
+
+                    solidatusModels = data.items;
+
+                    var modelNames = solidatusModels.map(x=>x.name);
+
+                    var opts = [];
+
+                    for(var i=0; i < solidatusModels.length;++i){
+                        opts.push({value:solidatusModels[i].id, text:solidatusModels[i].name});
+					}
+
+                    $('#ctrl_model_list').combobox('loadData', opts);
+
+                    var t = $('#ctrl_model_list').combobox('getData');
+                })
+                .catch(function(error) {
+                    console.log('Unable to load Solidatus model list: \n', error);
+                });
+
+        }
+
+        function fetchSolidatusWorld(modelname) {
+
+            var url = $("#ctrl_url").val().trim();
+
+            if(!token){
+                alert("Not connected to Solidatus");
+			}
+
+            if(!theModelId){
+                alert("No Solidatus model selected.");
+                return;
+            }
+
+
+            fetch(url +  "/api/v1/models/" + theModelId + "/load", {
+                headers:{
+                    "Authorization": "Bearer " + token
+                }
+            })
+                .then(function(resp){
+                    if(!resp.ok){
+                        console.log("Error downloading model: " + resp.error + " " + resp.status);
+                        alert("Unable to download Solidatus model: " + resp.error + " " + resp.status);
+                    }
+
+                    return resp.json()
+                })
+                .then(function(data){
+
+                    if(!data){
+                        console.log("No model retrieved");
+                        return;
+                    }else{
+                        console.log("Retrieved model: " + data.model.name);
+                    }
+
+                    rawWorld = bjs_data_solidatus.loadSolidatusModel(data.data, null);
+
+                    bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
+                    refresh();
+
+                })
+                .catch(function(error) {
+                    console.log('Unable to load Solidatus model: \n', error);
+                });
+
+        }
+
+        function onOptChanged(chk){
+            config.optimize = chk;
+            redraw();
+        }
+
+        function onReOrdChanged(chk){
+            config.reorder = chk;
+            redraw();
+        }
+
+        function onFOChanged(r){
+            config.floworder=bjs.floworder[r.value];
+            redraw();
+        }
+
+        function onXOChanged(r){
+            config.xorder=bjs.xyorder[r.value];
+            redraw();
+        }
+
+        function onYOChanged(r){
+            config.yorder=bjs.xyorder[r.value];
+            redraw();
+        }
+
+        function onZOChanged(r){
+            config.zorder=bjs.xyorder[r.value];
+            redraw();
+        }
+
+        function onInfChanged(r){
+            config.infFlag=bjs.infFlag[r.value];
+            redraw();
+        }
+
+        function onNCPChanged(r){
+            config.nodeColorplan=bjs.colorplan[r.value];
+            redraw();
+        }
+
+        function onLCPChanged(r){
+            config.linkColorplan=bjs.linkColorplan[r.value];
+            redraw();
+        }
+
+        function onHLChanged(r){
+            config.showDetail=bjs.showDetail[r.value];
+            redraw();
+        }
+
+        function onBlockChanged(r){
+            config.blockplan=bjs.blockplan[r.value];
+            redraw();
+        }
+
+        function onDateChanged(date){
+            theDate =date;
+        }
+
+        function onModelListChanged(r){
+            theModelId=r.value;
+		}
+
+
+        function refresh() {
+            if(!rawWorld) return;
+            w = bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
+            redraw();
+        }
+
+
+        function redraw() {
+            mouseOverHandler(null);
+            bip.render(svg, w, config, theFocus, theDims);
+        }
+
+        function clear() {
+            d3.selectAll("svg > *").remove();
+        }
+
+
+        $(document).ready(function() {
+            init();
+            shBlocks();
+        });
+
+        function importSolidatus(){
+            $("#solidatusdlg").show();
+            $("#solidatusdlg").dialog({
+                minimizable:true,
+                maximizable:true,
+                resizable:true,
+                buttons:[{
+                    text:"Load Solidatus Model",
+                    iconCls:"icon-herald-load",
+                    handler:loadActualSolidatusModel
+                },{
+                    text:"Cancel",
+                    iconCls:"icon-herald-clear",
+                    handler:function(){$("#solidatusdlg").hide();}
+                }]
+            });
+        }
+
+        function loadActualSolidatusModel(){
+
+            var jsonstring = $("#ctrl_solidatus").val();
+
+            try{
+                var soldata = $.parseJSON(jsonstring);
+
+                rawWorld = bjs_data_solidatus.loadSolidatusModel(soldata);
+                bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
+            }catch(e){
+                bjs.lg_err("Unable to parse Solidatus model: " + e);
+            }
+            refresh();
+
+        }
+
+        function mouseOverHandler(d) {
+
+            var name = "",
+                summary = "",
+                details = "";
+            stats = "";
+            terms = "";
+
+            if (d != null) {
+
+                if(d.itemtype == "block"){
+                    name += d.name;
+                    summary += d.kind + " " + d.name + "</br>";
+                    summary += d.asset_count + " assets.</br>";
+                    summary += d.field_count + " fields.</br>";
+                }
+
+                if (d.itemtype == "node") {
+                    if(d.isLogical()){
+                        name += "A logical node not associated with a field.";
+                    }else{
+                        name += "Field: " + d.field.name + "<br/>";
+                        name += "ID: " + d.field.fullname;
+
+                        summary += d.field.desc + "<br/>";
+                        summary += "Type: " + d.field.type + "<br/>";
+                        summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
+
+                        details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
+
+                        details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li>";
+                        details += "<li>Quality/Error: " + (d.field.effquality).toFixed(2) + "</li></ul>";
+
+                        details += "<h3>Other:</h3>";
+                        if(d.field.effnolineage) details += "Lineage is incomplete.<br/>";
+                        details += "Available from day " + d.field.asset.effnotbefore + "<br/>";
+                        if(d.field.isLogical()) details += "This field is a placeholder, not a physical field.</br>"
+                        if(d.field.flags != "") details += "Features: " + d.field.flags + "<br/>";
+
+                        stats += "<h3>Role:</h3><ul><li>Distance from source: " + d.field.ldepth + "</li>";
+                        stats += "<li>Distance from output: " + d.field.rdepth + "</li>";
+                        stats += "<li>Complexity: " + d.field.getComplexity() + "</li>";
+                        stats += "<li>Influence: " + d.field.getInfluence() + "</li>";
+                        stats += "<li>Dependencies: " + d.field.getDependencies() + "</li>";
+                        stats += "<li>Filters: " + d.field.getFilters() + "</li></ul>";
+
+                        stats += "<h3>Risk:</h3><ul><li>Total Risk: " + d.field.effrisk + " </li>";
+                        if(d.field.risk > 0){
+                            stats += "<li>Inherent risk: " + d.field.risk + "</li>";
+                        }
+                        if(d.field.asset.risk > 0){
+                            stats += "<li>From asset risk: " + d.field.asset.risk + "</li>";
+                        }
+                        for(var i=0;i<d.field.sources.length;++i){
+                            if(d.field.sources[i].effrisk > 0){
+                                stats += "<li>From " + d.field.sources[i].fullname + ": " + d.field.sources[i].effrisk + "</li>";
+                            }
+                        }
+                        stats += "</ul>";
+
+                        stats += "<h3>Quality/Error:</h3><ul><li>Total Error: " + d.field.effquality.toFixed(2) + " </li>";
+                        if(d.field.quality > 1){
+                            stats += "<li>Inherent error: " + d.field.quality.toFixed(2) + "</li>";
+                        }
+                        for(var i=0;i<d.field.sources.length;++i){
+                            if(d.field.sources[i].effquality > 1){
+                                stats += "<li>From " + d.field.sources[i].fullname + ": " + d.field.sources[i].effquality.toFixed(2) + "</li>";
+                            }
+                        }
+                        stats += "</ul>";
+
+                        stats += "<h3>Importance:</h3><ul><li>Total Importance: " + d.field.effimportance + " </li>";
+                        if(d.field.importance > 0){
+                            stats += "<li>Inherent importance: " + d.field.importance + "</li>";
+                        }
+                        for(var i=0;i<d.field.targets.length;++i){
+                            if(d.field.targets[i].effimportance > 0){
+                                stats += "<li>From " + d.field.targets[i].fullname + ": " + d.field.targets[i].effimportance + "</li>";
+                            }
+                        }
+                        stats += "</ul>";
+
+
+                        if(d.field.term != null){
+                            terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
+                            if(d.field.term.flags != "") terms += "<br/>Term features: " + d.field.term.flags;
+                        }else{
+                            terms += "Not associated with any business term";
+                        }
+                    }
+
+                }
+
+                if (d.itemtype == "group") {
+                    name += "Group: " + d.fullname + " <br/>;"
+                    name += "Asset: " + (d.asset?d.asset.fullname:"n/a");
+
+                    summary += d.asset.desc + "<br/>";
+                    summary += "Type: " + d.asset.type + "<br/><br/>";
+
+                    if(d.asset != null){
+
+                        details += "<h3>Content:</h3><ul><li>Description: " + d.asset.desc + "</li><li>Located At: " + bjs.breakPath(d.asset.location) +  + "</li><li>Calculated In: " + bjs.breakPath(d.asset.calc) + "</li></ul>";
+
+                        details += "<h3>Ownership:</h3><ul><li>Staff member: " + d.asset.owner + "</li><li>Team: " + d.asset.dept + "</li></ul>";
+
+                        details += "<h3>Risk Characteristics:</h3><ul><li>Direct Risk: " + d.asset.risk + "</li></ul>";
+
+                        details += "<h3>Timing Characteristics:</h3><ul><li>Available From:  Day " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + " Days </li><li>Theoretical Earliest: Day " + d.asset.notbefore + "</li></ul>";
+
+                        stats += "<h3>Role:</h3><ul><li>Distance from source: " + d.asset.ldepth + "</li><li>Distance from output: " + d.asset.rdepth + "</li></ul>";
+
+                        stats += "<h3>Timing:</h3>Available from WD " + d.asset.effnotbefore + "<br/>";
+
+                        for(var afn in d.asset.ancestors){
+                            var anc = d.asset.ancestors[afn];
+                            if(anc.tcritpath){
+                                stats += "Limited by: " + anc.asset.fullname + " WD " + anc.asset.effnotbefore + "<br/>";
+                            }
+                        }
+
+
+                    }
+
+                    else {
+                        summary = "Group is not based on a data asset";
+                        details = "n/a";
+                    }
+
+                }
+
+                if(d.itemtype == "pt") {
+                    name += "Relationship source: " + d.source.fullname + "<br/>";
+                    name += "Relationship target: " + d.target.fullname + "<br/>";
+
+                    details += "Relationship distance: " + d.depth + "<br/>";
+                    details += "Relationship type: " + (d.isFilter?"filter":"measure") + "<br/>";
+
+                }
+
+            } else {
+                name = "<br/><br/>";
+                summary = "<br/><br/><br/>";
+                details = "<br/>";
+                stats = "<br/>";
+                terms = "<br/>";
+            }
+
+            d3.select("#object_name").html(name);
+            d3.select("#object_summary").html(summary);
+            d3.select("#object_details").html(details);
+            d3.select("#object_stats").html(stats);
+            d3.select("#object_terms").html(terms);
+        }
+	</script>
+</head>
+
+<body>
+
+<div class="headerstrip">
+	Kinaesis Clarity for Solidatus
+</div>
+
+<nav id="menu-wrap">
+	<ul id="menu">
+		<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
+		<li>
+			<a href="#">Visualization</a>
+			<ul>
+				<li>
+					<a href="#" onclick="shMatrix();">Matrix</a>
+				</li>
+				<li>
+					<a href="#" onclick="shTree();">Tree</a>
+				</li>
+				<li>
+					<a href="#" onclick="shStats();">Stats</a>
+				</li>
+				<li>
+					<a href="#" onclick="shBipart();">Bipartite</a>
+				</li>
+				<li>
+					<a href="#" onclick="shHive();">Hive</a>
+				</li>
+				<li>
+					<a href="#" onclick="shFlow();">Flow</a>
+				</li>
+				<li>
+					<a href="#" onclick="shCola();">Constrained</a>
+				</li>
+				<li>
+					<a href="#" onclick="shBlocks();">High Level</a>
+				</li>
+				<li>
+					<a href="#" onclick="shScatter();">Scatter</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+
+<div class="easyui-layout" style="width:100%;height:100%;">
+
+	<div data-options="region:'east',split:true,hideCollapsedContent:false" title="Object Info" style="width:300px;">
+		<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
+			<div title="Object ID" class="sidepanel">
+				<div id="object_name" class="info"></div>
+			</div>
+			<div title="Summary" class="sidepanel">
+				<div id="object_summary" class="info"></div>
+			</div>
+			<div title="Related Terms" class="sidepanel">
+				<div id="object_terms" class="info"></div>
+			</div>
+			<div title="Details" class="sidepanel">
+				<div id="object_details" class="info"></div>
+			</div>
+			<div title="Stats" class="sidepanel">
+				<div id="object_stats" class="info"></div>
+			</div>
+		</div>
+	</div>
+
+	<div data-options="region:'west',split:true,hideCollapsedContent:false" title="Controls" style="width:340px;">
+
+		<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
+			<div title="Solidatus Connection" class="sidepanel">
+				<table>
+					<tr>
+						<td class="formlabel">Include:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_url" id="ctrl_url" value="https://ci-dev-2.solidatus.com">
+
+							</input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Include:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_user" id="ctrl_user" value="benjamin.peterson@kinaesis.com">
+
+							</input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Include:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_pwd" id="ctrl_pwd" value="75Ku28a0">
+
+							</input></td>
+					</tr>
+
+					<tr>
+						<td>
+							<a href="#" name="ctrl_connect_btn" id="ctrl_connect_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Connect</a>
+						</td>
+						<td><span id="span_connection_status" class="notification_span">Not Connected</span></td>
+					</tr>
+
+
+				</table>
+			</div>
+			<div title="Solidatus Data" class="sidepanel">
+				<table>
+					<tr>
+						<td class="formlabel">Model:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_model_list" name="ctrl_model_list" data-options="onSelect: onModelListChanged">
+						</select></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a href="#" name="ctrl_load_btn" id="ctrl_load_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Load Model</a>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a href="#" name="ctrl_gen_btn" id="ctrl_gen_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Generate</a>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a href="#" name="ctrl_import_btn" id="ctrl_import_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-load'">Import Model</a>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+			<div title="Filter" class="sidepanel">
+				<table cellpadding="5">
+					<tr>
+						<td class="formlabel">Include:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_inc" id="ctrl_inc"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Exclude:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_exc" id="ctrl_exc"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Include Related:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_inc_left" id="ctrl_inc_left"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Exclude Related:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_exc_left" id="ctrl_exc_left"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Add Ancestors:</td>
+						<td><input id="ctrl_grab_left" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'" /></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Add Descendants:</td>
+						<td><input id="ctrl_grab_right" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a href="#" name="ctrl_filter_btn" id="ctrl_filter_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-filter'">Filter</a>
+							<a href="#" name="ctrl_filter_clear_btn" id="ctrl_filter_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-clear'">Clear</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div title="Simplify" class="sidepanel">
+				<table>
+					<tr>
+						<td class="formlabel">Eliminate Fields:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_el_fields" id="ctrl_el_fields"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Eliminate Assets:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_el_assets" id="ctrl_el_assets"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Compress Assets:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_cr_assets" id="ctrl_cr_assets"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Resolve Inner Links:</td>
+						<td><input id="ctrl_el_internal" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a href="#" name="ctrl_squash_btn" id="ctrl_squash_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-filter'">Simplify</a>
+							<a href="#" name="ctrl_squash_clear_btn" id="ctrl_squash_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-clear'">Clear</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div title="Focus" class="sidepanel">
+				<table>
+					<tr>
+						<td class="formlabel">Include:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_inc_focus" id="ctrl_inc_focus"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Exclude:</td>
+						<td><input class="easyui-textbox" type="text" name="ctrl_exc_focus" id="ctrl_exc_focus"></input></td>
+					</tr>
+					<tr>
+						<td class="formlabel">Add Relatives:</td>
+						<td><input id="ctrl_grab_focus" class="easyui-switchbutton" checked style="width:100px;height:24px" data-options="onText:'Yes',offText:'No'" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a href="#" name="ctrl_focus_btn" id="ctrl_focus_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-filter'">Focus</a>
+							<a href="#" name="ctrl_focus_clear_btn" id="ctrl_focus_clear_btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'icon-herald-clear'">Clear</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div title="View Options" class="sidepanel">
+				<table>
+					<tr id="opt_adjust_links">
+						<td class="formlabel">Comb Links:</td>
+						<td><input id="ctrl_opt" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onOptChanged" /></td>
+					</tr>
+					<tr id="opt_adjust_order">
+						<td class="formlabel">Adjust Order:</td>
+						<td><input id="ctrl_reord" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onReOrdChanged" /></td>
+					</tr>
+					<tr id="opt_floworder">
+						<td class="formlabel">X Axis:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_fo" name="ctrl_fo" data-options="onSelect: onFOChanged">
+							<option value="shallowness">Output Order</option>
+							<option value="depth">Source Order</option>
+							<option value="timing">Timing</option>
+						</select></td>
+					</tr>
+
+					<tr id="opt_xaxis">
+						<td class="formlabel">X Axis:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_xo" name="ctrl_xo" data-options="onSelect: onXOChanged">
+							<option value="owner">Asset Owner</option>
+							<option value="shallowness">Output Order</option>
+							<option value="depth">Source Order</option>
+							<option value="timing">Timing</option>
+							<option value="quality">Quality/Error Factor</option>
+							<option value="risk">Risk Level</option>
+							<option value="importance">Importance</option>
+							<option value="term">Business Term</option>
+							<option value="complexity">Complexity</option>
+							<option value="influence">Influence</option>
+							<option value="filters">Filters</option>
+							<option value="dependencies">Dependencies</option>
+							<option value="asset">Asset Name</option>
+							<option value="type">Asset Type</option>
+							<option value="dept">Asset Department</option>
+							<option value="focus">Focus</option>
+						</select></td>
+					</tr>
+					<tr id="opt_yaxis">
+						<td class="formlabel">Y Axis:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_yo" name="ctrl_yo" data-options="onSelect: onYOChanged">
+							<option value="asset">Asset Department</option>
+							<option value="shallowness">Output Order</option>
+							<option value="depth">Source Order</option>
+							<option value="timing">Timing</option>
+							<option value="quality">Quality/Error Factor</option>
+							<option value="risk">Risk Level</option>
+							<option value="importance">Importance</option>
+							<option value="term">Business Term</option>
+							<option value="complexity">Complexity</option>
+							<option value="influence">Influence</option>
+							<option value="filters">Filters</option>
+							<option value="dependencies">Dependencies</option>
+							<option value="dept">Asset Name</option>
+							<option value="type">Asset Type</option>
+							<option value="owner">Asset Owner</option>
+							<option value="focus">Focus</option>
+						</select></td>
+					</tr>
+					<tr id="opt_zaxis">
+						<td class="formlabel">Z Axis:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_zo" name="ctrl_zo" data-options="onSelect: onZOChanged">
+							<option value="asset">Asset Type</option>
+							<option value="shallowness">Output Order</option>
+							<option value="depth">Source Order</option>
+							<option value="timing">Timing</option>
+							<option value="quality">Quality/Error Factor</option>
+							<option value="risk">Risk Level</option>
+							<option value="importance">Importance</option>
+							<option value="term">Business Term</option>
+							<option value="complexity">Complexity</option>
+							<option value="influence">Influence</option>
+							<option value="filters">Filters</option>
+							<option value="dependencies">Dependencies</option>
+							<option value="type">Asset Name</option>
+							<option value="owner">Asset Owner</option>
+							<option value="dept">Asset Department</option>
+							<option value="focus">Focus</option>
+						</select></td>
+					</tr>
+					<tr id="opt_node_cp">
+						<td class="formlabel">Node color plan:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_node_cp" name="ctrl_node_cp" data-options="onSelect: onNCPChanged">
+							<option value="cat">Asset Group</option>
+							<option value="flat">Flat</option>
+							<option value="asset">Asset</option>
+						</select></td>
+					</tr>
+					<tr id="opt_link_cp">
+						<td class="formlabel">Link color plan:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_link_cp" name="ctrl_link_cp" data-options="onSelect: onLCPChanged" selected="bynode">
+							<option value="bynode">Node Color</option>
+							<option value="bytype">Link Type</option>
+						</select></td>
+					</tr>
+					<tr id="opt_highlight">
+						<td class="formlabel">Highlight:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_hilite" name="ctrl_hilite" data-options="onSelect: onHLChanged" selected="none">
+							<option value="none">None</option>
+							<option value="risk">Risk Level</option>
+							<option value="quality">Quality/Error</option>
+							<option value="importance">Importance</option>
+							<option value="nolineage">Lineage Break</option>
+							<option value="timing">Timing</option>
+						</select></td>
+					</tr>
+					<tr id="opt_influence">
+						<td class="formlabel">Show Intersections:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_influence" name="ctrl_influence" data-options="onSelect: onInfChanged" selected="none">
+							<option value="all">All</option>
+							<option value="immediate">Immediate</option>
+							<option value="ultimate">Ultimate</option>
+						</select></td>
+					</tr>
+					<tr id="opt_block">
+						<td class="formlabel">Block plan:</td>
+						<td><select class="easyui-combobox" style="width:140px" id="ctrl_block" name="ctrl_block" data-options="onSelect: onBlockChanged">
+							<option value="none">None</option>
+							<option value="type">Asset Type</option>
+							<option value="owner">Asset Owner</option>
+							<option value="dept">Asset Department</option>
+							<option value="cat">Asset Group</option>
+						</select></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'center'">
+		<div id="mycontentx">
+			<svg id="vis" viewbox="0 0 2000 1600" preserveAspectRatio="xMinyMin meet"></svg>
+		</div>
+	</div>
+</div>
+
+
+
+</div>
+
+<div id="requestdlg" title="Requesting Model" style="width:400px;height:200px;" data-options="modal:true">
+	Requesting model data from server...
+</div>
+
+<div id="solidatusdlg" title="Import Solidatus Model">
+	<textarea class="importbox" rows="80" name="ctrl_solidatus" id="ctrl_solidatus"></textarea>
+</div>
+
+
+
+</body>
+
+</html>

@@ -82,7 +82,7 @@ namespace bjs {
         case bjs.xyorder.dept:
         return scale(n.field.asset?n.field.asset.dept:"na");
         case bjs.xyorder.focus:
-        return scale(bjs_data_json.isMatch(n.field, focus)?"Y": "N");
+        return scale(bjs_data_inference.isMatch(n.field, focus)?"Y": "N");
         default:
         return scale(n.field.asset.rdepth);
       }
@@ -170,7 +170,7 @@ namespace bjs {
           if(a.field.asset==null || b.field.asset == null) return 0;
           return bjs.strcmp(a.field.asset.dept, b.field.asset.dept);
         case bjs.xyorder.focus:
-          return (bjs_data_json.isMatch(a.field, focus)?1:0) - (bjs_data_json.isMatch(b.field, focus)?1:0);
+          return (bjs_data_inference.isMatch(a.field, focus)?1:0) - (bjs_data_inference.isMatch(b.field, focus)?1:0);
         default:
         return 0;
       }

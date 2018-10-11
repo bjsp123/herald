@@ -271,17 +271,20 @@
         
         d3.select("#ctrl_load_btn").on("click", function(d) {
             rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
+            bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
             refresh();
         });
 
         d3.select("#ctrl_gen_btn").on("click", function(d) {
             rawWorld=bjs_data_gen.generateWorld(5, 7, 9, 8, 2);
+            bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
             refresh();
         });
 
         bjs.lg_inf("date " + theDate);
 
     	rawWorld = bjs_data_json.loadJson(testdata.test1, theDate);
+        bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
     }
 
     function onOptChanged(chk){
@@ -345,7 +348,7 @@
 
 
     function refresh() {
-    	w = bjs_data_json.processWorld(rawWorld, theFilter, theSquash);
+    	w = bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
     	redraw();
     }
 
@@ -383,6 +386,23 @@
             }]
         });
     }
+        function importSolidatus(){
+            $("#solidatusdlg").show();
+            $("#solidatusdlg").dialog({
+                minimizable:true,
+                maximizable:true,
+                resizable:true,
+                buttons:[{
+                    text:"Load Solidatus Model",
+                    iconCls:"icon-herald-load",
+                    handler:loadActualSolidatusModel
+                },{
+                    text:"Cancel",
+                    iconCls:"icon-herald-clear",
+                    handler:function(){$("#solidatusdlg").hide();}
+                }]
+            });
+        }
 
         function importCsv(){
             $("#csvdlg").show();
@@ -408,6 +428,7 @@
         try{
             var jsonObj = $.parseJSON(jsonstring);
             rawWorld = bjs_data_json.loadJson(jsonObj);
+            bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
         }catch(e){
             bjs.lg_err("Unable to parse JSON: " + e);
         }
@@ -419,9 +440,28 @@
 
             var csvstring = $("#ctrl_csv").val();
             try{
-                var 
+                var csvdata = Papa.parse(csvstring);
+
+                rawWorld = bjs_data_csv.loadCsv(csvdata.data);
+                bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
             }catch(e){
                 bjs.lg_err("Unable to parse CSV: " + e);
+            }
+            refresh();
+
+        }
+
+        function loadActualSolidatusModel(){
+
+            var jsonstring = $("#ctrl_solidatus").val();
+
+            try{
+                var soldata = $.parseJSON(jsonstring);
+
+                rawWorld = bjs_data_solidatus.loadSolidatusModel(soldata);
+                bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
+            }catch(e){
+                bjs.lg_err("Unable to parse Solidatus model: " + e);
             }
             refresh();
 
@@ -667,6 +707,7 @@
 						<ul>
 							<li>
 								<a href="#" onclick="$('dialog_nopermission').dialog();">Import Excel</a>
+								<a href="#" onclick="importSolidatus();">Import Solidatus Model</a>
 								<a href="#" onclick="importJson();">Import Json</a>
 								<a href="#" onclick="importCsv();">Import Csv</a>
 							</li>
@@ -1031,18 +1072,21 @@
 </div>
 
 <div id="jsondlg" title="Import JSON">
-    <textarea class="jsonbox"  rows="60" name="ctrl_json" id="ctrl_json"></textarea>
+    <textarea class="importbox"  rows="60" name="ctrl_json" id="ctrl_json"></textarea>
 
 
 </div>
 
 
-	<div id="csvdlg" title="Import JSON">
-		<textarea class="csvbox"  rows="80" name="ctrl_csv" id="ctrl_csv"></textarea>
-
+	<div id="csvdlg" title="Import CSV">
+		<textarea class="importbox"  rows="80" name="ctrl_csv" id="ctrl_csv"></textarea>
 
 	</div>
 
+	<div id="solidatusdlg" title="Import Solidatus Model">
+		<textarea class="importbox"  rows="80" name="ctrl_solidatus" id="ctrl_solidatus"></textarea>
+
+	</div>
 
 
 

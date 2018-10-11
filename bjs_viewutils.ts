@@ -14,7 +14,7 @@ namespace bjs {
 
 
     export function getNodeColor(config:bjs.config, focus:bjs.filter, n:bjs.node):string {
-    	if(bjs_data_json.isMatch(n.field, focus)){
+    	if(bjs_data_inference.isMatch(n.field, focus)){
     		return "red";
     	}
     	
@@ -43,7 +43,7 @@ namespace bjs {
     
     export function getLinkColor(config:bjs.config, focus:bjs.filter, l:bjs.link):string {
     	
-    	if(bjs_data_json.isMatch(l.source.field, focus)){
+    	if(bjs_data_inference.isMatch(l.source.field, focus)){
     			return "red";
     	}
     	
@@ -59,7 +59,7 @@ namespace bjs {
     }
 
     export function getPtColor(config:bjs.config, focus:bjs.filter, pt:bjs.pt):string{
-    	if(bjs_data_json.isMatch(pt.source.field, focus)){
+    	if(bjs_data_inference.isMatch(pt.source.field, focus)){
     		return "red";
     	}
 
@@ -183,7 +183,8 @@ namespace bjs {
 		groupsel.select("text")
 			.attr("class", "grouplabel")
 			.text(function(d) {
-				return bjs.shortenString(d.fullname, 30);
+				var label = d.name||d.fullname;
+				return bjs.shortenString(label, 30);
 			})
 			.style("fill", function(d) {
 				return bjs.getColorFromName(config, d.fullname);
@@ -344,7 +345,8 @@ namespace bjs {
 			.attr("class", "grouplabel")
 			.text(function(d) {
 				if(d.handed == bjs.handed.none) return "";
-				return bjs.shortenString(d.fullname, 22);
+				var label = d.name||d.fullname;
+				return bjs.shortenString(label, 22);
 			})
 			.attr("x", function(d){return getlabelx(d);})
 			.attr("text-anchor", function(d){return gettextanchor(d);})
