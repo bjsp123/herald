@@ -7,13 +7,13 @@
         "sourceMap": true
     },
     "files": [
-      "bjs_bipartite.ts",
       "bjs_data_inference.ts",
+      "bjs_bipartite.ts",
       "bjs_data_csv.ts",
       "bjs_data_solidatus.ts",
       "bjs_data_json.ts",
       "bjs_cola.ts",
-      "bjs_comatrix",
+      "bjs_comatrix.ts",
       "bjs_blocks.ts",
       "bjs_hive.ts",
       "bjs_lineage.ts",

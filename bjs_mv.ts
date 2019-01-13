@@ -451,6 +451,7 @@ namespace bjs {
                     g = new bjs.group(view, null);
 
                     g.fullname = "Block: " + block;
+                    g.name = block;
                     found[block] = g;
                     mv.groupa.push(g);
                     mv.groups[g.fullname]=g;

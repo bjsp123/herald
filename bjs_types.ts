@@ -50,7 +50,8 @@ namespace bjs {
     	type,
     	owner,
     	dept,
-    	cat
+    	cat,
+		layer
     }
 
     export const enum xyorder {
@@ -93,6 +94,9 @@ namespace bjs {
 			this.fullname = code;
 			if (code == null || code == "") 
 				bjs.lg_err("Tried to create term with no code");
+
+			if(name == null || name == "")
+				this.name = this.code;
 		}
 		
 		public clone():term {
@@ -109,21 +113,26 @@ namespace bjs {
 		children: field[] = [];
 		ldepth = 0;
 		rdepth = 0;
+		size = 0;
+		rowsize = 0;
+		rowcount = 1;
 		
 		ancestors: IMap<ainfluence> = {};
 		descendants: IMap<ainfluence> = {};
 
 		effnotbefore: number = null;
 		
-		constructor(public fullname: string, public name: string, public location: string, public type: string, public owner: string, public dept:string, public desc: string, public calc: string, public notbefore: number, public latency: number, public risk: number, public comment: string) {
+		constructor(public fullname: string, public name: string, public location: string, public type: string, public owner: string, public dept:string, public desc: string, public calc: string, public notbefore: number, public latency: number, public risk: number, public crunchfactor: number, public comment: string, public layer: string) {
 			if (name == null || name == "") 
 				bjs.lg_err("Tried to create unnamed asset");
-			if(risk == null || risk == undefined)
+			if(risk == null || risk == undefined || isNaN(risk))
 				this.risk = 0;
-			if(notbefore==null || notbefore == undefined)
+			if(notbefore==null || notbefore == undefined || isNaN(notbefore))
 				this.notbefore = 0;
-			if(latency==null || latency == undefined)
+			if(latency==null || latency == undefined || isNaN(latency))
 				this.latency = 1;
+			if(crunchfactor==null || crunchfactor == 0 || isNaN(crunchfactor))
+				this.crunchfactor = 1;
 		}
 			
 		public resetvolatile(){
@@ -136,6 +145,9 @@ namespace bjs {
 			this.ldepth = 0;
 			this.rdepth = 0;
 			this.effnotbefore = null;
+			this.size=0;
+			this.rowsize=0;
+			this.rowcount = 1;
 		}
 		
 		public hasSources():boolean {
@@ -147,7 +159,7 @@ namespace bjs {
 		}
 		
 		public clone():asset{
-			return new asset(this.fullname, this.name, this.location, this.type, this.owner, this.dept, this.desc, this.calc, this.notbefore, this.latency, this.risk, this.comment);
+			return new asset(this.fullname, this.name, this.location, this.type, this.owner, this.dept, this.desc, this.calc, this.notbefore, this.latency, this.risk, this.crunchfactor, this.comment, this.layer);
 		}
 	}
 	
@@ -174,19 +186,21 @@ namespace bjs {
 		
 		itemtype = "field";
 		
-		constructor(public fullname: string, public name:string, public type: string, public asset: asset, public term: term, public desc: string, public formula: string, public flags: string, public quality: number, public risk: number, public importance: number, public comment: string) {
+		constructor(public fullname: string, public name:string, public type: string, public asset: asset, public term: term, public desc: string, public formula: string, public flags: string, public quality: number, public risk: number, public importance: number, public size: number, public cardinality:number, public comment: string) {
 			if (name == null || name == "") 
 				bjs.lg_err("Tried to create unnamed field");
 			if (asset == null) 
 				bjs.lg_err("Tried to create field " + name + " with no asset.");
-			if(risk == null || risk == undefined)
+			if(risk == null || risk == undefined || isNaN(risk))
 				this.risk = 0;
-			if(quality == null || quality == undefined || quality == 0)
+			if(quality == null || quality == undefined || quality == 0 || isNaN(quality))
 				this.quality = 1;
 			if(flags == null || flags == undefined)
 				this.flags = "";
-			if(importance == null || importance == undefined)
+			if(importance == null || importance == undefined || isNaN(importance))
 				this.importance = 0;
+			if(this.size==null || this. size < 1)
+				this.size = 1;
 				
 			this.cookie = this.fullname;
 		}
@@ -217,17 +231,28 @@ namespace bjs {
 		}
 		
 		public clone():field{
-			return new field(this.fullname, this.name, this.type, this.asset, this.term, this.desc, this.formula, this.flags, this.quality, this.risk, this.importance, this.comment);
+			return new field(this.fullname, this.name, this.type, this.asset, this.term, this.desc, this.formula, this.flags, this.quality, this.risk, this.importance, this.size, this.cardinality, this.comment);
 		}
 		
 		public hasNoLineage():boolean{
 			return this.sources.length == 0 && !this.formula;
 		}
 
+        public effectiveLineageStatus():string{
+            if(this.hasNoLineage()) return "Missing!";
+            if(this.effnolineage) return "Incomplete.";
+            return "Complete";
+        }
+
 		public isLogical():boolean{
 			if(this.flags.search("logical") != -1) return true;
 			return false;
 		}
+
+        public isPK():boolean{
+            if(this.flags.search("pk") != -1) return true;
+            return false;
+        }
 
 		public getComplexity():number {
 			return bjs.getComplexity(this);
@@ -489,6 +514,7 @@ namespace bjs {
 		public blockplan:bjs.blockplan=blockplan.none;
 		public color = d3.scale.ordinal().range( ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666969"]);
         public detailColor = d3.scale.quantile().range(["#0d2","#0c3","#0a5","#287","#469","#649","#8a7","#a25","#c03","#d02","#e01"]).domain([0,1]);
+        public showSize:boolean=false;
 
 	}
 

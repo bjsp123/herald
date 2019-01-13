@@ -50,7 +50,8 @@
     function shBipart(){
     	bip = new bjs.bp_view();
         $("#opt_adjust_links").show();  
-        $("#opt_adjust_order").show();  
+        $("#opt_adjust_order").show();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -67,7 +68,8 @@
     function shStats(){
         bip = new bjs.bp_stats();
         $("#opt_adjust_links").hide();  
-         $("#opt_adjust_order").hide(); 
+         $("#opt_adjust_order").hide();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").show();
         $("#opt_yaxis").show();
@@ -84,7 +86,8 @@
     function shScatter(){
         bip = new bjs.scatter_view();
         $("#opt_adjust_links").hide();  
-         $("#opt_adjust_order").hide(); 
+		$("#opt_adjust_order").hide();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").show();
         $("#opt_yaxis").show();
@@ -101,7 +104,8 @@
     function shHive(){
     	bip = new bjs.hive_view();
         $("#opt_adjust_links").hide();  
-         $("#opt_adjust_order").show(); 
+		$("#opt_adjust_order").show();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -118,7 +122,8 @@
     function shMatrix(){
     	bip = new bjs.cm_view();
         $("#opt_adjust_links").hide();  
-         $("#opt_adjust_order").show(); 
+		$("#opt_adjust_order").show();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -135,7 +140,8 @@
     function shFlow(){
     	bip = new bjs.flow_view();
         $("#opt_adjust_links").hide();  
-         $("#opt_adjust_order").hide(); 
+		$("#opt_adjust_order").hide();
+        $("#opt_show_size").show();
         $("#opt_floworder").show();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -152,7 +158,8 @@
     function shCola(){
     	bip = new bjs.cola_view();
         $("#opt_adjust_links").show();  
-        $("#opt_adjust_order").hide(); 
+        $("#opt_adjust_order").hide();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -169,7 +176,8 @@
     function shBlocks(){
         bip = new bjs.block_view();
         $("#opt_adjust_links").hide();  
-        $("#opt_adjust_order").hide(); 
+        $("#opt_adjust_order").hide();
+        $("#opt_show_size").show();
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -186,7 +194,8 @@
     function shTree(){
     	bip = new bjs.tree_view();
         $("#opt_adjust_links").hide();  
-        $("#opt_adjust_order").hide(); 
+        $("#opt_adjust_order").hide();
+        $("#opt_show_size").hide();
         $("#opt_floworder").hide();
         $("#opt_xaxis").hide();
         $("#opt_yaxis").hide();
@@ -296,6 +305,11 @@
         config.reorder = chk;
         redraw();
     }
+
+    function onShowSizeChanged(chk){
+            config.showSize = chk;
+            redraw();
+        }
 
     function onFOChanged(r){
         config.floworder=bjs.floworder[r.value];
@@ -505,6 +519,7 @@
                     details += "Available from day " + d.field.asset.effnotbefore + "<br/>";
                     if(d.field.isLogical()) details += "This field is a placeholder, not a physical field.</br>"
                     if(d.field.flags != "") details += "Features: " + d.field.flags + "<br/>";
+                    details += "Size " + d.field.size + "bytes<br/>";
 
         			stats += "<h3>Role:</h3><ul><li>Distance from source: " + d.field.ldepth + "</li>";
         			stats += "<li>Distance from output: " + d.field.rdepth + "</li>";
@@ -576,6 +591,8 @@
     				details += "<h3>Risk Characteristics:</h3><ul><li>Direct Risk: " + d.asset.risk + "</li></ul>";
 
     				details += "<h3>Timing Characteristics:</h3><ul><li>Available From:  Day " + d.asset.effnotbefore  + "</li><li>Inherent Latency: " + d.asset.latency + " Days </li><li>Theoretical Earliest: Day " + d.asset.notbefore + "</li></ul>";
+
+                    stats += "<h3>Size:</h3><ul><li>Row size " + d.asset.rowsize + " bytes</li><li>Row count " + d.asset.rowcount + "</li><li>Total size " + d.asset.size + "</li></ul>";
 
     				stats += "<h3>Role:</h3><ul><li>Distance from source: " + d.asset.ldepth + "</li><li>Distance from output: " + d.asset.rdepth + "</li></ul>";
     				
@@ -939,6 +956,10 @@
 						<tr id="opt_adjust_order">
 							<td class="formlabel">Adjust Order:</td>
 							<td><input id="ctrl_reord" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onReOrdChanged"/></td>
+						</tr>
+						<tr id="opt_show_size">
+							<td class="formlabel">Show Sizes:</td>
+							<td><input id="ctrl_showsize" class="easyui-switchbutton" style="width:100px;height:24px" data-options="onText:'Yes',offText:'No',onChange: onShowSizeChanged"/></td>
 						</tr>
                         <tr id="opt_floworder">
                             <td class="formlabel">X Axis:</td>

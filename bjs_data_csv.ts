@@ -4,18 +4,11 @@ declare var firstBy:any;
 
 namespace bjs_data_csv{
 
-	var assetNameMap:string[][] =
-		[
-			["LL_FCT_", "LL.FCT."],
-            ["LL_DIM__", "LL.DIM."],
-            ["LL_DIM_", "LL.DIM."],
-            ["LLL_CATEGORY_", "LLL.CAT."],
-            ["LLL_FSC_", "LLL.FSC."],
-            ["LL_", "LL.OTHER."]
-		];
 
+	//this ideally shouldn't be necessary for well formed inputs.
 	function createFullnameFromName(name:string):string{
 
+		/*
 		for(var i in assetNameMap){
 			if(name.indexOf(assetNameMap[i][0]) == 0){
 				return name.replace(assetNameMap[i][0], assetNameMap[i][1]);
@@ -23,6 +16,8 @@ namespace bjs_data_csv{
 		}
 
 		return "MISC." + name;
+		*/
+		return name;
 	}
 
 	export function loadCsv(data:string[][], theDate:Date):bjs.world {
@@ -45,30 +40,34 @@ namespace bjs_data_csv{
 					row[6],
 					row[2],
 					row[7],
-					parseFloat(row[9]),
-					parseFloat(row[8]),
-					parseFloat(row[12]),
-					row[11]);
+					parseFloat(row[9]), //notbefore
+					parseFloat(row[8]), //latency
+					parseFloat(row[12]), //risk
+                    parseFloat(row[11]),  //crunchfactor
+					row[13], //comment
+					""
+				);
                 w.assets[asset.fullname] = asset;
             }
 		}
 
 		bjs.lg_sum("Read " + Object.keys(w.assets).length + " assets.");
-/*
 
-		No terms yet
 
-		var raw = json.terms;
 
-		for (var i = 0; i < raw.length; ++i) {
-			var row = raw[i];
-			bjs.lg_inf("Reading term " + row.code);
-			var term = new bjs.term(row.code, row.name, row.desc, row.flags);
-			w.terms[term.fullname] = term;
+		for (var i = 0; i < data.length; ++i) {
+			var row = data[i];
+
+            if(row[0] == "field") {
+
+                bjs.lg_inf("Reading term " + row[1]);
+                var term = new bjs.term(row[1], row[2], row[3], '');
+                w.terms[term.fullname] = term;
+            }
 		}
 
 		bjs.lg_sum("Read " + Object.keys(w.terms).length + " terms.");
-*/
+
 
 		for (var i = 0; i < data.length; ++i) {
 			var row = data[i];
@@ -95,15 +94,17 @@ namespace bjs_data_csv{
                 var field = new bjs.field(
 					assetFullName + ":" + row[2],
 					row[2],
-					row[6],
+					row[5],
 					w.assets[assetFullName],
-					null,
+					w.terms[row[15]],
 					row[3],
 					row[4],
-					"",
+					row[9],//flags
 					parseFloat(row[12]),
 					parseFloat(row[9]),
 					parseFloat(row[3]),
+					parseFloat(row[6]),//size
+                    parseFloat(row[16]),//cardinality
 					"");
 
                 w.fields[field.fullname] = field;

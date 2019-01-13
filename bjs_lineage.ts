@@ -97,6 +97,7 @@ namespace bjs {
 			g.x = this.xScale(this.xValue(g, this.config));
 			g.height = g.children.length * spacing + group_spacing;
 			g.width = this.dims.groupbar_width;
+
 			if (stax[g.x] == null) {
 				stax[g.x] = upper_edge + g.height + group_spacing; 
 				g.y = upper_edge;

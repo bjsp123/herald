@@ -1,5 +1,6 @@
 /// <reference path="bjs_types.ts"/>
 /// <reference path="bjs_data_gen.ts"/>
+
 declare var firstBy:any;
 
 namespace bjs_data_inference{
@@ -177,7 +178,7 @@ namespace bjs_data_inference{
 		if(ass.children.length < 2)
 			return;
 			
-		var newfield = new bjs.field(ass.fullname+":all", "all", "placeholder", ass, null, "desc", "Placeholder representing many fields.", "logical", 1, 1, 0, "");
+		var newfield = new bjs.field(ass.fullname+":all", "all", "placeholder", ass, null, "desc", "Placeholder representing many fields.", "logical", 1, 1, 0, ass.size, 1, "");
 		
 		addFieldToWorld(w, newfield);
 		
@@ -324,13 +325,13 @@ namespace bjs_data_inference{
 		if(asset){
 			var newass = w.assets[f.asset.fullname];
 			if(newass==null){
-				newass = new bjs.asset(asset.fullname, asset.name, asset.location, asset.type, asset.owner, asset.dept, asset.desc, asset.calc, asset.notbefore, asset.latency, asset.risk, asset.comment);
+				newass = new bjs.asset(asset.fullname, asset.name, asset.location, asset.type, asset.owner, asset.dept, asset.desc, asset.calc, asset.notbefore, asset.latency, asset.risk, asset.crunchfactor, asset.comment, asset.layer);
 				w.assets[newass.fullname] = newass;
 			}
 		}
 
 		//add the actual field
-		var newfield = new bjs.field(f.fullname, f.name, f.type, newass, newterm, f.desc, f.formula, f.flags, f.quality, f.risk, f.importance, f.comment);
+		var newfield = new bjs.field(f.fullname, f.name, f.type, newass, newterm, f.desc, f.formula, f.flags, f.quality, f.risk, f.importance, f.size, f.cardinality, f.comment);
 	
 		w.fields[newfield.fullname] = newfield;
 		w.fielda.push(newfield);
@@ -603,20 +604,36 @@ namespace bjs_data_inference{
 
 	function recursiveAssetCalculations(w:bjs.world, ass:bjs.asset):void{
 
-		if(ass.effnotbefore != null){
-			return;
-		}
+		if(ass.effnotbefore == null) {
 
-		var latest_src = ass.notbefore;
-		for(var i=0;i<ass.sources.length;++i){
-			var srcass = ass.sources[i];
-			if(ass == srcass) continue;
-			recursiveAssetCalculations(w, srcass);
-			if(srcass.effnotbefore > latest_src){
-				latest_src = srcass.effnotbefore;
+            var latest_src = ass.notbefore;
+            for (var i = 0; i < ass.sources.length; ++i) {
+                var srcass = ass.sources[i];
+                if (ass == srcass) continue;
+                recursiveAssetCalculations(w, srcass);
+                if (srcass.effnotbefore > latest_src) {
+                    latest_src = srcass.effnotbefore;
+                }
+            }
+            ass.effnotbefore = latest_src + ass.latency;
+        }
+
+        if(ass.size == 0){
+			for (var i=0; i< ass.children.length; ++i) {
+				var f = ass.children[i];
+				if(f.isPK()) {
+					ass.rowcount *= f.cardinality;
+                }else{
+					ass.rowsize += f.size;
+				}
+			}
+
+			ass.size = ass.rowcount * ass.rowsize * ass.crunchfactor;
+
+			if(isNaN(ass.size)){
+				bjs.lg_err("Unable to calculate size for asset " + ass.fullname);
 			}
 		}
-		ass.effnotbefore = latest_src + ass.latency;
 	}
 	
 	function recursiveFieldCalculations(w:bjs.world, f:bjs.field):void{

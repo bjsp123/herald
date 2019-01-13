@@ -28,18 +28,13 @@
 		height:500px;
 	}
 
-	.headerstrip {
-		height:50px;
-		background-color:blue;
-		color:white;
-		font-size:20;
-		padding:15px;
-	}
-
 	.notification_span {
 		font-size:14;
 	}
 
+	.headerstrip{
+		height:80px;
+	}
 	
 	/* svg panel */
 	

@@ -1,0 +1,981 @@
+asset,LL_DIM_CATEGORY_MASTER,description of LL_DIM_CATEGORY_MASTER,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/2b32ce12-a26e-4659-b539-0517b686f221,100,3,No applicable
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+asset,LL_FCT_CATEGORY_FINANCIALS,description of LL_FCT_CATEGORY_FINANCIALS,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/425e0622-ddbb-40e9-8f38-cf7af40872d3,0.8,3,No applicable
+asset,LL_FCT_CATEGORY_FINANCIALS,description of LL_FCT_CATEGORY_FINANCIALS,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/4463f75e-ca66-4ff1-8f77-828fd1c26ee6,100,3,No applicable
+asset,LL_FCT_CATEGORY_FINANCIALS_DAILY,description of LL_FCT_CATEGORY_FINANCIALS_DAILY,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/684db134-17a3-465d-b63e-cfa11c2593cc,100,3,No applicable
+asset,LL_FCT_CATEGORY_PERFORMANCE,description of LL_FCT_CATEGORY_PERFORMANCE,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/7a1b6030-df5b-4cbe-8fc2-b463c0c62be7,100,3,No applicable
+asset,LL_FCT_CATEGORY_PERFORMANCE,description of LL_FCT_CATEGORY_PERFORMANCE,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/37892a68-6c2f-4c05-a292-d0b4ff879543,0.8,3,No applicable
+asset,LL_FCT_CATEGORY_PERFORMANCE_DAILY,description of LL_FCT_CATEGORY_PERFORMANCE_DAILY,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/15702633-ccb3-46f7-a33b-1e32d0773195,0.8,3,No applicable
+asset,LL_FCT_CATEGORY_PERFORMANCE_DAILY,description of LL_FCT_CATEGORY_PERFORMANCE_DAILY,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/ea436721-6122-49ff-a102-16ed800b53cd,100,3,No applicable
+asset,LL_FCT_CATEGORY_RISK,description of LL_FCT_CATEGORY_RISK,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/0879ad46-4859-4790-a6a9-14d80759c17e,100,3,No applicable
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+asset,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,description of LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/45d611ea-f057-415d-8813-bbbda5870bec,100,3,No applicable
+asset,LL_FCT_SHARECLASS_FINANCIALS,description of LL_FCT_SHARECLASS_FINANCIALS,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/3e6461cb-e396-48ad-975e-10469a111559,100,3,No applicable
+asset,LL_FCT_SHARECLASS_FINANCIALS_DAILY,description of LL_FCT_SHARECLASS_FINANCIALS_DAILY,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/d32a0b57-a963-4ee6-b8b5-30a935947781,100,3,No applicable
+asset,LL_FCT_SHARECLASS_PERFORMANCE,description of LL_FCT_SHARECLASS_PERFORMANCE,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/626d0026-ed79-4b86-bc63-bcb8c35c9208,100,3,No applicable
+asset,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,description of LL_FCT_SHARECLASS_PERFORMANCE_DAILY,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/e5e2ea43-8d12-46d0-9b8e-8faefc862c4d,100,3,No applicable
+asset,LL_FCT_SHARECLASS_RANK,description of LL_FCT_SHARECLASS_RANK,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/3a277b9c-fcb1-4e82-a3bc-858064a4aabc,100,3,No applicable
+asset,LL_FCT_SHARECLASS_RATING,description of LL_FCT_SHARECLASS_RATING,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/a22aca72-b3a1-41eb-a08d-2866c0fb3c90,100,3,No applicable
+asset,LL_FCT_SHARECLASS_RISK,description of LL_FCT_SHARECLASS_RISK,level1.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,,0,http://79.173.173.28:4415/asset/5eb71081-0f14-41f9-8169-09bcee99047b,100,3,No applicable
+,,,,,,,,,,,,,,
+asset,LLL_CATEGORY_CALCULATION_STATUS,description of LLL_CATEGORY_CALCULATION_STATUS,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/68fc5707-f19c-43ae-b08f-0204abdd1333,0.8,3,No applicable
+asset,LLL_CATEGORY_CLASS_PERFORMANCE,description of LLL_CATEGORY_CLASS_PERFORMANCE,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/6a84c0cf-7673-4877-a729-04a4bfe291cd,0.8,3,No applicable
+asset,LLL_CATEGORY_FUND_SHARECLASS,description of LLL_CATEGORY_FUND_SHARECLASS,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/27c01cd5-c10c-4a12-8e35-bfc3e2a4675c,0.8,3,No applicable
+asset,LLL_CATEGORY_PERFORMANCE_ID,description of LLL_CATEGORY_PERFORMANCE_ID,Level0.domain.com,Database Table,Chief Data Officer,CDO,Not applicable,1,3,Process,http://79.173.173.28:4415/asset/1ed512d3-2e11-442e-8ad0-c9d7713a93f8,0.8,3,No applicable
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+field,FX_RATE,FILE_NAME,FILE_NAME,http://79.173.173.28:4415/asset/31b46d96-91e0-4585-ba3f-44935f9af973,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,FX_RATE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/a990df77-c3cd-4c76-9c63-2eaecfac6ea1,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,FX_RATE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/5bf02faa-c511-4f68-998f-221037909701,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,FX_RATE,EXCHANGE_RATE,EXCHANGE_RATE,http://79.173.173.28:4415/asset/5b9ba4bd-77df-48b3-a20b-9c26c13f24cc,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,FX_RATE,CURRENCY_ID,CURRENCY_ID,http://79.173.173.28:4415/asset/214a522e-2641-4224-b911-3fc2a6feb12c,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,FX_RATE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/61a54c91-affa-483f-8f4c-c75c989f9c4c,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,LL_DIM_BASECCY_RF,BASE_CURRENCY,BASE_CURRENCY,http://79.173.173.28:4415/asset/f98dc767-5fe2-4366-94d1-0acba50e201f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_BASECCY_RF,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/b97f5fe6-d8b0-4628-9dfa-3deb925abee0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_BASECCY_RF,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/33b105dc-15e6-4eef-9a31-d789ffd0ef08,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_BASECCY_RF,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/05704876-6106-41fa-9947-966ec29c25d2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_BASECCY_RF,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/733d07b7-61a7-4367-b743-8795f89d4d16,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_BASECCY_RF,RISK_FREE_RATE,RISK_FREE_RATE,http://79.173.173.28:4415/asset/446d88e4-250c-4207-a998-04aaba8a835f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/8e6b8cfa-3674-4596-84fe-64518e24c54c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/de8fec62-b7e2-4a35-a228-d3f8c0543f70,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/5f9433fa-7783-4a7c-93a5-571bb3596cf5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/95c73ea3-4eaf-447c-adbe-7f0d6543afda,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,AA_BASE_CURRENCY,AA_BASE_CURRENCY,http://79.173.173.28:4415/asset/d0d2cbdb-bcf8-4406-a93c-32440c5f03b0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,AA_CATEGORY_CALCULATION_STATUS,AA_CATEGORY_CALCULATION_STATUS,http://79.173.173.28:4415/asset/a9ccc649-7af2-4d6c-8e7b-a7f2005a0ecb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,AA_estar_CATEGORY,AA_estar_CATEGORY,http://79.173.173.28:4415/asset/32f1771a-8737-4306-a597-6e0a40175850,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/056b86de-9689-4ea4-a478-a0e71d824211,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CATEGORY_MASTER,AA_MPT_RISK_CURRENCY,AA_MPT_RISK_CURRENCY,http://79.173.173.28:4415/asset/7284fb38-26e2-439c-bed8-1ab45fad623e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_COUNTRY_REGION,CONTRACTED_COUNTRY,CONTRACTED_COUNTRY,http://79.173.173.28:4415/asset/66388547-acb3-45d3-a414-28054749b965,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_COUNTRY_REGION,CONTRACTED_REGION,CONTRACTED_REGION,http://79.173.173.28:4415/asset/71c8a6ce-5048-4587-89f1-7579cea8bc74,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_COUNTRY_REGION,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/7298ed1f-0ba7-4511-aa04-35ec1fc11f34,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_COUNTRY_REGION,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/c2a009f3-da5e-4d0d-bc90-753fdcac45a7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_COUNTRY_REGION,MS_CURRENCY_HEDGED,MS_CURRENCY_HEDGED,http://79.173.173.28:4415/asset/fcd40076-cb76-4bf0-96b6-2b4044c2cc37,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_COUNTRY_REGION,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/6c31df76-3424-4002-9f58-9af0cc080c4c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CUSTOM_PEER_GROUPS,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/cad4bcef-6ea7-4179-a056-8f4c187ce83b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CUSTOM_PEER_GROUPS,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/f2861466-9bd5-4774-8533-b7eab17f344c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CUSTOM_PEER_GROUPS,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/94a80d8c-79d4-4f80-b975-24b2213ccb3f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CUSTOM_PEER_GROUPS,FUM_ID,FUM_ID,http://79.173.173.28:4415/asset/c04e5d1f-bbe1-42b0-af5b-8add318fe6ad,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CUSTOM_PEER_GROUPS,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/b2f3310a-f57e-41aa-8cb4-849d2b19cc74,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_CUSTOM_PEER_GROUPS,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/e42cf3bb-6b9b-46b6-87fa-f766bbecd457,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,WEEKDAY,WEEKDAY,http://79.173.173.28:4415/asset/6617dcf4-7330-452e-b0f7-63aef8e8fe1e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,WEEKDAY_NR,WEEKDAY_NR,http://79.173.173.28:4415/asset/915cab57-7163-4780-8a91-668fd2821c7a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,YEAR,YEAR,http://79.173.173.28:4415/asset/723b0250-40af-41e1-876a-8d25b266d26d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,ID,ID,http://79.173.173.28:4415/asset/e5024c7c-1475-47ae-9d75-842a62e0a08f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,DAY,DAY,http://79.173.173.28:4415/asset/a3d7949d-80a5-4bb8-a0df-034024c2231f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,DATE,DATE,http://79.173.173.28:4415/asset/ccdd66f4-379b-4570-ae26-f3c99a946484,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/9b25c63d-3c23-4f9c-b129-2ac88d91c5db,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,M_1_DATE,M_1_DATE,http://79.173.173.28:4415/asset/8e6c9ad0-2d14-463c-affe-6509234d9e93,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,MONTH,MONTH,http://79.173.173.28:4415/asset/accabde2-6a60-4e98-812d-9c6064712595,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,MONTH_SHORT_NAME,MONTH_SHORT_NAME,http://79.173.173.28:4415/asset/c1f43cc6-3acf-453e-8e5c-b6ad4501a255,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_DATE,QUARTER,QUARTER,http://79.173.173.28:4415/asset/c40c2c2a-fa63-4af9-9ea3-e6fd052db919,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/7e7747c1-d262-4885-8a10-1dc25df5740d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/3ceb417b-9a5a-4a72-bcad-d43d89756e9c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,CORE_FUND,CORE_FUND,http://79.173.173.28:4415/asset/02655431-e04d-44c3-9b61-1cc97f6a20a9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/b28e34e1-3f3c-4a5e-a18e-3c7bb53bde35,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,FOCUS_FUND,FOCUS_FUND,http://79.173.173.28:4415/asset/09406468-ecb8-4ed0-9978-11e8eb6bd085,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,FUM_ID,FUM_ID,http://79.173.173.28:4415/asset/34c5ed4e-cb40-4d23-bd97-f4bec096f120,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FOCUS_CORE_FUNDS,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/a26e4f21-c89f-42ab-b079-7568a19ffc1f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/543588ed-990f-4038-894c-966660980172,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,AS_OF_DATE,AS_OF_DATE,http://79.173.173.28:4415/asset/06cc5af8-0d88-45c4-88f7-eb16fde899f9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,FUM_ID,FUM_ID,http://79.173.173.28:4415/asset/a83f2c0f-abc4-46f4-bc02-f231e371fa86,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,IMPLEMENTATION_OWNER,IMPLEMENTATION_OWNER,http://79.173.173.28:4415/asset/8289bbd5-f735-4a07-8bcf-3843bd754130,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/1ca0a7ec-9d77-4383-8d45-8987279f71de,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/f77b37b8-1aab-49c6-88a4-619e7e98f5e4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/b977812b-cc66-416c-b07a-cbce48e60e0a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,RESTRUCTURING_COMMENT,RESTRUCTURING_COMMENT,http://79.173.173.28:4415/asset/0ff69412-baae-449c-87e4-607e679876ae,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,RESTRUCTURING_PLANNED_BY,RESTRUCTURING_PLANNED_BY,http://79.173.173.28:4415/asset/2f32c997-3580-4d78-8f74-847532a5780b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,RESTRUCTURING_STATUS,RESTRUCTURING_STATUS,http://79.173.173.28:4415/asset/f4fc7933-9a55-4d3e-b1ee-0098e06c3751,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,RESTRUCTURING_TYPE,RESTRUCTURING_TYPE,http://79.173.173.28:4415/asset/8f58ccaf-28e6-4f00-9dea-15cc56829d4f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,P_AND_L_OWNER,P_AND_L_OWNER,http://79.173.173.28:4415/asset/221934da-dcd7-4a5e-b8a4-51b9109d2660,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_FUND_RESTRUCTURING_INFO,TARGET_PRODUCT,TARGET_PRODUCT,http://79.173.173.28:4415/asset/6fe84dbb-84cc-4855-a74d-89672156cd71,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/ee3b69c7-98fe-42dc-8727-b57dbe3674f9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,PEER_AMERICAS,PEER_AMERICAS,http://79.173.173.28:4415/asset/3354972e-788c-4dbe-865d-979d064c700a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,PEER_APAC,PEER_APAC,http://79.173.173.28:4415/asset/42979bb1-213b-40ed-a1b2-05b5c2d546c0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,PEER_EMEA,PEER_EMEA,http://79.173.173.28:4415/asset/bdf7cc42-84e1-45f4-a4a6-70039dfc6f5c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,PEER_GLOBAL,PEER_GLOBAL,http://79.173.173.28:4415/asset/39b3ab06-a9a3-461c-bdcf-15091c4f2e62,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/396b3e02-5e3f-4c08-b89c-77887e878a26,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/f42ea0e4-c17e-451e-80d2-e6f628ec93ba,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/a27568f7-f3e3-400c-8f9c-193f41a4853a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,BRANDING_NAME,BRANDING_NAME,http://79.173.173.28:4415/asset/4a25750b-4425-4d39-8d1d-4a11accc9510,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_GLOBAL_PEERS,BRANDING_NAME_FINAL,BRANDING_NAME_FINAL,http://79.173.173.28:4415/asset/e830480e-1075-4cb5-83a8-a96563cb1496,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/89f8db6d-e6ee-4ea6-a000-e84c8232c6ce,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,AS_OF_DATE,AS_OF_DATE,http://79.173.173.28:4415/asset/e03e328f-43c0-4884-a19f-d366b5195347,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/63534238-2961-469b-8ea9-e680fafd7d6a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,CURRENT_DATA_STATUS,CURRENT_DATA_STATUS,http://79.173.173.28:4415/asset/78dc3ac0-362e-42c8-93b7-0024a8ffd966,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,DATA_SUBSET,DATA_SUBSET,http://79.173.173.28:4415/asset/b1c21db7-2404-45ea-aee9-9f844a623b68,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/bab86985-6a8b-456b-a531-adea9e877ac1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_IPR_DATA_SCHEDULE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/0d0d4d49-1c17-43ed-a6f5-482963070602,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,MS MORNINGSTAR RATING 5Y +8M (EST),MS MORNINGSTAR RATING 5Y +8M (EST),http://79.173.173.28:4415/asset/fe08ed2a-6744-404a-b726-c1b9bfc54fee,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/7f1717e9-fce4-432b-87d9-e893defd853b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/05450616-1622-45a0-91c8-59fe1aca75c2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_TYPE_CODE,AA_TYPE_CODE,http://79.173.173.28:4415/asset/ed75d7c3-5b59-42c8-9880-be7df8c18c0a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_TYPE_CODE_GROUP,AA_TYPE_CODE_GROUP,http://79.173.173.28:4415/asset/eb9eca7b-fb51-415b-bf7c-d66d6dec9395,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_TYPE_CODE_ID,AA_TYPE_CODE_ID,http://79.173.173.28:4415/asset/84f6a538-99b6-4234-8620-d21056f72482,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/9a9ffe7d-b406-4f67-9cfc-4a551cc890a9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/ebb14454-e83c-45a6-9e59-bc11e32c1e0a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION,AA_DEFINITION,http://79.173.173.28:4415/asset/ebab1831-d411-4eaa-90ea-fd43628c4f04,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_CATALANO,AA_DEFINITION_CATALANO,http://79.173.173.28:4415/asset/733233da-160d-4923-8499-ac62d14e4e9b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_CHINESE,AA_DEFINITION_CHINESE,http://79.173.173.28:4415/asset/4b306a46-55c1-4d63-a84e-e85ff32ee658,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_DANISH,AA_DEFINITION_DANISH,http://79.173.173.28:4415/asset/224202ba-2ca6-47b9-9eae-e0801e99eb75,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_DUTCH,AA_DEFINITION_DUTCH,http://79.173.173.28:4415/asset/8c2f5408-7429-455a-b496-ba89d2769202,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_FINNISH,AA_DEFINITION_FINNISH,http://79.173.173.28:4415/asset/728323dd-5ed2-42ce-932a-1b79880b0458,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_FRENCH,AA_DEFINITION_FRENCH,http://79.173.173.28:4415/asset/9e4b7569-e073-4e92-a064-3a8cde3d4559,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_ITALIAN,AA_DEFINITION_ITALIAN,http://79.173.173.28:4415/asset/e0d83f88-5d51-4e2b-a54c-47ad4d7dc8a7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_JAPANESE,AA_DEFINITION_JAPANESE,http://79.173.173.28:4415/asset/6477043c-f9ae-4abc-bdf7-807c288254b4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_NORWEGIAN,AA_DEFINITION_NORWEGIAN,http://79.173.173.28:4415/asset/2988483d-d8ce-458a-849d-8216bf0d83b8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_POLISH,AA_DEFINITION_POLISH,http://79.173.173.28:4415/asset/1a27350a-f4f5-4cd0-a108-39b5e76505cd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_PORTUGUESE,AA_DEFINITION_PORTUGUESE,http://79.173.173.28:4415/asset/499829ee-ab94-478b-972f-9d16b1baff0a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_SPANISH,AA_DEFINITION_SPANISH,http://79.173.173.28:4415/asset/40655a06-7a55-4441-8838-12d05400d80f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_LOOKUP,AA_DEFINITION_SWEDISH,AA_DEFINITION_SWEDISH,http://79.173.173.28:4415/asset/ba88a001-b0e0-40d8-908f-4ed1c6543098,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/792b61f8-ff11-404c-968f-b98eb196ce19,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/c6de210e-8e92-4be4-b631-854d0a53fedd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,AA_ADVISOR,AA_ADVISOR,http://79.173.173.28:4415/asset/55bc930a-eefe-4336-a130-3651a59ee4a0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/d1bd547d-69de-46af-a404-04427b55e6a6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/e7643c00-35d9-4ff9-bf49-5f41eed3d73c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/6fbb11a1-d881-4889-ad60-6a3e10b4b22d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_ADVISOR,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/b860fa3e-e854-40cf-b07a-7ed3fce3305d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/883cbfbf-2447-4db9-bffd-3d7fdf1ed040,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/69d860b4-3d9c-4146-917e-3b0c69189ef3,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/73864ba4-7857-40c9-97df-61285c7bb1bd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/e81bb880-af3d-47bc-b194-52a9feffa86c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_UNIT,AA_UNIT,http://79.173.173.28:4415/asset/64e513f9-2738-4c41-b4f6-1561594ee501,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_BREAKPOINT_UNIT,AA_BREAKPOINT_UNIT,http://79.173.173.28:4415/asset/59469d1a-e05d-4953-a679-dae35f56c472,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/1c8df5fc-08ea-4567-9870-f3cc36da82d6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/834449fc-34c1-464f-a431-65b316d82a69,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/61db2c3b-b9ea-4592-b08f-33654ee2b5d0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_FRONT_LOAD_MAX,AA_FRONT_LOAD_MAX,http://79.173.173.28:4415/asset/63859838-040b-4da7-96cf-89fb073e14e7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_MINIMUM_INVESTMENT,AA_MINIMUM_INVESTMENT,http://79.173.173.28:4415/asset/becfb813-4ee3-4821-b5fc-604a24be4a6f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_HIGH_BREAKPOINT,AA_HIGH_BREAKPOINT,http://79.173.173.28:4415/asset/c8ebaa50-3f9f-49ab-bad5-4a31dc2df284,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_FRONT_LOAD_MAX,AA_LOW_BREAKPOINT,AA_LOW_BREAKPOINT,http://79.173.173.28:4415/asset/0e05eaec-f6c7-4c89-97f2-cb6caa5c031c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_LOW_BREAKPOINT,AA_LOW_BREAKPOINT,http://79.173.173.28:4415/asset/1214eb02-e8c1-4fd7-8e4e-615c6976042c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_HIGH_BREAKPOINT,AA_HIGH_BREAKPOINT,http://79.173.173.28:4415/asset/5f72254f-933e-4ebb-b139-6021a2f01b81,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_MANAGEMENT_FEE_MAX,AA_MANAGEMENT_FEE_MAX,http://79.173.173.28:4415/asset/c5742bf1-b0e0-46aa-96a9-f8289c01f5e6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/3322a1e3-4011-4c58-a624-95ecfac0c717,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/6cc4e991-4ff9-40db-b903-3fcf96f9e477,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_BREAKPOINT_UNIT,AA_BREAKPOINT_UNIT,http://79.173.173.28:4415/asset/65a92569-75f8-4263-860a-39c1ce1b5058,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,AA_UNIT,AA_UNIT,http://79.173.173.28:4415/asset/c1579138-d6a4-4918-99e1-75435f0cf07d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/a95d04c2-8939-453e-bf35-a28b01abbe06,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/46b475d3-7ce1-42ef-8cdc-44225aab6f40,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/23440b42-842d-49da-807f-3dee5a1b981a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEE_MANAGEMENT_MAX,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/a5c384d8-a3a7-4114-8d63-b74f31e0db21,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/dbc1f5b8-c7c7-49b3-928d-d72c2baa966f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/f963d2a6-8c7a-496a-b21f-d2832169415e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/be3ceee3-522b-4322-9e90-aace6231a33d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/388bcca4-8fa4-4997-bb37-287e9482c25b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/d10e41c2-7ce8-4255-8205-7e8c025d3c7e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/b16dc289-c94b-4c2a-b776-a9fe84ac8b65,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_FRONT_LOAD,AA_FRONT_LOAD,http://79.173.173.28:4415/asset/ef5e6a66-2661-4b2c-9aa0-868c12381fab,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_END_DATE,AA_END_DATE,http://79.173.173.28:4415/asset/13b62196-c1bc-4e61-9eb9-7878f5f15654,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_NET_EXPENSE_RATIO,AA_NET_EXPENSE_RATIO,http://79.173.173.28:4415/asset/85a7b90e-f5fb-4bcc-b746-b514eee83718,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_NET_EXPENSE_RATIO_LATEST,AA_NET_EXPENSE_RATIO_LATEST,http://79.173.173.28:4415/asset/a10798a9-8f9a-496b-aad4-acf885432849,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_MANAGEMENT_FEE,AA_MANAGEMENT_FEE,http://79.173.173.28:4415/asset/519800be-cb4c-4cde-9cd4-0935935747ec,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_KIID_ONGOING_CHARGE,AA_KIID_ONGOING_CHARGE,http://79.173.173.28:4415/asset/7b105784-7512-4efb-a0ea-7847f45162c1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_PERFORMANCE_FEE_ANNUAL_REPORT,AA_PERFORMANCE_FEE_ANNUAL_REPORT,http://79.173.173.28:4415/asset/44d66028-03ed-4672-9564-d6af0c45cbc9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_FEES,AA_PERFORMANCE_FEE_PROSPECTUS,AA_PERFORMANCE_FEE_PROSPECTUS,http://79.173.173.28:4415/asset/6230ad60-84d5-4f9f-8967-eca9d50f3571,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/91b699b5-8a01-4355-b480-5d23b09e4d12,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,AA_FUND_MANAGER,AA_FUND_MANAGER,http://79.173.173.28:4415/asset/dd06458f-4a6b-4057-84a0-03b15f3bdd27,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/62e8eeae-fad9-455b-bb69-1e1308d2e860,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,AA_PORTFOLIO_MANAGER_END_DATE,AA_PORTFOLIO_MANAGER_END_DATE,http://79.173.173.28:4415/asset/526d4052-9847-4211-8799-e27aab5f2b37,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,AA_PORTFOLIO_MANAGER_START_DATE,AA_PORTFOLIO_MANAGER_START_DATE,http://79.173.173.28:4415/asset/cc05b1b7-c140-4a60-9ee1-461bfda66b7c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/bd211e3f-337d-451d-9fa8-58b86ee6304c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/b69a4512-a628-440c-ba80-f26fff122aee,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/a72d357c-7587-44fa-a69b-2335f536e503,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MANAGER,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/dcb7b391-6b12-435f-9562-16db43e4db17,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/3713531e-94db-4c16-a2cc-ebea0835e7ef,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/6e9446b8-28f1-4af8-a5b8-32308b889eb8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,MS_INVESTMENT_TYPE,MS_INVESTMENT_TYPE,http://79.173.173.28:4415/asset/c3ef19ec-e05e-44ec-977d-ed8b7019713e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/c36ff1e6-e4d9-435e-afba-19494f621df8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/15dc7eed-170b-4a6c-a6cf-b7334bba90b6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_UCITS,AA_UCITS,http://79.173.173.28:4415/asset/2c22fe90-5bb3-47aa-a7c8-83ca64cd4c76,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_TERMINATION_DATE,AA_TERMINATION_DATE,http://79.173.173.28:4415/asset/48f648dc-6105-4727-aa2e-155bcb94a248,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_TERMINATION_MERGED_INTO,AA_TERMINATION_MERGED_INTO,http://79.173.173.28:4415/asset/c7638045-3287-4df4-9c76-fa2de54b0782,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_TERMINATION_TYPE,AA_TERMINATION_TYPE,http://79.173.173.28:4415/asset/a6d6d8c7-6bd3-4c4f-993f-08e3677bd6dd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/1e870caf-46fe-4c61-a163-e5de562e4673,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_ISIN,AA_ISIN,http://79.173.173.28:4415/asset/8b88d2ea-bb1d-46b4-8e73-4e531608df2e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_SHARECLASS_AGE,AA_SHARECLASS_AGE,http://79.173.173.28:4415/asset/860ae93d-1edb-4adf-b0c6-8d7bc16f4e28,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_SHARECLASS_NAME,AA_SHARECLASS_NAME,http://79.173.173.28:4415/asset/eb030aaa-4383-4f56-90b1-16a849eae404,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_SHARECLASS_TYPE,AA_SHARECLASS_TYPE,http://79.173.173.28:4415/asset/40fbb327-e807-47b3-aa4c-c45a7f22d456,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_SMA,AA_SMA,http://79.173.173.28:4415/asset/bf02e8d2-5a7f-4bbc-ba16-f9e3c6783985,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_PUBLIC,AA_PUBLIC,http://79.173.173.28:4415/asset/db68a390-77c2-4fba-b25f-0f129cd4737c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_FUND_NAME,AA_FUND_NAME,http://79.173.173.28:4415/asset/ce73068b-de58-4849-a54c-de38aac8d224,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_GLOBAL_BROAD_CATEGORY_GROUP,AA_GLOBAL_BROAD_CATEGORY_GROUP,http://79.173.173.28:4415/asset/51c5d643-2bd0-4e85-bb4d-747702af49b8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_GLOBAL_CATEGORY,AA_GLOBAL_CATEGORY,http://79.173.173.28:4415/asset/bd6c3947-f224-4e54-82ff-f138deeac4ef,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/568d2118-398c-409f-b676-a0ef01a4f59d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_FUND_LEGAL_STRUCTURE,AA_FUND_LEGAL_STRUCTURE,http://79.173.173.28:4415/asset/7cd79e89-28c3-4546-9c63-95f493ebc073,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_HEDGE_FUND,AA_HEDGE_FUND,http://79.173.173.28:4415/asset/1c8051e5-3d26-4144-8a58-d7d7c64ff27b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_CUSIP,AA_CUSIP,http://79.173.173.28:4415/asset/24b1c5d2-e23d-418b-bc6d-a289359ab7eb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_DEFINED_CONTRIBUTION,AA_DEFINED_CONTRIBUTION,http://79.173.173.28:4415/asset/e6630c1c-5dd9-465d-a003-5c9b0e20d4f5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_DISTRIBUTION_STATUS,AA_DISTRIBUTION_STATUS,http://79.173.173.28:4415/asset/d4c4e244-7d49-4312-a24e-ca13b11af573,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_FOF,AA_FOF,http://79.173.173.28:4415/asset/073cffb2-201f-4866-bf0c-69b13330963c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_FUND_AGE,AA_FUND_AGE,http://79.173.173.28:4415/asset/17607cbe-c54e-4c08-9520-7574a076f936,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_EXCHANGE_TRADED_SHARE,AA_EXCHANGE_TRADED_SHARE,http://79.173.173.28:4415/asset/f94368a5-7367-4b34-bb51-86c002554e61,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_FIRM_NAME,AA_FIRM_NAME,http://79.173.173.28:4415/asset/f35d1436-2851-4a0e-b07b-02d4dffa8abd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/fb211547-6bec-4549-a877-3088cfdc1150,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_OLDEST_SHARECLASS,AA_OLDEST_SHARECLASS,http://79.173.173.28:4415/asset/f454b83a-028c-476f-8e93-f1afd9ce144f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_LEADING_SHARECLASS,AA_LEADING_SHARECLASS,http://79.173.173.28:4415/asset/2e4729b1-bc7b-4e9f-9151-faaa90f97701,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_LEGAL_STRUCTURE_ID,AA_LEGAL_STRUCTURE_ID,http://79.173.173.28:4415/asset/2116574f-a7b0-4ab2-8416-b2fca7567908,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_MASTER_PORTFOLIO_ID,AA_MASTER_PORTFOLIO_ID,http://79.173.173.28:4415/asset/caa4cf72-2bbd-4d57-8d4d-c0129a4f18a6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_INVESTMENT_AREA,AA_INVESTMENT_AREA,http://79.173.173.28:4415/asset/df2d662c-6adc-4bee-856e-6bb7802c11ed,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_INCEPTION_DATE,AA_INCEPTION_DATE,http://79.173.173.28:4415/asset/0e742e0f-7f93-4744-a7c1-61417778f791,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_INDEX_FUND,AA_INDEX_FUND,http://79.173.173.28:4415/asset/a488e750-001c-4e9a-b37a-d14a03b720cc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_MONEY_MARKET_FUND,AA_MONEY_MARKET_FUND,http://79.173.173.28:4415/asset/64d282c7-1f6c-4b7f-8d08-a0c8ce55eefb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_MPT_BENCHMARK_ID,AA_MPT_BENCHMARK_ID,http://79.173.173.28:4415/asset/abe0cc10-8c8b-42d3-8e95-3a430090769c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_MPT_BENCHMARK_NAME,AA_MPT_BENCHMARK_NAME,http://79.173.173.28:4415/asset/30323ab6-df9c-4696-8901-66195911500a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_BRANDING_NAME,AA_BRANDING_NAME,http://79.173.173.28:4415/asset/4521d9c3-7e35-40a6-a614-44d1657d5cf6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_BRANDING_NAME_FINAL,AA_BRANDING_NAME_FINAL,http://79.173.173.28:4415/asset/e9f676c0-9a59-4ab2-833b-8df1081050e5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_CONTRACTED_COUNTRY,AA_CONTRACTED_COUNTRY,http://79.173.173.28:4415/asset/923ca0fe-b58c-439c-b116-bffbb20f0ff4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_CONTRACTED_REGION,AA_CONTRACTED_REGION,http://79.173.173.28:4415/asset/e49c1419-c6b4-494a-bb1f-f2c4a455e3f2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_BASECCY_CODE_SHARECLASS,AA_BASECCY_CODE_SHARECLASS,http://79.173.173.28:4415/asset/f3735007-0220-48ca-851d-efe341bde6a2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_estar_MPT_RISK_FREE_RATE_ID,AA_estar_MPT_RISK_FREE_RATE_ID,http://79.173.173.28:4415/asset/b521d3fb-ce23-4af0-be89-d47a126899d4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_estar_MPT_RISK_FREE_RATE_NAME,AA_estar_MPT_RISK_FREE_RATE_NAME,http://79.173.173.28:4415/asset/a5065917-d104-4324-8465-d3cf800b9cc0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_AVAILABLE_FOR_INSURANCE_PRODUCT,AA_AVAILABLE_FOR_INSURANCE_PRODUCT,http://79.173.173.28:4415/asset/37c4c55a-2659-4ed0-a6ae-05491097325c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_MASTER,AA_AVAILABLE_FOR_RETIREMENT_PLAN,AA_AVAILABLE_FOR_RETIREMENT_PLAN,http://79.173.173.28:4415/asset/c003732a-e69c-4a66-8d1e-2870f3327701,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_CURRENCY_HEDGED_TO,AA_CURRENCY_HEDGED_TO,http://79.173.173.28:4415/asset/3f1a4831-52fc-410c-abe0-a104e8956e8a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_MASTER_PORTFOLIO_ID,AA_MASTER_PORTFOLIO_ID,http://79.173.173.28:4415/asset/8519c9e8-1ea4-4b7b-ad07-a3f25ed0a74c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_INVESTMENT_STRATEGY,AA_INVESTMENT_STRATEGY,http://79.173.173.28:4415/asset/56f4ba8a-54fd-41a3-8b00-6bdc8c28e50e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_HEDGED_PROPORTION,AA_HEDGED_PROPORTION,http://79.173.173.28:4415/asset/d5557164-0e19-46d4-a545-3c0d50e6b5f9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/2c1a3302-53e7-4872-a2e2-c6ec9d31d89e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_STRATEGY_NAME,AA_STRATEGY_NAME,http://79.173.173.28:4415/asset/7821a488-619f-444e-89b2-80adf1d3e5ec,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/b5b7eb2f-3eb7-4b3b-aaf5-ac693d76badf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/7da5d727-efbd-4a5d-be03-82c4ba86d172,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/2e26d768-27b9-4b04-b11f-5be1905f1af5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/886e03fb-dcde-4ede-9d4f-3d7cfba5af6e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/80046590-efdf-42ec-af31-18cba36ec3f9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO,UPDATE_SOURCE,UPDATE_SOURCE,http://79.173.173.28:4415/asset/fc09f030-a374-4d51-b707-8c6d2988bc60,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/1eb03758-6830-453b-85b6-2666096f4a68,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/3d3e41e2-85af-4173-ae48-9fa8607bb288,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/c3dd3ac4-eece-40a3-b9c2-6af4dbac3d6b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/74c312af-b6ca-437c-b2ef-e55f7f0eba73,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,AA_YEAR,AA_YEAR,http://79.173.173.28:4415/asset/cf65c431-72cc-4d37-aaad-e18c65ab20ab,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,AA_SIGNIFICANT_CHANGE,AA_SIGNIFICANT_CHANGE,http://79.173.173.28:4415/asset/20feca9a-2515-47b7-ba00-ab86a1621cdc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/9ab32184-e82d-4a82-9fc6-6e235c0e7a5e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,AA_PORTFOLIO_RESTRUCTURE_DATE,AA_PORTFOLIO_RESTRUCTURE_DATE,http://79.173.173.28:4415/asset/6ba580c0-85d7-4d14-acbf-43690baf0405,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/50b3e2ae-439e-4079-a4cf-29a1593f04a2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_RESTRUCTURE,AA_CLASSIFICATION_METHOD,AA_CLASSIFICATION_METHOD,http://79.173.173.28:4415/asset/4fe6f992-9aa8-4946-8bd4-6713f059e96b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/366b17db-268f-409b-bc10-16ad3257a04b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_FIXED_INCOME_STYLE_BOX,AA_FIXED_INCOME_STYLE_BOX,http://79.173.173.28:4415/asset/74423720-7d4e-45e9-a334-ed666236a87e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_FIXED_INCOME_STYLE_BOX_AVG_CREDIT_QUALITY,AA_FIXED_INCOME_STYLE_BOX_AVG_CREDIT_QUALITY,http://79.173.173.28:4415/asset/2ffb20c5-2ec0-4811-8ed7-700c714f2391,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_FIXED_INCOME_STYLE_BOX_AVG_DURATION,AA_FIXED_INCOME_STYLE_BOX_AVG_DURATION,http://79.173.173.28:4415/asset/183cd065-f0b5-4eab-a94c-c291037515b7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_EQUITY_STYLE_BOX,AA_EQUITY_STYLE_BOX,http://79.173.173.28:4415/asset/6a0b1c17-7309-4f78-803e-66fedf02b31b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_EQUITY_STYLE_BOX_SIZE_SCORE,AA_EQUITY_STYLE_BOX_SIZE_SCORE,http://79.173.173.28:4415/asset/b03f8f06-cccc-4385-a2e8-31b9d73acf30,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_EQUITY_STYLE_BOX_TOTAL_MARKET_VALUE,AA_EQUITY_STYLE_BOX_TOTAL_MARKET_VALUE,http://79.173.173.28:4415/asset/d6aa6daa-620a-44ac-8842-726c8406923a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_EQUITY_STYLE_BOX_VALUE_GROWTH_SCORE,AA_EQUITY_STYLE_BOX_VALUE_GROWTH_SCORE,http://79.173.173.28:4415/asset/cbb5ad73-8529-48f0-a1fb-be2af08b9ccd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_MASTER_PORTFOLIO_ID,AA_MASTER_PORTFOLIO_ID,http://79.173.173.28:4415/asset/ca13174d-7dfd-4664-9432-526466d3a425,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_SALE_POSITION,AA_SALE_POSITION,http://79.173.173.28:4415/asset/32a024a6-b621-4755-8c68-dcbb569d53de,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/6cf899f7-e970-45d4-9f53-88dafb6b6ebf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/ea172f22-7d0f-4bb3-9903-d12fe634fe27,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/eb171c5a-6509-4921-a6c8-eb7b79887e40,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/f2d72582-bc09-41ba-b45b-bf604f5f68ee,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PORTFOLIO_STYLE_BOX,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/11fde748-a7ed-4209-ae7f-fc802a3d4ad8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,MS_PROSPECTUS_BENCHMARK_WEIGHTAGE,MS_PROSPECTUS_BENCHMARK_WEIGHTAGE,http://79.173.173.28:4415/asset/807d1b28-a4dd-4c5f-b50d-197c15314e27,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/2a285c65-a078-4396-8f9e-b3aa707d273b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/c320e39f-c0c6-4bdd-88da-1c8bbf484019,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/cf40ed2c-caae-466b-926a-61e3cd57d275,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/49b31cf8-bf08-4fde-a433-245bfd420397,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,AA_PROSPECTUS_BENCHMARK_ID,AA_PROSPECTUS_BENCHMARK_ID,http://79.173.173.28:4415/asset/7798ce5d-a1e6-4f1f-87f6-3d62eaab56d5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,AA_PROSPECTUS_BENCHMARK_NAME,AA_PROSPECTUS_BENCHMARK_NAME,http://79.173.173.28:4415/asset/89f8177b-316f-4b3a-90a5-1ff20bfe0a53,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/d4f7f856-2301-4ae7-9de3-c337a4cfa2ce,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_PROSPECTUS_BENCHMARK,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/0a3181d3-3fb0-4ce7-ab97-9680a3362662,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/406df5e6-c575-4a29-b36e-797958a96087,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,AA_INSTITUTIONAL,AA_INSTITUTIONAL,http://79.173.173.28:4415/asset/2172c9fb-81e2-40f6-8a95-6f6782c522d2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/ee8e43e9-1fa5-42d4-817f-f6b377698de4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,AA_AVAILABLE_FOR_SALE,AA_AVAILABLE_FOR_SALE,http://79.173.173.28:4415/asset/07becf6d-73cf-4f82-86bc-1ec38221ffc5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/382ff7fc-9221-43b1-bc75-c9d9742645ae,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/7aa75b25-134a-439e-90a7-be9b13293c34,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/2d77746f-051c-43cc-a3f3-8a5a9a27d250,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_AVAILABLE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/b0033edc-6820-470c-ab6d-b2a4cd5e89cb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/e8c051b3-abf4-44a4-9b69-4effd4d1fd59,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,MS_REGISTERED_FOR_SALE,MS_REGISTERED_FOR_SALE,http://79.173.173.28:4415/asset/cbce65ab-1c27-4e04-a517-3ae4b611311c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/471d1992-1dab-4d5d-b0fa-82c17ad619fa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/ae6c45c9-81e5-4578-9e70-7ebb984dadef,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/5f368786-911a-46a2-b9be-1a5c010d0706,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/a942f5ea-7f9a-4a15-aeb6-cb4f5ff72ccd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SALES_REGISTRATION,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/850114d1-bd2d-4185-b0e7-00e97c854746,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/6b026c7f-4387-48eb-a172-96da5029f7cb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/dacf8492-1238-483e-912b-ea9c93cdc3f8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,AA_SUBADVISOR,AA_SUBADVISOR,http://79.173.173.28:4415/asset/1de6ac0f-616b-492d-b0c6-1438fa1cbb0b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/89430c9f-8e52-449b-88a6-1196662d4fb7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/e6eb232e-2432-43dd-95ee-a8496fd5bca2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/b83fa9cd-9074-44f3-831b-5d7b92621039,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_DIM_SHARECLASS_SUBADVISOR,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/557effb0-b5a2-4021-9033-e4297777421e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/5de1d7a9-41ab-44aa-bdc1-24ea9f9dee61,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/d362e03c-76a8-48f5-ba2f-d45ebdeb9a01,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/8a825818-6298-43b0-b4ad-a51b1ef9d110,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/06435e14-e8a5-4497-aa77-be12c8077c79,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_REVENUES_CATEGORY_GROSS,AA_REVENUES_CATEGORY_GROSS,http://79.173.173.28:4415/asset/9dca421b-68f9-4f80-90fd-a7994cc8fdfd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/b6f92957-217b-4745-a67a-e8c369d0581d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_1M,AA_NETFLOWS_CATEGORY_1M,http://79.173.173.28:4415/asset/21b94465-43ac-4e7b-acb8-dbe5ab56df15,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_1M_PRCNT,AA_NETFLOWS_CATEGORY_1M_PRCNT,http://79.173.173.28:4415/asset/2e339171-8da9-41e8-92b9-2b0a8f93003f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_1Y,AA_NETFLOWS_CATEGORY_1Y,http://79.173.173.28:4415/asset/04190aab-51c8-48ef-a0d7-2228ba0be24c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_1Y_PRCNT,AA_NETFLOWS_CATEGORY_1Y_PRCNT,http://79.173.173.28:4415/asset/c3866052-0bc0-4551-8254-76d6cb86b2b4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_3Y,AA_NETFLOWS_CATEGORY_3Y,http://79.173.173.28:4415/asset/b234888c-416f-4579-af72-b09085305be5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_3Y_PRCNT,AA_NETFLOWS_CATEGORY_3Y_PRCNT,http://79.173.173.28:4415/asset/e45e014a-702e-43a3-9c7d-101ac0f68c18,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_YTD,AA_NETFLOWS_CATEGORY_YTD,http://79.173.173.28:4415/asset/2308ee4d-57c9-4f79-94ea-6c261b82ac16,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_NETFLOWS_CATEGORY_YTD_PRCNT,AA_NETFLOWS_CATEGORY_YTD_PRCNT,http://79.173.173.28:4415/asset/40498cf2-aab4-4cef-a8ad-960dda62fa76,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_AUM_CATEGORY,AA_AUM_CATEGORY,http://79.173.173.28:4415/asset/96b2adb8-2ce4-4704-b983-60c85e96d1a6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/291efd99-4260-44ea-84b0-0c72d99b919c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/cf5d101c-c2ba-43e8-97b4-73f578176fe7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,AA_NETFLOWS_CATEGORY_1D,AA_NETFLOWS_CATEGORY_1D,http://79.173.173.28:4415/asset/84405c5a-3752-4646-b041-ae29c255defe,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/f082fc01-7456-4682-a1b5-2013b22e2437,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/3a088ddf-1ef5-422a-acb1-29d16bebc0c0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/1abf8daf-9f9c-45b0-b84b-b4d9a7028145,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/547461ec-646c-4eef-a614-f2b89687df8c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_FINANCIALS_DAILY,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/08009d10-3428-431f-af2d-c1cb4d0bec27,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/084d8fcd-bc95-4630-bb47-3e5613190997,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,MS_SHARPE_RATIO_CATEGORY_10Y,MS_SHARPE_RATIO_CATEGORY_10Y,http://79.173.173.28:4415/asset/53ec9749-f8fb-4bc2-8932-37b63434bedf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,MS_TR_CATEGORY_10Y_NET,MS_TR_CATEGORY_10Y_NET,http://79.173.173.28:4415/asset/a2267ef3-9e5e-4620-a8a7-ff6cb3a2ad1c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,MS_TR_CATEGORY_3Y_NET,MS_TR_CATEGORY_3Y_NET,http://79.173.173.28:4415/asset/980a96d5-5110-46f8-a848-6f7912569afb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,MS_TR_CATEGORY_5Y_NET,MS_TR_CATEGORY_5Y_NET,http://79.173.173.28:4415/asset/76028c22-05d7-4c74-9a74-2b4c2008b571,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/41771f50-13bc-432c-949c-81d6edaf757e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/93b8f92e-e7ce-4b03-9b30-5543742d7b92,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/d6169f7a-5765-40f4-961b-73bbf4e561d2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_1M_NET,AA_TR_CATEGORY_1M_NET,http://79.173.173.28:4415/asset/47002462-31ef-4f3f-ae3a-9dad952f3da9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_1Y_NET,AA_TR_CATEGORY_1Y_NET,http://79.173.173.28:4415/asset/729de4ac-5cb3-4bed-82e4-44fe6eac175e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_3M_NET,AA_TR_CATEGORY_3M_NET,http://79.173.173.28:4415/asset/15c64702-c21c-4bd3-9c6d-3a742eaddf66,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_6M_NET,AA_TR_CATEGORY_6M_NET,http://79.173.173.28:4415/asset/daaaabc1-1a68-4cc0-93c3-d055dd1e1322,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_ANN_10Y_NET,AA_TR_CATEGORY_ANN_10Y_NET,http://79.173.173.28:4415/asset/b8b0a823-311e-43de-a5c4-3ce92787e2a4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_ANN_3Y_NET,AA_TR_CATEGORY_ANN_3Y_NET,http://79.173.173.28:4415/asset/6b00ba98-1fc6-4ff4-8596-4042103fa9a0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_ANN_5Y_NET,AA_TR_CATEGORY_ANN_5Y_NET,http://79.173.173.28:4415/asset/818ca7fb-194f-4918-9c43-ed978c0afc55,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_YTD_NET,AA_TR_CATEGORY_YTD_NET,http://79.173.173.28:4415/asset/7454f0f1-41be-42f9-a5c0-ce4b7db32d8d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/9ac09381-f566-4644-a0af-818ba4a83665,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_1Y,AA_SHARPE_RATIO_CATEGORY_1Y,http://79.173.173.28:4415/asset/96ba2ca3-ee6e-43ee-bcf9-cd5c58f28d47,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_3Y,AA_SHARPE_RATIO_CATEGORY_3Y,http://79.173.173.28:4415/asset/569e239a-5a53-48b9-b5ea-9bc5c2ca8fdc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_5Y,AA_SHARPE_RATIO_CATEGORY_5Y,http://79.173.173.28:4415/asset/427f24fb-c722-4704-aad4-bae466f84c06,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/25851949-19b8-45b8-9800-2068f3fe97b4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/99c79d1b-55b5-4901-b470-1e0ec63cce47,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/74e94099-1d53-4222-b71a-a737a21fe278,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/cd37fe9b-b536-4f42-aae4-bae927ec9a10,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/933992f3-c4ae-486a-919b-f84cf244bd07,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/f7600e8a-aaf4-4b3f-adba-d72e821c33e8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,MS_TR_CATEGORY_1D_NET,MS_TR_CATEGORY_1D_NET,http://79.173.173.28:4415/asset/6aad756b-f066-4c59-8040-0b11e0e1ba58,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,MS_TR_CATEGORY_1D_NET_INDEXED,MS_TR_CATEGORY_1D_NET_INDEXED,http://79.173.173.28:4415/asset/eb0d2e8b-c588-4d6a-af4f-5d9454b9b74f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_PERFORMANCE_DAILY,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/5c3ac1c1-b259-4370-9c4e-3e779491fc18,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/7262d81d-c7bc-45da-ae1f-b2e0837b0fc0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/8e1144a4-949d-488c-a49d-32250fd4cc9b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/04a33a22-e966-417d-9511-1aa4d2ad068b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/bda72cc6-8128-4cb8-913e-e5ca00b049f9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,AA_estar_CATEGORY_ID,AA_estar_CATEGORY_ID,http://79.173.173.28:4415/asset/f7ca4e2d-17b6-4e0a-bb55-8866235e7c75,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_10Y,AA_STD_DEV_CATEGORY_10Y,http://79.173.173.28:4415/asset/a504ae32-b81a-49e0-bf27-ff45182fd8a4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_1Y,AA_STD_DEV_CATEGORY_1Y,http://79.173.173.28:4415/asset/1c9c79fb-bff4-467c-9bf9-afb1c2a947ad,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_3Y,AA_STD_DEV_CATEGORY_3Y,http://79.173.173.28:4415/asset/a97f5dfb-e14a-48d0-9ec4-8810753e9238,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_5Y,AA_STD_DEV_CATEGORY_5Y,http://79.173.173.28:4415/asset/680bc94b-97f0-4951-9e88-77e78f282e71,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/d69e9c52-c623-489e-9a62-5d54bae43e55,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,EXCHANGE_RATE,EXCHANGE_RATE,http://79.173.173.28:4415/asset/b48e018f-f29a-4646-b064-93cee24142ef,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,FILE_NAME,FILE_NAME,http://79.173.173.28:4415/asset/4fd68951-d04e-4068-b710-7c6290d820aa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,DATE,DATE,http://79.173.173.28:4415/asset/f4c4792e-2ff6-4b50-81a2-0ee7ad2e71eb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/16962f04-0b67-4823-8007-80776e13bba1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,CURRENCY_ID,CURRENCY_ID,http://79.173.173.28:4415/asset/e5b16ea7-1a33-4d26-adca-c6a362197f48,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/2a1cb6ea-8e7d-45d1-a66d-d923a813e105,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_FX_RATE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/bf664bad-ee17-475f-9d67-fdd1614b002f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/d5d24da4-5735-4a3b-8668-649c3c79fb13,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,MS_MRAR_PRCNT_RANK_EST_116M,MS_MRAR_PRCNT_RANK_EST_116M,http://79.173.173.28:4415/asset/fd24dca8-f98c-481e-bdf6-585be030195e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/a1af6a6b-8d67-4c21-ab21-966221a9f78f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/9e1ec21e-9d0f-4624-b789-e1ed89c26127,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,INDEX_ID,INDEX_ID,http://79.173.173.28:4415/asset/1432ff2d-b70f-4297-83ee-6e5d34b662ad,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_1M,KK_INDEX_NET_1M,http://79.173.173.28:4415/asset/a0f592cf-3cf1-4c16-8f37-13ed03da6958,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_1Y,KK_INDEX_NET_1Y,http://79.173.173.28:4415/asset/f4628811-f645-44fc-8467-2d91519d721d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_3M,KK_INDEX_NET_3M,http://79.173.173.28:4415/asset/80641ae2-d2f6-4e4a-ac40-45cf82e158dd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_3Y,KK_INDEX_NET_3Y,http://79.173.173.28:4415/asset/570434c2-dee8-4d14-a3bc-72f53e65d51e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_5Y,KK_INDEX_NET_5Y,http://79.173.173.28:4415/asset/43d84e66-eb04-49ae-886a-c89947dc7a93,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_6M,KK_INDEX_NET_6M,http://79.173.173.28:4415/asset/21e9e71a-5b0b-4de8-a1c9-8d12f2e15604,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_YTD,KK_INDEX_NET_YTD,http://79.173.173.28:4415/asset/31afb5f2-c1d4-4bb0-bea1-657db2206020,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,INDEX_NAME,INDEX_NAME,http://79.173.173.28:4415/asset/1d2eaea8-e7ee-41ec-9678-c0da32202a31,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_ANN_3Y,KK_INDEX_ANN_3Y,http://79.173.173.28:4415/asset/e896b869-6422-48fb-ad93-b0c173d2931b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_ANN_5Y,KK_INDEX_ANN_5Y,http://79.173.173.28:4415/asset/debbda3d-15ef-42fd-b359-9558799c6980,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,KK_INDEX_NET_10Y,KK_INDEX_NET_10Y,http://79.173.173.28:4415/asset/97234974-8414-4f25-904c-266c42701498,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/139aa82f-b6aa-45ac-bb03-82f2700b90d8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_STD_DEV_INDEX_10Y,AA_STD_DEV_INDEX_10Y,http://79.173.173.28:4415/asset/53de93ff-e97e-4d08-867e-51cd7bee5ae5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_STD_DEV_INDEX_1Y,AA_STD_DEV_INDEX_1Y,http://79.173.173.28:4415/asset/c2ac47bb-3ef2-4eff-a2cf-c1ec73cca48b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_STD_DEV_INDEX_3Y,AA_STD_DEV_INDEX_3Y,http://79.173.173.28:4415/asset/e91c8587-83f7-4c3d-a78a-223afbffdefa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_STD_DEV_INDEX_5Y,AA_STD_DEV_INDEX_5Y,http://79.173.173.28:4415/asset/e205392b-a0b4-407d-84ef-1f5a481a7e54,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_SHARPE_RATIO_INDEX_10Y,AA_SHARPE_RATIO_INDEX_10Y,http://79.173.173.28:4415/asset/b871d234-40b7-447b-b7d9-9da8d0dec4c8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_SHARPE_RATIO_INDEX_1Y,AA_SHARPE_RATIO_INDEX_1Y,http://79.173.173.28:4415/asset/d92ab984-c517-44c3-b4cd-3d4090e2331e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_SHARPE_RATIO_INDEX_3Y,AA_SHARPE_RATIO_INDEX_3Y,http://79.173.173.28:4415/asset/ca8127be-d769-4696-8966-1344e5022fc2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_SHARPE_RATIO_INDEX_5Y,AA_SHARPE_RATIO_INDEX_5Y,http://79.173.173.28:4415/asset/d23816ef-0285-42ae-9107-ae09d7b0e19c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/d7118b9b-b2f5-4cd2-8451-f65f31b2c23d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/28d55bb9-1c70-425c-92ad-3978070d79fb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/803046da-ad63-4bbb-830c-bf7784b46b19,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,KK_INDEX_NET_1D,KK_INDEX_NET_1D,http://79.173.173.28:4415/asset/02e0179c-fd02-4b3c-9e73-37f147ad6294,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,INDEX_NAME,INDEX_NAME,http://79.173.173.28:4415/asset/4fb75553-f162-47b5-96ae-5c9ca8d79d48,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,INDEX_ID,INDEX_ID,http://79.173.173.28:4415/asset/d6dd1fb7-9875-4ee8-9dfd-4a7a28299a87,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/b06ff1c1-60d5-4db1-8990-4c86db4838c9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/8e611404-26cb-4cc2-befd-7c706d9dd667,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_INDEX_PERFORMANCE_DAILY,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/bcbbed87-2681-4c3a-b476-d1052e5212ac,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/3620bc20-ab8e-4586-8030-dc860ae90747,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_BENCHMARK_SPREAD_1Y_NET,MS_BENCHMARK_SPREAD_1Y_NET,http://79.173.173.28:4415/asset/ef7c4d04-6399-49e9-9468-12946282b750,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_BENCHMARK_SPREAD_3M_NET,MS_BENCHMARK_SPREAD_3M_NET,http://79.173.173.28:4415/asset/5c2a8c2d-9fef-42e8-b169-3f9f6d434115,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_BENCHMARK_SPREAD_6M_NET,MS_BENCHMARK_SPREAD_6M_NET,http://79.173.173.28:4415/asset/9d1401b9-e3a1-4430-8ae7-3c474eb1c571,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_BENCHMARK_SPREAD_ANN_10Y_NET,MS_BENCHMARK_SPREAD_ANN_10Y_NET,http://79.173.173.28:4415/asset/5e7f3362-8d0b-4cab-ac39-9592746c638e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_BENCHMARK_SPREAD_ANN_3Y_NET,MS_BENCHMARK_SPREAD_ANN_3Y_NET,http://79.173.173.28:4415/asset/9fb28d09-c9f4-4c3e-a1ad-7c20c8c933de,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_BENCHMARK_SPREAD_YTD_NET,MS_BENCHMARK_SPREAD_YTD_NET,http://79.173.173.28:4415/asset/93d5dfaf-cb13-41e5-bd54-332b69ee3dc4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_HAS_BENCHMARK,MS_HAS_BENCHMARK,http://79.173.173.28:4415/asset/c43247b6-9075-42e9-8e89-90eedda756da,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/70728eea-ef2f-4228-9a50-e1ed2bf1a739,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_TR_PROSPECTUS_BENCHMARK_1D_NET,MS_TR_PROSPECTUS_BENCHMARK_1D_NET,http://79.173.173.28:4415/asset/a7948736-3636-4876-ac17-5d7cd1defe25,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_TR_PROSPECTUS_BENCHMARK_1M_NET,MS_TR_PROSPECTUS_BENCHMARK_1M_NET,http://79.173.173.28:4415/asset/f16590c1-9376-496f-9a01-12816e9dc927,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_TR_PROSPECTUS_BENCHMARK_1Y_NET,MS_TR_PROSPECTUS_BENCHMARK_1Y_NET,http://79.173.173.28:4415/asset/7c49b5a4-8fe0-450f-8c18-1cd92ca36dc6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_TR_PROSPECTUS_BENCHMARK_3Y_NET,MS_TR_PROSPECTUS_BENCHMARK_3Y_NET,http://79.173.173.28:4415/asset/dc56858b-b7e1-4823-8931-0c940229ca18,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_TR_PROSPECTUS_BENCHMARK_5Y_NET,MS_TR_PROSPECTUS_BENCHMARK_5Y_NET,http://79.173.173.28:4415/asset/816037d9-3867-4686-be00-ca1a5dd2a152,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_TR_PROSPECTUS_BENCHMARK_6M_NET,MS_TR_PROSPECTUS_BENCHMARK_6M_NET,http://79.173.173.28:4415/asset/df7d7e52-6269-4e58-a429-7cedf72efdb0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_OUTPERF_BENCHMARK_3M_NET,MS_OUTPERF_BENCHMARK_3M_NET,http://79.173.173.28:4415/asset/d2d54902-60a0-4809-bbc1-3f39a4d2db90,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,MS_OUTPERF_BENCHMARK_6M_NET,MS_OUTPERF_BENCHMARK_6M_NET,http://79.173.173.28:4415/asset/b6e83ba9-52af-4f4f-a544-1abe3e98801c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/ab6c9398-5773-4745-b701-668fc2fe94f7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,ISSUER_TYPE,ISSUER_TYPE,http://79.173.173.28:4415/asset/ffdf4084-9239-4dbf-80a2-58b6aefc63fa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/18abd5b5-eb9f-4010-83b6-a7da20511b0c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_MPT_BENCHMARK_1M_BASECCY,AA_TR_MPT_BENCHMARK_1M_BASECCY,http://79.173.173.28:4415/asset/4167ad31-1e77-4274-a643-e6e1c3e6bcd9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_MPT_RISK_FREE_RATE_1M_BASECCY,AA_TR_MPT_RISK_FREE_RATE_1M_BASECCY,http://79.173.173.28:4415/asset/0b5a1f34-14c8-4457-b56e-c9ef3a032e14,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_PROSPECTUS_BENCHMARK_10Y_NET,AA_TR_PROSPECTUS_BENCHMARK_10Y_NET,http://79.173.173.28:4415/asset/477d70d5-9b7e-47cc-b538-776c2e0c7931,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_PROSPECTUS_BENCHMARK_ANN_10Y_NET,AA_TR_PROSPECTUS_BENCHMARK_ANN_10Y_NET,http://79.173.173.28:4415/asset/195a6b8e-e15d-4c4e-a37b-3128f8460c35,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_PROSPECTUS_BENCHMARK_ANN_3Y_NET,AA_TR_PROSPECTUS_BENCHMARK_ANN_3Y_NET,http://79.173.173.28:4415/asset/41130de1-4dc4-42d8-a839-fc4421fb1827,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_PROSPECTUS_BENCHMARK_ANN_5Y_NET,AA_TR_PROSPECTUS_BENCHMARK_ANN_5Y_NET,http://79.173.173.28:4415/asset/d39f6134-30f8-439a-a1a7-c800d926af68,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_PROSPECTUS_BENCHMARK_YTD_NET,AA_TR_PROSPECTUS_BENCHMARK_YTD_NET,http://79.173.173.28:4415/asset/a43f3eec-caf0-422a-b382-367eecfff646,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_TR_RISK_FREE_RATE_1M_BASECCY,AA_TR_RISK_FREE_RATE_1M_BASECCY,http://79.173.173.28:4415/asset/2b88c9d3-5626-4ae5-be58-bdef92c2967e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_BENCHMARK_SPREAD_5Y_NET,AA_BENCHMARK_SPREAD_5Y_NET,http://79.173.173.28:4415/asset/2f0f379d-dc54-49e2-87ff-cbd3556013b9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_BENCHMARK_SPREAD_ANN_5Y_NET,AA_BENCHMARK_SPREAD_ANN_5Y_NET,http://79.173.173.28:4415/asset/18a1e5e6-62d4-4c97-8ea3-63d2eab1bdf6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_BENCHMARK_SPREAD_10Y_NET,AA_BENCHMARK_SPREAD_10Y_NET,http://79.173.173.28:4415/asset/e197466a-0658-483f-92f8-d7c0dfd202af,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_BENCHMARK_SPREAD_1M_NET,AA_BENCHMARK_SPREAD_1M_NET,http://79.173.173.28:4415/asset/3219bfbf-9aad-418d-b2cc-e7f3adb0db37,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_BENCHMARK_SPREAD_3Y_NET,AA_BENCHMARK_SPREAD_3Y_NET,http://79.173.173.28:4415/asset/a5a29601-a8d8-437a-abf3-605f9b3d9a30,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/804ee715-f94a-4111-888a-7483ba53efa1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_3M_NET,AA_HAS_BENCHMARK_SPREAD_3M_NET,http://79.173.173.28:4415/asset/8135831e-ebb7-40e8-88b7-cb2a5e12f754,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_3Y_NET,AA_HAS_BENCHMARK_SPREAD_3Y_NET,http://79.173.173.28:4415/asset/9854e62c-6bc8-4ce5-8011-7bd49f4e1d70,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_5Y_NET,AA_HAS_BENCHMARK_SPREAD_5Y_NET,http://79.173.173.28:4415/asset/c040648d-1368-4d56-81ec-b970f32afa18,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_6M_NET,AA_HAS_BENCHMARK_SPREAD_6M_NET,http://79.173.173.28:4415/asset/953e1ea4-3824-428f-a140-75177ecdd080,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_YTD_NET,AA_HAS_BENCHMARK_SPREAD_YTD_NET,http://79.173.173.28:4415/asset/be3372e3-e1b4-4c33-8c7d-0985e6776f63,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_10Y_NET,AA_HAS_BENCHMARK_SPREAD_10Y_NET,http://79.173.173.28:4415/asset/d3254590-80d7-4d7b-ac28-94857000faf9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_1M_NET,AA_HAS_BENCHMARK_SPREAD_1M_NET,http://79.173.173.28:4415/asset/3afce1e7-acf8-4933-b6f5-4750a3e665fc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_HAS_BENCHMARK_SPREAD_1Y_NET,AA_HAS_BENCHMARK_SPREAD_1Y_NET,http://79.173.173.28:4415/asset/c24c9d22-1c7c-4812-96e3-6e96c4648f16,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_OUTPERF_BENCHMARK_10Y_NET,AA_OUTPERF_BENCHMARK_10Y_NET,http://79.173.173.28:4415/asset/02c9bc19-e302-49a8-8fa8-80eb5876a272,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_OUTPERF_BENCHMARK_1M_NET,AA_OUTPERF_BENCHMARK_1M_NET,http://79.173.173.28:4415/asset/b9971bd3-043b-41c1-8dd7-5aa32b5b5ad4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_OUTPERF_BENCHMARK_1Y_NET,AA_OUTPERF_BENCHMARK_1Y_NET,http://79.173.173.28:4415/asset/0a48ab16-472c-46e5-b019-923a163f228d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_OUTPERF_BENCHMARK_3Y_NET,AA_OUTPERF_BENCHMARK_3Y_NET,http://79.173.173.28:4415/asset/96908814-4e52-40f1-b63f-0cfc4e06bc04,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_OUTPERF_BENCHMARK_5Y_NET,AA_OUTPERF_BENCHMARK_5Y_NET,http://79.173.173.28:4415/asset/9033e26f-b576-4fdc-aa9f-bfada3041e5b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_OUTPERF_BENCHMARK_YTD_NET,AA_OUTPERF_BENCHMARK_YTD_NET,http://79.173.173.28:4415/asset/5fb60122-3179-44ec-9f10-35d127d8cc2a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_PERSISTENCE_2Y_NET,AA_PERSISTENCE_2Y_NET,http://79.173.173.28:4415/asset/e192fb5e-e6e0-44d9-90ac-f194c73104aa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_BENCHMARK_PERFORMANCE,AA_PERSISTENCE_3Y_NET,AA_PERSISTENCE_3Y_NET,http://79.173.173.28:4415/asset/397c4acc-7656-4234-92ef-a2824f5ad660,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_1M,AA_NETFLOWS_SHARECLASS_1M,http://79.173.173.28:4415/asset/ab085d6f-9c07-425a-b6d0-77f41e28d3ba,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_1M_PRCNT,AA_NETFLOWS_SHARECLASS_1M_PRCNT,http://79.173.173.28:4415/asset/25fb7ec9-8a75-4fe0-b071-667a072eee1e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_1Y,AA_NETFLOWS_SHARECLASS_1Y,http://79.173.173.28:4415/asset/c5d8a13c-d3d1-436f-a2d7-77d6320fa1d6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_1Y_PRCNT,AA_NETFLOWS_SHARECLASS_1Y_PRCNT,http://79.173.173.28:4415/asset/e5bad047-3a19-4a2d-a2bd-8bb1ddd630fa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_3Y,AA_NETFLOWS_SHARECLASS_3Y,http://79.173.173.28:4415/asset/2d45629e-8688-4b71-b440-67819902376e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_3Y_PRCNT,AA_NETFLOWS_SHARECLASS_3Y_PRCNT,http://79.173.173.28:4415/asset/a19b6def-e6e7-44fe-8fa0-943c1d453725,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_YTD,AA_NETFLOWS_SHARECLASS_YTD,http://79.173.173.28:4415/asset/3c214023-4099-4d87-878d-5874cc9fd198,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_SHARECLASS_YTD_PRCNT,AA_NETFLOWS_SHARECLASS_YTD_PRCNT,http://79.173.173.28:4415/asset/73a23b91-058e-4d76-b13b-cefc40e6e58b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_1M,AA_NETFLOWS_FUND_1M,http://79.173.173.28:4415/asset/59f4b383-02ac-4eb5-a5a9-d74ccf0de500,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_1M_PRCNT,AA_NETFLOWS_FUND_1M_PRCNT,http://79.173.173.28:4415/asset/6995c330-d3ee-4212-aa71-fc6756835c2e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_1Y,AA_NETFLOWS_FUND_1Y,http://79.173.173.28:4415/asset/81581a05-26cb-4d58-b212-dfaa9a84d3c5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_1Y_PRCNT,AA_NETFLOWS_FUND_1Y_PRCNT,http://79.173.173.28:4415/asset/30e132e9-8c48-444e-8623-caabb92d503b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_3Y,AA_NETFLOWS_FUND_3Y,http://79.173.173.28:4415/asset/7e4b7d12-f406-458a-97d7-10b90254f996,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_3Y_PRCNT,AA_NETFLOWS_FUND_3Y_PRCNT,http://79.173.173.28:4415/asset/a3ffd4ee-8d21-4e37-9680-4d0db8952707,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_YTD,AA_NETFLOWS_FUND_YTD,http://79.173.173.28:4415/asset/18e70e74-8e14-4db0-a294-da61198a0d00,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_NETFLOWS_FUND_YTD_PRCNT,AA_NETFLOWS_FUND_YTD_PRCNT,http://79.173.173.28:4415/asset/8780246d-f431-4757-a0eb-954ee7d96b9d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/c792633e-4a0f-4888-9d39-0caffc95d76c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/11303594-81e5-4222-bfda-7fb5fc3da30f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_REVENUES_FUND_GROSS,AA_REVENUES_FUND_GROSS,http://79.173.173.28:4415/asset/8fd2a622-a75c-4044-aba1-f0658384be71,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_AUM_FUND,AA_AUM_FUND,http://79.173.173.28:4415/asset/1327c7a5-eeb9-4b7e-bb28-e3b2a8e7c5e2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_AUM_SHARECLASS,AA_AUM_SHARECLASS,http://79.173.173.28:4415/asset/8278bf00-3eeb-4ee3-870a-752af83e08b2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/b90a2730-b6d7-4847-baba-f3a5f925e1c4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,AA_AGGREGATION,AA_AGGREGATION,http://79.173.173.28:4415/asset/17739875-be55-42f3-bf28-138b5e62ae5a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/0118b2de-989e-4e48-b2f5-06b73d9e725a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/c44dffbf-edcc-4830-9f30-81918394d676,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/6a5ec72d-0f48-4506-9ad0-fa8533794ecd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/5f006467-4d11-490f-994f-b19da9237f2c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/4f6d929e-3054-4b04-acba-e84b739142d7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/42d8d955-793c-46c9-84b1-9cb9a8efd1a6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/5cd86cdc-702e-491f-9d77-d1f8c41de844,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/9588f187-dbad-41f1-b9de-a56c206e5451,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/0927be7a-cec7-4c61-869a-7136af410d5a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/3d5c962a-dd79-41ad-a9fb-47a1a3d4064b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/f49e5cb6-9737-442d-8d25-225d33374b04,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,AA_NETFLOWS_SHARECLASS_1D,AA_NETFLOWS_SHARECLASS_1D,http://79.173.173.28:4415/asset/63c08c9e-3d42-485c-b457-44736848d8a4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_FINANCIALS_DAILY,AA_NETFLOWS_FUND_1D,AA_NETFLOWS_FUND_1D,http://79.173.173.28:4415/asset/999589bc-f992-46d2-bf88-68d76724327d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRETURN_FUND_10Y_GROSS,AA_MRETURN_FUND_10Y_GROSS,http://79.173.173.28:4415/asset/b9650c2b-90fd-4652-8df7-6bb759eb2db2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRETURN_FUND_3Y_GROSS,AA_MRETURN_FUND_3Y_GROSS,http://79.173.173.28:4415/asset/9c023d52-ee53-48bd-a820-40ea26f5ce50,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRETURN_FUND_3Y_NET,AA_MRETURN_FUND_3Y_NET,http://79.173.173.28:4415/asset/37fc5a8a-f888-4203-9684-2ce82f9f2c4e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRETURN_FUND_5Y_GROSS,AA_MRETURN_FUND_5Y_GROSS,http://79.173.173.28:4415/asset/13a56830-976d-4b8a-a190-cfabf346b50a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRETURN_FUND_5Y_NET,AA_MRETURN_FUND_5Y_NET,http://79.173.173.28:4415/asset/8eac6473-a8e6-41c3-9b85-2d34405261f4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRISK_FUND_10Y_GROSS,AA_MRISK_FUND_10Y_GROSS,http://79.173.173.28:4415/asset/a6345002-9943-48e3-b455-3f9177d85904,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRISK_FUND_10Y_NET,AA_MRISK_FUND_10Y_NET,http://79.173.173.28:4415/asset/1f88885a-06b6-45a8-8d1b-a3a3c172ed5f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRISK_FUND_3Y_GROSS,AA_MRISK_FUND_3Y_GROSS,http://79.173.173.28:4415/asset/165e7d8b-f0f1-47bc-96b9-c0d0d905a1a1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_MRISK_FUND_5Y_GROSS,AA_MRISK_FUND_5Y_GROSS,http://79.173.173.28:4415/asset/8c6b240d-ba2b-4527-8979-0c6162f66d51,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_NAV,AA_NAV,http://79.173.173.28:4415/asset/dbe44873-147c-4db8-9a31-6e6da2d4ffa4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_INFORMATION_RATIO_3Y,AA_INFORMATION_RATIO_3Y,http://79.173.173.28:4415/asset/1008eec9-1dd7-4f60-a407-b15046ee742c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/ca76ffb8-bdcf-48e2-ac0b-e5c2dc7a90fa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_10Y,AA_estar_CATEGORY_SPREAD_10Y,http://79.173.173.28:4415/asset/37267c19-73b0-4a89-87ff-d35f7f10983b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_1Y,AA_estar_CATEGORY_SPREAD_1Y,http://79.173.173.28:4415/asset/64c6b0c3-bf82-4c1f-8442-84d019f0d217,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_3M,AA_estar_CATEGORY_SPREAD_3M,http://79.173.173.28:4415/asset/0f67a477-a966-4dbe-adbb-5e15c4ec2d0d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_ANN_10Y,AA_estar_CATEGORY_SPREAD_ANN_10Y,http://79.173.173.28:4415/asset/ebe30465-8e85-48da-bb33-c8ac81c1c223,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_ANN_3Y,AA_estar_CATEGORY_SPREAD_ANN_3Y,http://79.173.173.28:4415/asset/44b72ae0-fa75-4404-a6d6-ed4570d48c48,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/7202e6f9-fb2e-44fd-9f1c-9269d95418fb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_SHARPE_RATIO_1Y,AA_SHARPE_RATIO_1Y,http://79.173.173.28:4415/asset/48aef07f-112f-4fc2-8f57-97fb11f1ef44,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_SHARPE_RATIO_5Y,AA_SHARPE_RATIO_5Y,http://79.173.173.28:4415/asset/09cdef17-3c3b-4fdd-b422-adeb067d430e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_1M_NET,AA_TR_FUND_1M_NET,http://79.173.173.28:4415/asset/7c050c0e-1b0e-4387-b1ef-7fb7f5d5f7f3,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_1Y_NET,AA_TR_FUND_1Y_NET,http://79.173.173.28:4415/asset/7f2eefc3-83a0-4961-8257-ba83d74e4449,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_3M_NET,AA_TR_FUND_3M_NET,http://79.173.173.28:4415/asset/5ddba436-9e26-4bba-a51b-629bb927b9ec,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_3Y_NET,AA_TR_FUND_3Y_NET,http://79.173.173.28:4415/asset/97f0a602-3a2b-4703-aa25-52ed6e08f1c8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_5Y_NET,AA_TR_FUND_5Y_NET,http://79.173.173.28:4415/asset/1d3a88d4-766f-4050-afce-7bc444bdce6f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_6M_NET,AA_TR_FUND_6M_NET,http://79.173.173.28:4415/asset/67e50ee4-c2b2-488e-bfd9-c81fb22333f6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_ANN_10Y_NET,AA_TR_FUND_ANN_10Y_NET,http://79.173.173.28:4415/asset/b19ac974-30f4-4cdb-b778-36c5d3ce2a28,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_ANN_3Y_NET,AA_TR_FUND_ANN_3Y_NET,http://79.173.173.28:4415/asset/38ea69da-a618-4842-8268-e2b330a448e8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_ANN_5Y_NET,AA_TR_FUND_ANN_5Y_NET,http://79.173.173.28:4415/asset/6e15b2b2-46b2-4f0a-9e75-734c80a84e63,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_108M,AA_ROAR_108M,http://79.173.173.28:4415/asset/da56bd31-75d4-488a-bdd0-2c464a80b5c4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_109M,AA_ROAR_109M,http://79.173.173.28:4415/asset/c45a20d7-b37f-43a5-9945-167764f82ce9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_10Y,AA_ROAR_10Y,http://79.173.173.28:4415/asset/6fbe6790-3903-4508-9c4d-925b73fc563e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_10Y_GROSS,AA_ROAR_10Y_GROSS,http://79.173.173.28:4415/asset/a9f16b7b-74ba-46df-b141-b0f1eacaf937,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_110M,AA_ROAR_110M,http://79.173.173.28:4415/asset/d4677b2d-3fe9-47c6-b70a-552515e7edee,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_111M,AA_ROAR_111M,http://79.173.173.28:4415/asset/c94981ef-fecf-4029-b1a4-900e219d7a11,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_112M,AA_ROAR_112M,http://79.173.173.28:4415/asset/3d9b26aa-7d38-46cd-9b73-e57621f37a25,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_113M,AA_ROAR_113M,http://79.173.173.28:4415/asset/10aff69d-50f7-424e-bf4c-a99566188dc5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_114M,AA_ROAR_114M,http://79.173.173.28:4415/asset/c01759f7-d995-483d-9f2b-539cf7adb28f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_115M,AA_ROAR_115M,http://79.173.173.28:4415/asset/5dcac680-192d-4e0c-86c3-07071632451c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_116M,AA_ROAR_116M,http://79.173.173.28:4415/asset/0bae1462-b1ec-4110-9246-d2a2ac7bbeff,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_117M,AA_ROAR_117M,http://79.173.173.28:4415/asset/c113cd75-81fd-4d8a-a331-76c03e0af5c0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_118M,AA_ROAR_118M,http://79.173.173.28:4415/asset/e47e62c7-b1bb-4c40-b22b-26eaed586a15,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_119M,AA_ROAR_119M,http://79.173.173.28:4415/asset/66d8318f-2c10-4a8a-bb55-9f3a890d3f03,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_12M,AA_ROAR_12M,http://79.173.173.28:4415/asset/c13fbc97-e3d6-4585-beb8-cfcf29aef37f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_1M,AA_ROAR_1M,http://79.173.173.28:4415/asset/86fc23e5-8364-48bf-82c5-5e23e0107110,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_24M,AA_ROAR_24M,http://79.173.173.28:4415/asset/9420d6bb-8f43-456b-9355-65bff78039cf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_25M,AA_ROAR_25M,http://79.173.173.28:4415/asset/4369419a-b882-4e3b-8b2b-2a6768d681dc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_26M,AA_ROAR_26M,http://79.173.173.28:4415/asset/96925709-b225-4675-8186-c5b70216a664,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_27M,AA_ROAR_27M,http://79.173.173.28:4415/asset/c83f7102-f073-405a-8cb7-1e4ed05ec15a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_28M,AA_ROAR_28M,http://79.173.173.28:4415/asset/b7fbbb07-5803-49c0-b139-4ea509d44a09,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_29M,AA_ROAR_29M,http://79.173.173.28:4415/asset/579b0e30-4ac3-4123-ad59-3604f8d994b9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_30M,AA_ROAR_30M,http://79.173.173.28:4415/asset/9cca4584-65c5-4839-81ed-516dc33e4e61,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_31M,AA_ROAR_31M,http://79.173.173.28:4415/asset/ab464233-1f00-43fb-97f5-1d25b5ef4765,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_32M,AA_ROAR_32M,http://79.173.173.28:4415/asset/f725ecd9-55d6-46b6-a741-6b5505c67cce,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_33M,AA_ROAR_33M,http://79.173.173.28:4415/asset/160423df-3b2d-48de-8894-1f6d161189fa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_34M,AA_ROAR_34M,http://79.173.173.28:4415/asset/1e3efd7e-bce3-456e-b57b-2fffff83e388,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_35M,AA_ROAR_35M,http://79.173.173.28:4415/asset/969a2233-14c1-4f7d-bd61-0bbadb687113,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_3M,AA_ROAR_3M,http://79.173.173.28:4415/asset/61a76f05-e7bd-414f-bdd7-bd4a72d0e928,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_3Y,AA_ROAR_3Y,http://79.173.173.28:4415/asset/5157c411-145c-4b2c-a010-117ca5677ed0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_3Y_GROSS,AA_ROAR_3Y_GROSS,http://79.173.173.28:4415/asset/c60db32c-d520-477a-b80a-9b170743eef4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_48M,AA_ROAR_48M,http://79.173.173.28:4415/asset/a9f90622-b1b1-4712-8dcb-a9627e9cf34b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_49M,AA_ROAR_49M,http://79.173.173.28:4415/asset/9da5fa5d-bcec-4a4e-8b8c-97a474d2a356,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_50M,AA_ROAR_50M,http://79.173.173.28:4415/asset/67b96951-cffe-4fb7-a3c8-6d993db7c363,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_51M,AA_ROAR_51M,http://79.173.173.28:4415/asset/85c3c849-897b-460b-94b9-799884dd229e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_52M,AA_ROAR_52M,http://79.173.173.28:4415/asset/9ceff291-9179-48e3-bdc4-0c245f10c87e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_53M,AA_ROAR_53M,http://79.173.173.28:4415/asset/39b4878e-34d4-414a-b03b-fe0c11af3950,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_54M,AA_ROAR_54M,http://79.173.173.28:4415/asset/efcedba5-c9c0-4e73-b311-bbcfd839d00b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_55M,AA_ROAR_55M,http://79.173.173.28:4415/asset/f4fcb9b2-70d8-4530-8bea-51aa09c479cf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_56M,AA_ROAR_56M,http://79.173.173.28:4415/asset/4e111b80-4456-4831-b3b7-eca3c8a546aa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_57M,AA_ROAR_57M,http://79.173.173.28:4415/asset/37e6c9c1-5960-4a52-a47e-5a58fcd848c1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_58M,AA_ROAR_58M,http://79.173.173.28:4415/asset/a799a3e0-dcbf-4d4a-95e8-d2c94736b0a4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_59M,AA_ROAR_59M,http://79.173.173.28:4415/asset/f7a523d8-7401-44e8-86f4-5e2f6da6d983,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_5Y,AA_ROAR_5Y,http://79.173.173.28:4415/asset/d710a966-5d31-4cef-bc83-deac9a6bcbcf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_5Y_GROSS,AA_ROAR_5Y_GROSS,http://79.173.173.28:4415/asset/b10dc5b4-1312-4434-93fc-5a72771c79db,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ROAR_6M,AA_ROAR_6M,http://79.173.173.28:4415/asset/83541491-3150-4783-9481-6608f52e5c19,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/bbffe408-aa6e-4cec-996d-df5bbe7eb843,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ALPHA_10Y,AA_ALPHA_10Y,http://79.173.173.28:4415/asset/c87022fe-6b9f-4758-b173-d8689b5b9ea3,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ALPHA_3Y,AA_ALPHA_3Y,http://79.173.173.28:4415/asset/5f39fcfb-3a96-4640-bdff-dfccb72d406b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_ALPHA_5Y,AA_ALPHA_5Y,http://79.173.173.28:4415/asset/beba2631-530d-4fe2-bca3-4b3589c52808,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/0d78ab99-d57f-4099-b266-6efbef2bdc53,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_YTD_NET,AA_TR_FUND_YTD_NET,http://79.173.173.28:4415/asset/63e29254-99b7-419e-aa9e-5667fbe2ca21,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,AA_TR_FUND_10Y_NET,AA_TR_FUND_10Y_NET,http://79.173.173.28:4415/asset/6a1076a4-0347-4e2a-9847-6746a2a6ffd9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,RECORD_DATE,RECORD_DATE,http://79.173.173.28:4415/asset/fdd343c5-738d-4b08-9a57-d804e909f825,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_SHARPE_RATIO_10Y,MS_SHARPE_RATIO_10Y,http://79.173.173.28:4415/asset/5596d18e-4296-4aef-b341-4ec530d724e5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_SHARPE_RATIO_3Y,MS_SHARPE_RATIO_3Y,http://79.173.173.28:4415/asset/d3f7e48f-cec7-49d3-ac8a-48d7b7b2d673,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_INFORMATION_RATIO_10Y,MS_INFORMATION_RATIO_10Y,http://79.173.173.28:4415/asset/ea134ac0-26b8-4def-b138-f4641dd92f61,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_INFORMATION_RATIO_1Y,MS_INFORMATION_RATIO_1Y,http://79.173.173.28:4415/asset/ccfc19b5-12e7-4dc8-b94f-4a7a382161e6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_INFORMATION_RATIO_5Y,MS_INFORMATION_RATIO_5Y,http://79.173.173.28:4415/asset/3cf0d9d3-140f-4999-9798-103a74d3c483,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/1e46ca2b-ac93-401f-976d-ca5803ee018b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/3e7a3c93-f1af-4bbb-bc12-38f6ae7e6f11,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MRETURN_FUND_10Y_NET,MS_MRETURN_FUND_10Y_NET,http://79.173.173.28:4415/asset/70e26298-9e7d-48c4-997c-93677010bea0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MRISK_FUND_3Y_NET,MS_MRISK_FUND_3Y_NET,http://79.173.173.28:4415/asset/e884ee12-438f-44aa-a4ba-b7f9d52adb50,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MRISK_FUND_5Y_NET,MS_MRISK_FUND_5Y_NET,http://79.173.173.28:4415/asset/eb9e7915-12e5-4a02-810a-1ef1df76e717,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MORNINGSTAR_CATEGORY_SPREAD_1M,MS_MORNINGSTAR_CATEGORY_SPREAD_1M,http://79.173.173.28:4415/asset/44052b50-b7c8-4671-8dd5-6280a1f5c333,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MORNINGSTAR_CATEGORY_SPREAD_3Y,MS_MORNINGSTAR_CATEGORY_SPREAD_3Y,http://79.173.173.28:4415/asset/582560f3-c2ba-495e-9b4b-98ebd0eb10f2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MORNINGSTAR_CATEGORY_SPREAD_5Y,MS_MORNINGSTAR_CATEGORY_SPREAD_5Y,http://79.173.173.28:4415/asset/b3978468-ff8c-4f01-a02e-cee830a9d94b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MORNINGSTAR_CATEGORY_SPREAD_6M,MS_MORNINGSTAR_CATEGORY_SPREAD_6M,http://79.173.173.28:4415/asset/ebc3dd47-2940-419b-9b72-a7d27e73da54,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MORNINGSTAR_CATEGORY_SPREAD_ANN_5Y,MS_MORNINGSTAR_CATEGORY_SPREAD_ANN_5Y,http://79.173.173.28:4415/asset/d4ad2224-e814-4614-b14f-d47e73005e2d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE,MS_MORNINGSTAR_CATEGORY_SPREAD_YTD,MS_MORNINGSTAR_CATEGORY_SPREAD_YTD,http://79.173.173.28:4415/asset/7d8816be-280c-4e5f-9eb0-95e9d0b4cb57,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/21def651-23e7-43f3-aee4-7ee6e2442ea0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,AA_TR_FUND_1D_NET,AA_TR_FUND_1D_NET,http://79.173.173.28:4415/asset/b514f8cd-209b-44ee-bbb8-baa283d17f3e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,AA_TR_FUND_1D_NET_INDEXED,AA_TR_FUND_1D_NET_INDEXED,http://79.173.173.28:4415/asset/b767559f-6d0d-460d-a793-d35bfb994836,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/2a0bae15-d8a7-49bf-8955-c9a41914bda4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/e0191b70-4a41-450b-a925-2e690df1461e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,UPDATE_DATE,UPDATE_DATE,http://79.173.173.28:4415/asset/fd5f0ec9-8684-408b-92c6-018054bdee6b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/b2d2c2bd-b5d1-4d6e-ac6f-69f9bc4b464d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/329b3440-49b5-483a-983a-1e515129e15e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_PERFORMANCE_DAILY,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/f68b67af-d95a-4b7b-b291-8765b47b025a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/cc27c22b-f71e-40e3-a3a5-f166346305c1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_HAS_PEERS_10Y,AA_HAS_PEERS_10Y,http://79.173.173.28:4415/asset/a68c7b85-5e6d-4c66-87fb-2f678ffc9f27,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_HAS_PEERS_3M,AA_HAS_PEERS_3M,http://79.173.173.28:4415/asset/b7fb409e-a422-4839-8b14-6b811541117d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_HAS_PEERS_5Y,AA_HAS_PEERS_5Y,http://79.173.173.28:4415/asset/21e42eed-87b5-4ca3-a1d6-7cef9e6033e7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_HAS_PEERS_6M,AA_HAS_PEERS_6M,http://79.173.173.28:4415/asset/253dd308-459c-42e0-bc38-497773831eeb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_HAS_PEERS_YTD,AA_HAS_PEERS_YTD,http://79.173.173.28:4415/asset/c1296ea0-00a8-483e-8694-5e1807e21181,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_INCEPTION_DATE,AA_INCEPTION_DATE,http://79.173.173.28:4415/asset/fd2cb034-d6c5-4a4a-8975-7f511239bc0f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_OUTPERF_PEERS_1Y,AA_OUTPERF_PEERS_1Y,http://79.173.173.28:4415/asset/789275c9-fd59-44ff-9fe5-8656566937da,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_OUTPERF_PEERS_YTD,AA_OUTPERF_PEERS_YTD,http://79.173.173.28:4415/asset/bb7c8599-b7f6-46a8-8d9f-83ce3d793959,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/90f2871a-a648-47f1-b400-b15246c3e895,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_10Y,AA_TR_FUND_PRCNT_RANK_10Y,http://79.173.173.28:4415/asset/9b96f73f-f29e-47d8-b171-e4b31928eaa9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_1M,AA_TR_FUND_PRCNT_RANK_1M,http://79.173.173.28:4415/asset/0d685e3f-fbf4-4a49-8442-6eb31952979a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_1Y,AA_TR_FUND_PRCNT_RANK_1Y,http://79.173.173.28:4415/asset/719b14e6-4092-4f06-8149-16af55214ea6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_3M,AA_TR_FUND_PRCNT_RANK_3M,http://79.173.173.28:4415/asset/a9ed62af-a446-4578-9aff-5c20a800a46d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_3Y,AA_TR_FUND_PRCNT_RANK_3Y,http://79.173.173.28:4415/asset/a8a88b4d-12ca-4042-87b1-77fa5cbb923e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_5Y,AA_TR_FUND_PRCNT_RANK_5Y,http://79.173.173.28:4415/asset/356f64ba-d02f-456b-89fe-984a9032933e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_6M,AA_TR_FUND_PRCNT_RANK_6M,http://79.173.173.28:4415/asset/f8b8ebdc-ed63-4eb7-a2cd-07e4ee87d916,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_PRCNT_RANK_YTD,AA_TR_FUND_PRCNT_RANK_YTD,http://79.173.173.28:4415/asset/c5665c02-92e1-467c-b43e-2f2e0370f23b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_QUARTILE_10Y,AA_TR_FUND_QUARTILE_10Y,http://79.173.173.28:4415/asset/aaee316c-4060-47da-8c28-446e96fe1cec,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_QUARTILE_1M,AA_TR_FUND_QUARTILE_1M,http://79.173.173.28:4415/asset/531ccfda-9d86-4b0b-97d1-d2d5f0644700,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_QUARTILE_3M,AA_TR_FUND_QUARTILE_3M,http://79.173.173.28:4415/asset/0551fb4a-ff66-4ba5-9974-6ba6c5afbf28,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_QUARTILE_5Y,AA_TR_FUND_QUARTILE_5Y,http://79.173.173.28:4415/asset/6fb07ad6-11a4-4f23-9a9d-d01f9ac39961,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_QUARTILE_6M,AA_TR_FUND_QUARTILE_6M,http://79.173.173.28:4415/asset/599f6151-98bd-4f56-92b0-dbbe0de7cdf5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_TR_FUND_QUARTILE_YTD,AA_TR_FUND_QUARTILE_YTD,http://79.173.173.28:4415/asset/4cfad1e0-9cc7-4990-bd02-d231a8e0c7af,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_108M,AA_ROAR_PRCNT_RANK_EST_108M,http://79.173.173.28:4415/asset/2a185212-f2d1-451e-80a1-84cc456eef9e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_109M,AA_ROAR_PRCNT_RANK_EST_109M,http://79.173.173.28:4415/asset/ab3829c9-de88-4b86-8324-1d8f8c158558,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_10Y,AA_ROAR_PRCNT_RANK_EST_10Y,http://79.173.173.28:4415/asset/07145f66-b128-49a5-8e6f-f879bb87cefc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_110M,AA_ROAR_PRCNT_RANK_EST_110M,http://79.173.173.28:4415/asset/2b180dde-e0ea-43e9-95f2-cb5b453e52bf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_111M,AA_ROAR_PRCNT_RANK_EST_111M,http://79.173.173.28:4415/asset/2389d339-5a89-4956-a71c-33049f69a126,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_112M,AA_ROAR_PRCNT_RANK_EST_112M,http://79.173.173.28:4415/asset/8d0f9ed3-d878-4ee9-a80e-2d87c558df0e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_113M,AA_ROAR_PRCNT_RANK_EST_113M,http://79.173.173.28:4415/asset/e9c53f4e-3a06-40c2-a1bd-7efb7a18c83e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_114M,AA_ROAR_PRCNT_RANK_EST_114M,http://79.173.173.28:4415/asset/00dd4dc6-226f-412a-aa6d-34d340e0865d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_115M,AA_ROAR_PRCNT_RANK_EST_115M,http://79.173.173.28:4415/asset/738ee7dd-ec7b-4205-b7ac-d86e7c01ec83,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_117M,AA_ROAR_PRCNT_RANK_EST_117M,http://79.173.173.28:4415/asset/f9630181-1d19-4cf7-a38d-c645ac7c94ec,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_118M,AA_ROAR_PRCNT_RANK_EST_118M,http://79.173.173.28:4415/asset/7c6b415b-c2d8-489a-8481-6c6e72cfdaac,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_119M,AA_ROAR_PRCNT_RANK_EST_119M,http://79.173.173.28:4415/asset/194d65a3-7d77-4fb4-b977-7f8080f3486b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_12M,AA_ROAR_PRCNT_RANK_EST_12M,http://79.173.173.28:4415/asset/1ba89947-4fc9-42ee-9362-95ed27aa8c6d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_1M,AA_ROAR_PRCNT_RANK_EST_1M,http://79.173.173.28:4415/asset/0222f589-aacf-4c3c-9bec-c55abc7d5e42,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_24M,AA_ROAR_PRCNT_RANK_EST_24M,http://79.173.173.28:4415/asset/5b5f79e5-c404-48c1-b0f4-0dfdb85f4a90,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_25M,AA_ROAR_PRCNT_RANK_EST_25M,http://79.173.173.28:4415/asset/b419aa01-2b72-448c-87ce-cef8ee0c7cf6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_26M,AA_ROAR_PRCNT_RANK_EST_26M,http://79.173.173.28:4415/asset/26f7d5e1-2c7a-4ce2-bed7-1d3b76e67103,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_27M,AA_ROAR_PRCNT_RANK_EST_27M,http://79.173.173.28:4415/asset/86675504-0e60-4344-ac8d-0d3174bf0a96,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_28M,AA_ROAR_PRCNT_RANK_EST_28M,http://79.173.173.28:4415/asset/20b19a55-e16a-485f-b1f6-f18e5df7ad5c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_29M,AA_ROAR_PRCNT_RANK_EST_29M,http://79.173.173.28:4415/asset/a9feeeb7-a277-4651-a8eb-0f7a15d9a1d9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_30M,AA_ROAR_PRCNT_RANK_EST_30M,http://79.173.173.28:4415/asset/00116fb7-33e8-469a-80a3-ca56d0695625,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_31M,AA_ROAR_PRCNT_RANK_EST_31M,http://79.173.173.28:4415/asset/0edd31b5-7985-47f7-b983-cbf8d5bfea11,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_32M,AA_ROAR_PRCNT_RANK_EST_32M,http://79.173.173.28:4415/asset/54873926-67c0-4af4-84f8-5e4370a6f06a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_33M,AA_ROAR_PRCNT_RANK_EST_33M,http://79.173.173.28:4415/asset/7c3d33e1-fe9a-4859-9bf4-a79936f7e7ab,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_34M,AA_ROAR_PRCNT_RANK_EST_34M,http://79.173.173.28:4415/asset/327737ac-3a5a-4f34-8089-e183acbe9258,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_35M,AA_ROAR_PRCNT_RANK_EST_35M,http://79.173.173.28:4415/asset/44423e19-065d-4b07-b99f-7f7773cc1109,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_3M,AA_ROAR_PRCNT_RANK_EST_3M,http://79.173.173.28:4415/asset/01cdbac0-a5ff-48e1-9d14-604c21fe6660,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_3Y,AA_ROAR_PRCNT_RANK_EST_3Y,http://79.173.173.28:4415/asset/31e5cbf5-4e1c-4d22-8416-4229dbded5ce,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_48M,AA_ROAR_PRCNT_RANK_EST_48M,http://79.173.173.28:4415/asset/afa8552a-f88d-4e38-8b3a-e7953360f13f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_49M,AA_ROAR_PRCNT_RANK_EST_49M,http://79.173.173.28:4415/asset/f57015f7-e943-4260-9491-43abf73e6d4c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_50M,AA_ROAR_PRCNT_RANK_EST_50M,http://79.173.173.28:4415/asset/907ab6ae-440f-4a08-9e93-6256314cb066,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_51M,AA_ROAR_PRCNT_RANK_EST_51M,http://79.173.173.28:4415/asset/90ea08e1-dd9a-41b2-aed4-d800713e0187,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_52M,AA_ROAR_PRCNT_RANK_EST_52M,http://79.173.173.28:4415/asset/68b637c5-d4f6-4596-b440-035ad1251167,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_53M,AA_ROAR_PRCNT_RANK_EST_53M,http://79.173.173.28:4415/asset/d066ddf3-d2b3-4d43-8011-01729ac843a7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_54M,AA_ROAR_PRCNT_RANK_EST_54M,http://79.173.173.28:4415/asset/eeed9c33-2abc-4cd2-a4c2-538ae49689d5,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_55M,AA_ROAR_PRCNT_RANK_EST_55M,http://79.173.173.28:4415/asset/dd3768ae-e5da-4849-b138-59d8ae49f95e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_56M,AA_ROAR_PRCNT_RANK_EST_56M,http://79.173.173.28:4415/asset/2d5faf19-35a3-448c-b798-f5b0534b2cd1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_57M,AA_ROAR_PRCNT_RANK_EST_57M,http://79.173.173.28:4415/asset/09b1694f-3bc0-47ed-95f8-77b6c025a465,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_58M,AA_ROAR_PRCNT_RANK_EST_58M,http://79.173.173.28:4415/asset/f0850778-f882-4cf3-b678-045aa79a82c3,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_59M,AA_ROAR_PRCNT_RANK_EST_59M,http://79.173.173.28:4415/asset/d97bc006-5927-423e-91c0-74ee757fa071,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_5Y,AA_ROAR_PRCNT_RANK_EST_5Y,http://79.173.173.28:4415/asset/27fe676f-2f07-44c1-b3e1-a0c982063404,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AA_ROAR_PRCNT_RANK_EST_6M,AA_ROAR_PRCNT_RANK_EST_6M,http://79.173.173.28:4415/asset/bcb0d027-9149-4f31-b40c-c494f5dd656c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/f8d85adc-2696-4744-b01a-5d5bc2ad8fdb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/55ffbb89-93f6-475d-9be0-ad2bd85b5b30,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,AD_VALOREM_TAX_TYP,AD_VALOREM_TAX_TYP,http://79.173.173.28:4415/asset/fc45a36c-dce9-4487-9829-ce48842f81ca,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/562a8755-29d4-4a7b-8f52-934569c24fa9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_HAS_PEERS_1M,MS_HAS_PEERS_1M,http://79.173.173.28:4415/asset/7d93d9b9-028c-4aec-a2d7-ec80df264637,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_HAS_PEERS_1Y,MS_HAS_PEERS_1Y,http://79.173.173.28:4415/asset/f5388a19-2ca6-4025-8324-ef74881064ba,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_HAS_PEERS_3Y,MS_HAS_PEERS_3Y,http://79.173.173.28:4415/asset/4e17b316-f8f7-41ee-9478-1283487e3ec3,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,RECOMMENDATION,RECOMMENDATION,http://79.173.173.28:4415/asset/fecf5f42-0d29-4d6a-9877-0644b7753d2f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_TR_FUND_QUARTILE_1Y,MS_TR_FUND_QUARTILE_1Y,http://79.173.173.28:4415/asset/aeeab8d5-6c0f-4f7c-a7b0-948afb8ead2a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_OUTPERF_PEERS_1M,MS_OUTPERF_PEERS_1M,http://79.173.173.28:4415/asset/69ba1b55-cce1-4443-a56c-15a341f6bced,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_OUTPERF_PEERS_3M,MS_OUTPERF_PEERS_3M,http://79.173.173.28:4415/asset/eae09a5e-b46e-4cfd-b85e-afdfb78ca877,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_OUTPERF_PEERS_3Y,MS_OUTPERF_PEERS_3Y,http://79.173.173.28:4415/asset/c502d0a4-6d94-4fcd-9007-5601fd7fda2e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_OUTPERF_PEERS_5Y,MS_OUTPERF_PEERS_5Y,http://79.173.173.28:4415/asset/cbb7377b-8f73-4402-bf85-c51389f5d4ea,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,MS_OUTPERF_PEERS_6M,MS_OUTPERF_PEERS_6M,http://79.173.173.28:4415/asset/87fe2682-ea6e-4cd9-ab2a-bde55494264f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RANK,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/78d225ac-023d-45f7-8104-5e5e07930ee9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/0c606582-a1f4-4aac-9347-31ad5d07067e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,NOM_PASS_THRU_ACCT,NOM_PASS_THRU_ACCT,http://79.173.173.28:4415/asset/ff413665-1507-4b3e-8487-197a49584195,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_HAS_MORNINGSTAR_RATING,MS_HAS_MORNINGSTAR_RATING,http://79.173.173.28:4415/asset/5ecda55f-eaab-4eee-b0b3-55ed8f241a75,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_ANALYST_RATING_DATE,MS_ANALYST_RATING_DATE,http://79.173.173.28:4415/asset/474f05c7-e583-40c9-b69c-c54ce7c86eb0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_10Y,MS_MORNINGSTAR_RATING_10Y,http://79.173.173.28:4415/asset/bc6f1833-4d47-41e5-9f43-54eec5a7d7f6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_10Y_APPROX,MS_MORNINGSTAR_RATING_10Y_APPROX,http://79.173.173.28:4415/asset/ac6f0cd7-1156-46d4-aa41-ebb5fdc96f05,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_3Y_APPROX,MS_MORNINGSTAR_RATING_3Y_APPROX,http://79.173.173.28:4415/asset/c5fadad8-a305-455d-9e42-31cecff95655,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_5Y_APPROX,MS_MORNINGSTAR_RATING_5Y_APPROX,http://79.173.173.28:4415/asset/c439770f-dd39-46ff-aebc-c807d5a9155d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_OVERALL,MS_MORNINGSTAR_RATING_OVERALL,http://79.173.173.28:4415/asset/191d993b-4e10-46bf-8dd1-ebfe11b6ddfa,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_OVERALL_APPROX_10M,MS_MORNINGSTAR_RATING_OVERALL_APPROX_10M,http://79.173.173.28:4415/asset/ed2aa3cf-104f-4cb6-80dc-11a0a0a2e4df,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_OVERALL_APPROX_12M,MS_MORNINGSTAR_RATING_OVERALL_APPROX_12M,http://79.173.173.28:4415/asset/dba1d44f-6313-45f3-b81c-195ae6e6bbcc,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_OVERALL_APPROX_1M,MS_MORNINGSTAR_RATING_OVERALL_APPROX_1M,http://79.173.173.28:4415/asset/d045cfd4-36fb-46d4-83b3-1d375574e5f1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,MS_MORNINGSTAR_RATING_OVERALL_FINAL,MS_MORNINGSTAR_RATING_OVERALL_FINAL,http://79.173.173.28:4415/asset/41bf36eb-941b-43e0-953b-4caf26e114c0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/1b05c7d4-da57-40d1-b2ac-3dcfc0a51cc9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/21040f55-8cbd-40fa-81ca-b59a26c587bb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/abb2d6c0-e8d3-4a6a-988c-224265d7b719,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/cff1c5bc-49d6-44de-8e33-4ce0c96db5ec,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/d8c34469-89e3-4b04-9332-c01dd4b2f202,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_10M,AA_estar_RATING_10Y_APPROX_10M,http://79.173.173.28:4415/asset/766c36ba-2b4d-45c7-9da5-42461728cf61,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_11M,AA_estar_RATING_10Y_APPROX_11M,http://79.173.173.28:4415/asset/790f46e6-bf1c-4c5e-b89e-4361d5eca74c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_12M,AA_estar_RATING_10Y_APPROX_12M,http://79.173.173.28:4415/asset/1478a765-ec28-4fc1-9441-afb4ad99dbaf,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_1M,AA_estar_RATING_10Y_APPROX_1M,http://79.173.173.28:4415/asset/1bdaa486-67d1-4db3-98e0-18b980b03bc7,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_2M,AA_estar_RATING_10Y_APPROX_2M,http://79.173.173.28:4415/asset/93913e75-14b2-4a69-a0eb-47f57a70aba0,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_3M,AA_estar_RATING_10Y_APPROX_3M,http://79.173.173.28:4415/asset/7ac8242c-d119-4128-8865-94055e5b6d3c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_4M,AA_estar_RATING_10Y_APPROX_4M,http://79.173.173.28:4415/asset/bd6ed875-d304-42e5-84ab-4b2b9f2c1207,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_5M,AA_estar_RATING_10Y_APPROX_5M,http://79.173.173.28:4415/asset/8cf47045-a97f-4bb1-8fa1-184b5443930c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_6M,AA_estar_RATING_10Y_APPROX_6M,http://79.173.173.28:4415/asset/427482d0-a488-4822-9d6a-bfddf5197b95,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_7M,AA_estar_RATING_10Y_APPROX_7M,http://79.173.173.28:4415/asset/5650f04e-ae84-4dd8-9ab5-9e3341d105f9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_8M,AA_estar_RATING_10Y_APPROX_8M,http://79.173.173.28:4415/asset/e3c9180a-52df-4b01-8bea-b28641fe2e6b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_10Y_APPROX_9M,AA_estar_RATING_10Y_APPROX_9M,http://79.173.173.28:4415/asset/106fe0a8-d593-4142-a7bd-4c78b371a5f4,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y,AA_estar_RATING_3Y,http://79.173.173.28:4415/asset/35fcd2c4-8578-43e3-979a-a4c0dce5ba06,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_10M,AA_estar_RATING_3Y_APPROX_10M,http://79.173.173.28:4415/asset/31424248-cf6b-4cfe-a7c1-6499a8cfef93,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_11M,AA_estar_RATING_3Y_APPROX_11M,http://79.173.173.28:4415/asset/5fa6b3b1-fe50-4acd-bfeb-cdf7362d7743,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_12M,AA_estar_RATING_3Y_APPROX_12M,http://79.173.173.28:4415/asset/24a2ee97-9bb7-42c6-8b85-da7a4329e5a6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_1M,AA_estar_RATING_3Y_APPROX_1M,http://79.173.173.28:4415/asset/c4eaab46-6a95-4b7b-a6e1-9c17f378ea2b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_2M,AA_estar_RATING_3Y_APPROX_2M,http://79.173.173.28:4415/asset/16122133-7887-4e56-93a4-c1e0f56c41c6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_3M,AA_estar_RATING_3Y_APPROX_3M,http://79.173.173.28:4415/asset/9f3276dd-7764-4a5f-ba45-ab4ac4875441,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_4M,AA_estar_RATING_3Y_APPROX_4M,http://79.173.173.28:4415/asset/aa9b583e-9e98-432e-9029-55495176c44b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_5M,AA_estar_RATING_3Y_APPROX_5M,http://79.173.173.28:4415/asset/982b1dcb-cbdd-42f8-b2d8-9b8d53bf6170,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_6M,AA_estar_RATING_3Y_APPROX_6M,http://79.173.173.28:4415/asset/1c47ee78-6311-41ad-9358-c0594c224906,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_7M,AA_estar_RATING_3Y_APPROX_7M,http://79.173.173.28:4415/asset/296a4ba9-8a2d-467c-8d5e-f4f1068d47b8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_8M,AA_estar_RATING_3Y_APPROX_8M,http://79.173.173.28:4415/asset/1f1c7250-e237-4879-b081-aa5b78697f1a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_3Y_APPROX_9M,AA_estar_RATING_3Y_APPROX_9M,http://79.173.173.28:4415/asset/82c841c9-15c7-4d6a-8d13-4791f61205af,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y,AA_estar_RATING_5Y,http://79.173.173.28:4415/asset/40455bb7-c0c6-461f-89d7-9205ec0329d8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_10M,AA_estar_RATING_5Y_APPROX_10M,http://79.173.173.28:4415/asset/a5c82c33-090e-4aed-9015-68e7a54eef73,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_11M,AA_estar_RATING_5Y_APPROX_11M,http://79.173.173.28:4415/asset/1dadd9f2-ef41-4790-80b5-aa144d7c2b53,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_12M,AA_estar_RATING_5Y_APPROX_12M,http://79.173.173.28:4415/asset/bf90decb-d528-4517-8b67-5c348df07d8e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_1M,AA_estar_RATING_5Y_APPROX_1M,http://79.173.173.28:4415/asset/7cf50bd6-8a89-458d-8426-c60350358e50,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_2M,AA_estar_RATING_5Y_APPROX_2M,http://79.173.173.28:4415/asset/cd384d53-b690-4474-ab23-44ad4b2144fe,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_3M,AA_estar_RATING_5Y_APPROX_3M,http://79.173.173.28:4415/asset/2888df37-527c-4eaf-b796-6aa7f903fc07,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_4M,AA_estar_RATING_5Y_APPROX_4M,http://79.173.173.28:4415/asset/47e6d60f-ee32-48bc-bf61-1352b6a955c9,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_6M,AA_estar_RATING_5Y_APPROX_6M,http://79.173.173.28:4415/asset/fa80a862-333a-41d0-82a9-678aa7cf6a12,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_7M,AA_estar_RATING_5Y_APPROX_7M,http://79.173.173.28:4415/asset/7cfca6a5-b38a-49dc-aa82-cb5961bacc66,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_8M,AA_estar_RATING_5Y_APPROX_8M,http://79.173.173.28:4415/asset/e1ceeeda-da6a-4cef-8c54-f9f03a9db12a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_5Y_APPROX_9M,AA_estar_RATING_5Y_APPROX_9M,http://79.173.173.28:4415/asset/76732073-4aec-4d97-803b-959c80a5c7df,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_DATE,AA_estar_RATING_DATE,http://79.173.173.28:4415/asset/0d28f40f-908a-4be3-a6b1-dea817da8c75,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX,AA_estar_RATING_OVERALL_APPROX,http://79.173.173.28:4415/asset/5542b655-959a-4694-888e-2b499034a790,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_11M,AA_estar_RATING_OVERALL_APPROX_11M,http://79.173.173.28:4415/asset/9ff058d6-a6f7-47d6-b492-f8454071ba2d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_2M,AA_estar_RATING_OVERALL_APPROX_2M,http://79.173.173.28:4415/asset/a788461f-7907-41f6-99cb-ea18495da0cd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_3M,AA_estar_RATING_OVERALL_APPROX_3M,http://79.173.173.28:4415/asset/a74cb0d4-ccfd-4b44-8223-443118dc8a76,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_4M,AA_estar_RATING_OVERALL_APPROX_4M,http://79.173.173.28:4415/asset/3a6638de-284d-4ef6-a81b-11a75240d962,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_5M,AA_estar_RATING_OVERALL_APPROX_5M,http://79.173.173.28:4415/asset/71b20637-ae00-4618-8a8e-98561e3e2036,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_6M,AA_estar_RATING_OVERALL_APPROX_6M,http://79.173.173.28:4415/asset/a21fb2bf-c295-45b9-a0e9-b631f42ee7df,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_7M,AA_estar_RATING_OVERALL_APPROX_7M,http://79.173.173.28:4415/asset/5dab32b2-cad6-468a-b9b0-2ae3612305f1,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_8M,AA_estar_RATING_OVERALL_APPROX_8M,http://79.173.173.28:4415/asset/70b0545b-904e-4428-82dc-042117a4c542,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_APPROX_9M,AA_estar_RATING_OVERALL_APPROX_9M,http://79.173.173.28:4415/asset/8db1aeee-62b3-4c28-a37e-307636828edd,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_FINAL_DELTA_1M,AA_estar_RATING_OVERALL_FINAL_DELTA_1M,http://79.173.173.28:4415/asset/0385e9cc-7923-42e5-a995-ffbea8493c96,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_FINAL_DELTA_1Y,AA_estar_RATING_OVERALL_FINAL_DELTA_1Y,http://79.173.173.28:4415/asset/dc60b242-5811-4c2a-9a66-6a0344f0906e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_estar_RATING_OVERALL_FINAL_DELTA_3M,AA_estar_RATING_OVERALL_FINAL_DELTA_3M,http://79.173.173.28:4415/asset/169de268-7ba8-4469-99fd-4e50ae586a1f,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RATING,AA_ANALYST_RATING,AA_ANALYST_RATING,http://79.173.173.28:4415/asset/95189c84-b383-48ea-91c6-619a98c7bc00,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_BETA_10Y,AA_BETA_10Y,http://79.173.173.28:4415/asset/78d34b0c-c16d-4ee8-b98d-8189512dca42,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_BETA_3Y,AA_BETA_3Y,http://79.173.173.28:4415/asset/c796b6f6-8abe-41cf-a131-7d196e0687bb,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_BETA_5Y,AA_BETA_5Y,http://79.173.173.28:4415/asset/219b1997-118f-4a5a-979e-79a77f8d5d1b,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_CURRENCY,AA_CURRENCY,http://79.173.173.28:4415/asset/d951390d-55e6-44ce-a301-f7fdb1373454,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_FUND_ID,AA_FUND_ID,http://79.173.173.28:4415/asset/b0bfee44-cf60-46de-a1e1-d4a0f4d40d5d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_MAX_DRAWDOWN_10Y,AA_MAX_DRAWDOWN_10Y,http://79.173.173.28:4415/asset/100b71d7-aa70-40df-9729-203747c126d6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_MAX_DRAWDOWN_15Y,AA_MAX_DRAWDOWN_15Y,http://79.173.173.28:4415/asset/d6fb92c3-a4d5-40d6-8a33-6431b880b821,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_MAX_DRAWDOWN_1Y,AA_MAX_DRAWDOWN_1Y,http://79.173.173.28:4415/asset/5251184b-ae07-4faf-9b4e-4052f60bdfb8,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_MAX_DRAWDOWN_20Y,AA_MAX_DRAWDOWN_20Y,http://79.173.173.28:4415/asset/efdad9b4-632b-4e45-b5c3-694ef1771e26,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_MAX_DRAWDOWN_3Y,AA_MAX_DRAWDOWN_3Y,http://79.173.173.28:4415/asset/60a7f4bd-e59d-43c4-a81b-109e933273e3,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_MAX_DRAWDOWN_5Y,AA_MAX_DRAWDOWN_5Y,http://79.173.173.28:4415/asset/b8659455-dd21-4e39-b50d-98411fb182be,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_SECID,AA_SECID,http://79.173.173.28:4415/asset/850b4e14-336b-4680-a050-631d9d2ab489,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_10Y,AA_STD_DEV_FUND_10Y,http://79.173.173.28:4415/asset/14c7e183-722d-4f06-a51a-4226fbc49332,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_1Y,AA_STD_DEV_FUND_1Y,http://79.173.173.28:4415/asset/15b58090-9d1b-414c-85a1-ccd3fd3d51ca,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_3Y,AA_STD_DEV_FUND_3Y,http://79.173.173.28:4415/asset/43c85b08-72d9-43d6-9b87-45970a1459a6,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_5Y,AA_STD_DEV_FUND_5Y,http://79.173.173.28:4415/asset/73415c02-183c-4753-b469-d01388a60b37,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_PRCNT_RANK_10Y,AA_STD_DEV_FUND_PRCNT_RANK_10Y,http://79.173.173.28:4415/asset/a4f0c25d-5a2d-4252-8990-6ae9ea699235,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_PRCNT_RANK_1Y,AA_STD_DEV_FUND_PRCNT_RANK_1Y,http://79.173.173.28:4415/asset/074ba131-7f1b-46d4-b2cc-8cf93392b096,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_PRCNT_RANK_3Y,AA_STD_DEV_FUND_PRCNT_RANK_3Y,http://79.173.173.28:4415/asset/3c32638b-4cc0-45f2-8f47-0c63f418045e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_STD_DEV_FUND_PRCNT_RANK_5Y,AA_STD_DEV_FUND_PRCNT_RANK_5Y,http://79.173.173.28:4415/asset/70eaf18a-a1c3-46f0-a460-1c2178df6369,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/a6c4f65b-b8a4-40ce-bf38-079a146769ce,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/c4133b38-cd00-48e2-bea2-ba5c18e7c129,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_TRACKING_ERROR_FUND_5Y,AA_TRACKING_ERROR_FUND_5Y,http://79.173.173.28:4415/asset/112f39a9-3878-432b-afed-21a1d2f8b4a2,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_TRACKING_ERROR_FUND_10Y,AA_TRACKING_ERROR_FUND_10Y,http://79.173.173.28:4415/asset/f42202cd-abfa-411a-b5f8-59f333dcbd36,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_TRACKING_ERROR_FUND_1Y,AA_TRACKING_ERROR_FUND_1Y,http://79.173.173.28:4415/asset/6e12f199-a1b9-4ac8-8fe3-a271e276248a,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,AA_TRACKING_ERROR_FUND_3Y,AA_TRACKING_ERROR_FUND_3Y,http://79.173.173.28:4415/asset/015caac6-d05f-4c4f-895a-76ffb4d37f2c,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/7bfa0d45-4403-4ee8-8b2d-ae55111c8d5d,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,LL_FCT_SHARECLASS_RISK,REPORT_DATE,REPORT_DATE,http://79.173.173.28:4415/asset/ddb31ece-db64-443e-a792-c6fbaf8fcd7e,No Formula Specified,Column,Level 1 - Staging,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,MS_Morningstar_Rating_Overall_approx_11M,MS_Morningstar_Rating_Overall_approx_11M,http://79.173.173.28:4415/asset/fbcc4fc3-ac1d-46d3-be31-928998b57a74,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_MYR,UNIT_MYR,http://79.173.173.28:4415/asset/e33a94d5-1af3-49e7-b31f-4003f7c770da,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_THB,UNIT_THB,http://79.173.173.28:4415/asset/38ddb220-15a0-4492-b482-d2953e3842d9,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_KWD,UNIT_KWD,http://79.173.173.28:4415/asset/c63d5c69-3792-4957-a44e-6ded5c18049b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_CHF,UNIT_CHF,http://79.173.173.28:4415/asset/5b5f61bf-7304-4f55-851b-8072680d313a,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_CAD,UNIT_CAD,http://79.173.173.28:4415/asset/6ce92b00-a18f-4524-8b1f-085ce6504633,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_JPY,UNIT_JPY,http://79.173.173.28:4415/asset/953add13-babd-4e9b-80b7-a855c0a2139e,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_AUD,UNIT_AUD,http://79.173.173.28:4415/asset/70abf51f-68aa-4f35-99e7-a14c73851966,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_HKD,UNIT_HKD,http://79.173.173.28:4415/asset/5921a73a-b71f-46d9-bdf9-4c86bf8b0efc,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_SEK,UNIT_SEK,http://79.173.173.28:4415/asset/f90e04e2-8d31-4f6b-8a5b-023f29ccc521,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/7ac6b48b-f62a-4c56-8e2b-028dd7c274ce,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_NZD,UNIT_NZD,http://79.173.173.28:4415/asset/90057dd1-8cdd-4bbb-933f-79845ff0c2f4,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,RETURNTYPE,RETURNTYPE,http://79.173.173.28:4415/asset/8bfeebf3-f983-4a6c-981d-4defd1213970,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,FILLED,FILLED,http://79.173.173.28:4415/asset/0a7dc600-66d5-432a-82dd-20c0277679f5,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_DKK,UNIT_DKK,http://79.173.173.28:4415/asset/4a3a5a7a-839a-4fd8-a0f8-ccddfbfde3ab,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,SECID,SECID,http://79.173.173.28:4415/asset/c6050d31-05db-4814-815b-3ebf0bec031d,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_INR,UNIT_INR,http://79.173.173.28:4415/asset/aba2351e-191a-433c-813c-a6793908ab40,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_NOK,UNIT_NOK,http://79.173.173.28:4415/asset/0a74d2f5-389d-450d-95f5-1a336ba48cde,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/7462ed90-c410-4b74-95b9-5f28a3f43daf,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_GBP,UNIT_GBP,http://79.173.173.28:4415/asset/391ff29b-2228-4162-9762-614d88a7eecf,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_BAS,UNIT_BAS,http://79.173.173.28:4415/asset/6823a759-78bd-43f9-a802-f58814f283ca,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_SGD,UNIT_SGD,http://79.173.173.28:4415/asset/6f6f80bf-9f02-436e-b857-f07c9a909c7a,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,FILE_NAME,FILE_NAME,http://79.173.173.28:4415/asset/2d9fd57f-cfb5-4746-b155-282d61d6c6f5,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_CNY,UNIT_CNY,http://79.173.173.28:4415/asset/58214e75-3979-4e98-9e9e-c967793f4874,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,DELETED,DELETED,http://79.173.173.28:4415/asset/480e8008-cb46-4924-a6c6-6f90fa161882,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_TWD,UNIT_TWD,http://79.173.173.28:4415/asset/9127279c-d1e9-44bf-aef1-c5848d567c35,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,LASTUPDATE,LASTUPDATE,http://79.173.173.28:4415/asset/c56803c8-ba63-459a-8175-5b8177e3cec6,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_EUR,UNIT_EUR,http://79.173.173.28:4415/asset/f9de1c94-72d9-4542-a9f4-9b07d21be97e,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_ILS,UNIT_ILS,http://79.173.173.28:4415/asset/a48f6b70-ad0d-43d6-877c-cb25be3ec3ad,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,DATE,DATE,http://79.173.173.28:4415/asset/b6d1f516-8ce7-454d-b267-1e2ed843ea7d,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_PLN,UNIT_PLN,http://79.173.173.28:4415/asset/9ec40ae0-63e9-4642-8c28-3c1ea711f103,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,UNIT_USD,UNIT_USD,http://79.173.173.28:4415/asset/254a5b30-c74b-4f71-8a67-148749c22413,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_CATEGORY_RETURN,PERFORMANCEID,PERFORMANCEID,http://79.173.173.28:4415/asset/0205d648-88ec-4c85-a2f7-29e60a7af618,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_KWD,UNIT_KWD,http://79.173.173.28:4415/asset/fb6a88f8-a449-4b0e-b5d8-c276daeba0db,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_BAS,UNIT_BAS,http://79.173.173.28:4415/asset/54ced4b1-ab95-40e8-a5a1-b47ba1066d74,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_JPY,UNIT_JPY,http://79.173.173.28:4415/asset/68b8f128-eede-4feb-8bc4-64746e701a6b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_USD,UNIT_USD,http://79.173.173.28:4415/asset/973f79bb-9555-42ac-82f9-eeff5449437f,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_HKD,UNIT_HKD,http://79.173.173.28:4415/asset/39e2d7d2-7b90-401f-9763-9bb09be1dde9,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_AUD,UNIT_AUD,http://79.173.173.28:4415/asset/9c3da545-69df-4176-bb84-a0633f1ab5c8,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,DATE_AS_OF,DATE_AS_OF,http://79.173.173.28:4415/asset/8908c291-f7be-4a91-8c31-6318b65ddfe8,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_KRW,UNIT_KRW,http://79.173.173.28:4415/asset/11135691-841d-4fbb-85e2-43cf1c6aba25,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_CHF,UNIT_CHF,http://79.173.173.28:4415/asset/4c774742-cae9-416d-b670-39fa670a2f42,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/5d1aca73-cb34-4816-a435-26bece1f91d3,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,FILE_NAME,FILE_NAME,http://79.173.173.28:4415/asset/2b938e5b-2c8a-4f6b-a4f0-41a26cc34a56,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,LASTUPDATE,LASTUPDATE,http://79.173.173.28:4415/asset/7adb1674-d405-40be-82e5-60eabe33ab11,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_INR,UNIT_INR,http://79.173.173.28:4415/asset/b6676565-a65c-4674-8af2-0a6d6b311941,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,RETURNTYPE,RETURNTYPE,http://79.173.173.28:4415/asset/c9b6beb5-7b27-4eb2-a17b-eba9a437a5ef,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/6dbbcd96-9e20-4bf9-8038-f07e26481ee5,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_GBP,UNIT_GBP,http://79.173.173.28:4415/asset/44410cd4-0ecf-4773-80b7-c67f5b9b47bf,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_SEK,UNIT_SEK,http://79.173.173.28:4415/asset/6fbb07d5-31f4-437d-923e-c508f287fe1b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_EUR,UNIT_EUR,http://79.173.173.28:4415/asset/23756074-74af-496e-802a-f7438b567c1d,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_TWD,UNIT_TWD,http://79.173.173.28:4415/asset/0c1fe4df-d906-455f-a713-412351177611,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,PERFORMANCEID,PERFORMANCEID,http://79.173.173.28:4415/asset/d5770050-2da1-4e08-85eb-24db22073d3b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_CAD,UNIT_CAD,http://79.173.173.28:4415/asset/c06238af-012d-4ec0-96d8-0edd60c2f290,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,FILLED,FILLED,http://79.173.173.28:4415/asset/f3bd3079-a964-4a8e-97a9-61e6ba9bd153,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,SECID,SECID,http://79.173.173.28:4415/asset/7ee7aab1-07b2-40ab-8fea-49194bda3ace,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_NOK,UNIT_NOK,http://79.173.173.28:4415/asset/daba7520-578d-43e6-afe1-9870e5510f85,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,DELETED,DELETED,http://79.173.173.28:4415/asset/130767f7-fd51-40e3-8d2f-0352d15c0d0e,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_PLN,UNIT_PLN,http://79.173.173.28:4415/asset/451f148a-8e76-45e5-93d7-9117d50b3896,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_THB,UNIT_THB,http://79.173.173.28:4415/asset/049b5813-ec33-42d9-93db-cc4e4f09b429,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,SPLIT_CNFRMS,SPLIT_CNFRMS,http://79.173.173.28:4415/asset/fdab04d3-69d9-4187-9468-713298f8c0c1,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_NZD,UNIT_NZD,http://79.173.173.28:4415/asset/d9ef2297-6639-4da3-8d72-09eba9198f07,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_CNY,UNIT_CNY,http://79.173.173.28:4415/asset/ab1aa154-0ac9-4538-8f6c-53ae11e3775f,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_SGD,UNIT_SGD,http://79.173.173.28:4415/asset/6e254dd0-6707-4305-9f79-b8c5689fd5c2,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_DKK,UNIT_DKK,http://79.173.173.28:4415/asset/7ec07a38-f94f-426c-8402-7eade9afa5b0,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RIPS_FUND_RETURN,UNIT_MYR,UNIT_MYR,http://79.173.173.28:4415/asset/3b2f6492-8d6a-49d8-80eb-c2ff881334c1,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,PRETAXMID,PRETAXMID,http://79.173.173.28:4415/asset/e6dcfd4e-6620-4062-b29e-b850bbbab828,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,DATE,DATE,http://79.173.173.28:4415/asset/1b6d8765-d786-48ea-8a34-8e5ca3c055c6,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,DELETED,DELETED,http://79.173.173.28:4415/asset/ccc9808c-aa1b-41dd-8419-43bbe99e98e3,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,DISCOUNT,DISCOUNT,http://79.173.173.28:4415/asset/62c5fe44-1860-41a8-9c49-b0ad4ff2d539,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,SECID,SECID,http://79.173.173.28:4415/asset/f4e10f08-bd11-419b-9113-17f0fece0f8b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,POSTTAXNAV,POSTTAXNAV,http://79.173.173.28:4415/asset/064b8ab8-9737-4a46-801e-a9771b5f0612,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CANCELLATIONPRICE,CANCELLATIONPRICE,http://79.173.173.28:4415/asset/27537c7c-ece1-4c36-bdd0-7818afa2ef56,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,PRETAXNAV,PRETAXNAV,http://79.173.173.28:4415/asset/106b1515-48d3-40ac-802a-f5665eb57ea7,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,NUMBEROFOBSERVATIONS,NUMBEROFOBSERVATIONS,http://79.173.173.28:4415/asset/531040ad-976f-4733-ba81-1730f434aea0,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,UNSPLIT,UNSPLIT,http://79.173.173.28:4415/asset/3b765c61-67b7-4f9a-8235-ea41df9f2bac,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,POSTTAXBID,POSTTAXBID,http://79.173.173.28:4415/asset/79086d03-df52-438e-88f4-535e42de3119,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,POSTTAXOFFER,POSTTAXOFFER,http://79.173.173.28:4415/asset/5f4daaeb-740b-4dd9-aab3-e504f6b7498c,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,PRETAXBID,PRETAXBID,http://79.173.173.28:4415/asset/b7de8024-e935-44e9-8d02-b4b9312aa527,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,LASTUPDATE,LASTUPDATE,http://79.173.173.28:4415/asset/070615fb-3b5a-43f0-b49e-5923d2f0cf1a,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,GUARANTEEDNAV,GUARANTEEDNAV,http://79.173.173.28:4415/asset/f3426de0-d3c6-4ff2-ab7d-4a94dce52938,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/a8e5c525-bba2-47c6-bc0f-9a5bea89bdbe,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,PRETAXOFFER,PRETAXOFFER,http://79.173.173.28:4415/asset/10376e9e-a7ce-463a-a697-0da330d272f5,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CLOSEPRICE,CLOSEPRICE,http://79.173.173.28:4415/asset/aea442d9-f882-4fba-97ff-24090a6c1d09,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CUMFAIRDISCOUNT,CUMFAIRDISCOUNT,http://79.173.173.28:4415/asset/7b778371-1f93-4837-b525-7bb48cc57922,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,FILE_NAME,FILE_NAME,http://79.173.173.28:4415/asset/1c62c6a0-f53d-4e86-8a8c-8a95e9ec2c20,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,PERFORMANCEID,PERFORMANCEID,http://79.173.173.28:4415/asset/0aa936dc-ddd5-43bc-b30d-bdebbbcc4f85,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CURRENCYISO,CURRENCYISO,http://79.173.173.28:4415/asset/13229026-1b4c-4df5-9ada-e81c093ef784,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,AVERAGEBIDASKSPREAD,AVERAGEBIDASKSPREAD,http://79.173.173.28:4415/asset/3a1a162c-1bdc-4c69-baba-8dd51761eef1,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CREATIONPRICE,CREATIONPRICE,http://79.173.173.28:4415/asset/40d80e2c-4490-4b73-bdb6-453b435ad425,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CUMFAIRNAVTYPE,CUMFAIRNAVTYPE,http://79.173.173.28:4415/asset/508355c7-d22c-43ee-851d-40969fd5875e,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,EXPARNAVTYPE,EXPARNAVTYPE,http://79.173.173.28:4415/asset/0e44d32b-540d-44b0-822b-d03124d2120b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,EXPARNAV,EXPARNAV,http://79.173.173.28:4415/asset/245c9e53-6495-4d6b-8fa5-7e6b96b8093c,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,CUMFAIRNAV,CUMFAIRNAV,http://79.173.173.28:4415/asset/cf4f27f5-e293-45e9-a0b1-30b913a741b6,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/423e426c-e8c9-46cc-88eb-654609c22ba2,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_PRICE,PRELIMINARYNAV,PRELIMINARYNAV,http://79.173.173.28:4415/asset/afa0303c-e208-4cd9-af7a-3872ab1eaffc,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,NETFLOWFUND,NETFLOWFUND,http://79.173.173.28:4415/asset/df6f8b2d-c4ea-4424-814c-2780741c6a11,No Formula Specified,String,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,FILE_NAME,FILE_NAME,http://79.173.173.28:4415/asset/fb541454-5403-4f7d-816a-181feb1e5aef,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,TNACLASS,TNACLASS,http://79.173.173.28:4415/asset/03d68dd3-5268-40a2-bd9f-c83c27725e44,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,SHARES,SHARES,http://79.173.173.28:4415/asset/9e16639d-f21a-426f-8063-1ff9b38823ca,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,TNAFUND,TNAFUND,http://79.173.173.28:4415/asset/1add0aa1-9eb1-487b-9fbf-67487e00d85c,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,FUNDCURRENCYISO,FUNDCURRENCYISO,http://79.173.173.28:4415/asset/7bac1c63-ce5d-4150-9c31-9dffc45eb4f1,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,SECID,SECID,http://79.173.173.28:4415/asset/0b111ea4-125d-4376-a021-b3e10fec491b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,LOAD_DATE,LOAD_DATE,http://79.173.173.28:4415/asset/8719fece-85a3-4321-bec8-a7367da780d0,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,DATE,DATE,http://79.173.173.28:4415/asset/3bebd16e-12d8-4e44-9547-5c04a17b8f1d,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,CLASSCURRENCYISO,CLASSCURRENCYISO,http://79.173.173.28:4415/asset/4b26491c-b0da-4520-8f79-73b15c32666b,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,SHAREHOLDERS,SHAREHOLDERS,http://79.173.173.28:4415/asset/6f3f4b30-8e9f-4a03-9e03-58ae8bb2eeb1,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,NETFLOWCLASS,NETFLOWCLASS,http://79.173.173.28:4415/asset/d6702edb-6c92-4c22-ba38-2deed4ac2668,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,DELETED,DELETED,http://79.173.173.28:4415/asset/455d820d-dfd8-4277-b80e-27b6293c6d6e,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,LASTUPDATE,LASTUPDATE,http://79.173.173.28:4415/asset/64bd95f6-7e5a-4f4b-b37a-34887848143d,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,PERFORMANCEID,PERFORMANCEID,http://79.173.173.28:4415/asset/4bf1f7e1-7cd5-4126-a62b-a699aa4d1554,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+field,RTPP_VALUATION,BATCH_ID,BATCH_ID,http://79.173.173.28:4415/asset/45f7efc2-e1d8-4669-a5bb-feaac7fc1af4,No Formula Specified,Column,Level 0 - Source,,,0,,100,3,No applicable
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_STD_DEV_CATEGORY_1Y,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_1Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_STD_DEV_CATEGORY_3Y,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_3Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_STD_DEV_CATEGORY_5Y,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_5Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_STD_DEV_CATEGORY_10Y,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_10Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_1M_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_1M,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_1Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_3Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_5Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_SHARPE_RATIO_CATEGORY_10Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_10Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_1Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_3Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1M_NET,LL_FCT_CATEGORY_RISK,AA_STD_DEV_CATEGORY_5Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_3M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_3M_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_3M_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_3M,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_6M_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_6M_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_6M_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_6M,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1Y_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_1Y_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_1Y_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_1Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_YTD_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_YTD_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_YTD_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_YTD,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_ANN_3Y_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_ANN_3Y_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_ANN_3Y_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_ANN_3Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_ANN_5Y_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_ANN_5Y_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_ANN_5Y_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_ANN_5Y,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_ANN_10Y_NET,LL_FCT_CATEGORY_PERFORMANCE,AA_TR_CATEGORY_ANN_10Y_NET,,,,,,,,,
+transition,value,LLL_CATEGORY_CLASS_PERFORMANCE,AA_TR_CATEGORY_ANN_10Y_NET,LL_FCT_SHARECLASS_PERFORMANCE,AA_estar_CATEGORY_SPREAD_ANN_10Y,,,,,,,,,
+transition,value,LLL_CATEGORY_FUND_SHARECLASS,AA_estar_CATEGORY_ID,LL_DIM_CATEGORY_MASTER,AA_estar_CATEGORY_ID,,,,,,,,,
+transition,value,LLL_CATEGORY_FUND_SHARECLASS,AA_estar_CATEGORY,LL_DIM_CATEGORY_MASTER,AA_estar_CATEGORY,,,,,,,,,
+transition,value,LLL_CATEGORY_FUND_SHARECLASS,AA_MPT_RISK_CURRENCY,LL_DIM_CATEGORY_MASTER,AA_MPT_RISK_CURRENCY,,,,,,,,,

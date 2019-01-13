@@ -11,11 +11,12 @@
 	<script type="text/javascript" src="lib/jeasy/jquery.easyui.min.js"></script>
 
 	<link rel="stylesheet" href="dd_styles.css">
-	<link rel="stylesheet" href="lib/menu.css">
 
 	<script type="text/javascript" charset="utf-8" src="lib/d3.js"></script>
 	<script type="text/javascript" src="lib/cola.js"></script>
 	<script type="text/javascript" src="lib/thenBy.js"></script>
+
+	<script type="text/javascript" src="solidatus_adapter.js"></script>
 
 	<script type="text/javascript" src="lucid.js"></script>
 
@@ -267,11 +268,19 @@
                     $("#ctrl_url").val().trim(),
                     $("#ctrl_user").val().trim(),
                     $("#ctrl_pwd").val().trim(),
-                    true);
+                    function(opts){
+                        $('#ctrl_model_list').combobox('loadData', opts);
+					});
             });
 
             d3.select("#ctrl_load_btn").on("click", function(d) {
-                fetchSolidatusWorld("5bbb67fcf0898800011ebe01");
+                fetchSolidatusWorld(
+                    theModelId,
+					function(solidatusData){
+                    rawWorld = bjs_data_solidatus.loadSolidatusModel(solidatusData, null);
+                    bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
+                    refresh();
+				});
             });
 
             d3.select("#ctrl_import_btn").on("click", function(d) {
@@ -287,129 +296,7 @@
             bjs.lg_inf("date " + theDate);
         }
 
-        function connectSolidatus(url, user, pwd, fetchModelList){
 
-            $("#span_connection_status").text("Connecting...");
-
-            fetch(url + "/connect/token", {
-                mode:"cors",
-                method:"POST",
-                headers:{
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: "username=" + user + "&password=" + pwd + "&client_id=ro.client&client_secret=ro.client&grant_type=password&scope=api1"
-            })
-                .then(resp => resp.json())
-                .then(function(data) {
-
-                    token = data["access_token"];
-                    console.log("Obtained Solidatus token " + token);
-
-                    $("#span_connection_status").text("Connected");
-
-                    if(fetchModelList){
-                        fetchSolidatusModelList();
-                    }
-                })
-                .catch(function(error) {
-                    console.log('Unable to connect to Solidatus server: ', error);
-                    alert("Unable to connect to Solidatus server:\n" + error);
-
-                    $("#span_connection_status").text("Connection Failed");
-                });
-        }
-
-        function fetchSolidatusModelList(){
-
-            var url = $("#ctrl_url").val().trim();
-
-            fetch(url +  "/api/v1/models", {
-                headers:{
-                    "Authorization": "Bearer " + token
-                }
-            })
-                .then(function(resp){
-                    if(!resp.ok){
-                        console.log("Error downloading model list: " + resp.error + " " + resp.status);
-                        alert("Unable to download Solidatus model list:\n" + resp.error + " " + resp.status);
-                    }
-                    return resp.json();
-                })
-                .then(function(data){
-                    if(!data){
-                        console.log("No model list retrieved");
-                        return;
-                    }else{
-                        console.log("Retrieved model list");
-                    }
-
-                    solidatusModels = data.items;
-
-                    var modelNames = solidatusModels.map(x=>x.name);
-
-                    var opts = [];
-
-                    for(var i=0; i < solidatusModels.length;++i){
-                        opts.push({value:solidatusModels[i].id, text:solidatusModels[i].name});
-					}
-
-                    $('#ctrl_model_list').combobox('loadData', opts);
-
-                    var t = $('#ctrl_model_list').combobox('getData');
-                })
-                .catch(function(error) {
-                    console.log('Unable to load Solidatus model list: \n', error);
-                });
-
-        }
-
-        function fetchSolidatusWorld(modelname) {
-
-            var url = $("#ctrl_url").val().trim();
-
-            if(!token){
-                alert("Not connected to Solidatus");
-			}
-
-            if(!theModelId){
-                alert("No Solidatus model selected.");
-                return;
-            }
-
-
-            fetch(url +  "/api/v1/models/" + theModelId + "/load", {
-                headers:{
-                    "Authorization": "Bearer " + token
-                }
-            })
-                .then(function(resp){
-                    if(!resp.ok){
-                        console.log("Error downloading model: " + resp.error + " " + resp.status);
-                        alert("Unable to download Solidatus model: " + resp.error + " " + resp.status);
-                    }
-
-                    return resp.json()
-                })
-                .then(function(data){
-
-                    if(!data){
-                        console.log("No model retrieved");
-                        return;
-                    }else{
-                        console.log("Retrieved model: " + data.model.name);
-                    }
-
-                    rawWorld = bjs_data_solidatus.loadSolidatusModel(data.data, null);
-
-                    bjs_data_inference.processWorld(rawWorld, theFilter, theSquash);
-                    refresh();
-
-                })
-                .catch(function(error) {
-                    console.log('Unable to load Solidatus model: \n', error);
-                });
-
-        }
 
         function onOptChanged(chk){
             config.optimize = chk;
@@ -474,6 +361,20 @@
             theModelId=r.value;
 		}
 
+        function onViewChanged(r){
+            switch(r.value){
+				case "flow": shFlow();break;
+				case "hive": shHive();break;
+				case "bipart":shBipart();break;
+				case "blocks":shBlocks();break;
+				case "scatter":shScatter();break;
+				case "matrix":shMatrix();break;
+				case "cola":shCola();break;
+				case "tree":shTree();break;
+                case "stats":shStats();break;
+			}
+        }
+
 
         function refresh() {
             if(!rawWorld) return;
@@ -533,37 +434,32 @@
 
         function mouseOverHandler(d) {
 
-            var name = "",
-                summary = "",
-                details = "";
-            stats = "";
-            terms = "";
+            var details = "";
+            var stats = "";
 
             if (d != null) {
 
                 if(d.itemtype == "block"){
-                    name += d.name;
-                    summary += d.kind + " " + d.name + "</br>";
-                    summary += d.asset_count + " assets.</br>";
-                    summary += d.field_count + " fields.</br>";
+                    details += d.kind + " " + d.name + "</br>";
+                    details += d.asset_count + " assets.</br>";
+                    details += d.field_count + " fields.</br>";
                 }
 
                 if (d.itemtype == "node") {
                     if(d.isLogical()){
-                        name += "A logical node not associated with a field.";
+                        details += "A logical node not associated with a field.";
                     }else{
-                        name += "Field: " + d.field.name + "<br/>";
-                        name += "ID: " + d.field.fullname;
+                        details += "Name: " + d.field.name + "<br/>";
+                        details += "ID: " + d.field.fullname + "<br/>";
+                        details += "Asset: " + d.field.asset.name + "<br/>";
 
-                        summary += d.field.desc + "<br/>";
-                        summary += "Type: " + d.field.type + "<br/>";
-                        summary += "Found in dataset: " + d.field.asset.fullname + "<br/>";
+                        details += "Description:" + d.field.desc + "<br/>";
+                        details += "Formula: " + d.field.formula + "<br/>";
+                        details += "Type: " + d.field.type + "<br/>";
 
-                        details += "<h3>Content:</h3><ul><li>Description: " + d.field.desc + "</li><li>Formula: " + d.field.formula + "</li></ul>";
+                        details += "Lineage: " + d.field.effectiveLineageStatus() + "<br/>";
 
-                        details += "<h3>Risk Characteristics:</h3><ul><li>Risk: " + d.field.effrisk + "</li>";
-                        details += "<li>Quality/Error: " + (d.field.effquality).toFixed(2) + "</li></ul>";
-
+                        /*
                         details += "<h3>Other:</h3>";
                         if(d.field.effnolineage) details += "Lineage is incomplete.<br/>";
                         details += "Available from day " + d.field.asset.effnotbefore + "<br/>";
@@ -612,25 +508,22 @@
                             }
                         }
                         stats += "</ul>";
-
-
-                        if(d.field.term != null){
-                            terms += "<h3>Business Term:</h3>Code: " + d.field.term.code + "<br/>Name: " + d.field.term.name + "<br/>Definition: " + d.field.term.desc;
-                            if(d.field.term.flags != "") terms += "<br/>Term features: " + d.field.term.flags;
-                        }else{
-                            terms += "Not associated with any business term";
-                        }
+*/
                     }
 
                 }
 
                 if (d.itemtype == "group") {
-                    name += "Group: " + d.fullname + " <br/>;"
-                    name += "Asset: " + (d.asset?d.asset.fullname:"n/a");
+                    details += "Group: " + d.fullname + " <br/>"
+                    details += "Asset: " + (d.asset?d.asset.fullname:"n/a") + "</br>";
 
-                    summary += d.asset.desc + "<br/>";
-                    summary += "Type: " + d.asset.type + "<br/><br/>";
+                    details += "Description:" + d.asset.desc + "<br/>";
+                    details += "Owner: " + d.asset.owner + "<br/>";
+                    details += "Type: " + d.asset.type + "<br/>";
+                    details += "Department: " + d.asset.dept + "<br/>";
+                    details += "Layer: " + d.asset.layer + "<br/>";
 
+/*
                     if(d.asset != null){
 
                         details += "<h3>Content:</h3><ul><li>Description: " + d.asset.desc + "</li><li>Located At: " + bjs.breakPath(d.asset.location) +  + "</li><li>Calculated In: " + bjs.breakPath(d.asset.calc) + "</li></ul>";
@@ -659,7 +552,7 @@
                         summary = "Group is not based on a data asset";
                         details = "n/a";
                     }
-
+*/
                 }
 
                 if(d.itemtype == "pt") {
@@ -676,14 +569,9 @@
                 summary = "<br/><br/><br/>";
                 details = "<br/>";
                 stats = "<br/>";
-                terms = "<br/>";
             }
-
-            d3.select("#object_name").html(name);
-            d3.select("#object_summary").html(summary);
             d3.select("#object_details").html(details);
             d3.select("#object_stats").html(stats);
-            d3.select("#object_terms").html(terms);
         }
 	</script>
 </head>
@@ -691,65 +579,21 @@
 <body>
 
 <div class="headerstrip">
-	Kinaesis Clarity for Solidatus
-</div>
+	<img id="logo" src = "kinsollogo.png" height="80px">
 
-<nav id="menu-wrap">
-	<ul id="menu">
-		<li id="menu-special"><img src="kinlogo2.png" style="margin-left: 10px;margin-right:10px;height:35px;"/> </li>
-		<li>
-			<a href="#">Visualization</a>
-			<ul>
-				<li>
-					<a href="#" onclick="shMatrix();">Matrix</a>
-				</li>
-				<li>
-					<a href="#" onclick="shTree();">Tree</a>
-				</li>
-				<li>
-					<a href="#" onclick="shStats();">Stats</a>
-				</li>
-				<li>
-					<a href="#" onclick="shBipart();">Bipartite</a>
-				</li>
-				<li>
-					<a href="#" onclick="shHive();">Hive</a>
-				</li>
-				<li>
-					<a href="#" onclick="shFlow();">Flow</a>
-				</li>
-				<li>
-					<a href="#" onclick="shCola();">Constrained</a>
-				</li>
-				<li>
-					<a href="#" onclick="shBlocks();">High Level</a>
-				</li>
-				<li>
-					<a href="#" onclick="shScatter();">Scatter</a>
-				</li>
-			</ul>
-		</li>
-	</ul>
-</nav>
+</select>
+
+</div>
 
 
 <div class="easyui-layout" style="width:100%;height:100%;">
 
 	<div data-options="region:'east',split:true,hideCollapsedContent:false" title="Object Info" style="width:300px;">
 		<div class="easyui-accordion" data-options="multiple:true" style="width:100%">
-			<div title="Object ID" class="sidepanel">
-				<div id="object_name" class="info"></div>
-			</div>
-			<div title="Summary" class="sidepanel">
-				<div id="object_summary" class="info"></div>
-			</div>
-			<div title="Related Terms" class="sidepanel">
-				<div id="object_terms" class="info"></div>
-			</div>
-			<div title="Details" class="sidepanel">
+			<div title="Object Details" class="sidepanel">
 				<div id="object_details" class="info"></div>
 			</div>
-			<div title="Stats" class="sidepanel">
+			<div title="Object Metrics" class="sidepanel">
 				<div id="object_stats" class="info"></div>
 			</div>
 		</div>
@@ -761,20 +605,20 @@
 			<div title="Solidatus Connection" class="sidepanel">
 				<table>
 					<tr>
-						<td class="formlabel">Include:</td>
+						<td class="formlabel">Server:</td>
 						<td><input class="easyui-textbox" type="text" name="ctrl_url" id="ctrl_url" value="https://ci-dev-2.solidatus.com">
 
 							</input></td>
 					</tr>
 					<tr>
-						<td class="formlabel">Include:</td>
+						<td class="formlabel">Username:</td>
 						<td><input class="easyui-textbox" type="text" name="ctrl_user" id="ctrl_user" value="benjamin.peterson@kinaesis.com">
 
 							</input></td>
 					</tr>
 					<tr>
-						<td class="formlabel">Include:</td>
-						<td><input class="easyui-textbox" type="text" name="ctrl_pwd" id="ctrl_pwd" value="75Ku28a0">
+						<td class="formlabel">Password:</td>
+						<td><input class="easyui-passwordbox" type="text" name="ctrl_pwd" id="ctrl_pwd" value="75Ku28a0">
 
 							</input></td>
 					</tr>
@@ -795,6 +639,21 @@
 						<td class="formlabel">Model:</td>
 						<td><select class="easyui-combobox" style="width:140px" id="ctrl_model_list" name="ctrl_model_list" data-options="onSelect: onModelListChanged">
 						</select></td>
+					</tr>
+					<tr>
+
+					<td class="formlabel">View:</td>
+					<td><select class="easyui-combobox" style="width:140px" id="ctrl_view" name="ctrl_view" data-options="onSelect: onViewChanged">
+						<option value="matrix">Matrix</option>
+						<option value="tree">Tree</option>
+						<option value="stats">Stats</option>
+						<option value="bipart">Bipartite</option>
+						<option value="hive">Hive</option>
+						<option value="flow">Flow</option>
+						<option value="cola">Slide</option>
+						<option value="blocks" selected="selected">High Level</option>
+						<option value="scatter">Metrics</option>
+					</select></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -931,7 +790,6 @@
 							<option value="quality">Quality/Error Factor</option>
 							<option value="risk">Risk Level</option>
 							<option value="importance">Importance</option>
-							<option value="term">Business Term</option>
 							<option value="complexity">Complexity</option>
 							<option value="influence">Influence</option>
 							<option value="filters">Filters</option>
@@ -973,7 +831,6 @@
 							<option value="quality">Quality/Error Factor</option>
 							<option value="risk">Risk Level</option>
 							<option value="importance">Importance</option>
-							<option value="term">Business Term</option>
 							<option value="complexity">Complexity</option>
 							<option value="influence">Influence</option>
 							<option value="filters">Filters</option>
@@ -1022,6 +879,7 @@
 						<td class="formlabel">Block plan:</td>
 						<td><select class="easyui-combobox" style="width:140px" id="ctrl_block" name="ctrl_block" data-options="onSelect: onBlockChanged">
 							<option value="none">None</option>
+							<option value="layer">Solidatus Layer</option>
 							<option value="type">Asset Type</option>
 							<option value="owner">Asset Owner</option>
 							<option value="dept">Asset Department</option>

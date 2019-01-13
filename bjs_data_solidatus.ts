@@ -57,12 +57,11 @@ namespace bjs_data_solidatus {
 		var objects = layerRecord.children;
 
     	for(var i=0; i < objects.length; ++i){
-    		processObject(json, objects[i], w);
+    		processObject(json, objects[i], layerRecord, w);
 		}
-
 	}
 
-	function processObject(json:any, objectId:any, w:bjs.world):void{
+	function processObject(json:any, objectId:any, layerRecord:any, w:bjs.world):void{
 
     	var obj = json.entities[objectId];
 
@@ -81,16 +80,18 @@ namespace bjs_data_solidatus {
 		var a = new bjs.asset(
 			fullname,
 			name,
-			obj.properties["Clarity.Location"]||"",
-            obj.properties["Clarity.Type"]||"",
-            obj.properties["Clarity.Owner"]||"",
-            obj.properties["Clarity.Department"]||"",
-            obj.properties["Clarity.Desc"]||"",
-			obj.properties["Clarity.Formula"]||"",
-            parseFloat(obj.properties["Clarity.NotBefore"]),
-            parseFloat(obj.properties["Clarity.Latency"]),
-            parseFloat(obj.properties["Clarity.Risk"]),
-			"Loaded from Solidatus model.");
+			obj.properties["Clarity.location"]||"",
+            obj.properties["Clarity.type"]||"",
+            obj.properties["Clarity.owner"]||"",
+            obj.properties["Clarity.department"]||"",
+            obj.properties["Clarity.desc"]||"",
+			obj.properties["Clarity.formula"]||"",
+            parseFloat(obj.properties["Clarity.notbefore"]),
+            parseFloat(obj.properties["Clarity.latency"]),
+            parseFloat(obj.properties["Clarity.risk"]),
+			1,
+			"Loaded from Solidatus model.",
+			layerRecord.name);
 
         w.assets[a.fullname] = a;
 
@@ -110,15 +111,17 @@ namespace bjs_data_solidatus {
 			var f = new bjs.field(
 				fullfieldname,
 				name,
-                obj.properties["Clarity.Type"]||"",
+                attr.properties["Clarity.type"]||"",
 				a,
 				null,
-                obj.properties["Clarity.Desc"]||"",
-                obj.properties["Clarity.Formula"]||"",
-                obj.properties["Clarity.Flags"]||"",
-                parseFloat(obj.properties["Clarity.Quality"]),
-                parseFloat(obj.properties["Clarity.Risk"]),
-                parseFloat(obj.properties["Clarity.Importance"]),
+                attr.properties["Clarity.desc"]||"",
+                attr.properties["Clarity.formula"]||"",
+                attr.properties["Clarity.flags"]||"",
+                parseFloat(attr.properties["Clarity.quality"]),
+                parseFloat(attr.properties["Clarity.risk"]),
+                parseFloat(attr.properties["Clarity.importance"]),
+				1,//this is available standard in Solidatus so we should be able to get it.
+				1,
 				"Loaded from Solidatus model.");
 
 

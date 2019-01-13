@@ -119,7 +119,7 @@ namespace bjs_data_gen{
 			name = r.element(prefix) + "." + genTLA(xfactor);
 		}
 
-		var ass = new bjs.asset(name, name, "", genType(xfactor), genOwner(xfactor), genDept(xfactor), "", "", 0, 0, 0, "");
+		var ass = new bjs.asset(name, name, "", genType(xfactor), genOwner(xfactor), genDept(xfactor), "", "", 0, 0, 0, 1, "", "");
 		ass.notbefore = r.next(6);
 		ass.latency = 1;
 		w.assets[name] = ass;
@@ -155,7 +155,7 @@ namespace bjs_data_gen{
 				fnamebase = genFieldBase(xfactor)+genFieldMiddle(xfactor);
 			}
 			var fname = fnamebase + genFieldSuffix(xfactor);
-			var f = new bjs.field(name + ":" + fname, fname, "", ass, null, "", "", "", 0, 0, 0, "");
+			var f = new bjs.field(name + ":" + fname, fname, "", ass, null, "", "", "", 0, 0, 0, 1, 1, "");
 			if(xfactor==2)f.importance = importance;
 			w.fields[f.fullname] = f;
 			w.fielda.push(f);

@@ -3,8 +3,6 @@
 declare var firstBy:any;
 
 namespace bjs_data_json{
-
-
 	
 	export function loadJson(json:any, theDate:Date):bjs.world {
 
@@ -17,7 +15,7 @@ namespace bjs_data_json{
 		for (var i = 0; i < raw.length; ++i) {
 			var row = raw[i];
 			bjs.lg_inf("Reading asset " + row.fullname);
-			var asset = new bjs.asset(row.fullname, row.fullname, row.location, row.type, row.owner, row.dept, row.desc, row.calc, row.notbefore, row.latency, row.risk, row.comment);
+			var asset = new bjs.asset(row.fullname, row.fullname, row.location, row.type, row.owner, row.dept, row.desc, row.calc, row.notbefore, row.latency, row.risk, 1, row.comment, "");
 			w.assets[asset.fullname] = asset;
 		}
 
@@ -47,7 +45,7 @@ namespace bjs_data_json{
 			}
 			
 			bjs.lg_inf("Reading field " + row.fullname);
-			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.quality, row.risk, row.importance, row.comment);
+			var field = new bjs.field(row.fullname, row.fullname.split(":")[1], row.type, w.assets[row.fullname.split(":")[0]], w.terms[row.conceptname], row.desc, row.formula, row.flags, row.quality, row.risk, row.importance, 1, 1, row.comment);
 			w.fields[field.fullname] = field;
 			w.fielda.push(field);
 			if (field.term) field.term.children.push(field);

@@ -197,6 +197,8 @@ namespace bjs{
             return a.owner;
             case bjs.blockplan.type:
             return a.type;
+            case bjs.blockplan.layer:
+                return a.layer;
             default:
             return "";
         }
